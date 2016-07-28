@@ -1,0 +1,23 @@
+<header class="header">
+	<div class="fixed_nav" ng-include="'includes/nav.html'"></div>
+    <div class="slider" ng-include="'includes/slider.html'"></div>
+</header>
+
+<section class="inner_pages" data-0="margin-top:50px;" data-400="margin-top:-150px;">
+   	<div class="container">
+   		<div class="content_body">
+   			<div class="page_heading"><h1>EquiTrack - <span class="small">Our Sponsors</span></h1></div>
+   			<div class="about_sec">
+            	<div class="sponsor_top_box clearfix" ng-repeat="sponsor in sponsors">
+                    <div class="sponsor_img_box">
+                        <a ng-href="{{sponsor.url}}"><img ng-src="{{sponsor.image}}" class="img-responsive"></a>
+                    </div>
+                    <div class="sub_title"><h1><a ng-href="{{sponsor.url}}" class="small" ng-bind="sponsor.title"></a></h1></div>
+                </div>
+            </div>
+   		</div>
+    </div>
+</section>
+
+
+<div class="" ng-include="'includes/footer.html'"></div>

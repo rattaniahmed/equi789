@@ -1,0 +1,101 @@
+<!-- Modal -->
+<div class="modal fade modal fade in" id="add_stable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form name="addForm" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">&nbsp;</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="edit_stable">
+                        <div class="edit_header">
+                            <div class="edit_stable_img">
+                                <img ng-src="{{ new_horse.photo }}" width="389" height="315" class="img-responsive">
+                            </div>
+                            <div class="edit_header_text">
+                                <div class="page_heading"><h1><span class="small">Add / Delete Photo</span></h1></div>
+                                <div class="edit_btns">
+                                    <input type="file" accept="image/*" style="visibility:hidden;position:absolute;width:0;height:0;" id="photo" onchange="angular.element(this).scope().setFile(this)" required>
+                                    <label class="btn btn-transparent validn_middle" for="photo">Add Photo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="edit_body">
+                            <div class="page_heading"><h1><span class="small">Add / Delete Description</span></h1></div>
+                            <div class="edit_fields">
+                                <div class="row">
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="horse_name">Horse Name:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="horse_name" placeholder="Horse Name" ng-model="new_horse.horse_name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="horse_breed">Breed:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="horse_breed" placeholder="Breed i.e Arabian" ng-model="new_horse.horse_breed" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="birthday">Date of Birth:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="birthday" placeholder="MM/DD/YY" ng-model="new_horse.birthday" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="registration">Registration No.</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="registration" placeholder="Registration No" ng-model="new_horse.registration" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-_sub_group clearfix" ng-repeat="i in [0, 1, 2, 3]">
+                                        <div class="grid-12">
+                                            <div class="row">
+                                                <div class="grid-6">
+                                                    <div class="row">
+                                                        <div class="form-group clearfix">
+                                                            <div class="grid-6">
+                                                                <label class="label" for="association_{{i}}">Association {{i + 1}}:</label>
+                                                            </div>
+                                                            <div class="grid-6">
+                                                                <input type="text" class="form-control" id="association_{{i}}" placeholder="Association {{i + 1}}" ng-model="new_horse.assocation[i].name">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="grid-6">
+                                                    <div class="row">
+                                                        <div class="form-group clearfix">
+                                                            <div class="grid-6">
+                                                                <label class="label" for="number_{{i}}">Number {{i + 1}}:</label>
+                                                            </div>
+                                                            <div class="grid-6">
+                                                                <input type="text" class="form-control" id="number_{{i}}" placeholder="Number {{i + 1}}" ng-model="new_horse.assocation[i].number">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer edit_stable_footer">
+                    <button class="btn btn-block" ng-click="create()" ng-disabled="!addForm.$valid">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<header class="header entry_page">
+    <div class="fixed_nav" ng-include="'includes/nav.html'"></div>
+    <div class="form_page clearfix text-center">
+    	<div class="page">
+            <div class="page_content">
+                <div class="form_heading">
+                    <h1>Create An Account</h1>
+                </div>
+                <div class="form_subheading">Its free!</div>
+                <div class="form_label">Morbi eget ipsum at nisi mattis facilisis a vitae augue</div>
+            </div>
+            <div class="page_form signup_form">
+                <form name="signUpForm">
+                	<div class="row">
+                    	<div class="grid-6">
+                            <div class="form-group">
+                                <label for="first_name" class="sr-only">First Name</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" ng-model="first_name" required>
+                            </div>
+                        </div>
+                        <div class="grid-6">
+                            <div class="form-group">
+                                <label for="last_name" class="sr-only">Last Name</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" ng-model="last_name" required>
+                            </div>
+                        </div>
+                        <div class="grid-6">
+                            <div class="form-group">
+                                <label for="email" class="sr-only">Email address</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email address" ng-model="email" required>
+                            </div>
+                        </div>
+                    	<div class="grid-6">
+                            <div class="form-group">
+                                <label for="display_name" class="sr-only">Display Name</label>
+                                <input type="text" class="form-control" id="display_name" name="display_name" placeholder="Display Name" ng-model="display_name" required>
+                            </div>
+                        </div>
+                        <div class="grid-6">
+                            <div class="form-group">
+                                <label for="password" class="sr-only">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" ng-model="password" required>
+                            </div>
+                        </div>
+                        <div class="grid-6">
+                            <div class="form-group">
+                                <label for="repeat_password" class="sr-only">Retype Password</label>
+                                <input type="password" class="form-control" id="repeat_password" name="repeat_password" placeholder="Retype Password" ng-model="repeat_password" required ng-match="password">
+                            </div>
+                        </div>
+                        <div class="grid-12">
+                            <div class="checkbox">
+                            	<input type="checkbox" id="terms" name="terms" class="css-checkbox" ng-model="terms" value="agree" required>
+                                <label class="css-label" for="terms">By signing up for an account, you’re agreeing to our </label>
+                                <a href="terms.html">Terms and Policy</a>
+                            </div>
+                            <div class="page_btn">
+                            	<button class="btn btn-block" ng-disabled="!signUpForm.$valid" ng-click="createUser()">Sign Up</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="border_foo" ng-include="'includes/footer.html'"></div>

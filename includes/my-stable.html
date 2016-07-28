@@ -1,0 +1,50 @@
+<header class="header">
+    <div class="fixed_nav" ng-include="'includes/nav.html'"></div>
+    <div class="slider" ng-include="'includes/slider.html'"></div>
+</header>
+<section class="inner_pages" data-0="margin-top:50px;" data-400="margin-top:-150px;">
+    <div class="container">
+        <div class="content_body">
+            <div class="page_heading">
+                <h1>EquiTrack - <span class="small">My Stable</span></h1>
+            </div>
+            <div class="my_stable">
+                <div class="clearfix">
+                    <div class="breadcrumbs">
+                        <ul class="un-styled clearfix">
+                            <li><a href="my-stable.html">My Stable</a></li>
+                        </ul>
+                    </div>
+                    <div class="bc_right_add_btn"> <a href="#add_stable" class="btn btn-border" data-toggle="modal" onclick="return false;">Add Horse</a> </div>
+                </div>
+                <div class="stable_list_wrap">
+                    <div class="stable_list" ng-repeat="horse in myStable">
+                        <div class="stable_img"> <img ng-src="{{horse.horse.photo == 'null' ? placeholder : horse.horse.photo}}" width="198" height="160" class="img-responsive"> </div>
+                        <div class="short_details lora">
+                            <div class="stable_row clearfix">
+                                <div class="titile">Horse Name:</div>
+                                <div class="stable_desc name" ng-bind="horse.horse.horse_name"></div>
+                            </div>
+                            <div class="stable_row clearfix">
+                                <div class="titile">Age:</div>
+                                <div class="stable_desc" ng-bind="horse.horse.birthday | getAge"></div>
+                            </div>
+                            <div class="stable_row clearfix">
+                                <div class="titile">Date of Birth:</div>
+                                <div class="stable_desc" ng-bind="horse.horse.birthday"></div>
+                            </div>
+                            <div class="stable_row clearfix">
+                                <div class="titile">Registration No.:</div>
+                                <div class="stable_desc" ng-bind="horse.horse.registration"></div>
+                            </div>
+                        </div>
+                        <div class="stable_link_btn"> <a ng-href="my-stable-details/{{ horse.$id }}.html" class="btn btn-transparent validn_middle"><i class="fa fa-horse"></i> Horse Details</a> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div add-horse></div>
+<div class="" ng-include="'includes/footer.html'"></div>

@@ -1,0 +1,159 @@
+<header class="header">
+    <div class="fixed_nav" ng-include="'includes/nav.html'"></div>
+    <div class="slider" ng-include="'includes/slider.html'"></div>
+</header>
+<section class="inner_pages" data-0="margin-top:50px;" data-400="margin-top:-150px;">
+    <div class="container">
+        <div class="content_body">
+            <div class="page_heading">
+                <h1>EquiTrack - <span class="small">Settings</span></h1>
+            </div>
+            
+            <div class="settings">
+            	<div class="sec_setting">
+                	<div class="set_top_bar clearfix">
+                    	<div class="pull-left"><h2 class="heading">Account Settings</h2></div>
+                        <div class="pull-right"><a href="#edit_settings" class="btn btn-transparent btn-icon" data-toggle="modal" onclick="return false;"><i class="fa fa-pencil"></i></a></div>
+                    </div>
+                    <div class="sec_btm_bar clearfix">
+                    	<div class="sec_left">
+                        	<img ng-src="{{ profileImageURL }}" width="140" height="140" class="img-circle img-responsive">
+                        </div>
+                        <div class="sec_right">
+                        	<div class="form-group clearfix">
+                            	<div class="sec_label">Name:</div>
+                            	<div class="sec_output" ng-bind="profile.getFullName()"></div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Email:</div>
+                            	<div class="sec_output" ng-bind="email"></div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Date of Birth:</div>
+                            	<div class="sec_output" ng-bind="profile.birthday"></div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Location:</div>
+                            	<div class="sec_output" ng-bind="profile.location"></div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Passion:</div>
+                            	<div class="sec_output" ng-bind="profile.passion"></div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Contact:</div>
+                            	<div class="sec_output" ng-bind="profile.contact"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sec_setting">
+                    <div class="sec_btm_bar clearfix">
+                    	<div class="sec_left">&nbsp;</div>
+                        <div class="sec_right">
+                        	<div class="form-group clearfix">
+                            	<div class="sec_label">Number of Horse:</div>
+                            	<div class="sec_output" ng-bind="profile.numberhorses || 0"></div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Number of Rides:</div>
+                            	<div class="sec_output" ng-bind="profile.numberrides || 0"></div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Total Distance:</div>
+                            	<div class="sec_output" ng-bind="profile.totaldistance || 0"></div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Avg. Speed:</div>
+                            	<div class="sec_output" ng-bind="profile.avgspeed || 0"></div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Avg, Top Speed:</div>
+                            	<div class="sec_output" ng-bind="profile.avgtopspeed || 0"></div>
+                            </div>                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade modal fade in" id="edit_settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">&nbsp;</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="edit_settings">
+                        <div class="edit_body">
+                        	<div class="page_heading"><h1><span class="small">Add / Delete Description</span></h1></div>
+                            <div class="edit_fields">
+                            	<div class="row">
+                                	<div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="first_name">First Name:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="first_name" placeholder="First Name" ng-model="profile.first_name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="last_name">Last Name:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="last_name" placeholder="Last Name" ng-model="profile.last_name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="birthday">Date of Birth:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="birthday" placeholder="MM/DD/YY" ng-model="profile.birthday">
+                                            <!-- <md-datepicker ng-model="profile.birthday" md-placeholder="Enter date" md-min-date="minDate" md-max-date="maxDate"></md-datepicker> -->
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="location">Location:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="location" placeholder="Location" ng-model="profile.location">
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="passion">Passion:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="passion" placeholder="Passion" ng-model="profile.passion">
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="contact">Contact:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="contact" placeholder="Contact" ng-model="profile.contact">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer edit_stable_footer">
+                    <button type="button" class="btn btn-block" ng-click="save()">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="" ng-include="'includes/footer.html'"></div>

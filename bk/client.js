@@ -1,0 +1,220 @@
+/*
+ * Copyright 2013 Red Hat, Inc. and/or its affiliates.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at http://www.eclipse.org/legal/epl-v10.html
+ */
+/*
+ example:
+ var options = { host: 'http://127.0.0.1', port: 8080 };
+ var liveOak = LiveOak( options );
+*/
+var LiveOak = function( options ) {
+    options = options || {};
+
+    // Allow instantiation without using new
+    if(!(this instanceof LiveOak)) {
+        return new LiveOak( options );
+    }
+
+    // grab values from the script URL and use those if not specified in the options directly
+    var server = parseScriptUrl();
+    if (!options.host) {
+      options.host = server.host;
+    }
+    if (!options.port) {
+      options.port = server.port;
+    }
+    if (!options.secure) {
+      options.secure = server.secure;
+    }
+    if (!options.appId) {
+      options.appId = server.appId;
+    }    
+
+    var http = new Http(options);
+    var auth;
+
+    var stompPort = options.port;
+    if (options.stomp && (options.stomp.port || options.stomp.portSecure)) {
+      if (options.secure && options.stomp.portSecure) {
+        stompPort = options.stomp.portSecure;
+      } else if (options.stomp.port) {
+        stompPort = options.stomp.port;
+      }
+    } else {  
+      if (options.secure && typeof LIVEOAK_STOMP_PORT_SECURE != 'undefined') {
+        stompPort = LIVEOAK_STOMP_PORT_SECURE;
+      } else if (typeof LIVEOAK_STOMP_PORT != 'undefined') {
+        stompPort = LIVEOAK_STOMP_PORT;
+      }
+    }
+
+    var stomp_client = new Stomp.Client( options.host, stompPort, options.secure, options.appId );
+
+    this.connect = function( callback ) {
+      // TODO: Better way to do this...
+      if (arguments.length == 1) {
+         stomp_client.connect( arguments[0] );
+      }
+      if (arguments.length == 2) {
+        stomp_client.connect( arguments[0], arguments[1] );
+      }
+      if (arguments.length == 3) {
+        stomp_client.connect( arguments[0], arguments[1], arguments[2] );
+      }
+      if (arguments.length == 4) {
+        stomp_client.connect( arguments[0], arguments[1], arguments[2], arguments[3] );
+      }
+    };
+
+    this.onStompError = function( callback ) {
+        stomp_client.onerror = callback;
+    }
+
+    this.create = http.create;
+    this.read = http.read;
+    this.readMembers = http.readMembers;
+    this.save = http.save;
+    this.update = http.update;
+    this.remove = http.remove;
+
+    this.app = function( appId ) {
+        // The path for the application, defaults to the options.appId
+        // if none specified
+        appPath = appId;
+        if ( !appId ) {
+          appPath = options.appId;
+          appId = appPath;
+        }
+
+        // the path expects to start with a '/' so prepend it here
+        appPath = "/" + appPath;        
+
+        //app = new Object();
+
+        this.create = function ( path, data, options ) {
+          http.create( appPath + path, data, options );
+        }    	
+
+        this.read = function ( path, options ) {
+          http.read( appPath + path, options );
+        }     
+
+        this.readMembers = function( path, options ) {
+          http.readMembers( appPath + path, options );
+        }
+
+        this.save = function( path, data, options ) {
+          http.save( appPath + path, data, options );
+        }
+
+        this.update = function( path, data, options ) {
+          http.update( appPath + path, data, options );
+        }
+
+        this.remove = function( path, data, options ) {
+          http.remove( appPath + path, data, options );
+        }
+
+        this.subscribe = function( path, callback ) {
+          var id = stomp_client.subscribe( appPath + path, function(msg) {
+          var data = JSON.parse( msg.body );
+            callback( data, msg.headers.action );
+          });
+          return id;
+        }
+ 
+        this.unsubscribe = function(id, headers) {
+          // don't need to do any manipulation of the path here
+          stomp_client.unsubscribe(id, headers);
+        }
+
+        this.applicationId = appId;
+
+        return this;
+	//return app;
+    }
+
+    this.subscribe = function( path, callback ) {
+        var id = stomp_client.subscribe( path, function(msg) {
+            var data = JSON.parse( msg.body );
+            callback( data, msg.headers.action );
+        });
+        return id;
+    };
+
+    this.unsubscribe = function( id, headers ) {
+        stomp_client.unsubscribe( id, headers );
+    };
+
+    if (options.clientId || options.appClientId) {
+        options.auth = options.auth || {};
+        if (options.clientId) {
+            options.auth.clientId = options.clientId;
+        } else {
+            options.auth.clientId = options.appId + ".client." + options.appClientId;
+        }
+    }
+
+    if (options.auth) {
+        if (!options.auth.realm) {
+            options.auth.realm = 'liveoak-apps';
+        }
+
+        if (!options.auth.url) {
+            var scheme = options.secure ? 'https://' : 'http://';
+            if (typeof LIVEOAK_DEFAULT_SECURE_AUTH_CONNECTION != 'undefined' && LIVEOAK_DEFAULT_SECURE_AUTH_CONNECTION) {
+              scheme = 'https://';
+            }
+            options.auth.url = scheme + options.host + (options.port ? ':' + options.port : '') + '/auth';
+        }
+
+        if (options.auth.appClientId) {
+            if (!options.auth.clientId) {
+                options.auth.clientId = options.appId + ".client." + options.auth.appClientId;
+            }
+        }
+
+        auth = new Keycloak(options.auth);
+        this.auth = auth;
+
+        http.getToken = function() {
+            return auth.token;
+        }
+
+        this.getAuthServerUrl = function() {
+            return auth.authServerUrl;
+        }
+    }
+
+    function parseScriptUrl() {
+        var scripts = document.getElementsByTagName('script');
+        for (var i = 0; i < scripts.length; i++)  {
+            if (scripts[i].src.match(/.*liveoak\.js/)) {
+                var parts = scripts[i].src.split('/');
+                var server = {};
+                if (parts[2].indexOf(':') == -1) {
+                    server.host = parts[2];
+                } else {
+                    server.host = parts[2].substring(0, parts[2].indexOf(':'));
+                    server.port = parseInt(parts[2].substring(parts[2].indexOf(':') + 1));
+                }
+                if (parts[0] == 'https:') {
+                    server.secure = true;
+                }
+                server.appId = parts[3];
+                return server;
+            }
+        }
+    }
+
+    function parseApplicationId() {
+        var scripts = document.getElementsByTagName('script');
+        for (var i = 0; i < scripts.length; i++)  {
+            if (scripts[i].src.match(/.*liveoak\.js/)) {
+                var parts = scripts[i].src.split('/');
+                return parts[3];
+            }
+        }
+    }
+};

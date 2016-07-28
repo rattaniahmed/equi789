@@ -1,0 +1,35 @@
+<h3>Carousel List
+	<small>Keeping track of carousel</small>
+</h3>
+<div class="table-grid carousel">
+	<div class="col">
+		<div class="pr-lg">
+			<form ng-submit="carousel.addCarousel(carousel)" class="mb-xl">
+				<div class="form-group">
+					<input ng-trim="true" type="text" ng-model="carousel.carousel.title" placeholder="Carousel title.." required="required" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<!-- Wysiswyg editor-->
+					<div text-angular="" ng-model="carousel.carousel.caption" name="wysiswyg-editor" class="btn-group-small"></div>
+				</div>
+				<button type="submit" class="btn btn-primary btn-block">{{carousel.editingCarousel ? 'Save Carousel' : 'Add Carousel'}}</button>
+			</form>
+		</div>
+	</div>
+	<div class="col col-lg carousel-item-list">
+		<div ng-show="!carousel.items.length" class="lead text-muted text-center">No carousel...</div>
+			<uib-accordion close-others="true">
+				<uib-accordion-group ng-repeat="item in carousel.items" is-disabled="item.complete" class="carousel-item">
+				<uib-accordion-heading ng-class="{'carousel-complete': item.complete}">
+					<span ng-click="carousel.removeCarousel($index, $event)" class="close">×</span>
+					<span ng-bind="item.title" class="carousel-title"></span>
+					<span ng-click="carousel.editCarousel($index, $event)" class="carousel-edit fa fa-pencil"></span>
+				</uib-accordion-heading>
+				<p>
+					<span ng-bind-html="item.caption"> </span>
+					<span ng-if="item.caption === ''" class="text-muted">No carousel caption</span>
+				</p>
+			</uib-accordion-group>
+		</uib-accordion>
+	</div>
+</div>

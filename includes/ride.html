@@ -1,0 +1,158 @@
+<header class="header">
+    <div class="fixed_nav" ng-include="'includes/nav.html'"></div>
+    <div class="slider" ng-include="'includes/slider.html'"></div>
+</header>
+<section class="inner_pages" data-0="margin-top:50px;" data-400="margin-top:-150px;">
+    <div class="container">
+        <div class="content_body">
+            <div class="page_heading">
+                <h1>EquiTrack - <span class="small">My Stable</span></h1>
+            </div>
+            <div class="my_stable">
+                <div class="clearfix">
+                    <div class="breadcrumbs">
+                        <ul class="un-styled clearfix">
+                            <li><a href="my-stable.html">My Stable</a></li>
+                            <!-- <li><a href="my-stable-details.html">Horse Details</a></li> -->
+                            <li><a ng-href="ride/{{ ride.$id }}.html">My Ride</a></li>
+                        </ul>
+                    </div>
+                    <div class="bc_right_add_btn"> <a href="#add_stable" class="btn btn-border" data-toggle="modal" onclick="return false;">Add Horse</a> </div>
+                </div>
+            </div>
+            <div class="last_ride lora">
+                <div class="box clearfix">
+                	<div class="share_btn pull-right">
+                		<a href="#" class="btn btn-transparent btn-icon"><i class="fa fa-share"></i></a>
+                	</div>
+                </div>
+                <div class="box clearfix">
+                   	<div class="last_ride_title">Start:</div>
+                    <div class="last_ride_desc" ng-bind="ride.start_time"></div>
+                </div>
+                <div class="box clearfix">
+                   	<div class="last_ride_title">End:</div>
+                    <div class="last_ride_desc" ng-bind="ride.end_time"></div>
+                </div>
+                <div class="box clearfix">
+                   	<div class="last_ride_title">Location:</div>
+                    <div class="last_ride_desc" ng-bind="ride.location"></div>
+                </div>
+                <div class="box clearfix">
+                   	<div class="last_ride_title">Weather:</div>
+                    <div class="last_ride_desc" ng-bind="ride.weather"></div>
+                </div>
+                <div class="box clearfix">
+                   	<div class="last_ride_title">Ground Condition::</div>
+                    <div class="last_ride_desc">
+                    	<select class="form-control" ng-model="ride.ground_condition" ng-options="c for c in ground_conditions" ng-change="ride.$save()"></select>
+                        <a href="#" class="btn btn-transparent">See on Map</a>
+                    </div>
+                </div>
+            </div>
+            <div class="chart_table">
+            	<div class="chart_row">
+                	<ul class="un-styled chart_box">
+                    	<li>
+                        	<div class="chart_title">Ride Time:</div>
+                            <div class="chart_result" ng-bind="ride.ride_time"></div>
+                        </li>
+                        <li>
+                        	<div class="chart_title">Total Time:</div>
+                            <div class="chart_result" ng-bind="ride.total_time"></div>
+                        </li>
+                        <li>
+                        	<div class="chart_title">Distance:</div>
+                            <div class="chart_result" ng-bind="ride.total_distance"></div>
+                        </li>
+                    </ul>
+                    <ul class="un-styled chart_box">
+                    	<li>
+                        	<div class="chart_title">Top Speed:</div>
+                            <div class="chart_result" ng-bind="ride.top_speed"></div>
+                        </li>
+                        <li>
+                        	<div class="chart_title">Avg. Speed:</div>
+                            <div class="chart_result" ng-bind="ride.average_speed"></div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="chart_row">
+                	<ul class="un-styled chart_box">
+                        <li>
+                        	<div class="chart_title">Avg. Heart Rate:</div>
+                            <div class="chart_result" ng-bind="ride.average_heart_rate"></div>
+                        </li>
+                        <li>
+                        	<div class="chart_title">High Heart Rate:</div>
+                            <div class="chart_result" ng-bind="ride.high_heart_rate"></div>
+                        </li>
+                    </ul>
+                    <ul class="un-styled chart_box">
+                    	<li>
+                        	<div class="chart_title">Equi Energy:</div>
+                            <div class="chart_result" ng-bind="ride.energy"></div>
+                        </li>
+                        <li>
+                        	<div class="chart_title">My Calories:</div>
+                            <div class="chart_result" ng-bind="ride.calories"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="note_box">
+            	<form class="note_form">
+                	<div class="form-group">
+                		<textarea class="form-control" rows="9" placeholder="Notes" ng-model="ride.notes" ng-change="ride.$save()"></textarea>
+                    </div>
+                    <!-- <div class="btn_area">
+                    	<button class="btn btn-block" ng-click="ride.$save()">Submit</button>
+                    </div> -->
+                </form>
+            </div>
+            
+            <div class="training_program_chart">
+            	<div class="lora text-center"> <h1 class="heading">Training Program: <span class="brand-color" ng-bind="ride.training_program_title"></span></h1> </div>
+                <table cellpadding="0" cellspacing="0" class="table table_trainig text-center">
+                	<thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Target</th>
+                            <th>Result</th>
+                            <th>Avg. SP</th>
+                            <th>Top SP</th>
+                            <th>Equi Energy</th>
+                            <th>My Cal</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table_striped">
+                    	<tr ng-repeat="program in ride.training_program">
+                            <td ng-bind="$index + 1"></td>
+                            <td ng-bind="program.name"></td>
+                            <td ng-bind="program.target"></td>
+                            <td ng-bind="program.result"></td>
+                            <td ng-bind="program.average_speed"></td>
+                            <td ng-bind="program.top_speed"></td>
+                            <td ng-bind="program.energy"></td>
+                            <td ng-bind="program.calories"></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    	<tr>
+                    		<td colspan="8"><div class="text-left marg trainig_result"><span class="roboto light wd">Freestyle Time:</span> &nbsp;&nbsp;&nbsp; <span ng-bind="ride.freestyle_time"></span></div></td>
+                        </tr>
+                        <tr>
+                    		<td colspan="8"><div class="text-left trainig_result"><span class="roboto light wd">Hotwalk Time:</span> &nbsp;&nbsp;&nbsp; <span ng-bind="ride.hotwalk_time"></span></div></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+<div add-horse></div>
+<div class="" ng-include="'includes/footer.html'"></div>

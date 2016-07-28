@@ -1,0 +1,53 @@
+<header class="header">
+    <div class="fixed_nav" ng-include="'includes/nav.html'"></div>
+    <div class="slider" ng-include="'includes/slider.html'"></div>
+</header>
+<section class="inner_pages" data-0="margin-top:50px;" data-400="margin-top:-150px;">
+    <div class="container">
+        <div class="content_body">
+            <div class="page_heading">
+                <h1>EquiTrack - <span class="small">Dashboard</span></h1>
+            </div>
+
+            <div class="map_area">
+                <div class="map">
+                	<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d39734.779086935465!2d-0.14670717498840333!3d51.50544243271029!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C+UK!5e0!3m2!1sen!2s!4v1452705440779" width="1080" height="470" frameborder="0" style="border:0" allowfullscreen></iframe>
+                    <div class="map_nav clearfix">
+                    	<div class="pull-left">
+                    	<a href="#" class="btn btn-transparent">Map</a>
+                    	<a href="#" class="btn btn-transparent">Hybrid</a>
+                    	<a href="#" class="btn btn-transparent">Satelite</a>
+                        </div>
+                        <div class="pull-right">
+                        	<a href="#" class="btn btn-transparent btn-icon"><i class="fa fa-share"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+            <div class="dasboard">
+            	<div class="graph_box">
+                	<div class="text-center"><span class="grapgh_label">Avg. Speed(mph)</span></div>
+                    <div class="graph-container">
+                        <div id="graph_1" class="graph-placeholder"></div>
+                    </div>
+                </div>
+                <div class="graph_box">
+                	<div class="text-center"><span class="grapgh_label">Altitude</span></div>
+                    <div class="graph-container">
+                        <div id="graph_2" class="graph-placeholder"></div>
+                    </div>
+                </div>
+                <div class="graph_box">
+                	<div class="text-center"><span class="grapgh_label">Heart Rate</span></div>
+                    <div class="graph-container">
+                        <div id="graph_3" class="graph-placeholder"></div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<div class="" ng-include="'includes/footer.html'"></div>
+

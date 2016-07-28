@@ -1,0 +1,46 @@
+<h3>Share List
+	<small>Keeping track of share</small>
+</h3>
+<div class="table-grid share">
+	<div class="col">
+		<div class="pr-lg">
+			<form ng-submit="share.addShare(share)" class="mb-xl">
+				<div class="form-group">
+					<div class="col-md-3 col-sm-4">
+						<p class="m0">Address </p>
+					</div>
+					<div class="col-md-8 col-sm-8">
+						<!-- <input type="text" ng-model="share.share.title" placeholder="Share title.." required="required" class="form-control"/> -->
+<pre>{{share.share}}</pre>
+						<ui-select multiple="" ng-model="share.share.horse_ids" theme="bootstrap" ng-disabled="uisel.disabled">
+							<ui-select-match placeholder="Select uisel.horse...">{{$item.horse_name}} &lt;{{$item.$id}}&gt;</ui-select-match>
+							<ui-select-choices repeat="horse.$id as horse in share.horses | propsFilter: {id: $select.search, horse_name: $select.search}">
+								<div ng-bind-html="horse.horse_name | highlight: $select.search"></div>
+								<small>id: {{horse.$id}} name: <span ng-bind-html="horse.horse_name | highlight: $select.search"></span>
+								</small>
+							</ui-select-choices>
+						</ui-select>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary btn-block">{{share.editingShare ? 'Save Share' : 'Add Share'}}</button>
+			</form>
+		</div>
+	</div>
+	<div class="col col-lg share-item-list">
+		<div ng-show="!share.items.length" class="lead text-muted text-center">No share...</div>
+		<uib-accordion close-others="true">
+			<uib-accordion-group ng-repeat="item in share.items" is-disabled="item.complete" class="share-item">
+				<uib-accordion-heading ng-class="{'share-complete': item.complete}">
+					<span ng-click="share.removeShare($index, $event)" class="close">×</span>
+					<span ng-bind="item.$id" class="share-title"></span>
+					<span ng-click="share.editShare($index, $event)" class="share-edit fa fa-pencil"></span>
+				</uib-accordion-heading>
+				<p>
+					<span ng-bind="'Share this: ' + item.$id"></span><br>
+					<span ng-bind="'Horses: ' + (item.horse_ids | cp)"> </span><br>
+					<span ng-bind="'Rides: ' + (item.ride_ids | cp)"> </span>
+				</p>
+			</uib-accordion-group>
+		</uib-accordion>
+	</div>
+</div>

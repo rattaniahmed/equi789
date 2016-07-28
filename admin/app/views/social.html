@@ -1,0 +1,33 @@
+<h3>Social Links
+	<small>Keeping track of social links</small>
+</h3>
+<div class="table-grid social">
+	<div class="col col-lg">
+		<div class="pr-lg">
+			<form ng-submit="social.addSocial(social)" class="mb-xl">
+				<div class="form-group">
+					<input ng-trim="true" type="text" ng-model="social.social.$id" placeholder="Social title.." required="required" class="form-control" ng-disabled="true"/>
+				</div>
+				<div class="form-group">
+					<textarea ng-trim="true" ng-model="social.social.$value" placeholder="Type a link.." rows="8" class="form-control" ng-disabled="!social.editingSocial"></textarea>
+				</div>
+				<button type="submit" class="btn btn-primary btn-block" ng-disabled="!social.editingSocial">Save Social Link</button>
+			</form>
+		</div>
+	</div>
+	<div class="col social-item-list">
+		<div ng-show="!social.items.length" class="lead text-muted text-center">No social...</div>
+		<uib-accordion close-others="true">
+			<uib-accordion-group ng-repeat="item in social.items" is-disabled="item.complete" class="social-item">
+				<uib-accordion-heading>
+					<span ng-bind="item.$id" class="social-title"></span>
+					<span ng-click="social.editSocial($index, $event)" class="social-edit fa fa-pencil"></span>
+				</uib-accordion-heading>
+				<p>
+					<span ng-bind="item.$value"> </span>
+					<span ng-if="item.$value === ''" class="text-muted">No item link</span>
+				</p>
+			</uib-accordion-group>
+		</uib-accordion>
+	</div>
+</div>

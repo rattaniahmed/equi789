@@ -1,0 +1,26 @@
+<h3>Subscribers
+	<small>Keeping track of subscribers</small>
+</h3>
+<div class="table-grid subscribers">
+	<div class="col subscribers-item-list">
+		<div ng-show="!subscribers.items.length" class="lead text-muted text-center">No subscribers...</div>
+		<uib-accordion close-others="true">
+			<uib-accordion-group ng-repeat="item in subscribers.items" is-disabled="item.complete" class="subscribers-item">
+				<uib-accordion-heading>
+					<span ng-click="subscribers.removeSubscriber($index, $event)" class="close">×</span>
+					<span ng-bind="item.email" class="subscribers-title"></span>
+				</uib-accordion-heading>
+				<p>
+					<span ng-bind="item.email"> </span>
+					<span ng-if="item.email === ''" class="text-muted">No item details</span>
+				</p>
+			</uib-accordion-group>
+		</uib-accordion>
+		<p ng-if="subscribers.items.length">
+			<button class="btn btn-primary" ng-click="subscribers.items.page.setPage(1)" ng-disabled="subscribers.items.currentPageNumber < 2">First</button>
+			<button class="btn btn-primary" ng-click="subscribers.items.page.prev()" ng-disabled="!subscribers.items.page.hasPrev()">Previous</button>
+			<button class="btn btn-primary" ng-click="subscribers.items.page.next()" ng-disabled="!subscribers.items.page.hasNext()">Next</button>
+			<button class="btn btn-primary" ng-click="subscribers.items.page.setPage(subscribers.items.pageCount)" ng-disabled="!subscribers.items.page.hasNext() || subscribers.items.currentPageNumber >= subscribers.items.pageCount">Last</button>
+		</p>
+	</div>
+</div>

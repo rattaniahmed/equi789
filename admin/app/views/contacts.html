@@ -1,0 +1,27 @@
+<h3>Contacts List
+	<small>Keeping track of contact details</small>
+</h3>
+<div class="table-grid contacts">
+	<div class="col col-lg">
+		<div class="pr-lg">
+			<form ng-submit="contacts.addContacts(contacts)" class="mb-xl">
+				<div class="form-group">
+					<textarea ng-trim="true" ng-model="contacts.contacts.$value" placeholder="Type a description.." rows="8" class="form-control"></textarea>
+				</div>
+				<button type="submit" class="btn btn-primary btn-block">{{contacts.editingContacts ? 'Save Detail' : 'Add Detail'}}</button>
+			</form>
+		</div>
+	</div>
+	<div class="col contacts-item-list">
+		<div ng-show="!contacts.items.length" class="lead text-muted text-center">No contact details...</div>
+			<uib-accordion close-others="true">
+				<uib-accordion-group ng-repeat="item in contacts.items" is-disabled="item.complete" class="contacts-item">
+				<uib-accordion-heading ng-class="{'contacts-complete': item.complete}">
+					<span ng-click="contacts.removeContacts($index, $event)" class="close">×</span>
+					<span ng-bind="item.$value" class="contacts-title"></span>
+					<span ng-click="contacts.editContacts($index, $event)" class="contacts-edit fa fa-pencil"></span>
+				</uib-accordion-heading>
+			</uib-accordion-group>
+		</uib-accordion>
+	</div>
+</div>

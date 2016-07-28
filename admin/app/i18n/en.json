@@ -1,0 +1,25 @@
+{
+  "dashboard": {
+    "WELCOME": "Welcome to {{appName}}"
+  },
+  "sidebar": {
+    "WELCOME": "Welcome",
+    "heading": {
+      "HEADER": "Main Navigation",
+      "COMPONENTS": "Components",
+      "MORE": "More"
+    },
+    "nav": {
+      "NEWS":"News List",
+      "CONTACT":"Contact Details",
+      "SOCIAL":"Social Links",
+      "HEADER":"Header Details",
+      "CAROUSEL":"Home Carousel",
+      "HOME":"Home Content",
+      "PAGE":"Page Content",
+      "SPONSORS":"Sponsors",
+      "SHARE":"Share",
+      "SUBSCRIBERS":"Subscribers"
+    }
+  }
+}

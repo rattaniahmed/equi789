@@ -1,0 +1,57 @@
+
+
+
+<section class="footer">
+	<div class="container">
+    	<div class="row clearfix">
+        	<div class="grid-3 hidden-res"><h5 class="footer_link_label">Latest News</h5></div>
+        	<div class="grid-3 hidden-res"><h5 class="footer_link_label">More Information</h5></div>
+        	<div class="grid-3 hidden-res"><h5 class="footer_link_label">Contact</h5></div>
+        	<div class="grid-3 hidden-res"><h5 class="footer_link_label">Follow Us</h5></div>
+        </div>
+        <hr class="hidden-res">
+        <div class="row clearfix">
+        	<div class="grid-3">
+            	<h5 class="footer_link_label show-res">Latest News</h5>
+                <hr class="visible-xs show-res">
+            	<ul class="un-styled footer_link clearfix">
+                	<li ng-repeat="(k, i) in site.news"><a ng-href="news/{{k}}.html" ng-bind="i.title"></a></li>
+                </ul>
+            </div>
+        	<div class="grid-3">
+            	<h5 class="footer_link_label show-res">More Information</h5>
+                <hr class="visible-xs show-res">
+            	<ul class="un-styled footer_link clearfix">
+                	<li><a href="page/about-us.html">About</a></li>
+                	<li><a href="page/make-a-booking.html">Make a booking</a></li>
+                	<li><a href="page/faq.html">Frequently asked questions</a></li>
+                	<li><a href="page/events.html">News and Events</a></li>
+                	<li><a href="page/location.html">Location map</a></li>
+                	<li><a href="page/terms.html">Terms & Conditions</a></li>
+                </ul>
+            </div>
+        	<div class="grid-3">
+            	<h5 class="footer_link_label show-res">Contact</h5>
+                <hr class="visible-xs show-res">
+            	<ul class="un-styled footer_link clearfix">
+                	<li ng-repeat="i in site.contact"><a href="#" ng-bind="i"></a></li>
+                </ul>
+            </div>
+        	<div class="grid-3">
+            	<h5 class="footer_link_label show-res">Follow Us</h5>
+                <hr class="visible-xs show-res">
+            	<ul class="un-styled footer_link social_icons clearfix">
+                	<li ng-if="site.social.facebook"><a href="{{ site.social.facebook }}" class="fa fa-facebook-f icons"></a></li>
+                	<li ng-if="site.social.google"><a href="{{ site.social.google }}" class="fa fa-google-plus icons"></a></li>
+                	<li ng-if="site.social.twitter"><a href="{{ site.social.twitter }}" class="fa fa-twitter icons"></a></li>
+                	<li ng-if="site.social.pinterest"><a href="{{ site.social.pinterest }}" class="fa fa-pinterest-p icons"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="copyright text-center">
+	<div><a href="page/terms.html">Terms of Use</a> | <a href="page/privacy.html">Privacy Policy</a></div>
+	<div>2015 Copyright by <a href="#"><strong>Equitrack</strong></a>, LLC, All Rights</div>
+</section>

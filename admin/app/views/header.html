@@ -1,0 +1,33 @@
+<h3>Header Details
+	<small>Keeping track of header details</small>
+</h3>
+<div class="table-grid header">
+	<div class="col col-lg">
+		<div class="pr-lg">
+			<form ng-submit="header.addHeader(header)" class="mb-xl">
+				<div class="form-group">
+					<input ng-trim="true" type="text" ng-model="header.header.$id" placeholder="Header title.." required="required" class="form-control" ng-disabled="true"/>
+				</div>
+				<div class="form-group">
+					<textarea ng-trim="true" ng-model="header.header.$value" placeholder="Type a details.." rows="8" class="form-control" ng-disabled="!header.editingHeader"></textarea>
+				</div>
+				<button type="submit" class="btn btn-primary btn-block" ng-disabled="!header.editingHeader">Save Header Details</button>
+			</form>
+		</div>
+	</div>
+	<div class="col header-item-list">
+		<div ng-show="!header.items.length" class="lead text-muted text-center">No header...</div>
+		<uib-accordion close-others="true">
+			<uib-accordion-group ng-repeat="item in header.items" is-disabled="item.complete" class="header-item">
+				<uib-accordion-heading>
+					<span ng-bind="item.$id" class="header-title"></span>
+					<span ng-click="header.editHeader($index, $event)" class="header-edit fa fa-pencil"></span>
+				</uib-accordion-heading>
+				<p>
+					<span ng-bind-html="item.$value"> </span>
+					<span ng-if="item.$value === ''" class="text-muted">No item details</span>
+				</p>
+			</uib-accordion-group>
+		</uib-accordion>
+	</div>
+</div>

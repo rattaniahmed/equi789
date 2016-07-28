@@ -1,0 +1,34 @@
+<h3>News List
+	<small>Keeping track of news</small>
+</h3>
+<div class="table-grid news">
+	<div class="col col-lg">
+		<div class="pr-lg">
+			<form ng-submit="news.addNews(news)" class="mb-xl">
+				<div class="form-group">
+					<input ng-trim="true" type="text" ng-model="news.news.title" placeholder="News title.." required="required" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<textarea ng-trim="true" ng-model="news.news.description" placeholder="Type a description.." rows="8" class="form-control"></textarea>
+				</div>
+				<button type="submit" class="btn btn-primary btn-block">{{news.editingNews ? 'Save News' : 'Add News'}}</button>
+			</form>
+		</div>
+	</div>
+	<div class="col news-item-list">
+		<div ng-show="!news.items.length" class="lead text-muted text-center">No news...</div>
+		<uib-accordion close-others="true">
+			<uib-accordion-group ng-repeat="item in news.items" is-disabled="item.complete" class="news-item">
+				<uib-accordion-heading ng-class="{'news-complete': item.complete}">
+					<span ng-click="news.removeNews($index, $event)" class="close">×</span>
+					<span ng-bind="item.title" class="news-title"></span>
+					<span ng-click="news.editNews($index, $event)" class="news-edit fa fa-pencil"></span>
+				</uib-accordion-heading>
+				<p>
+					<span ng-bind="item.description"> </span>
+					<span ng-if="item.description === ''" class="text-muted">No item description</span>
+				</p>
+			</uib-accordion-group>
+		</uib-accordion>
+	</div>
+</div>

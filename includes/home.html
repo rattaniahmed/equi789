@@ -1,0 +1,97 @@
+<header class="header">
+	<div class="fixed_nav" ng-include="'includes/nav.html'"></div>
+    <div class="slider" ng-include="'includes/slider.html'"></div>
+</header>
+
+<section class="sec2 sponsors">
+    <div class="container">
+        <div class="content clearfix">
+            <div ng-bind-html="site.home.sec5.html"></div>
+            <p><a href="sponsors.html" class="btn btn-border">See All</a></p>
+        </div>
+<style>
+.sec2.sponsors .content {
+    display: inline-block;
+}
+.sponsors-carousel {
+  width: 44%;
+  float: right;
+  margin: 03%;
+/*  background-color: #EBEBEB;*/
+/*  height: 480px;*/
+}
+.slick-slide:not(.slick-center) {
+  z-index: 0;
+  transform: scale(0.8);
+}
+.slick-active.slick-center+.slick-slide+.slick-slide {
+  z-index: 1;
+}
+.slick-active.slick-center+.slick-slide,
+.slick-center+.slick-cloned {
+  z-index: 2;
+}
+.slick-center {
+  z-index: 3;
+}
+.slick-slide {
+  position: relative;
+  transition: transform 80ms;
+}
+.slide img {
+  position: relative;
+  transform: translateX(-50%);
+  left: 50%;
+  background-color: #fff;
+  box-shadow: 0px 0px 25px rgba(0,0,0,0.2);
+}
+.slick-prev {
+  left: 10% !important;
+}
+.slick-next {
+  right: 10% !important;
+}
+</style>
+<div class="sponsors-carousel">
+    <slick speed="300" slides-to-show="1" touch-move="false" slides-to-scroll="1" class="center one-time">
+        <div ng-repeat="s in ::sponsors">
+            <div class="slide">
+                <img ng-src="{{s.image}}" />
+            </div>
+        </div>
+    </slick>
+</div>
+    </div>
+</section>
+<section class="sec2">
+	<div class="container">
+    	<div class="content clearfix" ng-bind-html="site.home.sec2.html"></div>
+    </div>
+</section>
+<section class="sec3">
+	<div class="container">
+    	<div class="row clearfix">
+            <div class="content grid-6 sec3_left" ng-bind-html="site.home.sec3.html"></div>
+            <div class="content grid-6 sec3_right">
+            	<img src="images/hand.png" width="300" height="417" class="img-responsive center-block">
+            </div>
+        </div>
+    </div>
+</section>
+<section class="sec4">
+	<div class="container">
+    	<div class="row clearfix">
+            <div class="content sec4_right">
+                <div ng-bind-html="site.home.sec4.html"></div>
+                <form name="subscribeform" class="subscribeform">
+                	<div class="subscribe_group">
+                	<input type="email" class="form-control" placeholder="Enter your e-mail here" ng-model="email" required></form>
+                    <button class="subscribe_btn" ng-disabled="!subscribeform.$valid" ng-click="subscribe()">Subscribe</button>
+                    </div>
+                    <div class="error">Please Fill Email</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="" ng-include="'includes/footer.html'"></div>

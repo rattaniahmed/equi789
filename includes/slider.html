@@ -1,0 +1,11 @@
+<div id="carousel" class="carousel slides container carousel-fade" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li ng-repeat="carousel in site.carousel" data-target="#carousel" data-slide-to="{{$index}}" ng-class="{'active': $index == 0}"></li>
+    </ol>
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+        <div ng-repeat="carousel in site.carousel" class="item" ng-class="{active: $index == 0}">
+            <div class="carousel-caption" ng-bind-html="carousel.caption"></div>
+        </div>
+    </div>
+</div>

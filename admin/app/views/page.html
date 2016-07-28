@@ -1,0 +1,34 @@
+<h3>Page Content
+	<small>Keeping track of page content</small>
+</h3>
+<div class="table-grid page">
+	<div class="col">
+		<div class="pr-lg">
+			<form ng-submit="page.addPage(page)" class="mb-xl">
+				<div class="form-group">
+					<input ng-trim="true" type="text" ng-model="page.page.$id" placeholder="Page title.." required="required" class="form-control" ng-disabled="true"/>
+				</div>
+				<div class="form-group">
+					<!-- Wysiswyg editor-->
+					<div text-angular="" ng-model="page.page.content" name="wysiswyg-editor" class="btn-group-small"></div>
+				</div>
+				<button type="submit" class="btn btn-primary btn-block" ng-disabled="!page.editingPage">Save Page Content</button>
+			</form>
+		</div>
+	</div>
+	<div class="col col-lg page-item-list">
+		<div ng-show="!page.items.length" class="lead text-muted text-center">No page...</div>
+		<uib-accordion close-others="true">
+			<uib-accordion-group ng-repeat="item in page.items" is-disabled="item.complete" class="page-item">
+				<uib-accordion-heading>
+					<span ng-bind="item.$id" class="page-title"></span>
+					<span ng-click="page.editPage($index, $event)" class="page-edit fa fa-pencil"></span>
+				</uib-accordion-heading>
+				<p>
+					<span ng-bind-html="item.content"> </span>
+					<span ng-if="item.content === ''" class="text-muted">No item content</span>
+				</p>
+			</uib-accordion-group>
+		</uib-accordion>
+	</div>
+</div>

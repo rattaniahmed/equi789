@@ -1,0 +1,326 @@
+<header class="header">
+    <div class="fixed_nav" ng-include="'includes/nav-loggedin.html'"></div>
+    <div class="slider" ng-include="'includes/slider.html'"></div>
+</header>
+<section class="inner_pages" data-0="margin-top:50px;" data-400="margin-top:-150px;">
+    <div class="container">
+        <div class="content_body">
+            <div class="page_heading">
+                <h1>EquiTrack - <span class="small">Settings</span></h1>
+            </div>
+            
+            <div class="settings">
+            	<div class="sec_setting">
+                	<div class="set_top_bar clearfix">
+                    	<div class="pull-left"><h2 class="heading">Account Settings</h2></div>
+                        <div class="pull-right"><a href="#" class="btn btn-transparent btn-icon"><i class="fa fa-pencil"></i></a></div>
+                    </div>
+                    <div class="sec_btm_bar clearfix">
+                    	<div class="sec_left">
+                        	<img src="images/avatar.png" width="140" height="140" class="img-circle img-responsive">
+                        </div>
+                        <div class="sec_right">
+                        	<div class="form-group clearfix">
+                            	<div class="sec_label">Name:</div>
+                            	<div class="sec_output">Kelvin Peterson</div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Email:</div>
+                            	<div class="sec_output">kelvinpeterson123@gmail.com</div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Date of Birth:</div>
+                            	<div class="sec_output">July 26, 1883</div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Location:</div>
+                            	<div class="sec_output">2074 Oak Drive Warrensburg, NY 12885, USA </div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Passion:</div>
+                            	<div class="sec_output">Horse Rider</div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Contact:</div>
+                            	<div class="sec_output">123456789</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sec_setting">
+                	<div class="set_top_bar clearfix">
+                    	<div class="pull-left"><h2 class="heading">Profile Settings</h2></div>
+                        <div class="pull-right"><a href="#" class="btn btn-transparent btn-icon"><i class="fa fa-pencil"></i></a></div>
+                    </div>
+                    <div class="sec_btm_bar clearfix">
+                    	<div class="sec_left">&nbsp;</div>
+                        <div class="sec_right">
+                        	<div class="form-group clearfix">
+                            	<div class="sec_label">Number of Horse:</div>
+                            	<div class="sec_output">04</div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Number of Rides:</div>
+                            	<div class="sec_output">34</div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Total Distance:</div>
+                            	<div class="sec_output">134 miles</div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Avg. Speed:</div>
+                            	<div class="sec_output">0.00</div>
+                            </div>
+                            <div class="form-group clearfix">
+                            	<div class="sec_label">Avg, Top Speed:</div>
+                            	<div class="sec_output">0.00</div>
+                            </div>                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade modal fade in" id="edit_stable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">&nbsp;</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="edit_stable">
+                    	<div class="edit_header">
+                            <div class="edit_stable_img">
+                                <img src="images/4.jpg" width="389" height="315" class="img-responsive">
+                            </div>
+                            <div class="edit_header_text">
+								<div class="page_heading"><h1><span class="small">Add / Delete Photo</span></h1></div>
+                                <div class="edit_btns">
+                                	<button class="btn btn-transparent validn_middle">Add Photo</button>
+                                	<button class="btn btn-transparent btn-icon"><i class="fa fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="edit_body">
+                        	<div class="page_heading"><h1><span class="small">Add / Delete Description</span></h1></div>
+                            <div class="edit_fields">
+                            	<div class="row">
+                                	<div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="1">Horse Name:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="1" placeholder="Horse Name" value="Arabian Hawk">
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="2">Breed:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="2" placeholder="Breed i.e Arabian" value="Arabian">
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="3">Age:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="3" placeholder="Age" value="6 Years OId">
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="4">Date of Birth:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="4" placeholder="MM/DD/YY" value="July, 16th, 2009">
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="7">Registeration No.</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="7" placeholder="Registeration No" value="0034459871">
+                                        </div>
+                                    </div>
+                                    <div class="form-_sub_group clearfix">
+                                    	<div class="grid-12">
+                                        	<div class="row">
+                                            	<div class="grid-6">
+                                                	<div class="row">
+                                                        <div class="form-group clearfix">
+                                                            <div class="grid-6">
+                                                                <label class="label" for="s_1">Association 1:</label>
+                                                            </div>
+                                                            <div class="grid-6">
+                                                                <input type="text" class="form-control" id="s_1" placeholder="Association 1" value="AERC">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+												</div>
+                                                <div class="grid-6">
+                                                    <div class="row">
+                                                        <div class="form-group clearfix">
+                                                            <div class="grid-6">
+                                                                <label class="label" for="s_2">Number 1:</label>
+                                                            </div>
+                                                            <div class="grid-6">
+                                                                <input type="text" class="form-control" id="s_2" placeholder="Number 1" value="178845RD">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+												</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-_sub_group clearfix">
+                                    	<div class="grid-12">
+                                        	<div class="row">
+                                            	<div class="grid-6">
+                                                	<div class="row">
+                                                        <div class="form-group clearfix">
+                                                            <div class="grid-6">
+                                                                <label class="label" for="s_3">Association 2:</label>
+                                                            </div>
+                                                            <div class="grid-6">
+                                                                <input type="text" class="form-control" id="s_3" placeholder="Association 2" value="AERC">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+												</div>
+                                                <div class="grid-6">
+                                                    <div class="row">
+                                                        <div class="form-group clearfix">
+                                                            <div class="grid-6">
+                                                                <label class="label" for="s_4">Number 2:</label>
+                                                            </div>
+                                                            <div class="grid-6">
+                                                                <input type="text" class="form-control" id="s_4" placeholder="Number 2" value="178845RD">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+												</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-_sub_group clearfix">
+                                    	<div class="grid-12">
+                                        	<div class="row">
+                                            	<div class="grid-6">
+                                                	<div class="row">
+                                                        <div class="form-group clearfix">
+                                                            <div class="grid-6">
+                                                                <label class="label" for="s_5">Association 13:</label>
+                                                            </div>
+                                                            <div class="grid-6">
+                                                                <input type="text" class="form-control" id="s_5" placeholder="Association 3" value="AERC">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+												</div>
+                                                <div class="grid-6">
+                                                    <div class="row">
+                                                        <div class="form-group clearfix">
+                                                            <div class="grid-6">
+                                                                <label class="label" for="s_6">Number 3:</label>
+                                                            </div>
+                                                            <div class="grid-6">
+                                                                <input type="text" class="form-control" id="s_6" placeholder="Number 3" value="178845RD">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+												</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-_sub_group clearfix">
+                                    	<div class="grid-12">
+                                        	<div class="row">
+                                            	<div class="grid-6">
+                                                	<div class="row">
+                                                        <div class="form-group clearfix">
+                                                            <div class="grid-6">
+                                                                <label class="label" for="s_1">Association 4:</label>
+                                                            </div>
+                                                            <div class="grid-6">
+                                                                <input type="text" class="form-control" id="s_7" placeholder="Association 1" value="AERC">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+												</div>
+                                                <div class="grid-6">
+                                                    <div class="row">
+                                                        <div class="form-group clearfix">
+                                                            <div class="grid-6">
+                                                                <label class="label" for="s_2">Number 4:</label>
+                                                            </div>
+                                                            <div class="grid-6">
+                                                                <input type="text" class="form-control" id="s_8" placeholder="Number 1" value="178845RD">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+												</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="8">Total Rides:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="8" placeholder="Total Rides" value="34">
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="9">Miles:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="9" placeholder="Miles" value="140 miles">
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="10">Calories:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="10" placeholder="Calories" value="1880 kcal">
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="11">Hours:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="11" placeholder="Hours" value="250 hrs">
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <div class="grid-3">
+                                            <label class="label" for="12">Weight:</label>
+                                        </div>
+                                        <div class="grid-9">
+                                            <input type="text" class="form-control" id="12" placeholder="Weight" value="1253 lbs">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer edit_stable_footer">
+                    <button type="button" class="btn btn-block">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="" ng-include="'includes/footer.html'"></div>
