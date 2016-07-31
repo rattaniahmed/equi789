@@ -1,0 +1,33 @@
+<header class="header entry_page">
+    <div class="fixed_nav" ng-include="'includes/nav.html'"></div>
+    <div class="form_page space_helper clearfix text-center">
+    	<div class="page">
+            <div class="page_content">
+                <div class="form_heading">
+                    <h1>Get Club Membership</h1>
+                </div>
+                <div class="form_subheading">Its free!</div>
+                <div class="form_label">Morbi eget ipsum at nisi mattis facilisis a vitae augue</div>
+            </div>
+            <div class="page_form login_forgot_form">
+                <form name="LoginForm" autocomplete="off">
+                    <div class="form-group">
+                        <label for="email" class="sr-only">Email address</label>
+                        <input type="email" class="form-control has-errors" id="email" name="email" placeholder="Email address" ng-model="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="sr-only">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" ng-model="password">
+                        <div class="forgot_label text-right"><a href="forgot-password.html">Forget Password?</a></div>
+                    </div>
+                    <div class="page_btn">
+                        <button class="btn btn-block" ng-click="login()">Login</button> <!--ng-disabled="!LoginForm.$valid"-->
+                    </div>
+                </form>
+            </div>
+
+
+            </div>
+    </div>
+</header>
+<div class="border_foo" ng-include="'includes/footer.html'"></div>
