@@ -1,0 +1,938 @@
+<header class="header">
+
+    <div class="fixed_nav" ng-include="'includes/nav-loggedin.html'"></div>
+
+    <div class="slider" ng-include="'includes/slider.html'"></div>
+
+</header>
+
+<section class="inner_pages" data-0="margin-top:50px;" data-400="margin-top:-150px;">
+
+    <div class="container">
+
+        <div class="content_body">
+
+            <div class="page_heading">
+
+                <h1>EquiTrack - <span class="small">My Stable</span></h1>
+
+            </div>
+
+            <div class="my_stable">
+
+                <div class="clearfix">
+
+                    <div class="breadcrumbs">
+
+                        <ul class="un-styled clearfix">
+
+                            <li><a href="my-stable.html">My Stable</a></li>
+
+                            <li><a href="my-stable-details.html">Ride Details</a></li>
+
+                        </ul>
+
+                    </div>
+
+                    <div class="bc_right_add_btn">
+                        <a href="#add_stable" class="btn btn-border" data-toggle="modal">Add Horse</a>
+
+
+                    </div>
+
+                </div>
+
+                <div class="stable_list_wrap">
+
+                    <div class="stable_details">
+
+                        <div class="stable_details_img"> <img ng-src={{stb.photo}} data-ng-src="{{stb.photo}}" src="{{stb.photo}}" width="389" height="315"> </div>
+
+                        <div class="stable_details_text lora">
+
+                            <div class="top_info">
+
+                                <div class="short_details">
+
+                                    <div class="stable_row clearfix">
+
+                                        <div class="titile">Horse Name:</div>
+
+                                        <div class="stable_desc name">{{stb.horse_name}}</div>
+
+                                    </div>
+
+                                    <div class="stable_row clearfix">
+
+                                        <div class="titile">Age:</div>
+
+                                        <div class="stable_desc">{{stb.age}}</div>
+
+                                    </div>
+
+                                    <div class="stable_row clearfix">
+
+                                        <div class="titile">Date of Birth:</div>
+
+                                        <div class="stable_desc">{{stb.birthday}}</div>
+
+                                    </div>
+
+                                    <div class="stable_row clearfix">
+
+                                        <div class="titile">Registeration No.:</div>
+
+                                        <div class="stable_desc">{{stb.registration}}</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="corner_btn"> <a href="#edit_stable" class="btn btn-transparent btn-icon" data-toggle="modal"><i class="fa fa-pencil"></i></a> </div>
+
+                            </div>
+
+                            <div class="middle_info">
+
+                                <div class="stable_row clearfix" ng-repeat="asso in stb.associations">
+
+                                    <div class="stable_sub_row">
+
+                                        <div class="titile">Association {{$index +1 }}:</div>
+
+                                        <div class="stable_desc">{{asso.name}}</div>
+
+                                    </div>
+
+                                    <div class="stable_sub_row">
+
+                                        <div class="titile">Number {{$index +1 }}:</div>
+
+                                        <div class="stable_desc">{{asso.number}}</div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="stable_details_btns clearfix">
+
+                        <div class="row">
+
+                            <div class="left_btns"> <a href="last-ride.html" class="btn btn-transparent">Last Ride</a> <a href="ride-history.html" class="btn btn-transparent" ng-click="History()">History</a> </div>
+
+                            <div class="right_btns">
+                             <a href="#" class="btn btn-transparent btn-icon"><i class="fa fa-picture-o"></i></a>
+                                <a href="#medical" data-toggle="modal"  class="btn btn-transparent btn-icon"><i class="fa fa-snake"></i></a>
+                             <a href="#notes" data-toggle="modal" class="btn btn-transparent btn-icon">
+                                <i class="fa fa-pencil"></i></a> <a href="#" class="btn btn-transparent btn-icon"><i class="fa fa-share"></i></a> </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="stable_details_history">
+
+                        <div class="lora text-center">
+
+                            <h1 class="heading">History Summary</h1>
+
+                        </div>
+
+                        <table class="table_striped history_table table">
+
+                            <tr>
+
+                                <td class="title">Number of Rides:</td>
+
+                                <td class="table_desc">{{stb.ride_ids.length}}</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td class="title">Distance:</td>
+
+                                <td class="table_desc">{{stb.distance}} miles</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td class="title">Time:</td>
+
+                                <td class="table_desc">{{stb.duration}}</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td class="title">Energy:</td>
+
+                                <td class="table_desc">{{stb.energy}}</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td class="title">Calories:</td>
+
+                                <td class="table_desc">{{stb.calories}}</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td class="title">Avg Speed:</td>
+
+                                <td class="table_desc">{{stb.average_speed}} mph</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td class="title">Top Speed:</td>
+
+                                <td class="table_desc">{{stb.top_speed}} mph</td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Modal -->
+
+<div class="modal fade modal fade in" id="edit_stable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="EditStableDetailsController">
+
+    <div class="modal-dialog modal-lg" role="document">
+
+        <div class="modal-content">
+
+            <form>
+
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                    <h4 class="modal-title" id="myModalLabel">&nbsp;</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="edit_stable">
+
+                        <div class="edit_header">
+
+                            <div class="edit_stable_img">
+
+                                <img id="editImg" ng-src={{stb.photo}} data-ng-src="{{stb.photo}}" src="{{stb.photo}}" width="389" height="315" class="img-responsive">
+
+                            </div>
+
+                            <div class="edit_header_text">
+
+                                <div class="page_heading"><h1><span class="small">Add / Delete Photo</span></h1></div>
+
+                                <div class="edit_btns">
+
+                                    <input type="file" style="visibility:hidden;position:absolute;width:0;height:0;" id="photo">
+
+                                    <label class="btn btn-transparent validn_middle" for="photo">Edit Photo</label>
+
+                                    <button class="btn btn-transparent btn-icon"><i class="fa fa-trash"></i></button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="edit_body">
+
+                            <div class="page_heading"><h1><span class="small">Add / Delete Description</span></h1></div>
+
+                            <div class="edit_fields">
+
+                                <div class="row">
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="1">Horse Name:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="horse_name" ng-model="stb.horse_name" placeholder="Horse Name">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="2">Breed:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="breed" ng-model="stb.breed" placeholder="Breed i.e Arabian" value="Arabian">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="3">Age:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="age" ng-model="stb.age" placeholder="Age" value="">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="4">Date of Birth:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="birthday" ng-model="stb.birthday" placeholder="MM/DD/YY" value="July, 16th, 2009">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="7">Registeration No.</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="registration" ng-model="stb.registration" placeholder="Registeration No" value="0034459871">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-_sub_group clearfix" ng-repeat="asso in stb.associations">
+
+                                        <div class="grid-12">
+
+                                            <div class="row">
+
+                                                <div class="grid-6">
+
+                                                    <div class="row">
+
+                                                        <div class="form-group clearfix">
+
+                                                            <div class="grid-6">
+
+                                                                <label class="label" for="s_1">Association {{$index + 1}}:</label>
+
+                                                            </div>
+
+                                                            <div class="grid-6">
+
+                                                                <input type="text" class="form-control" id="s_1" ng-model="asso.name" placeholder="Association {{$index + 1}}" value="AERC">
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="grid-6">
+
+                                                    <div class="row">
+
+                                                        <div class="form-group clearfix">
+
+                                                            <div class="grid-6">
+
+                                                                <label class="label" for="s_2">Number {{$index + 1}}:</label>
+
+                                                            </div>
+
+                                                            <div class="grid-6">
+
+                                                                <input type="text" class="form-control" id="s_2" ng-model="asso.number" placeholder="Number {{$index + 1}}" value="178845RD">
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!--<div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="8">Total Rides:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="totalrides" ng-model="stb.totalrides" placeholder="Total Rides" value="34">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="9">Miles:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="distance" ng-model="stb.distance" placeholder="Miles" value="140 miles">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="10">Calories:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="energy" ng-model="stb.energy" placeholder="Calories" value="1880 kcal">
+
+                                        </div>
+
+                                    </div>
+                                    
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="12">Weight:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="weight" ng-model="stb.weight" placeholder="Weight" value="1253 lbs">
+
+                                        </div>
+
+                                    </div>-->
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer edit_stable_footer">
+
+                    <button type="button" class="btn btn-block" ng-click="SaveStable()">Save changes</button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade modal fade in" id="add_stable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="AddStableDetailsController">
+
+    <div class="modal-dialog modal-lg" role="document">
+
+        <div class="modal-content">
+
+            <form>
+
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                    <h4 class="modal-title" id="myModalLabel">&nbsp;</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="edit_stable">
+
+                        <div class="edit_header">
+
+                            <div class="edit_stable_img">
+
+                                <img id="addImg" ng-src={{stbadd.photo}} data-ng-src="{{stbadd.photo}}" src="{{stbadd.photo}}" width="389" height="315" class="img-responsive">
+
+                            </div>
+
+                            <div class="edit_header_text">
+
+                                <div class="page_heading"><h1><span class="small">Add Photo</span></h1></div>
+
+                                <div class="edit_btns">
+
+                                    <input type="file" style="visibility:hidden;position:absolute;width:0;height:0;" id="addphoto">
+
+                                    <label class="btn btn-transparent validn_middle" for="addphoto">Add Photo</label>
+
+                                    <!--<button class="btn btn-transparent btn-icon"><i class="fa fa-trash"></i></button>-->
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="edit_body">
+
+                            <div class="page_heading"><h1><span class="small">Add / Delete Description</span></h1></div>
+
+                            <div class="edit_fields">
+
+                                <div class="row">
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="1">Horse Name:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="horse_name" ng-model="stbadd.horse_name" placeholder="Horse Name">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="2">Breed:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="breed" ng-model="stbadd.breed" placeholder="Breed i.e Arabian" value="Arabian">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="3">Age:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="age" ng-model="stbadd.age" placeholder="Age" value="">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="4">Date of Birth:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="birthday" ng-model="stbadd.birthday" placeholder="MM/DD/YY" value="July, 16th, 2009">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="7">Registeration No.</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="registration" ng-model="stbadd.registration" placeholder="Registeration No" value="0034459871">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-_sub_group clearfix" ng-repeat="asso in assolist">
+
+                                        <div class="grid-12">
+
+                                            <div class="row">
+
+                                                <div class="grid-6">
+
+                                                    <div class="row">
+
+                                                        <div class="form-group clearfix">
+
+                                                            <div class="grid-6">
+
+                                                                <label class="label" for="s_1">Association {{$index + 1 }}:</label>
+
+                                                            </div>
+
+                                                            <div class="grid-6">
+
+                                                                <input type="text" class="form-control" id="s_1" ng-model="asso.name" placeholder="Association {{$index + 1 }}" value="AERC">
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="grid-6">
+
+                                                    <div class="row">
+
+                                                        <div class="form-group clearfix">
+
+                                                            <div class="grid-6">
+
+                                                                <label class="label" for="s_2">Number {{$index + 1 }}:</label>
+
+                                                            </div>
+
+                                                            <div class="grid-6">
+
+                                                                <input type="text" class="form-control" id="s_2" ng-model="asso.number" placeholder="Number {{$index + 1 }}" value="178845RD">
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!--<div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="8">Total Rides:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="totalrides" ng-model="stbadd.totalrides" placeholder="Total Rides" value="34">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="9">Miles:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="distance" ng-model="stbadd.distance" placeholder="Miles" value="140 miles">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="10">Calories:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="energy" ng-model="stbadd.energy" placeholder="Calories" value="1880 kcal">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="12">Weight:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="weight" ng-model="stbadd.weight" placeholder="Weight" value="1253 lbs">
+
+                                        </div>
+
+                                    </div>-->
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer edit_stable_footer">
+
+                    <button type="button" class="btn btn-block" ng-click="SaveStable()">Save changes</button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="modal fade modal fade in" id="medical" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="EditStableDetailsController">
+
+    <div class="modal-dialog modal-lg" role="document">
+
+        <div class="modal-content">
+
+            <form>
+
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                    <h4 class="modal-title" id="myModalLabel">&nbsp;</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="edit_stable">
+
+                       
+
+                        <div class="edit_body">
+
+                            <div class="page_heading"><h1><span class="small">Add medical Description</span></h1></div>
+
+                            <div class="edit_fields">
+
+                                <div class="row">
+
+                                    <div class="form-group clearfix">
+
+                                        
+
+                                        <div class="grid-10">
+
+                                            <textarea class="form-control" rows="9" ng-model="stb.medical" placeholder="Medical Report" style="height:120px;border:1px solid #ffd98c;"></textarea>
+                                           
+                                        </div>
+
+                                    </div>
+
+                                   
+
+
+                                    
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer edit_stable_footer">
+
+                    <button type="button" class="btn btn-block" ng-click="SaveMedicalStable()">Save changes</button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="modal fade modal fade in" id="notes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="EditStableDetailsController">
+
+    <div class="modal-dialog modal-lg" role="document">
+
+        <div class="modal-content">
+
+            <form>
+
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                    <h4 class="modal-title" id="myModalLabel">&nbsp;</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="edit_stable">
+
+
+
+                        <div class="edit_body">
+
+                            <div class="page_heading"><h1><span class="small">Add Notes</span></h1></div>
+
+                            <div class="edit_fields">
+
+                                <div class="row">
+
+                                    <div class="form-group clearfix">
+
+
+
+                                        <div class="grid-10">
+
+                                            <textarea class="form-control" rows="9" ng-model="stb.notes" placeholder="Notes" style="height:120px;border:1px solid #ffd98c;"></textarea>
+
+                                        </div>
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer edit_stable_footer">
+
+                    <button type="button" class="btn btn-block" ng-click="SaveNotesStable()">Save changes</button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="" ng-include="'includes/footer.html'"></div>
+
+

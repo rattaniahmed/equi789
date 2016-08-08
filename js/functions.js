@@ -15,6 +15,11 @@ function ReplaceNull(val) {
         return "images/duser.png";
     else
         return url;
+}function CleanHorseProfileUrl(url) {
+    if (IsNull(url) || url== "images/placeholder.png")
+        return "images/horsePlaceHolder.png";
+    else
+        return url;
 }function ValidateControl(ctrls) {
 
     var isValid = true;
