@@ -14,10 +14,10 @@
                         <ul class="un-styled clearfix">
                             <li><a href="my-stable.html">My Stable</a></li>
                             <li><a href="my-stable-details.html">Ride Details</a></li>
-                            <li><a href="last-ride.html">Last Ride</a></li>
+                            <li><a href="last-ride.html">Ride Detail</a></li>
                         </ul>
                     </div>
-                    <div class="bc_right_add_btn"> <a href="#" class="btn btn-border">Add Horse</a> </div>
+                    <!--<div class="bc_right_add_btn"> <a href="#" class="btn btn-border">Add Horse</a> </div>-->
                 </div>
             </div>
             <div class="last_ride lora">
@@ -26,23 +26,20 @@
                 		<a href="#" class="btn btn-transparent btn-icon"><i class="fa fa-share"></i></a>
                 	</div>
                    	<div class="last_ride_title">Start:</div>
-                    <div class="last_ride_desc">12 - 18 - 2015 &nbsp; &nbsp; &nbsp; 04:16:13  PM</div>
+                    <div class="last_ride_desc">{{lastRide.start_time}}</div>
                 </div>
-                <div class="box clearfix">
-                   	<div class="last_ride_title">Start:</div>
-                    <div class="last_ride_desc">12 - 18 - 2015 &nbsp; &nbsp; &nbsp; 04:16:13  PM</div>
-                </div>
+               
                 <div class="box clearfix">
                    	<div class="last_ride_title">End:</div>
-                    <div class="last_ride_desc">12 - 18 - 2015 &nbsp; &nbsp; &nbsp; 04:16:13  PM</div>
+                    <div class="last_ride_desc">{{lastRide.end_time}}</div>
                 </div>
                 <div class="box clearfix">
                    	<div class="last_ride_title">Location:</div>
-                    <div class="last_ride_desc">2074 Oak Drive Warrensburg, NY 12885, USA </div>
+                    <div class="last_ride_desc">{{lastRide.location}}</div>
                 </div>
                 <div class="box clearfix">
                    	<div class="last_ride_title">Weather:</div>
-                    <div class="last_ride_desc">Sky is clear 78 F˚, 10% humidity, 0% cloudy, wind is NE @ 9 mph</div>
+                    <div class="last_ride_desc">{{lastRide.weather}}</div>
                 </div>
                 <div class="box clearfix">
                    	<div class="last_ride_title">Ground Condition::</div>
@@ -50,7 +47,7 @@
                     	<select class="form-control">
                         	<option>Excellent</option>
                         </select>
-                        <a href="#" class="btn btn-transparent">See on Map</a>
+                        <a href="ridemap.html" class="btn btn-transparent">See on Map</a>
                     </div>
                 </div>
             </div>
@@ -59,25 +56,25 @@
                 	<ul class="un-styled chart_box">
                     	<li>
                         	<div class="chart_title">Ride Time:</div>
-                            <div class="chart_result">00:34</div>
+                            <div class="chart_result">{{lastRide.ride_time}}</div>
                         </li>
                         <li>
                         	<div class="chart_title">Total Time:</div>
-                            <div class="chart_result">04:16</div>
+                            <div class="chart_result">{{lastRide.total_time}}</div>
                         </li>
                         <li>
                         	<div class="chart_title">Distance:</div>
-                            <div class="chart_result">00:00</div>
+                            <div class="chart_result">{{lastRide.total_distance}}</div>
                         </li>
                     </ul>
                     <ul class="un-styled chart_box">
                     	<li>
                         	<div class="chart_title">Top Speed:</div>
-                            <div class="chart_result">00:34</div>
+                            <div class="chart_result">{{lastRide.top_speed}}</div>
                         </li>
                         <li>
                         	<div class="chart_title">Avg. Speed:</div>
-                            <div class="chart_result">00:34</div>
+                            <div class="chart_result">{{lastRide.average_speed}}</div>
                         </li>
                     </ul>
                 </div>
@@ -85,21 +82,21 @@
                 	<ul class="un-styled chart_box">
                         <li>
                         	<div class="chart_title">Avg. Heart Rate:</div>
-                            <div class="chart_result">0</div>
+                            <div class="chart_result">{{lastRide.average_heart_rate}}</div>
                         </li>
                         <li>
                         	<div class="chart_title">High Heart Rate:</div>
-                            <div class="chart_result">0</div>
+                            <div class="chart_result">{{lastRide.high_heart_rate}}</div>
                         </li>
                     </ul>
                     <ul class="un-styled chart_box">
                     	<li>
                         	<div class="chart_title">Equi Energy:</div>
-                            <div class="chart_result">00:34</div>
+                            <div class="chart_result">{{lastRide.energy}}</div>
                         </li>
                         <li>
                         	<div class="chart_title">My Calories:</div>
-                            <div class="chart_result">04:16</div>
+                            <div class="chart_result">{{lastRide.calories}}</div>
                         </li>
                     </ul>
                 </div>
@@ -108,10 +105,10 @@
             <div class="note_box">
             	<form class="note_form">
                 	<div class="form-group">
-                		<textarea class="form-control" rows="9" placeholder="Notes"></textarea>
+                        <textarea class="form-control" rows="9" placeholder="Notes" ng-model="lastRide.notes"></textarea>
                     </div>
                     <div class="btn_area">
-                    	<button class="btn btn-block">Submit</button>
+                    	<button class="btn btn-block" ng-click="UpdateNotes()">Submit</button>
                     </div>
                 </form>
             </div>

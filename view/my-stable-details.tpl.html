@@ -1,6 +1,6 @@
 <header class="header">
 
-    <div class="fixed_nav" ng-include="'includes/nav-loggedin.html'"></div>
+    <div class="fixed_nav" ng-include="'includes/nav.html'"></div>
 
     <div class="slider" ng-include="'includes/slider.html'"></div>
 
@@ -66,7 +66,7 @@
 
                                         <div class="titile">Age:</div>
 
-                                        <div class="stable_desc">{{stb.age}}</div>
+                                        <div class="stable_desc">{{AgeToDisplay}}</div>
 
                                     </div>
 
@@ -130,10 +130,14 @@
                             <div class="left_btns"> <a href="last-ride.html" class="btn btn-transparent">Last Ride</a> <a href="ride-history.html" class="btn btn-transparent" ng-click="History()">History</a> </div>
 
                             <div class="right_btns">
-                             <a href="#" class="btn btn-transparent btn-icon"><i class="fa fa-picture-o"></i></a>
+                             <!--<a href="#" class="btn btn-transparent btn-icon"><i class="fa fa-picture-o"></i></a>-->
                                 <a href="#medical" data-toggle="modal"  class="btn btn-transparent btn-icon"><i class="fa fa-snake"></i></a>
                              <a href="#notes" data-toggle="modal" class="btn btn-transparent btn-icon">
-                                <i class="fa fa-pencil"></i></a> <a href="#" class="btn btn-transparent btn-icon"><i class="fa fa-share"></i></a> </div>
+                                <i class="fa fa-pencil"></i></a> <a href="#" class="btn btn-transparent btn-icon"
+   socialshare-provider="facebook"
+   socialshare-text="Myequitrack - Socialsharing"
+   socialshare-hashtags="Myequitrack, Myequitrack-socialshare"
+   socialshare-url="https://myequitrack.com/my-stable-details.html"><i class="fa fa-share"></i></a> </div>
 
                         </div>
 
@@ -153,7 +157,7 @@
 
                                 <td class="title">Number of Rides:</td>
 
-                                <td class="table_desc">{{stb.ride_ids.length}}</td>
+                                <td class="table_desc">{{totalLength}}</td>
 
                             </tr>
 
@@ -161,7 +165,7 @@
 
                                 <td class="title">Distance:</td>
 
-                                <td class="table_desc">{{stb.distance}} miles</td>
+                                <td class="table_desc">{{totalDistance}} miles</td>
 
                             </tr>
 
@@ -169,7 +173,7 @@
 
                                 <td class="title">Time:</td>
 
-                                <td class="table_desc">{{stb.duration}}</td>
+                                <td class="table_desc">{{totalDuration}}</td>
 
                             </tr>
 
@@ -177,7 +181,7 @@
 
                                 <td class="title">Energy:</td>
 
-                                <td class="table_desc">{{stb.energy}}</td>
+                                <td class="table_desc">{{totalEnergy}}</td>
 
                             </tr>
 
@@ -185,7 +189,7 @@
 
                                 <td class="title">Calories:</td>
 
-                                <td class="table_desc">{{stb.calories}}</td>
+                                <td class="table_desc">{{totalCalories}}</td>
 
                             </tr>
 
@@ -193,7 +197,7 @@
 
                                 <td class="title">Avg Speed:</td>
 
-                                <td class="table_desc">{{stb.average_speed}} mph</td>
+                                <td class="table_desc">{{totalAverageSpeed}} mph</td>
 
                             </tr>
 
@@ -201,7 +205,7 @@
 
                                 <td class="title">Top Speed:</td>
 
-                                <td class="table_desc">{{stb.top_speed}} mph</td>
+                                <td class="table_desc">{{totalTopSspeed}} mph</td>
 
                             </tr>
 
@@ -307,7 +311,7 @@
 
                                     </div>
 
-                                    <div class="form-group clearfix">
+                                    <!--<div class="form-group clearfix">
 
                                         <div class="grid-3">
 
@@ -321,7 +325,7 @@
 
                                         </div>
 
-                                    </div>
+                                    </div>-->
 
                                     <div class="form-group clearfix">
 
@@ -787,8 +791,6 @@
     </div>
 
 </div>
-
-
 
 <div class="modal fade modal fade in" id="medical" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="EditStableDetailsController">
 

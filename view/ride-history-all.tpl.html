@@ -1,5 +1,5 @@
 <header class="header">
-    <div class="fixed_nav" ng-include="'includes/nav.html'"></div>
+    <div class="fixed_nav" ng-include="'includes/nav-loggedin.html'"></div>
     <div class="slider" ng-include="'includes/slider.html'"></div>
 </header>
 <section class="inner_pages" data-0="margin-top:50px;" data-400="margin-top:-150px;">
@@ -12,48 +12,105 @@
                 <div class="clearfix">
                     <div class="breadcrumbs">
                         <ul class="un-styled clearfix">
-                            <li><a href="#">My Stable</a></li>
+                            <li><a href="my-stable.html">My Stable</a></li>
+                            <li><a href="my-stable-details.html">Ride Details</a></li>
+                            <li><a href="ride-history.html">History</a></li>
                         </ul>
                     </div>
-                    <div class="bc_right_add_btn"> <a href="#add_stable" class="btn btn-border" data-toggle="modal">Add Horse</a>  </div>
+                    <!--<div class="bc_right_add_btn"> <a href="#add_stable" class="btn btn-border" data-toggle="modal">Add Horse</a> </div>-->
                 </div>
-                <div class="stable_list_wrap">
-                    <div class="stable_list" ng-repeat="stb in stables">
-                        <div class="stable_img">                                                     <img data-ng-src="{{stb.photo}}"  ng-src={{stb.photo}} src="{{stb.photo}}" width=" 198" height="160" class="img-responsive">                                                 </div>
-                        <div class="short_details lora">
-                            <div class="stable_row clearfix">
-                                <div class="titile">Horse Name:</div>
-                                <div class="stable_desc name">{{stb.horse_name}}</div>
-                            </div>
-                           
-                            <div class="stable_row clearfix">
+            </div>
+            <div class="stable_history">
+            	<ul class="un-styled">
+                    <li class="history_block" ng-repeat="hist in histories">
 
-                                <div class="titile">Age:</div>
+                        <div class="history_header">
 
-                                <div class="stable_desc">{{stb.AgeToDisplay}}</div>
+                            <div class="date_area"><h2>{{hist.TimeToDisplay}}</h2></div>
+
+                            <div class="ride_det">
+
+                                <div class="his_head pull-left"><h2> <span class="brand-color"></span></h2> </div>
+
+                                <div class="btn_togle  pull-right">
+                                    
+                                    <a href="#" ng-click="RideDetail(hist)" class="btn btn-transparent">Ride Detail</a>
+                                
+                                    <a href="#" ng-click="SeeMap(hist)" class="btn btn-transparent">See on Map</a>
+
+                                </div>
 
                             </div>
 
-                            <div class="stable_row clearfix">
-                                <div class="titile">Date of Birth:</div>
-                                <div class="stable_desc">{{stb.birthday}}</div>
-                            </div>
-                            <div class="stable_row clearfix">
-                                <div class="titile">Registeration No.:</div>
-                                <div class="stable_desc">{{stb.registration}}</div>
-                            </div>
-                         
+                        </div>
 
+                        <div class="history_body">
 
-                        </div>
-                        <div class="stable_link_btn"> <a href="my-stable-details.html" class="btn btn-transparent validn_middle" ng-click="rideDetail(stb)"><i class="fa fa-horse"></i> Ride Details</a> </div>
-                    </div>
-                </div>
+                            <div class="date_area">
+
+                                <div class="box clearfix">
+
+                                    <div class="title_text">Distance:</div>
+
+                                    <div class="desc_text">{{hist.total_distance}}</div>
+
+                                </div>
+
+                                <div class="box clearfix">
+
+                                    <div class="title_text">Time:</div>
+
+                                    <div class="desc_text">{{hist.total_time}}</div>
+
+                                </div>
+
+                                <div class="box clearfix">
+
+                                    <div class="title_text">Avg Speed:</div>
+
+                                    <div class="desc_text">{{hist.average_speed}} mph</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="ride_det">
+
+                                <div class="box clearfix">
+
+                                    <div class="title_text">Top Speed:</div>
+
+                                    <div class="desc_text">{{hist.top_speed}} mph</div>
+
+                                </div>
+
+                                <div class="box clearfix">
+
+                                    <div class="title_text">Energy::</div>
+
+                                    <div class="desc_text">{{hist.energy}}</div>
+
+                                </div>
+
+                                <div class="box clearfix">
+
+                                    <div class="title_text">My Cal:</div>
+
+                                    <div class="desc_text">{{hist.calories}} kcal</div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </li>
+                 
+                </ul>
             </div>
         </div>
     </div>
 </section>
-
 <div class="modal fade modal fade in" id="add_stable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="AddStableDetailsController">
 
     <div class="modal-dialog modal-lg" role="document">
@@ -297,7 +354,7 @@
                                         </div>
 
                                     </div>
-                                    
+
                                     <div class="form-group clearfix">
 
                                         <div class="grid-3">
@@ -336,7 +393,5 @@
 
     </div>
 
-</div>
-
-
+</div>
 <div class="" ng-include="'includes/footer.html'"></div>

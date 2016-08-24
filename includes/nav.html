@@ -1,4 +1,4 @@
-<div ng-show="!isLogged" ng-controller="NavController">
+<div ng-show="isLogged == 0" ng-controller="NavController">
 
     <div class="top_bar">
 
@@ -97,7 +97,7 @@
 
 </div>
 
-<div ng-show="isLogged" ng-controller="NavController">
+<div ng-show="isLogged == 1" ng-controller="NavController">
 
     <div class="top_bar">
 
@@ -157,7 +157,7 @@
 
                         <li><a href="dashboard.html">My Dashboard</a></li>
 
-                        <li><a href="dashboard.html">Map</a></li>
+                        <!--<li><a href="dashboard.html">Map</a></li>-->
 
                         <li><a href="settings.html">Settings</a></li>
 
@@ -183,6 +183,108 @@
 
                     <li><a href="disciplines.html" ng-class="{'active': isActive('/disciplines.html')}">Disciplines</a></li>
                     <li><a href="contact.html" ng-class="{'active': isActive('/contact.html')}">Contact Us</a></li>
+
+                </ul>
+
+            </div>
+
+            <button class="nav_bar_btn" toogle>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+<div ng-show="isLogged == 2" ng-controller="NavController">
+
+    <div class="top_bar">
+
+        <div class="container">
+
+            <div class="clearfix">
+
+                <div class="pull-left">
+
+                    <div><i class="fa fa-map-marker brand-color"></i> 123, New Lenox Chicago, IL 60606</div>
+
+                </div>
+
+                <div class="pull-right">
+
+                    <div class="clearfix">
+
+                        <div class="pull-left"><i class="fa fa-phone brand-color"></i> Toll Free: 12 9 234 6275</div>
+
+                        <div class="pull-left top_bar_nav nav_bar_social">
+
+                            <ul class="un-styled">
+
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+
+                                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="nav_bar">
+
+        <div class="container clearfix">
+
+            <div class="brand_logo pull-left"><a href="./"><img src="images/logo.png" width="79" height="78"></a></div>
+
+            <div class="nav_bar_avatar pull-right">
+
+                <div class="avatar_img"><img ng-src={{user.Details.profile}} width="55" height="55" class="img-circle" alt=""></div>
+
+                <div class="avatar_dropdown">
+
+                    <ul class="un-styled lora normal">
+
+                     
+
+                        <li><a href="settings.html">Settings</a></li>
+
+                        <li><a href="javascript:void(0);" ng-click="Logout()">Logout</a></li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <div class="nav_bar_nav pull-right">
+
+                <ul class="un-styled clearfix">
+
+                    <li><a href="static.html" ng-class="{'active': isActive(['/','/static.html','/static.html','/forgot-password.html'])}">Static Content</a></li>
+
+                    
 
                 </ul>
 
