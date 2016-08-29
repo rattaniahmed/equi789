@@ -222,27 +222,66 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
             html += "Equitrack Team</br>"
             
 
-            var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
+            //var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
                 
 
-            var mailgunUrl = "myequitrack.com";
-            var mailgunApiKey = window.btoa("api:key-d1a5b9de325143c036cf1701b359c325")
+            //var mailgunUrl = "myequitrack.com";
+            //var mailgunApiKey = window.btoa("api:key-d1a5b9de325143c036cf1701b359c325")
 
+
+            //$http({
+            //    "method": "POST",
+            //    "url": "https://api.mailgun.net/v3/" + mailgunUrl + "/messages",
+            //    "headers": {
+            //        "Content-Type": "application/x-www-form-urlencoded",
+            //        "Authorization": "Basic " + mailgunApiKey
+            //    },
+            //    data: "from=" + "test@example.com" + "&to=" + "vishal.kumar1145@gmail.com" + "&subject=" + "MailgunTest" + "&text=" + "EmailBody"
+            //}).then(function (success) {
+            //    console.log("SUCCESS " + JSON.stringify(success));
+            //}, function (error) {
+            //    console.log("ERROR " + JSON.stringify(error));
+            //});
+
+            var url = 'https://plucky-vision-140010.appspot.com/sendmail?To='+TO+'&Subject='+ Subject+'&HTML='+html;
+            
 
             $http({
-                "method": "POST",
-                "url": "https://api.mailgun.net/v3/" + mailgunUrl + "/messages",
-                "headers": {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "Authorization": "Basic " + mailgunApiKey
-                },
-                data: "from=" + "test@example.com" + "&to=" + "vishal.kumar1145@gmail.com" + "&subject=" + "MailgunTest" + "&text=" + "EmailBody"
-            }).then(function (success) {
-                console.log("SUCCESS " + JSON.stringify(success));
-            }, function (error) {
-                console.log("ERROR " + JSON.stringify(error));
+                method: 'GET',
+                url: url
+            }).then(function successCallback(response) {
+                // this callback will be called asynchronously
+                // when the response is available
+                $scope.$apply(function () {
+                                blockUI.stop();
+                                $scope.first_name = "";
+                                $scope.last_name = "";
+                                $scope.email = "";
+                                $scope.mobile = "";
+                                $scope.msg = "";
+                            });
+
+                console.log(response);
+            }, function errorCallback(response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+
+                $scope.$apply(function () {
+                    blockUI.stop();
+                    $scope.first_name = "";
+                    $scope.last_name = "";
+                    $scope.email = "";
+                    $scope.mobile = "";
+                    $scope.msg = "";
+                });
+                console.log(response);
             });
 
+            //$scope.$apply(function () {
+            //    blockUI.stop();
+            //});
+
+            //https://plucky-vision-140010.appspot.com/sendmail?To=vishal.kumar1145@gmail.com&Subject=vishak%20sdjksadjs&HTML=testing%20again
 
 
 

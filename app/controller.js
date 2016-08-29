@@ -28,27 +28,28 @@ app.controller('AccountController', function MyCtrl($scope, $location, $firebase
         html += "Equitrack Team</br>"
 
 
-        var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
+        //var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
+
+
+        var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
+
+
+        $http({
+            method: 'GET',
+            url: url
+        }).then(function successCallback(response) {
+            console.log(response);
+        }, function errorCallback(response) {
+            console.log(response);
+        });
+
+        //$scope.$apply(function () {
+        //    blockUI.stop();
+        //});
 
 
 
-        var mailgunUrl = "myequitrack.com";
-        var mailgunApiKey = window.btoa("api:key-d1a5b9de325143c036cf1701b359c325")
-
-       
-            $http({
-                "method": "POST",
-                "url": "https://api.mailgun.net/v3/" + mailgunUrl + "/messages",
-                "headers": {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "Authorization": "Basic " + mailgunApiKey
-                },
-                data: "from=" + "test@example.com" + "&to=" + "vishal.kumar1145@gmail.com" + "&subject=" + "MailgunTest" + "&text=" + "EmailBody"
-            }).then(function (success) {
-                console.log("SUCCESS " + JSON.stringify(success));
-            }, function (error) {
-                console.log("ERROR " + JSON.stringify(error));
-            });
+        
 
 
         //$.ajax({
