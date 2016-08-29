@@ -13,7 +13,7 @@
                     <div class="breadcrumbs">
                         <ul class="un-styled clearfix">
                             <li><a href="my-stable.html">My Stable</a></li>
-                            <li><a href="my-stable-details.html">Ride Details</a></li>
+                            <li><a href="my-stable-details.html">Horse Details</a></li>
                             <li><a href="ride-history.html">History</a></li>
                         </ul>
                     </div>
@@ -26,11 +26,11 @@
 
                         <div class="history_header">
 
-                            <div class="date_area"><h2>{{hist.Month}} {{hist.Year}}</h2></div>
+                            <div class="date_area"><h2>{{hist.MonthYear}}</h2></div>
 
                             <div class="ride_det">
 
-                                <div class="his_head pull-left"><h2>Rides <span class="brand-color">{{ hist.Count }}</span></h2> </div>
+                                <div class="his_head pull-left"><h2>Rides <span class="brand-color">{{ hist.DataArray.length }}</span></h2> </div>
 
                                 <div class="btn_togle  pull-right"><a href="#" ng-click="ShowAllHistory(hist)" class="btn btn-transparent btn-icon"><i class="fa fa-list-ul"></i></a></div>
 
@@ -46,7 +46,7 @@
 
                                     <div class="title_text">Distance:</div>
 
-                                    <div class="desc_text">{{hist.Obj.total_distance}}</div>
+                                    <div class="desc_text">{{hist.totalDistance}}</div>
 
                                 </div>
 
@@ -54,7 +54,7 @@
 
                                     <div class="title_text">Time:</div>
 
-                                    <div class="desc_text">{{hist.Obj.total_time}}</div>
+                                    <div class="desc_text">{{hist.totalDuration}}</div>
 
                                 </div>
 
@@ -62,7 +62,7 @@
 
                                     <div class="title_text">Avg Speed:</div>
 
-                                    <div class="desc_text">{{hist.Obj.average_speed}} mph</div>
+                                    <div class="desc_text">{{hist.totalAverageSpeed}} mph</div>
 
                                 </div>
 
@@ -74,7 +74,7 @@
 
                                     <div class="title_text">Top Speed:</div>
 
-                                    <div class="desc_text">{{hist.Obj.top_speed}} mph</div>
+                                    <div class="desc_text">{{hist.totalTopSspeedToDisplay}} mph</div>
 
                                 </div>
 
@@ -82,7 +82,7 @@
 
                                     <div class="title_text">Energy::</div>
 
-                                    <div class="desc_text">{{hist.Obj.energy}}</div>
+                                    <div class="desc_text">{{hist.totalEnergy}}</div>
 
                                 </div>
 
@@ -90,7 +90,7 @@
 
                                     <div class="title_text">My Cal:</div>
 
-                                    <div class="desc_text">{{hist.Obj.calories}} kcal</div>
+                                    <div class="desc_text">{{hist.totalCalories}} kcal</div>
 
                                 </div>
 

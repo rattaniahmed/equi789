@@ -405,12 +405,29 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
                         if (isNaN(d.getTime())) {  // d.valueOf() could also work
                         }
                         else {
-                            var days = today - d;
-                            var year = parseInt(days / 1000 / 60 / 60 / 24 / 365);
-                            if (year > 1)
-                                horse.AgeToDisplay = year + " year old";
+                            var diff = today - d;
+                            var days = parseInt(diff / 1000 / 60 / 60 / 24 );
+                            debugger;
+                            console.log(days);
+                             
+                            var year = parseInt(days / 365);
+
+
+                            if (year == 1)
+                                horse.AgeToDisplay = "1 year, ";
                             else
-                                horse.AgeToDisplay = "1 year old";
+                                horse.AgeToDisplay = year + " years, ";
+
+                            var remainDay = parseInt(days % 365);
+
+                            var month = parseInt(remainDay / 30);
+
+                            if (month == 1)
+                                horse.AgeToDisplay += "1 month ";
+                            else
+                                horse.AgeToDisplay += month + " months ";
+
+                            //horse.AgeToDisplay += "old";
                         }
                     }
                     else {
@@ -441,6 +458,583 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
         storageService.setObject("CU", null);
         $location.path('/');
     }
+
+
+});
+
+app.controller('StableDetailsController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
+
+    debugger;
+    sessionService.CHECKSESSION();
+    $scope.user = storageService.getObject("CU");
+    
+    $scope.stb = storageService.getObject("CS");
+    $scope.AgeToDisplay = "" ; // 7 year old";
+
+    try{
+
+        var today = new Date();
+        var d = new Date($scope.stb.birthday);
+
+        if (Object.prototype.toString.call(d) === "[object Date]") {
+            // it is a date
+            if (isNaN(d.getTime())) {  // d.valueOf() could also work
+                // date is not valid
+            }
+            else {
+                
+                var diff = today - d;
+                var days = parseInt(diff / 1000 / 60 / 60 / 24);
+                debugger;
+                console.log(days);
+
+                var year = parseInt(days / 365);
+
+
+                if (year == 1)
+                    $scope.AgeToDisplay = "1 year, ";
+                else
+                    $scope.AgeToDisplay = year + " years, ";
+
+                var remainDay = parseInt(days % 365);
+
+                var month = parseInt(remainDay / 30);
+
+                if (month == 1)
+                    $scope.AgeToDisplay += "1 month ";
+                else
+                    $scope.AgeToDisplay += month + " months ";
+
+                //$scope.AgeToDisplay += "old";
+
+            }
+        }
+        else {
+            // not a date
+        }
+
+
+    }
+    catch (err) {
+
+    }
+
+    for (var i = 0 ; i < 4; i++) {
+        try {
+            if (IsNull($scope.stb.associations[i].name))
+                $scope.stb.associations[i].name = "";
+
+        }
+        catch (err) {
+            $scope.stb.associations[i].name = "";
+        }
+
+        try {
+            if (IsNull($scope.stb.associations[i].number))
+                $scope.stb.associations[i].number = "";
+
+        }
+        catch (err) {
+            $scope.stb.associations[i].number = "";
+        }
+    }
+
+
+    
+    debugger;
+
+    $scope.totalRidesDetails = [];
+    $scope.totalLength = 0;
+    $scope.totalDistance = 0.0;
+    $scope.totalDuration = 0;
+    $scope.totalEnergy = 0;
+    $scope.totalCalories = 0;
+    $scope.totalAverageSpeed = 0.0;
+    $scope.totalTopSspeed = 0;
+
+    var ref = firebaseService.FIREBASEENDPOINT();
+    $scope.rides = $firebaseArray(ref.child('rides'));
+    $scope.rides.$loaded().then(function (dataArray) {
+        // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
+
+       
+        var totalTopSspeed = [];
+        var averageSpeed = 0.0;
+        debugger;
+        for (var id in $scope.stb.ride_ids) {
+            var ride = $scope.rides.$getRecord(id);
+            debugger;
+            //$scope.totalRidesDetails.push(ride);
+            $scope.totalLength = $scope.totalLength + 1;
+            $scope.totalDistance = parseFloat($scope.totalDistance) + parseFloat(ride.total_distance);
+            $scope.totalDuration = parseInt($scope.totalDuration) + parseInt(ride.total_time);
+            $scope.totalEnergy = parseFloat($scope.totalEnergy) + parseFloat(ride.energy);
+            $scope.totalCalories = parseFloat($scope.totalCalories) + parseFloat(ride.calories);
+            //$scope.totalAverageSpeed = $scope.totalAverageSpeed + ride.average_speed;
+            //$scope.totalTopSspeed = $scope.totalTopSspeed + ride.top_speed;
+            averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
+            totalTopSspeed.push(parseFloat(ride.top_speed));
+        }
+
+        $scope.totalDistance = parseFloat(Math.round($scope.totalDistance * 100) / 100).toFixed(2); 
+        $scope.totalEnergy = parseFloat(Math.round($scope.totalEnergy * 100) / 100).toFixed(2);
+        $scope.totalCalories = parseFloat(Math.round($scope.totalCalories * 100) / 100).toFixed(2);
+
+        $scope.totalAverageSpeed = averageSpeed / $scope.totalLength;
+
+        $scope.totalAverageSpeed = parseFloat(Math.round($scope.totalAverageSpeed * 100) / 100).toFixed(2);
+
+        $scope.totalDuration = hhmmss($scope.totalDuration);
+
+        $scope.totalTopSspeed = Math.max.apply(Math, totalTopSspeed);
+
+        $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
+
+    }).catch(function (err) {
+
+    });
+
+    $scope.Logout = function () {
+        storageService.setObject("CU", null);
+        $location.path('/');
+    }
+
+    
+
+});
+
+app.controller('EditStableDetailsController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
+
+
+    $("#photo").change(function () {
+        readURL(this);
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                //alert(e.target.result);
+                $('#editImg').attr('src', e.target.result);
+                $scope.stb.photo = e.target.result;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+    console.log("EditStableDetailsController");
+    sessionService.CHECKSESSION();
+    $scope.user = storageService.getObject("CU");
+
+    $scope.stb = storageService.getObject("CS");
+    
+    
+    
+    for (var i = 0 ; i < 4; i++) {
+        try {
+            if (IsNull($scope.stb.associations[i].name))
+                $scope.stb.associations[i].name = "";
+
+        }
+        catch (err) {
+            $scope.stb.associations[i].name = "";
+        }
+
+        try {
+            if (IsNull($scope.stb.associations[i].number))
+                $scope.stb.associations[i].number = "";
+
+        }
+        catch (err) {
+            $scope.stb.associations[i].number = "";
+        }
+    }
+
+    console.log($scope.stb);
+
+    $scope.Logout = function () {
+        storageService.setObject("CU", null);
+        $location.path('/');
+    }
+
+    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+    $scope.horses = $firebaseArray(ref.child('horses'));
+
+    $scope.SaveMedicalStable = function () {
+        blockUI.start("Updating medical report details.....");
+        var horseRef = $scope.horses.$getRecord($scope.stb.$id);
+        horseRef.medical = ReplaceNull($scope.stb.medical);
+
+        $scope.horses.$save(horseRef).then(function (res) {
+
+            $scope.$apply(function () {
+                blockUI.stop();
+            });
+
+            storageService.setObject("CS", horseRef);
+            swal("", "Your stable details has been added edied success fully", "success");
+            console.log(res);
+
+            window.location.reload();
+
+        });
+    }
+
+    $scope.SaveNotesStable = function () {
+        blockUI.start("Updating notes details.....");
+
+        var horseRef = $scope.horses.$getRecord($scope.stb.$id);
+        horseRef.notes = ReplaceNull($scope.stb.notes);
+
+        $scope.horses.$save(horseRef).then(function (res) {
+
+            $scope.$apply(function () {
+                blockUI.stop();
+            });
+
+            storageService.setObject("CS", horseRef);
+            swal("", "Your stable details has been added edied success fully", "success");
+            console.log(res);
+
+            window.location.reload();
+
+        });
+
+        
+    }
+
+    $scope.SaveStable = function () {
+
+        blockUI.start("Editing horse details.....");
+        
+        var horseRef = $scope.horses.$getRecord($scope.stb.$id);
+
+        horseRef.age = '';//ReplaceNull($scope.stb.age);
+        horseRef.associations = $scope.stb.associations;
+        horseRef.average_speed = ReplaceNull($scope.stb.average_speed);
+        horseRef.birthday = ReplaceNull($scope.stb.birthday);
+        horseRef.breed = ReplaceNull($scope.stb.breed);
+        horseRef.calories = ReplaceNull($scope.stb.calories);
+        horseRef.distance = ReplaceNull($scope.stb.distance);
+        horseRef.duration = ReplaceNull($scope.stb.duration);
+        horseRef.energy = ReplaceNull($scope.stb.energy);
+        horseRef.horse_name = ReplaceNull($scope.stb.horse_name);
+        horseRef.notes = ReplaceNull($scope.stb.notes);
+        horseRef.registration = ReplaceNull($scope.stb.registration);
+        horseRef.top_speed = ReplaceNull($scope.stb.top_speed);
+        horseRef.total_rides = ReplaceNull($scope.stb.total_rides);
+        horseRef.totalrides = ReplaceNull($scope.stb.totalrides);
+        horseRef.weight = ReplaceNull($scope.stb.weight);
+        horseRef.photo = ReplaceNull($scope.stb.photo);
+        horseRef.medical = ReplaceNull($scope.stb.medical);
+        horseRef.notes = ReplaceNull($scope.stb.notes);
+
+        $scope.horses.$save(horseRef).then(function (res) {
+
+            $scope.$apply(function () {
+                blockUI.stop();
+            });
+
+            storageService.setObject("CS", horseRef);
+            swal("", "Your stable details has been added edied success fully", "success");
+            console.log(res);
+
+            window.location.reload();
+
+        });
+
+    }
+
+});
+
+app.controller('AddStableDetailsController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
+    console.log("AddStableDetailsController");
+    sessionService.CHECKSESSION();
+    $scope.user = storageService.getObject("CU");
+
+    var ref = firebaseService.FIREBASEENDPOINT();
+    $scope.horses = $firebaseArray(ref.child('horses'));
+    $scope.users = $firebaseArray(ref.child('users'));
+        
+    $scope.Logout = function () {
+        storageService.setObject("CU", null);
+        $location.path('/');
+    }
+
+
+    $("#addphoto").change(function () {
+        readURL(this);
+    });
+
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                //alert(e.target.result);
+                $('#addImg').attr('src', e.target.result);
+                $scope.stbadd.photo = e.target.result;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $scope.assolist = [
+        { name: "", number: "" },
+          { name: "", number: "" },
+            { name: "", number: "" },
+              { name: "", number: "" },
+    ];
+
+    $scope.stbadd = {
+        associations: $scope.assolist,
+        average_speed: "0.0",
+        birthday: "",
+        calories: "0.0",
+        distance: "0.0",
+        duration: "00:00:00",
+        energy: "0.0",
+        horse_name: "",
+        notes: "",
+        photo: "images/horsePlaceHolder.png",
+        registration: "",
+        top_speed: "0.0",
+        total_rides: "",
+        weight: ""
+    }
+
+
+    $scope.SaveStable = function () {
+
+        blockUI.start("Adding horse details.....");
+        $scope.horses.$add($scope.stbadd).then(function (ref) {
+            debugger;
+            var id = ref.key();
+            console.log("added record with id " + id);
+            swal("", "Your stable details has been added success fully", "success");
+            //$location.path('my-stable.html');
+
+            $scope.user.Details.horse_ids[id] = {
+                created_at: ""
+            };
+
+            //$scope.user.Details.horse_ids.push(id);
+            storageService.setObject("CU",$scope.user);
+
+            var userRef = $scope.users.$getRecord($scope.user.Auth.uid);
+            userRef.horse_ids[id] = {
+                created_at: ""
+            };
+
+            $scope.users.$save(userRef).then(function (res) {
+                console.log(res);
+                //$scope.user.Details.profile = userRef.profile;
+                $scope.$apply(function () {
+                    blockUI.stop();
+                });
+
+                window.location.reload();
+            });
+
+
+        });
+
+    }
+
+});
+
+app.controller('HistoryController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
+
+    console.log("HistoryController");
+    sessionService.CHECKSESSION();
+    $scope.user = storageService.getObject("CU");
+    $scope.stb = storageService.getObject("CS");
+
+    console.log($scope.stb);
+    $scope.Logout = function () {
+        storageService.setObject("CU", null);
+        $location.path('/');
+    }
+
+    $scope.ShowAllHistory = function (hist) {
+        $location.path('ride-history-all.html');
+        storageService.setObject("CHIST", hist);
+    }
+
+    $scope.histories = [];
+
+    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+    $scope.history = $firebaseArray(ref.child('rides'));
+    $scope.history.$loaded().then(function (dataArray) {
+        // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
+        debugger;
+
+        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        $scope.histories = [];
+
+        for (var id in $scope.stb.ride_ids) {
+
+            var horseHistory = $scope.history.$getRecord(id);
+            var time = $scope.stb.ride_ids[id];
+
+            var date = new Date(parseInt(time));
+            var month = monthNames[date.getMonth()];
+            var year = date.getFullYear();
+
+            var monthyear = month + " " + year;
+
+            var existIndex = -1;
+            for (var k = 0; k < $scope.histories.length; k++) {
+                var hi = $scope.histories[k];
+                if (hi.MonthYear == monthyear) {
+                    existIndex = k;
+                    break;
+                }
+            }
+
+            if (existIndex == -1) {
+                $scope.histories.push({
+                    Month: month,
+                    Year:year,
+                    MonthYear: monthyear,
+                    DataArray: [horseHistory]
+                });
+            }
+            else {
+                $scope.histories[k].DataArray.push(horseHistory)
+            }
+        }
+
+
+        
+        $scope.historiesToDisplay = [];
+        for (var l = 0 ; l < $scope.histories.length; l++) {
+            debugger;
+            var history = $scope.histories[l];
+            
+            var totalDistance = 0.0;
+            var totalDuration = 0;
+            var totalEnergy = 0;
+            var totalCalories = 0;
+            var totalAverageSpeed = 0.0;
+            var totalTopSspeed = [];
+            var averageSpeed = 0.0;
+
+
+            for (var inner = 0; inner < history.DataArray.length; inner++) {
+
+                debugger;
+
+                var ride = history.DataArray[inner];
+                totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
+                totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
+                totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);
+                totalCalories = parseFloat(totalCalories) + parseFloat(ride.calories);
+                //$scope.totalAverageSpeed = $scope.totalAverageSpeed + ride.average_speed;
+                //$scope.totalTopSspeed = $scope.totalTopSspeed + ride.top_speed;
+                averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
+                totalTopSspeed.push(parseFloat(ride.top_speed));
+            }
+
+            debugger;
+            history.totalDistance = parseFloat(Math.round(totalDistance * 100) / 100).toFixed(2);
+            history.totalEnergy = parseFloat(Math.round(totalEnergy * 100) / 100).toFixed(2);
+            history.totalCalories = parseFloat(Math.round(totalCalories * 100) / 100).toFixed(2);
+
+            history.totalAverageSpeed = averageSpeed / history.DataArray.length;
+
+            history.totalAverageSpeed = parseFloat(Math.round(history.totalAverageSpeed * 100) / 100).toFixed(2);
+
+            history.totalDuration = hhmmss(totalDuration);
+
+            history.totalTopSspeedToDisplay = Math.max.apply(Math, totalTopSspeed);
+
+            history.totalTopSspeedToDisplay = parseFloat(Math.round(history.totalTopSspeedToDisplay * 100) / 100).toFixed(2);
+
+
+
+            $scope.historiesToDisplay.push(history);
+        }
+
+        console.log($scope.historiesToDisplay)
+
+       
+    }).catch(function (err) {
+
+    });
+    
+
+});
+
+app.controller('AllHistoryController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
+
+    console.log("AllHistoryController");
+    sessionService.CHECKSESSION();
+    $scope.user = storageService.getObject("CU");
+
+    $scope.stb = storageService.getObject("CS");
+
+    $scope.historyCache = storageService.getObject("CHIST");
+
+    console.log($scope.stb);
+
+    $scope.Logout = function () {
+        storageService.setObject("CU", null);
+        $location.path('/');
+    }
+
+    $scope.SeeMap = function (his) {
+        storageService.setObject("RIFM", his.$id);
+        $location.path('ridemap.html');
+        console.log(his.ride_ids);
+    }
+
+    $scope.RideDetail = function (his) {
+        storageService.setObject("RIDEDETAILID", his.$id);
+        $location.path('ride-detail.html');
+        console.log(his.ride_ids);
+    }
+
+
+    $scope.histories = [];
+
+    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+    $scope.history = $firebaseArray(ref.child('rides'));
+    $scope.history.$loaded().then(function (dataArray) {
+        // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
+        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        $scope.histories = [];
+
+        for (var id in $scope.stb.ride_ids) {
+
+            var horseHistory = $scope.history.$getRecord(id);
+            var time = $scope.stb.ride_ids[id];
+
+            var date = new Date(parseInt(time));
+            var month = monthNames[date.getMonth()];
+            var year = date.getFullYear();
+
+
+
+            if ($scope.historyCache.Month == month && $scope.historyCache.Year == year) {
+                debugger;
+                horseHistory.TimeToDisplay = date.format("mmmm d, yyyy h:MM:ss TT");
+                horseHistory.total_time = hhmmss(horseHistory.total_time);
+                $scope.histories.push(horseHistory);
+            }
+        }
+
+        //$scope.histories = horseHistory;
+    }).catch(function (err) {
+
+    });
 
 
 });
@@ -584,11 +1178,21 @@ app.controller('DashboardController', function MyCtrl($scope, $location, $fireba
         var toDisplay = [];
 
         for (var i = 0 ; i < 4; i++) {
-            toDisplay.push({
-                location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
-                stopover: true
-            });
+            //toDisplay.push({
+            //    location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
+            //    stopover: true
+            //});
+            toDisplay.push(flightPlanCoordinates[i]);
         }
+
+        debugger;
+
+        toDisplay = [
+          { lat: 37.772, lng: -122.214 },
+          { lat: 21.291, lng: -157.821 },
+          { lat: -18.142, lng: 178.431 },
+          { lat: -27.467, lng: 153.027 }
+        ];
 
 
         //if (flightPlanCoordinates.length > 8) {
@@ -632,7 +1236,7 @@ app.controller('DashboardController', function MyCtrl($scope, $location, $fireba
 
         console.log(flightPlanCoordinates);
         var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 3,
+            zoom: 11,
             center: ori,//{ lat: 0, lng: -180 },
             //mapTypeId: 'terrain'
         });
@@ -836,8 +1440,8 @@ app.controller('LastRideController', function MyCtrl($scope, $location, $firebas
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
         var id = $scope.rideId;
         var lastRide = $scope.rides.$getRecord(id);
-        lastRide.ride_time = hhmmss(lastRide.ride_time);
-        lastRide.total_time = hhmmss(lastRide.total_time);
+        $scope.ride_time_to_display = hhmmss(lastRide.ride_time);
+        $scope.total_time_to_display = hhmmss(lastRide.total_time);
         $scope.lastRide = lastRide;
         console.log($scope.lastRide);
     }).catch(function (err) {
@@ -858,8 +1462,8 @@ app.controller('LastRideController', function MyCtrl($scope, $location, $firebas
                 blockUI.stop();
             });
 
-            storageService.setObject("CS", rideRef);
-            swal("", "Your notes details has been edieted success fully", "success");
+            //storageService.setObject("CS", rideRef);
+            swal("", "Your notes details has been edited success fully", "success");
             console.log(res);
 
             window.location.reload();
@@ -1053,8 +1657,8 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
         var id = $scope.rideId;
         var lastRide = $scope.rides.$getRecord(id);
-        lastRide.ride_time = hhmmss(lastRide.ride_time);
-        lastRide.total_time = hhmmss(lastRide.total_time);
+        $scope.ride_time_to_display = hhmmss(lastRide.ride_time);
+        $scope.total_time_to_display = hhmmss(lastRide.total_time);
         $scope.lastRide = lastRide;
         console.log($scope.lastRide);
     }).catch(function (err) {
@@ -1075,8 +1679,8 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
                 blockUI.stop();
             });
 
-            storageService.setObject("CS", rideRef);
-            swal("", "Your notes details has been edieted success fully", "success");
+            //storageService.setObject("CS", rideRef);
+            swal("", "Your notes details has been edited success fully", "success");
             console.log(res);
 
             window.location.reload();
