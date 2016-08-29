@@ -1,27 +1,51 @@
-<header class="header">
-    <div class="fixed_nav" ng-include="'includes/nav-loggedin.html'"></div>
-    <div class="slider" ng-include="'includes/slider.html'"></div>
-</header>
-<section class="inner_pages" data-0="margin-top:50px;" data-400="margin-top:-150px;">
-    <div class="container">
-        <div class="content_body">
-            <div class="page_heading">
-                <h1>EquiTrack - <span class="small">My Stable</span></h1>
-            </div>
-            <div class="my_stable">
-                <div class="clearfix">
-                    <div class="breadcrumbs">
-                        <ul class="un-styled clearfix">
-                            <li><a href="my-stable.html">My Stable</a></li>
-                            <li><a href="my-stable-details.html">Horse Details</a></li>
-                            <li><a href="ride-history.html">History</a></li>
-                        </ul>
-                    </div>
-                    <!--<div class="bc_right_add_btn"> <a href="#add_stable" class="btn btn-border" data-toggle="modal">Add Horse</a> </div>-->
-                </div>
-            </div>
-            <div class="stable_history">
-            	<ul class="un-styled">
+<header class="header">
+
+    <div class="fixed_nav" ng-include="'includes/nav-loggedin.html'"></div>
+
+    <div class="slider" ng-include="'includes/slider.html'"></div>
+
+</header>
+
+<section class="inner_pages" data-0="margin-top:50px;" data-400="margin-top:-150px;">
+
+    <div class="container">
+
+        <div class="content_body">
+
+            <div class="page_heading">
+
+                <h1>EquiTrack - <span class="small">My Stable</span></h1>
+
+            </div>
+
+            <div class="my_stable">
+
+                <div class="clearfix">
+
+                    <div class="breadcrumbs">
+
+                        <ul class="un-styled clearfix">
+
+                            <li><a href="my-stable.html">My Stable</a></li>
+
+                            <li><a href="my-stable-details.html">Horse Details</a></li>
+
+                            <li><a href="ride-history.html">History</a></li>
+
+                        </ul>
+
+                    </div>
+
+                    <!--<div class="bc_right_add_btn"> <a href="#add_stable" class="btn btn-border" data-toggle="modal">Add Horse</a> </div>-->
+
+                </div>
+
+            </div>
+
+            <div class="stable_history">
+
+            	<ul class="un-styled">
+
                     <li class="history_block" ng-repeat="hist in histories">
 
                         <div class="history_header">
@@ -93,7 +117,7 @@
 
                                 <div class="box clearfix">
 
-                                    <div class="title_text">Energy::</div>
+                                    <div class="title_text">HorseEnergy::</div>
 
                                     <div class="desc_text">{{hist.energy}}</div>
 
@@ -101,7 +125,7 @@
 
                                 <div class="box clearfix">
 
-                                    <div class="title_text">My Cal:</div>
+                                    <div class="title_text">My Calories</div>
 
                                     <div class="desc_text">{{hist.calories}} kcal</div>
 
@@ -111,13 +135,20 @@
 
                         </div>
 
-                    </li>
-                 
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
+                    </li>
+
+                 
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
 <div class="modal fade modal fade in" id="add_stable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="AddStableDetailsController">
 
     <div class="modal-dialog modal-lg" role="document">
@@ -400,5 +431,7 @@
 
     </div>
 
-</div>
-<div class="" ng-include="'includes/footer.html'"></div>
+</div>
+
+<div class="" ng-include="'includes/footer.html'"></div>
+
