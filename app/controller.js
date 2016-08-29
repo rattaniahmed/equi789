@@ -31,27 +31,47 @@ app.controller('AccountController', function MyCtrl($scope, $location, $firebase
         var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
 
 
-        $.ajax({
-            type: 'POST',
-            //url: "http://localhost:51912/api/mail",
-            url: "https://52.41.72.28/mailws/api/mail",
-            dataType: 'json',
-            data: JSON.stringify(inputData),
-            async: true,
-            success: function (response) {
-                //$scope.$apply(function () {
-                //    blockUI.stop();
-                //    $scope.first_name = "";
-                //    $scope.last_name = "";
-                //    $scope.email = "";
-                //    $scope.mobile = "";
-                //    $scope.msg = "";
-                //});
-            },
-            error: function (reposnse) {
-                console.log("Unknown error occured");
-            }
-        });
+
+        var mailgunUrl = "myequitrack.com";
+        var mailgunApiKey = window.btoa("api:key-d1a5b9de325143c036cf1701b359c325")
+
+       
+            $http({
+                "method": "POST",
+                "url": "https://api.mailgun.net/v3/" + mailgunUrl + "/messages",
+                "headers": {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": "Basic " + mailgunApiKey
+                },
+                data: "from=" + "test@example.com" + "&to=" + "vishal.kumar1145@gmail.com" + "&subject=" + "MailgunTest" + "&text=" + "EmailBody"
+            }).then(function (success) {
+                console.log("SUCCESS " + JSON.stringify(success));
+            }, function (error) {
+                console.log("ERROR " + JSON.stringify(error));
+            });
+
+
+        //$.ajax({
+        //    type: 'POST',
+        //    //url: "http://localhost:51912/api/mail",
+        //    url: "https://52.41.72.28/mailws/api/mail",
+        //    dataType: 'json',
+        //    data: JSON.stringify(inputData),
+        //    async: true,
+        //    success: function (response) {
+        //        //$scope.$apply(function () {
+        //        //    blockUI.stop();
+        //        //    $scope.first_name = "";
+        //        //    $scope.last_name = "";
+        //        //    $scope.email = "";
+        //        //    $scope.mobile = "";
+        //        //    $scope.msg = "";
+        //        //});
+        //    },
+        //    error: function (reposnse) {
+        //        console.log("Unknown error occured");
+        //    }
+        //});
 
     }
 
@@ -381,6 +401,10 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
     
 
     $scope.user = storageService.getObject("CU");
+
+    var ref = firebaseService.FIREBASEENDPOINT();
+    $scope.users = $firebaseArray(ref.child('users'));
+
     console.log($scope.user);
 
     $scope.stables = [];
@@ -452,7 +476,62 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
         storageService.setObject("CS", stb); //$scope.selectedStable = stb;
     }
 
-   
+    $scope.DeleteHorse = function (stb) {
+
+        swal({
+            title: "Are you sure?", text: "This horse will be deleted from the web and all devices, do you wish to continue!",
+            type: "warning", showCancelButton: true,
+            confirmButtonColor: "#DD6B55", confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        }, function () {
+            debugger;
+
+            blockUI.start("Removing horse.....");
+            $scope.horses.$remove(stb).then(function (ref) {
+                debugger;
+                var id = ref.key();
+                if(stb.$id == id){
+                    console.log("Deleted success fully");
+                }
+                //console.log("added record with id " + id);               
+                //$location.path('my-stable.html');
+
+                //$scope.user.Details.horse_ids[id] = {
+                //    created_at: ""
+                //};
+
+                delete $scope.user.Details.horse_ids[id];
+
+                //$scope.user.Details.horse_ids.push(id);
+                storageService.setObject("CU",$scope.user);
+
+                var userRef = $scope.users.$getRecord($scope.user.Auth.uid);
+                //userRef.horse_ids[id] = {
+                //    created_at: ""
+                //};
+
+                delete $scope.user.Details.horse_ids[id];
+
+                $scope.users.$save(userRef).then(function (res) {
+                    console.log(res);
+                    //$scope.user.Details.profile = userRef.profile;
+                    $scope.$apply(function () {
+                        blockUI.stop();
+                    });
+
+                    window.location.reload();
+                });
+
+
+                swal("", "Your horse has been removed success fully", "success");
+
+
+            });
+            
+            //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+        });
+
+    }
 
     $scope.Logout = function () {
         storageService.setObject("CU", null);
@@ -884,7 +963,8 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
             var time = $scope.stb.ride_ids[id];
 
             var date = new Date(parseInt(time));
-            var month = monthNames[date.getMonth()];
+            var monthInt = parseInt(date.getMonth());
+            var month = monthNames[monthInt];
             var year = date.getFullYear();
 
             var monthyear = month + " " + year;
@@ -903,6 +983,7 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
                     Month: month,
                     Year:year,
                     MonthYear: monthyear,
+                    MonthInt:monthInt,
                     DataArray: [horseHistory]
                 });
             }
@@ -974,6 +1055,14 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
 
 app.controller('AllHistoryController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
 
+
+    //$(function () {
+    //    $('#dp3').datepicker({
+    //        viewMode: 'years'
+    //    });
+
+    //});
+
     console.log("AllHistoryController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
@@ -1024,12 +1113,17 @@ app.controller('AllHistoryController', function MyCtrl($scope, $location, $fireb
 
 
             if ($scope.historyCache.Month == month && $scope.historyCache.Year == year) {
-                debugger;
+                horseHistory.ActualTime = time;
                 horseHistory.TimeToDisplay = date.format("mmmm d, yyyy h:MM:ss TT");
                 horseHistory.total_time = hhmmss(horseHistory.total_time);
                 $scope.histories.push(horseHistory);
             }
         }
+
+        $scope.histories = $scope.histories.sort(function (a, b) {
+            return new Date(b.ActualTime).getTime() - new Date(a.ActualTime).getTime()
+        });
+
 
         //$scope.histories = horseHistory;
     }).catch(function (err) {
@@ -2064,3 +2158,133 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
     $scope.Start();
 
 });
+
+
+app.controller('ShareController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService) {
+
+    console.log("ShareController");
+    sessionService.CHECKSESSION();
+
+    $scope.type = $location.search().type;
+    $scope.id = $location.search().id;
+
+    var ref = firebaseService.FIREBASEENDPOINT();
+
+    $scope.Map = function (flightPlanCoordinates) {
+
+        var lat = 0;
+        var lng = -180;
+        if (flightPlanCoordinates.length > 2) {
+            var index = parseInt((flightPlanCoordinates.length - 1) / 2);
+            lat = flightPlanCoordinates[index].lat;
+            lng = flightPlanCoordinates[index].lng;
+        }
+        else {
+            lat = 0;
+            lng = -180;
+        }
+
+
+
+
+        var directionsService = new google.maps.DirectionsService();
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 7,
+            center: { lat: lat, lng: lng },
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.TOP_RIGHT
+            },
+        });
+
+        var directionsDisplay = new google.maps.DirectionsRenderer({ map: map });
+
+        var toDisplay = [];
+
+        if (flightPlanCoordinates.length > 8) {
+
+            for (var i = 1 ; i <= 3; i++) {
+                toDisplay.push({
+                    location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
+                    stopover: true
+                });
+            }
+
+            for (var i = flightPlanCoordinates.length - 5 ; i <= flightPlanCoordinates.length - 2; i++) {
+                toDisplay.push({
+                    location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
+                    stopover: true
+                });
+            }
+
+        }
+        else {
+            for (var i = 0 ; i < flightPlanCoordinates.length; i++) {
+                toDisplay.push({
+                    location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
+                    stopover: true
+                });
+            }
+        }
+
+
+        var request = {
+            origin: flightPlanCoordinates[0],
+            destination: flightPlanCoordinates[flightPlanCoordinates.length - 1],
+            travelMode: 'BICYCLING',
+            waypoints: toDisplay
+        };
+
+        directionsService.route(request, function (result, status) {
+            if (status == 'OK') {
+                directionsDisplay.setDirections(result);
+            }
+        });
+
+
+    }
+   
+
+    $scope.Start = function () {
+        if ($scope.type == 1) {
+            $scope.coords = $firebaseArray(ref.child('coords'));
+            $scope.coords.$loaded().then(function (dataArray) {
+                // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
+                var coord = $scope.coords.$getRecord($scope.id);
+                $scope.Map(coord);
+                console.log(coord);
+            }).catch(function (err) {
+
+            });
+        } else if ($scope.type == 2) {
+            $scope.coords = $firebaseArray(ref.child('coords'));
+            $scope.coords.$loaded().then(function (dataArray) {
+                // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
+                var coord = $scope.coords.$getRecord($scope.id);
+                $scope.Map(coord);
+                console.log(coord);
+            }).catch(function (err) {
+
+            });
+
+        } else if ($scope.type == 3) {
+
+            $scope.coords = $firebaseArray(ref.child('coords'));
+            $scope.coords.$loaded().then(function (dataArray) {
+                // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
+                var coord = $scope.coords.$getRecord($scope.id);
+                $scope.Map(coord);
+                console.log(coord);
+            }).catch(function (err) {
+
+            });
+        }
+
+    }
+
+    $scope.Start();
+
+});
+
+

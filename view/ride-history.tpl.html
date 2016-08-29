@@ -22,7 +22,7 @@
             </div>
             <div class="stable_history">
             	<ul class="un-styled">
-                    <li class="history_block" ng-repeat="hist in histories">
+                    <li class="history_block" ng-repeat="hist in histories | orderBy:'MonthInt'">
 
                         <div class="history_header">
 

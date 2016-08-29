@@ -20,6 +20,10 @@ app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
         templateUrl: 'view/forgot-password.tpl.html',
         controller: 'AccountController',
     });
+    $routeProvider.when('/share.html', {
+        templateUrl: 'view/share.tpl.html',
+        controller: 'ShareController',
+    });
     $routeProvider.when('/settings.html', {
         templateUrl: 'view/settings.tpl.html',
         controller: 'SettingsController',
@@ -142,7 +146,7 @@ app.factory('sessionService', function (storageService, $location) {
 
 });
 
-app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, storageService, blockUI) {
+app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, storageService, blockUI, $http) {
 
     
 
@@ -221,28 +225,49 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
             var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
                 
 
-            $.ajax({
-                type: 'POST',
-                //url: "http://localhost:51912/api/mail",
-                url: "https://52.41.72.28/mailws/api/mail",
-                dataType: 'json',
-                data: JSON.stringify(inputData),
-                async: true,
-                success: function (response) {
-                    debugger;
-                    $scope.$apply(function () {
-                        blockUI.stop();
-                        $scope.first_name = "";
-                        $scope.last_name = "";
-                        $scope.email = "";
-                        $scope.mobile = "";
-                        $scope.msg = "";
-                    });
+            var mailgunUrl = "myequitrack.com";
+            var mailgunApiKey = window.btoa("api:key-d1a5b9de325143c036cf1701b359c325")
+
+
+            $http({
+                "method": "POST",
+                "url": "https://api.mailgun.net/v3/" + mailgunUrl + "/messages",
+                "headers": {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": "Basic " + mailgunApiKey
                 },
-                error: function (reposnse) {
-                    console.log("Unknown error occured");
-                }
+                data: "from=" + "test@example.com" + "&to=" + "vishal.kumar1145@gmail.com" + "&subject=" + "MailgunTest" + "&text=" + "EmailBody"
+            }).then(function (success) {
+                console.log("SUCCESS " + JSON.stringify(success));
+            }, function (error) {
+                console.log("ERROR " + JSON.stringify(error));
             });
+
+
+
+
+            //$.ajax({
+            //    type: 'POST',
+            //    //url: "http://localhost:51912/api/mail",
+            //    url: "https://52.41.72.28/mailws/api/mail",
+            //    dataType: 'json',
+            //    data: JSON.stringify(inputData),
+            //    async: true,
+            //    success: function (response) {
+            //        debugger;
+            //        $scope.$apply(function () {
+            //            blockUI.stop();
+            //            $scope.first_name = "";
+            //            $scope.last_name = "";
+            //            $scope.email = "";
+            //            $scope.mobile = "";
+            //            $scope.msg = "";
+            //        });
+            //    },
+            //    error: function (reposnse) {
+            //        console.log("Unknown error occured");
+            //    }
+            //});
         }
 
     }
