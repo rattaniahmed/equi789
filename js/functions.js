@@ -53,7 +53,110 @@ function PrepareRequestForMail(prcid, TO, CC, From, Subject, Body, DisplayName) 
     console.log(inputData);
     return inputData;
 }
-function pad(num) {
+function DrawMap(flightPlanCoordinates ) {
+
+
+    if (flightPlanCoordinates == null || flightPlanCoordinates.length == 0 ) {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: {
+                lat: 40.712784, lng: -74.005941
+            },
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.TOP_RIGHT
+            },
+            mapTypeId: 'terrain'
+        });
+
+    }
+    else {
+        var lat = 0;
+        var lng = -180;
+        // if (flightPlanCoordinates.length > 2) {
+        //     var index = parseInt((flightPlanCoordinates.length - 1) / 2);
+        //     lat = flightPlanCoordinates[index].lat;
+        //     lng = flightPlanCoordinates[index].lng;
+        // }
+        // else {
+        //     lat = 0;
+        //     lng = -180;
+        // }
+
+        lat = flightPlanCoordinates[0].lat;
+        lng = flightPlanCoordinates[0].lng;
+
+
+        var directionsService = new google.maps.DirectionsService();
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: { lat: lat, lng: lng },
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.TOP_RIGHT
+            },
+            mapTypeId: 'terrain'
+        });
+
+        var directionsDisplay = new google.maps.DirectionsRenderer({ map: map });
+
+        var toDisplay = [];
+
+        // if (flightPlanCoordinates.length > 8) {
+
+        //     for (var i = 1 ; i <= 3; i++) {
+        //         toDisplay.push({
+        //             location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
+        //             stopover: true
+        //         });
+        //     }
+
+        //     for (var i = flightPlanCoordinates.length - 5 ; i <= flightPlanCoordinates.length - 2; i++) {
+        //         toDisplay.push({
+        //             location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
+        //             stopover: true
+        //         });
+        //     }
+
+        // }
+
+        //else {
+        for (var i = 0 ; i < flightPlanCoordinates.length; i++) {
+            toDisplay.push({
+                location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
+                stopover: true
+            });
+        }
+        //}
+
+
+        var request = {
+            origin: flightPlanCoordinates[0],
+            destination: flightPlanCoordinates[flightPlanCoordinates.length - 1],
+            travelMode: 'BICYCLING',
+            waypoints: toDisplay
+        };
+
+        directionsService.route(request, function (result, status) {
+            if (status == 'OK') {
+                directionsDisplay.setDirections(result);
+            }
+        });
+
+        var flightPath = new google.maps.Polyline({
+            path: flightPlanCoordinates,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+
+        flightPath.setMap(map);
+
+    }
+}function pad(num) {
     return ("0" + num).slice(-2);
 }
 

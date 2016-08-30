@@ -1222,7 +1222,7 @@ app.controller('DashboardController', function MyCtrl($scope, $location, $fireba
             // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
             var id = $scope.rideId;
             var coord = $scope.coords.$getRecord(id);
-            $scope.Map(coord);
+            DrawMap(coord);
             console.log(coord);
         }).catch(function (err) {
 
@@ -1235,93 +1235,7 @@ app.controller('DashboardController', function MyCtrl($scope, $location, $fireba
     });
 
 
-   $scope.Map = function (flightPlanCoordinates) {
-
-        var lat = 0;
-        var lng = -180;
-        // if (flightPlanCoordinates.length > 2) {
-        //     var index = parseInt((flightPlanCoordinates.length - 1) / 2);
-        //     lat = flightPlanCoordinates[index].lat;
-        //     lng = flightPlanCoordinates[index].lng;
-        // }
-        // else {
-        //     lat = 0;
-        //     lng = -180;
-        // }
-
-        lat = flightPlanCoordinates[0].lat;
-        lng = flightPlanCoordinates[0].lng;
-
-
-        var directionsService = new google.maps.DirectionsService();
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 14,
-            center: { lat: lat, lng: lng },
-            zoomControl: true,
-            zoomControlOptions: {
-                position: google.maps.ControlPosition.TOP_RIGHT
-            },
-            mapTypeId: 'terrain'
-        });
-
-        var directionsDisplay = new google.maps.DirectionsRenderer({ map: map });
-
-        var toDisplay = [];
-
-        // if (flightPlanCoordinates.length > 8) {
-
-        //     for (var i = 1 ; i <= 3; i++) {
-        //         toDisplay.push({
-        //             location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
-        //             stopover: true
-        //         });
-        //     }
-
-        //     for (var i = flightPlanCoordinates.length - 5 ; i <= flightPlanCoordinates.length - 2; i++) {
-        //         toDisplay.push({
-        //             location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
-        //             stopover: true
-        //         });
-        //     }
-
-        // }
-        
-        //else {
-             for (var i = 0 ; i < flightPlanCoordinates.length; i++) {
-                 toDisplay.push({
-                   location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
-                     stopover: true
-                 });
-             }
-        //}
-
-
-        var request = {
-            origin: flightPlanCoordinates[0],
-            destination: flightPlanCoordinates[flightPlanCoordinates.length - 1],
-            travelMode: 'BICYCLING',
-            waypoints: toDisplay
-        };
-
-        directionsService.route(request, function (result, status) {
-            if (status == 'OK') {
-                directionsDisplay.setDirections(result);
-            }
-        });
-
-        var flightPath = new google.maps.Polyline({
-          path: flightPlanCoordinates,
-          geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-        });
-
-        flightPath.setMap(map);
-       
-
-    }
+  
 
     $scope.graph1 = function () {
 
@@ -1441,7 +1355,6 @@ app.controller('DashboardController', function MyCtrl($scope, $location, $fireba
 
     $scope.Start = function () {
 
-        //$scope.Map();
         $scope.graph1();
         $scope.graph2();
         $scope.graph3();
@@ -1716,6 +1629,12 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
     }
 
 
+    $scope.SeeMap = function (his) {
+        storageService.setObject("RIFM", his.$id);
+        $location.path('ridemap.html');
+        console.log(his.ride_ids);
+    }
+
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.rides = $firebaseArray(ref.child('rides'));
@@ -1912,7 +1831,7 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
         var coord = $scope.coords.$getRecord(id);
         if (coord == null)
             coord = [];
-        $scope.Map(coord);
+        DrawMap(coord);
         console.log(coord);
     }).catch(function (err) {
 
@@ -1930,93 +1849,7 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
 
    
    
-    $scope.Map = function (flightPlanCoordinates) {
-
-        var lat = 0;
-        var lng = -180;
-        // if (flightPlanCoordinates.length > 2) {
-        //     var index = parseInt((flightPlanCoordinates.length - 1) / 2);
-        //     lat = flightPlanCoordinates[index].lat;
-        //     lng = flightPlanCoordinates[index].lng;
-        // }
-        // else {
-        //     lat = 0;
-        //     lng = -180;
-        // }
-
-        lat = flightPlanCoordinates[0].lat;
-        lng = flightPlanCoordinates[0].lng;
-
-
-        var directionsService = new google.maps.DirectionsService();
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 14,
-            center: { lat: lat, lng: lng },
-            zoomControl: true,
-            zoomControlOptions: {
-                position: google.maps.ControlPosition.TOP_RIGHT
-            },
-            mapTypeId: 'terrain'
-        });
-
-        var directionsDisplay = new google.maps.DirectionsRenderer({ map: map });
-
-        var toDisplay = [];
-
-        // if (flightPlanCoordinates.length > 8) {
-
-        //     for (var i = 1 ; i <= 3; i++) {
-        //         toDisplay.push({
-        //             location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
-        //             stopover: true
-        //         });
-        //     }
-
-        //     for (var i = flightPlanCoordinates.length - 5 ; i <= flightPlanCoordinates.length - 2; i++) {
-        //         toDisplay.push({
-        //             location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
-        //             stopover: true
-        //         });
-        //     }
-
-        // }
-        
-        //else {
-             for (var i = 0 ; i < flightPlanCoordinates.length; i++) {
-                 toDisplay.push({
-                   location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
-                     stopover: true
-                 });
-             }
-        //}
-
-
-        var request = {
-            origin: flightPlanCoordinates[0],
-            destination: flightPlanCoordinates[flightPlanCoordinates.length - 1],
-            travelMode: 'BICYCLING',
-            waypoints: toDisplay
-        };
-
-        directionsService.route(request, function (result, status) {
-            if (status == 'OK') {
-                directionsDisplay.setDirections(result);
-            }
-        });
-
-        var flightPath = new google.maps.Polyline({
-          path: flightPlanCoordinates,
-          geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-        });
-
-        flightPath.setMap(map);
-       
-
-    }
+    
 
     $scope.graph1 = function () {
 
@@ -2157,91 +1990,6 @@ app.controller('ShareController', function MyCtrl($scope, $location, $firebaseOb
 
     var ref = firebaseService.FIREBASEENDPOINT();
 
-    $scope.Map = function (flightPlanCoordinates) {
-
-        if (flightPlanCoordinates == null) {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 7,
-                center: { lat: 0, lng: -180 },
-                zoomControl: true,
-                zoomControlOptions: {
-                    position: google.maps.ControlPosition.TOP_RIGHT
-                },
-            });
-        }
-        else {
-            var lat = 0;
-            var lng = -180;
-            if (flightPlanCoordinates.length > 2) {
-                var index = parseInt((flightPlanCoordinates.length - 1) / 2);
-                lat = flightPlanCoordinates[index].lat;
-                lng = flightPlanCoordinates[index].lng;
-            }
-            else {
-                lat = 0;
-                lng = -180;
-            }
-
-
-
-
-            var directionsService = new google.maps.DirectionsService();
-
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 7,
-                center: { lat: lat, lng: lng },
-                zoomControl: true,
-                zoomControlOptions: {
-                    position: google.maps.ControlPosition.TOP_RIGHT
-                },
-            });
-
-            var directionsDisplay = new google.maps.DirectionsRenderer({ map: map });
-
-            var toDisplay = [];
-
-            if (flightPlanCoordinates.length > 8) {
-
-                for (var i = 1 ; i <= 3; i++) {
-                    toDisplay.push({
-                        location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
-                        stopover: true
-                    });
-                }
-
-                for (var i = flightPlanCoordinates.length - 5 ; i <= flightPlanCoordinates.length - 2; i++) {
-                    toDisplay.push({
-                        location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
-                        stopover: true
-                    });
-                }
-
-            }
-            else {
-                for (var i = 0 ; i < flightPlanCoordinates.length; i++) {
-                    toDisplay.push({
-                        location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
-                        stopover: true
-                    });
-                }
-            }
-
-
-            var request = {
-                origin: flightPlanCoordinates[0],
-                destination: flightPlanCoordinates[flightPlanCoordinates.length - 1],
-                travelMode: 'BICYCLING',
-                waypoints: toDisplay
-            };
-
-            directionsService.route(request, function (result, status) {
-                if (status == 'OK') {
-                    directionsDisplay.setDirections(result);
-                }
-            });
-
-        }
-    }
    
 
     $scope.Start = function () {
@@ -2250,7 +1998,7 @@ app.controller('ShareController', function MyCtrl($scope, $location, $firebaseOb
             $scope.coords.$loaded().then(function (dataArray) {
                 // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
                 var coord = $scope.coords.$getRecord($scope.id);
-                $scope.Map(coord);
+                DrawMap(coord);
                 console.log(coord);
             }).catch(function (err) {
 
@@ -2260,7 +2008,7 @@ app.controller('ShareController', function MyCtrl($scope, $location, $firebaseOb
             $scope.coords.$loaded().then(function (dataArray) {
                 // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
                 var coord = $scope.coords.$getRecord($scope.id);
-                $scope.Map(coord);
+                DrawMap(coord);
                 console.log(coord);
             }).catch(function (err) {
 
@@ -2272,7 +2020,7 @@ app.controller('ShareController', function MyCtrl($scope, $location, $firebaseOb
             $scope.coords.$loaded().then(function (dataArray) {
                 // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
                 var coord = $scope.coords.$getRecord($scope.id);
-                $scope.Map(coord);
+                DrawMap(coord);
                 console.log(coord);
             }).catch(function (err) {
 

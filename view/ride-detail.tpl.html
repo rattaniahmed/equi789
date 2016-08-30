@@ -1,5 +1,5 @@
 <header class="header">
-    <div class="fixed_nav" ng-include="'includes/nav-loggedin.html'"></div>
+    <div class="fixed_nav" ng-include="'includes/nav.html'"></div>
     <div class="slider" ng-include="'includes/slider.html'"></div>
 </header>
 <section class="inner_pages" data-0="margin-top:50px;" data-400="margin-top:-150px;">
@@ -60,7 +60,7 @@
                             <option>Soft</option>
 
                         </select>
-                        <a href="ridemap.html" class="btn btn-transparent">See on Map</a>
+                        <a href="ridemap.html" class="btn btn-transparent" ng-click="SeeMap(lastRide)">See on Map</a>
                     </div>
                 </div>
             </div>
