@@ -844,6 +844,7 @@ app.controller('AddStableDetailsController', function MyCtrl($scope, $location, 
         $location.path('/');
     }
 
+    //$('.datepicker').datepicker();
 
     $("#addphoto").change(function () {
         readURL(this);

@@ -1,6 +1,6 @@
 angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
 
-var app = angular.module('equitrack', ['ngRoute', 'firebase', 'blockUI','720kb.socialshare']);
+var app = angular.module('equitrack', ['ngRoute', 'firebase', 'blockUI','720kb.socialshare','720kb.datepicker']);
 
 app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
     $locationProvider.html5Mode(true);
