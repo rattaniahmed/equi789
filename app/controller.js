@@ -789,10 +789,10 @@ app.controller('EditStableDetailsController', function MyCtrl($scope, $location,
     $scope.SaveStable = function () {
 
         blockUI.start("Editing horse details.....");
-        
+        debugger;
         var horseRef = $scope.horses.$getRecord($scope.stb.$id);
 
-        horseRef.age = '';//ReplaceNull($scope.stb.age);
+        //horseRef.age = '';//ReplaceNull($scope.stb.age);
         horseRef.associations = $scope.stb.associations;
         horseRef.average_speed = ReplaceNull($scope.stb.average_speed);
         horseRef.birthday = ReplaceNull($scope.stb.birthday);
