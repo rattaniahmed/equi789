@@ -200,26 +200,25 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
             blockUI.start("Sending message");
 
             var TO = $scope.email;
-            //To ="vishal.kumar1145@gmail.com";
-            TO = "rattaniahmed@gmail.com";
+            //TO ="vishal.kumar1145@gmail.com";
+            //TO = "rattaniahmed@gmail.com";
+            TO = "support@myequitrack.com";
+
 
             var Subject = "New message on Conatct us screen on Equitrack.com";
 
-            var html = "There is new contact us request on the portal and below are the details."
+            var html = "There is new contact us request on the portal with followiing message : - " + ReplaceNull($scope.msg);
 
-            html += "<br/><br/><br/>";
-
-            html += "<table>"
-            html += "<tr>      <td>First Name :- </td>  <td> " + ReplaceNull($scope.first_name) + "</td>        </tr>"
-            html += "<tr>      <td>Last Name :- </td>  <td> " + ReplaceNull($scope.last_name) + "</td>        </tr>"
-            html += "<tr>      <td>Email :- </td>  <td> " + ReplaceNull($scope.email) + "</td>        </tr>"
-            html += "<tr>      <td>Mobile :- </td>  <td> " + ReplaceNull($scope.mobile) + "</td>        </tr>"
-            html += "<tr>      <td>Message :- </td>  <td> " + ReplaceNull($scope.msg) + "</td>        </tr>"
-            html += "</table>"
-
-            html += "<br/><br/><br/>";
-
-            html += "Equitrack Team</br>"
+            //html += "<br/><br/><br/>";
+            //            html += "<table>"
+            //html += "<tr>      <td>First Name :- </td>  <td> " + ReplaceNull($scope.first_name) + "</td>        </tr>"
+            //html += "<tr>      <td>Last Name :- </td>  <td> " + ReplaceNull($scope.last_name) + "</td>        </tr>"
+            //html += "<tr>      <td>Email :- </td>  <td> " + ReplaceNull($scope.email) + "</td>        </tr>"
+            //html += "<tr>      <td>Mobile :- </td>  <td> " + ReplaceNull($scope.mobile) + "</td>        </tr>"
+            //html += "<tr>      <td>Message :- </td>  <td> " + ReplaceNull($scope.msg) + "</td>        </tr>"
+            //html += "</table>"
+            //            html += "<br/><br/><br/>";
+            //            html += "Equitrack Team</br>"
             
 
             //var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");

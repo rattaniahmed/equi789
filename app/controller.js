@@ -1195,13 +1195,17 @@ app.controller('DashboardController', function MyCtrl($scope, $location, $fireba
             console.log(key);
             var horse = $scope.horses.$getRecord(key);
             
-            for (var i in horse.ride_ids) {
-                ids.push({
-                    Id: i, Val: horse.ride_ids[i]
-                })
-                vals.push(horse.ride_ids[i]);
+            try{
+                for (var i in horse.ride_ids) {
+                    ids.push({
+                        Id: i, Val: horse.ride_ids[i]
+                    })
+                    vals.push(horse.ride_ids[i]);
+                }
             }
-
+            catch (errloop) {
+                console.log(errloop);
+            }
            
             console.log(horse);
         });
