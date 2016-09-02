@@ -146,7 +146,7 @@ app.factory('sessionService', function (storageService, $location) {
 
 });
 
-app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, storageService, blockUI, $http) {
+app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, storageService, blockUI, $http, firebaseService) {
 
     
 
@@ -309,4 +309,20 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
         }
 
     }
+
+    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+    $scope.images = $firebaseArray(ref.child('Content').child('Images'));
+    $scope.images.$loaded().then(function (dataArray) {
+        
+        angular.forEach(dataArray, function (value, key) {
+            if (value.Key == "Logo")
+                $scope.Logo = value.Url;
+        });
+
+
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+
+
 });

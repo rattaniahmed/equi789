@@ -155,9 +155,9 @@ $scope.$apply(function () {
    
     $scope.reset = function () {
 
-        if (!ValidateControl(['email']))
-            return;
-        else {
+        //if (!ValidateControl(['email']))
+        //    return;
+        //else {
             blockUI.start("Sending password");
             //$location.path('login.html');
             //console.log($scope.users);
@@ -178,7 +178,7 @@ $scope.$apply(function () {
                     swal({ title: "", text: "Error sending password reset email:", imageUrl: "bower_components/sweetalert/example/images/wrong.png" });
                 }
             });
-        }
+        //}
     }
 
     $scope.createUser = function () {
@@ -1181,6 +1181,7 @@ app.controller('DashboardController', function MyCtrl($scope, $location, $fireba
         $location.path('/');
     }
 
+    $scope.selectedValue = "";
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     //$scope.users = $firebaseArray(ref.child('users'));
