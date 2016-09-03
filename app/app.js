@@ -38,7 +38,7 @@ app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
     });
     $routeProvider.when('/sponsors.html', {
         templateUrl: 'view/sponsors.tpl.html',
-        controller: 'ViewController',
+        controller: 'SponsersController',
     });
     $routeProvider.when('/dashboard.html', {
         templateUrl: 'view/dashboard.tpl.html',
@@ -314,15 +314,21 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
     $scope.images = $firebaseArray(ref.child('Content').child('Images'));
     $scope.images.$loaded().then(function (dataArray) {
         
+        $scope.DynamucImages ={};
         angular.forEach(dataArray, function (value, key) {
-            if (value.Key == "Logo")
-                $scope.Logo = value.Url;
+            //if (value.Key == "Logo")
+            //    $scope.Logo = value.Url;
+            //else if(value.key=="CrewSectionBackGround")
+            $scope.DynamucImages[value.Key] = value.Url;
+
         });
+        //console.log($scope.DynamucImages);
 
 
     }).catch(function (error) {
         console.log("Error in loading details");
     });
+
 
 
 });

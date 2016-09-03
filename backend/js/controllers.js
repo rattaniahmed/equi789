@@ -161,7 +161,7 @@ app.controller('pagesController', function ($scope, storageService, firebaseServ
 
     $scope.onCategoryChange = function (itemSelected) {
 
-        $('#editor').cleanHtml(itemSelected.val);
+        $('#editor').cleanHtml(itemSelected.$value);
     }
 
     $scope.UpdateContent = function () {
@@ -296,7 +296,7 @@ app.controller('staticController', function ($scope, storageService, firebaseSer
 
     $scope.onCategoryChange = function (itemSelected) {
 
-        $('#editor').cleanHtml(itemSelected.val);
+        $('#editor').cleanHtml(itemSelected.$value);
     }
 
     $scope.UpdateContent = function () {
