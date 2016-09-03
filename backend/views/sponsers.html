@@ -26,7 +26,10 @@
                         <h2>Equitrack <small> Sponsers </small></h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li>
-                                <a class="collapse-link"><i class="fa fa-chevron-up"></i> Add Sponser </a>
+                                <a class="collapse-link"> </a>
+
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalid"><i class="fa fa-plus"></i> Add Sponser</button>
+
                             </li>
                            <!-- <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
@@ -57,7 +60,7 @@
                             <div class="col-md-4" ng-repeat="img in Imgaes">
                                 <div class="thumbnail">
                                     <div class="image view view-first">
-                                        <img style="width: 100%; display: block;"
+                                        <img style="width: 100%; display: block;" height="100%"
                                              ng-src={{img.Url}} data-ng-src="{{img.Url}}" src="{{img.Url}}"
                                              alt="image" />
                                         <div class="mask">
@@ -65,7 +68,7 @@
                                             <div class="tools tools-bottom">
                                                 <!--<a href="#"><i class="fa fa-link"></i></a>-->
                                                 <a href="javascript:void(0)" ng-click="UpdateImage(img,$index)" ><i class="fa fa-pencil"></i></a>
-                                                <a href="#"><i class="fa fa-times"></i></a>
+                                                <a href="javascript:void(0)" ng-click="RemoveSponser(img)"><i class="fa fa-times"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -81,6 +84,131 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="editmodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">Edit Sponser</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+
+
+
+                    <div class="x_content">
+                        <br>
+                        <form class="form-horizontal form-label-left">
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-3">Title</label>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <input type="text" class="form-control" id="titleedit">
+                                    <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-3">Link</label>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <input type="text" class="form-control" id="linkedit">
+                                    <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-3">Image</label>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <input type="file" class="form-control" id="fileedit">
+                                    <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="AddSponser()">Save changes</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none; " id="modalid">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">Add New Sponser</h4>
+            </div>
+            <div class="modal-body">
+               
+                <div class="row">
+
+                   
+                            
+                            <div class="x_content">
+                                <br>
+                                <form class="form-horizontal form-label-left">
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Title</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-9">
+                                            <input type="text" class="form-control" id="titlenew">
+                                            <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Link</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-9">
+                                            <input type="text" class="form-control" id="linknew">
+                                            <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                        </div>
+                                    </div>
+                              
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Image</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-9">
+                                            <input type="file" class="form-control" id="filenew">
+                                            <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                        </div>
+                                    </div>
+                                    
+
+                                </form>
+                            </div>
+                        
+
+
+                </div>
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"  ng-click="AddSponser()">Add Sponser</button>
+            </div>
+
         </div>
     </div>
 </div>

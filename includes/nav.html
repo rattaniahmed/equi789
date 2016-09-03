@@ -8,7 +8,11 @@
 
                 <div class="pull-left">
 
-                    <div><i class="fa fa-map-marker brand-color"></i> 123, New Lenox Chicago, IL 60606</div>
+                    <!--<div><i class="fa fa-map-marker brand-color"></i> 123, New Lenox Chicago, IL 60606</div>-->
+
+                    <div><i class="fa fa-map-marker brand-color"></i> 
+                        <div ng-bind-html="DynamucContent.Address" style="display:inline-block;"></div>
+                    </div>
 
                 </div>
 
@@ -16,7 +20,12 @@
 
                     <div class="clearfix">
 
-                        <div class="pull-left"><i class="fa fa-phone brand-color"></i> Toll Free: 12 9 234 6275</div>
+                        <!--<div class="pull-left"><i class="fa fa-phone brand-color"></i> Toll Free: 12 9 234 6275</div>-->
+
+                        <div class="pull-left">
+                            <i class="fa fa-phone brand-color"></i>
+                            <div ng-bind-html="DynamucContent.Phone" style="display:inline-block;"></div>
+                        </div>
 
                         <div class="pull-left top_bar_nav">
 
@@ -115,7 +124,12 @@
 
                 <div class="pull-left">
 
-                    <div><i class="fa fa-map-marker brand-color"></i> 123, New Lenox Chicago, IL 60606</div>
+                    <!--<div><i class="fa fa-map-marker brand-color"></i> 123, New Lenox Chicago, IL 60606</div>-->
+
+                    <div>
+                        <i class="fa fa-map-marker brand-color"></i>
+                        <div ng-bind-html="DynamucContent.Address" style="display:inline-block;"></div>
+                    </div>
 
                 </div>
 
@@ -123,7 +137,12 @@
 
                     <div class="clearfix">
 
-                        <div class="pull-left"><i class="fa fa-phone brand-color"></i> Toll Free: 12 9 234 6275</div>
+                        <!--<div class="pull-left"><i class="fa fa-phone brand-color"></i> Toll Free: 12 9 234 6275</div>-->
+
+                        <div class="pull-left">
+                            <i class="fa fa-phone brand-color"></i>
+                            <div ng-bind-html="DynamucContent.Phone" style="display:inline-block;"></div>
+                        </div>
 
                         <div class="pull-left top_bar_nav nav_bar_social">
 
@@ -218,9 +237,6 @@
 
 </div>
 
-
-
-
 <div ng-show="isLogged == 2" ng-controller="NavController">
 
     <div class="top_bar">
@@ -231,7 +247,12 @@
 
                 <div class="pull-left">
 
-                    <div><i class="fa fa-map-marker brand-color"></i> 123, New Lenox Chicago, IL 60606</div>
+                    <!--<div><i class="fa fa-map-marker brand-color"></i> 123, New Lenox Chicago, IL 60606</div>-->
+
+                    <div>
+                        <i class="fa fa-map-marker brand-color"></i>
+                        <div ng-bind-html="DynamucContent.Address" style="display:inline-block;"></div>
+                    </div>
 
                 </div>
 
@@ -239,7 +260,12 @@
 
                     <div class="clearfix">
 
-                        <div class="pull-left"><i class="fa fa-phone brand-color"></i> Toll Free: 12 9 234 6275</div>
+                        <!--<div class="pull-left"><i class="fa fa-phone brand-color"></i> Toll Free: 12 9 234 6275</div>-->
+
+                        <div class="pull-left"><i class="fa fa-phone brand-color"></i> 
+                            <div ng-bind-html="DynamucContent.Phone" style="display:inline-block;"></div>
+                        </div>
+
 
                         <div class="pull-left top_bar_nav nav_bar_social">
 

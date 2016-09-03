@@ -37,7 +37,7 @@ app.controller('imagesController', function ($scope, storageService, firebaseSer
 
 
     $scope.UpdateImage = function (image,index) {
-        $scope.cntIndex = index;
+        $scope.cntIndex = image.$id;
         $("#addphoto").click();
     }
 
@@ -352,7 +352,11 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
     //console.log("images");
 
 
-    $("#addphoto").change(function () {
+    $("#filenew").change(function () {
+        readURL(this);
+    });
+
+    $("#fileedit").change(function () {
         readURL(this);
     });
 
@@ -365,7 +369,7 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
                 //alert(e.target.result);
                 //$('#addImg').attr('src', e.target.result);
                 $scope.photo = e.target.result;
-                $scope.UpdateImageData();
+                //$scope.UpdateImageData();
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -385,14 +389,22 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
 
 
     $scope.UpdateImage = function (image, index) {
-        $scope.cntIndex = index;
-        $("#addphoto").click();
+        $scope.cntId = image.$id;
+        //$("#addphoto").click();
+        debugger;
+
+        $("#titleedit").val(image.DisplayName);
+        $("#linkedit").val(image.HrefLink);
+        $scope.photo = image.Url;
+        $("#editmodal").modal('show');
     }
 
     $scope.UpdateImageData = function () {
 
-        var imageRef = $scope.images.$getRecord($scope.cntIndex);
+        var imageRef = $scope.images.$getRecord($scope.cntId);
         imageRef.Url = $scope.photo;
+        imageRef.DisplayName = $("#titleedit").val();
+        imageRef.HrefLink = $("#linkedit").val();
 
         $scope.images.$save(imageRef).then(function (res) {
 
@@ -411,4 +423,36 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
 
     }
 
+    $scope.RemoveSponser = function (image) {
+       
+        $scope.images.$remove(image).then(function (ref) {
+            debugger;
+            var id = ref.key();
+            if (stb.$id == id) {
+                console.log("Deleted success fully");
+            }
+           
+        });
+
+    }
+
+    $scope.AddSponser = function () {
+
+        var toAdd = {
+            Url: $scope.photo,
+            DisplayName:$("#titlenew").val(),
+            HrefLink:$("#linknew").val()
+        }
+
+        $scope.images.$add(toAdd).then(function (ref) {
+            debugger;
+            var id = ref.key();
+            console.log("added record with id " + id);
+            
+            
+            window.location.reload();
+
+        });
+
+    }
 });

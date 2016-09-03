@@ -1,6 +1,6 @@
 angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
 
-var app = angular.module('equitrack', ['ngRoute', 'firebase', 'blockUI','720kb.socialshare','720kb.datepicker']);
+var app = angular.module('equitrack', ['ngRoute','ngSanitize', 'firebase', 'blockUI','720kb.socialshare','720kb.datepicker']);
 
 app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
     $locationProvider.html5Mode(true);
@@ -33,7 +33,11 @@ app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
         controller: 'ViewController',
     });
     $routeProvider.when('/disciplines.html', {
-        templateUrl: 'disciplines.tpl.html',
+        templateUrl: 'view/disciplines.tpl.html',
+        controller: 'ViewController',
+    });
+    $routeProvider.when('/terms.html', {
+        templateUrl: 'view/terms.tpl.html',
         controller: 'ViewController',
     });
     $routeProvider.when('/sponsors.html', {
@@ -146,10 +150,53 @@ app.factory('sessionService', function (storageService, $location) {
 
 });
 
+app.run(function ($rootScope,firebaseService, $firebaseArray) { // instance-injector
+
+    var ref = firebaseService.FIREBASEENDPOINT();
+    $rootScope.homepage = $firebaseArray(ref.child('Content').child('Static').child('HomePage'));
+    $rootScope.homepage.$loaded().then(function (dataArray) {
+        $rootScope.DynamucContent = {};
+        angular.forEach(dataArray, function (value, key) {
+            //$scope.DynamucContent[value.Key] = value.Url;
+            var groupNode = $rootScope.homepage.$getRecord(value.$id);
+
+            for (var prop in groupNode) {
+                if (prop != "$id" && prop != "$priority") {
+                    $rootScope.DynamucContent[prop] = groupNode[prop];
+                }
+            }
+
+        });
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+
+
+
+    $rootScope.images = $firebaseArray(ref.child('Content').child('Images'));
+    $rootScope.images.$loaded().then(function (dataArray) {
+        $rootScope.DynamucImages = {};
+        angular.forEach(dataArray, function (value, key) {
+            $rootScope.DynamucImages[value.Key] = value.Url;
+        });
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+
+
+    $rootScope.pages = $firebaseArray(ref.child('Content').child('Pages'));
+    $rootScope.pages.$loaded().then(function (dataArray) {
+        $rootScope.DynamucPages = {};
+        angular.forEach(dataArray, function (value, key) {
+            $rootScope.DynamucPages[value.$id] = value.$value;
+        });
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+
+});
+
 app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, storageService, blockUI, $http, firebaseService) {
-
-    
-
 
     $scope.isLogged = 0;
 
@@ -310,24 +357,10 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
 
     }
 
-    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
-    $scope.images = $firebaseArray(ref.child('Content').child('Images'));
-    $scope.images.$loaded().then(function (dataArray) {
-        
-        $scope.DynamucImages ={};
-        angular.forEach(dataArray, function (value, key) {
-            //if (value.Key == "Logo")
-            //    $scope.Logo = value.Url;
-            //else if(value.key=="CrewSectionBackGround")
-            $scope.DynamucImages[value.Key] = value.Url;
-
-        });
-        //console.log($scope.DynamucImages);
+    
 
 
-    }).catch(function (error) {
-        console.log("Error in loading details");
-    });
+    
 
 
 

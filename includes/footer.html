@@ -37,13 +37,18 @@
         	<div class="grid-3">
             	<h5 class="footer_link_label show-res">Contact</h5>
                 <hr class="visible-xs show-res">
-            	<ul class="un-styled footer_link clearfix">
-                	<li><a href="#">Taurere Park, Rahuikiri Road</a></li>
-                	<li><a href="#">Pakiri Beach, RD2</a></li>
-                	<li><a href="#">Wellsford, New Zealand</a></li>
-                	<li><a href="#">E-mail: equitrack@xtra.co.nz</a></li>
-                	<li><a href="#">Tel: +12 9 234 6275</a></li>
-                	<li><a href="#">Fax: +12 9 234 6277</a></li>
+                <ul class="un-styled footer_link clearfix">
+
+                    <li><a href="javascript:void(0)" ng-bind-html="DynamucContent.ContactUsAddressLine1"></a></li>
+
+                    <li><a href="javascript:void(0)" ng-bind-html="DynamucContent.ContactUsAddressLine2"></a></li>
+
+                    <li><a href="javascript:void(0)">E-mail: {{DynamucContent.ConatctUsEmail}}</a></li>
+
+                    <li><a href="javascript:void(0)">Tel: {{DynamucContent.ContactUsMobile}}</a></li>
+
+                    <li><a href="javascript:void(0)">Fax: {{DynamucContent.ContactUsFax}}</a></li>
+
                 </ul>
             </div>
         	<div class="grid-3">
@@ -61,6 +66,6 @@
 </section>
 
 <section class="copyright text-center">
-	<div><a href="#">Terms of Use</a> | <a href="#">Privacy Policy</a> | <a href="#">Mobile Site</a></div>
-	<div>2015 Copyright by <a href="#"><strong>Equitrack</strong></a>, LLC, All Rights</div>
+	<div><a href="terms.html">Terms of Use</a> | <a href="#">Privacy Policy</a> | <a href="#">Mobile Site</a></div>
+    <div ng-bind-html="DynamucContent.Copyright"></div>
 </section>
