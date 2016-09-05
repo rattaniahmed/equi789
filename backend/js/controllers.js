@@ -456,3 +456,89 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
 
     }
 });
+
+
+app.controller('faqController', function ($scope, storageService, firebaseService, $firebaseArray) {
+
+    console.log("faqController");
+
+
+    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+    $scope.images = $firebaseArray(ref.child('Content').child('FAQ'));
+    $scope.Imgaes = [];
+    $scope.images.$loaded().then(function (dataArray) {
+        $scope.Imgaes = dataArray;
+        console.log(dataArray);
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+
+
+    $scope.UpdateImage = function (image, index) {
+        $scope.cntId = image.$id;
+        //$("#addphoto").click();
+        debugger;
+
+        $("#titleedit").val(image.DisplayName);
+        $("#linkedit").val(image.HrefLink);
+        $scope.photo = image.Url;
+        $("#editmodal").modal('show');
+    }
+
+    $scope.UpdateImageData = function () {
+
+        var imageRef = $scope.images.$getRecord($scope.cntId);
+        imageRef.Url = $scope.photo;
+        imageRef.DisplayName = $("#titleedit").val();
+        imageRef.HrefLink = $("#linkedit").val();
+
+        $scope.images.$save(imageRef).then(function (res) {
+
+            //$scope.$apply(function () {
+            //    blockUI.stop();
+            //});
+
+            ////storageService.setObject("CS", rideRef);
+            //swal("", "Your notes details has been edited success fully", "success");
+            //console.log(res);
+            console.log(res);
+            window.location.reload();
+
+        });
+
+
+    }
+
+    $scope.RemoveSponser = function (image) {
+
+        $scope.images.$remove(image).then(function (ref) {
+            debugger;
+            var id = ref.key();
+            if (stb.$id == id) {
+                console.log("Deleted success fully");
+            }
+
+        });
+
+    }
+
+    $scope.AddSponser = function () {
+
+        var toAdd = {
+            Url: $scope.photo,
+            DisplayName: $("#titlenew").val(),
+            HrefLink: $("#linknew").val()
+        }
+
+        $scope.images.$add(toAdd).then(function (ref) {
+            debugger;
+            var id = ref.key();
+            console.log("added record with id " + id);
+
+
+            window.location.reload();
+
+        });
+
+    }
+});

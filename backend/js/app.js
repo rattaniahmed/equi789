@@ -50,9 +50,9 @@ app.config(function ($routeProvider, $locationProvider) {
         })
 
 
-        .when('/ah', {
-         templateUrl: 'views/ah.html',
-         controller: 'ahController'
+        .when('/faq', {
+         templateUrl: 'views/faq.html',
+         controller: 'faqController'
      })
 
      .when('/nh', {
@@ -181,7 +181,8 @@ app.controller('loginController', function ($scope, StorageService, ActionServic
         formData.append("UDF3", "");
         formData.append("UDF4", "");
         formData.append("UDF5", "");
-        formData.append("UDF6", "");
+        formData.append("UDF6", "");
+
 
         var u = global.settings.getMultiServiceUrl();
 
@@ -204,7 +205,8 @@ app.controller('loginController', function ($scope, StorageService, ActionServic
             }
 
 
-        });
+        });
+
 
 
         //var xhr = new XMLHttpRequest();
