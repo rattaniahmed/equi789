@@ -26,8 +26,7 @@
                         <h2>Equitrack <small> Sponsers </small></h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li>
-                                <a class="collapse-link"> </a>
-
+                               
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalid"><i class="fa fa-plus"></i> Add Sponser</button>
 
                             </li>
@@ -61,7 +60,7 @@
                                 <div class="thumbnail">
                                     <div class="image view view-first">
                                         <img style="width: 100%; display: block;" height="100%"
-                                             ng-src={{img.Url}} data-ng-src="{{img.Url}}" src="{{img.Url}}"
+                                             ng-src={{img.Url}} src="{{img.Url}}"
                                              alt="image" />
                                         <div class="mask">
                                             <p>{{img.DisplayName}}</p>
@@ -143,7 +142,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" ng-click="AddSponser()">Save changes</button>
+                <button type="button" class="btn btn-primary" ng-click="UpdateImageData()">Save changes</button>
             </div>
 
         </div>

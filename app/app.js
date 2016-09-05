@@ -61,6 +61,16 @@ app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
         controller: 'LastRideController',
     });
 
+    $routeProvider.when('/faq.html', {
+        templateUrl: 'view/faq.tpl.html',
+        controller: 'FAQController',
+    });
+
+    $routeProvider.when('/news.html', {
+        templateUrl: 'view/news.tpl.html',
+        controller: 'NewsController',
+    });
+
     $routeProvider.when('/ride-detail.html', {
         templateUrl: 'view/ride-detail.tpl.html',
         controller: 'RideDetailController',
@@ -193,6 +203,23 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) { // instance-inje
     }).catch(function (error) {
         console.log("Error in loading details");
     });
+
+
+    $rootScope.news  = $firebaseArray(ref.child('Content').child('News'));
+    $rootScope.news.$loaded().then(function (dataArray) {
+        $rootScope.newses = dataArray;
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+
+    $rootScope.faq = $firebaseArray(ref.child('Content').child('FAQ'));
+    $rootScope.faq.$loaded().then(function (dataArray) {
+        $rootScope.faqs = dataArray;
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+
+
 
 });
 

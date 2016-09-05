@@ -55,10 +55,16 @@ app.config(function ($routeProvider, $locationProvider) {
          controller: 'faqController'
      })
 
-     .when('/nh', {
-         templateUrl: 'views/nh.html',
-         controller: 'nhController'
+     .when('/news', {
+         templateUrl: 'views/news.html',
+         controller: 'newsController'
      })
+
+
+         .when('/news/:id', {
+             templateUrl: 'views/editnews.html',
+             controller: 'editNewsController'
+         })
 
          .when('/nh/:id', {
              templateUrl: 'views/nh.html',
@@ -126,8 +132,6 @@ app.factory('sessionService', function (storageService, $location) {
 
 });
 
-
-
 app.directive('leftnav', function () {
 
     var directive = {};
@@ -150,7 +154,66 @@ app.directive('leftnav', function () {
 });
 
 
-app.controller('loginController', function ($scope, StorageService, ActionService) {
+app.controller('homeController', function ($scope, storageService) {
+
+   // $scope.user = StorageService.getObject('user');
+   
+});
+
+app.controller('mainController', function ($scope, storageService) {
+
+    //$scope.user = storageService.getObject('user');
+
+    //$scope.isAdmin = false;
+    //$scope.isSpe = false;
+    //$scope.isPAT = false;
+
+    //for (var cnt = 0; cnt < $scope.user.Roles.length; cnt++) {
+    //    if ($scope.user.Roles[cnt] == "Admin")
+    //        $scope.isAdmin = true;
+    //}
+
+    //if ($scope.user.username == "spe@demo.com")
+    //    $scope.isSpe = true;
+
+    //if ($scope.user.username == "pat@demo.com")
+    //    $scope.isPAT = true;
+
+    //console.log($scope.user);
+    //console.log($scope.user);
+
+    $scope.Check = function () {
+
+        var user = null;
+        var obj = localStorage.getItem("adminObject");
+        if (obj == null || obj == '' || obj == "undefined")
+            user = null;
+        else
+            user = JSON.parse(obj);
+
+        if (user == null) {
+            window.location.href = "login.html";
+        }
+
+    }
+
+    $scope.Check();
+
+    $scope.Logout = function () {
+        localStorage.setItem("adminObject", null);
+        window.location.href = "login.html";
+    }
+    
+
+});
+
+
+
+
+var loginapp = angular.module('loginapp', ['ngRoute', 'firebase']);
+
+
+loginapp.controller('loginController', function ($scope, $firebaseArray) {
 
     //$scope.dummyAdmin = { username: 'admin@demo.com', password: 'admin', isAdmin: 1, displayName: 'Administrator', designation: 'Administrator', Face: 'images/img.jpg' };
     //$scope.dummySpe = { username: 'spe@demo.com', password: 'admin', isAdmin: 1, displayName: 'Test Specialist', designation: 'Specilist', Face: 'images/img.jpg' };
@@ -159,7 +222,7 @@ app.controller('loginController', function ($scope, StorageService, ActionServic
     //$scope.user = { username: '', password: '' };
 
     //$scope.compareAndStore = function (dummy) {
-        
+
     //    if ($scope.user.username == dummy.username && $scope.user.password == dummy.password) {
     //        StorageService.setObject('user', dummy);
     //        return true;
@@ -168,6 +231,8 @@ app.controller('loginController', function ($scope, StorageService, ActionServic
     //        return false;
 
     //}
+
+    console.log("loginController");
 
     $scope.test = function () {
         var formData = new FormData();
@@ -189,7 +254,7 @@ app.controller('loginController', function ($scope, StorageService, ActionServic
         $.ajax({
             //url: 'http://demo.ithours.com/passit/api/MultiPart',
             //url:"http://localhost:51912/api/MultiPart",
-            url:u,
+            url: u,
             type: 'POST',
             data: formData,
             cache: false,
@@ -244,113 +309,43 @@ app.controller('loginController', function ($scope, StorageService, ActionServic
         bootbox.alert("Invalid username and password.Please contact support");
     }
 
-    //$scope.validateUser = function () {
+    var ref = new Firebase("https://myequitrack.firebaseio.com");
 
-    //    debugger;
-
-    //    var obj = {
-    //        Expression: { "EmailId": $scope.user.username, "Password": $scope.user.password }
-    //    };
-
-    //    console.log(obj);
-    //    //DataSetCallByDataObject('UserRole',obj, $scope.success, $scope.failure, null, null);
-    //    CallByDataObject('Account|ValidateUser', obj, $scope.success, $scope.failure, null, null);
-    //}
-
-
-    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.users = $firebaseArray(ref.child('users'));
 
     $scope.login = function () {
+        $("#loadingModal").show();
+        ref.authWithPassword({
+            email: $("#usrval").val(),
+            password: $("#pwdval").val()
+        }, function (error, authData) {
+            $("#loadingModal").hide();
+            if (error) {
+                alert("Invlid User name and passord !!!");
+                //console.log("Login Failed!", error);
+            } else {
 
-        //if (!ValidateControl(['email', 'password']))
-        //    return;
-        //else {
-            blockUI.start("Validation in progress");
-            var ref = firebaseService.FIREBASEENDPOINT();
-            ref.authWithPassword({
-                email: $scope.email,
-                password: $scope.password
-            }, function (error, authData) {
-                $scope.$apply(function () {
-                    blockUI.stop();
-                });
-                if (error) {
-                    swal({ title: "", text: "Invalid user name and password. Please try again", imageUrl: "bower_components/sweetalert/example/images/wrong.png" });
-                    //console.log("Login Failed!", error);
-                } else {
-                    var user = $scope.users.$getRecord(authData.uid);
-                    user.profile = CleanProfileUrl(user.profile);
-                    var obj = {
-                        Auth: authData,
-                        Details: user
-                    };
-                    storageService.setObject("CU", obj);
+                var user = $scope.users.$getRecord(authData.uid);
 
-                    var isAdmin = 0;
-                    try {
-                        isAdmin = user.isAdmin;
-                    } catch (err) {
-                        isAdmin = 0;
-                    }
-
-                    if (isAdmin == 1)
-                        storageService.setObject("isAdmin", true);
-                    else
-                        storageService.setObject("isAdmin", false);
-
-
-                    swal("", "You have success fully logged In, You being redirect to dashboard.", "success");
-                    if (isAdmin == 1) {
-                        $scope.$apply(function () {
-                            $location.path('static.html');
-                        });
-                    }
-                    else {
-                        $scope.$apply(function () {
-                            $location.path('dashboard.html');
-                        });
-                    }
+                var isAdmin = 0;
+                try {
+                    isAdmin = user.isAdmin;
+                } catch (err) {
+                    isAdmin = 0;
                 }
-            });
+
+                if (isAdmin == 1) {
+                    localStorage.setItem("adminObject", JSON.stringify(user));
+                    window.location.href = "start.html";
+                }
+                else
+                    alert("You are not authorised to visit the application !!!");
+            }
+        });
         //}
     }
 
-  
-
-   
-});
-
-app.controller('homeController', function ($scope, storageService) {
-
-   // $scope.user = StorageService.getObject('user');
-   
-});
-
-app.controller('mainController', function ($scope, storageService) {
-
-    //$scope.user = storageService.getObject('user');
-
-    //$scope.isAdmin = false;
-    //$scope.isSpe = false;
-    //$scope.isPAT = false;
-
-    //for (var cnt = 0; cnt < $scope.user.Roles.length; cnt++) {
-    //    if ($scope.user.Roles[cnt] == "Admin")
-    //        $scope.isAdmin = true;
-    //}
-
-    //if ($scope.user.username == "spe@demo.com")
-    //    $scope.isSpe = true;
-
-    //if ($scope.user.username == "pat@demo.com")
-    //    $scope.isPAT = true;
-
-    //console.log($scope.user);
-    //console.log($scope.user);
 
 
-
-    
 
 });

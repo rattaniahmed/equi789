@@ -2058,3 +2058,23 @@ app.controller('SponsersController', function ($scope, $location, $firebaseObjec
 
 });
 
+app.controller('FAQController', function ($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService) {
+
+
+
+
+    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+    $scope.images = $firebaseArray(ref.child('Content').child('FAQ'));
+    $scope.Imgaes = [];
+    $scope.images.$loaded().then(function (dataArray) {
+        $scope.Imgaes = dataArray;
+        console.log(dataArray);
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+
+
+
+
+});
+
