@@ -36,7 +36,7 @@
                                             <li>
                                              
 
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalid"><i class="fa fa-plus"></i> Add Question</button>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalid" ng-click="Redirect()"><i class="fa fa-plus"></i> Add Question</button>
 
                                             </li>
                                             <!--<li class="dropdown">
@@ -62,11 +62,11 @@
                                         <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
                                             <div class="panel" ng-repeat="img in Imgaes">
                                                 
-                                                <a class="panel-heading" role="tab" id="link_{{img.$id}}" data-toggle="collapse" href="javascript:void(0)" data-parent="#accordion" ng-click="Collopse(img)" aria-expanded="true" aria-controls="div_{{img.$id}}">
+                                                <a class="panel-heading" role="tab" id="link_{{img.$id}}" data-toggle="collapse" href="#/faq/{{img.$id}}" data-parent="#accordion" aria-expanded="true" aria-controls="div_{{img.$id}}">
                                                     <h4 class="panel-title">{{img.QuestionText}}</h4>
                                                 </a>
 
-                                                <div id="div_{{img.$id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true">
+                                                <!--<div id="div_{{img.$id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true">
                                                     <div class="panel-body">
                                                         {{img.AnswerText}}
                                                         <br />
@@ -85,7 +85,7 @@
                                                     </div>
 
                                                     
-                                                </div>
+                                                </div>-->
                                             </div>
                                           
                                         </div>

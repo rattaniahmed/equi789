@@ -1,39 +1,75 @@
-
-
-
-<section class="footer">
-	<div class="container">
-    	<div class="row clearfix">
-        	<div class="grid-3 hidden-res"><h5 class="footer_link_label">Latest News</h5></div>
-        	<div class="grid-3 hidden-res"><h5 class="footer_link_label">More Information</h5></div>
-        	<div class="grid-3 hidden-res"><h5 class="footer_link_label">Contact</h5></div>
-        	<div class="grid-3 hidden-res"><h5 class="footer_link_label">Follow Us</h5></div>
-        </div>
-        <hr class="hidden-res">
-        <div class="row clearfix">
-        	<div class="grid-3">
-            	<h5 class="footer_link_label show-res">Latest News</h5>
-                <hr class="visible-xs show-res">
-            	<ul class="un-styled footer_link clearfix">
-                	<li ng-repeat="n1 in newses"><a href="news.html?id={{n1.$id}}">{{n1.Title}}</a></li>
-                	
-                </ul>
-            </div>
-        	<div class="grid-3">
-            	<h5 class="footer_link_label show-res">More Information</h5>
-                <hr class="visible-xs show-res">
-            	<ul class="un-styled footer_link clearfix">
-                	<li><a href="#">About</a></li>
-                	<li><a href="#">Make a booking</a></li>
-                	<li><a href="faq.html">Frequently asked questions</a></li>
-                	<li><a href="#">News and Events</a></li>
-                	<li><a href="#">Location map</a></li>
-                	<li><a href="#">Terms & Conditions</a></li>
-                </ul>
-            </div>
-        	<div class="grid-3">
-            	<h5 class="footer_link_label show-res">Contact</h5>
-                <hr class="visible-xs show-res">
+
+
+
+
+
+
+<section class="footer">
+
+	<div class="container">
+
+    	<div class="row clearfix">
+
+        	<div class="grid-3 hidden-res"><h5 class="footer_link_label">Latest News</h5></div>
+
+        	<div class="grid-3 hidden-res"><h5 class="footer_link_label">More Information</h5></div>
+
+        	<div class="grid-3 hidden-res"><h5 class="footer_link_label">Contact</h5></div>
+
+        	<div class="grid-3 hidden-res"><h5 class="footer_link_label">Follow Us</h5></div>
+
+        </div>
+
+        <hr class="hidden-res">
+
+        <div class="row clearfix">
+
+        	<div class="grid-3">
+
+            	<h5 class="footer_link_label show-res">Latest News</h5>
+
+                <hr class="visible-xs show-res">
+
+            	<ul class="un-styled footer_link clearfix">
+
+                	<li ng-repeat="n1 in newses"><a href="news.html?id={{n1.$id}}">{{n1.Title}}</a></li>
+
+                	
+
+                </ul>
+
+            </div>
+
+        	<div class="grid-3">
+
+            	<h5 class="footer_link_label show-res">More Information</h5>
+
+                <hr class="visible-xs show-res">
+
+            	<ul class="un-styled footer_link clearfix">
+
+                	<li><a href="about-us.html">About</a></li>
+
+                	<!--<li><a href="#">Make a booking</a></li>-->
+
+                	<li><a href="faq.html">Frequently asked questions</a></li>
+
+                	<!--<li><a href="#">News and Events</a></li>
+
+                	<li><a href="#">Location map</a></li>-->
+
+                	<li><a href="terms.html">Terms & Conditions</a></li>
+
+                </ul>
+
+            </div>
+
+        	<div class="grid-3">
+
+            	<h5 class="footer_link_label show-res">Contact</h5>
+
+                <hr class="visible-xs show-res">
+
                 <ul class="un-styled footer_link clearfix">
 
                     <li><a href="javascript:void(0)" ng-bind-html="DynamucContent.ContactUsAddressLine1"></a></li>
@@ -46,23 +82,42 @@
 
                     <li><a href="javascript:void(0)">Fax: {{DynamucContent.ContactUsFax}}</a></li>
 
-                </ul>
-            </div>
-        	<div class="grid-3">
-            	<h5 class="footer_link_label show-res">Follow Us</h5>
-                <hr class="visible-xs show-res">
-            	<ul class="un-styled footer_link social_icons clearfix">
-                	<li><a href="#" class="fa fa-facebook-f icons"></a></li>
-                	<li><a href="#" class="fa fa-google-plus icons"></a></li>
-                	<li><a href="#" class="fa fa-twitter icons"></a></li>
-                	<li><a href="#" class="fa fa-pinterest-p icons"></a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="copyright text-center">
-	<div><a href="terms.html">Terms of Use</a> | <a href="#">Privacy Policy</a> | <a href="#">Mobile Site</a></div>
-    <div ng-bind-html="DynamucContent.Copyright"></div>
+                </ul>
+
+            </div>
+
+        	<div class="grid-3">
+
+            	<h5 class="footer_link_label show-res">Follow Us</h5>
+
+                <hr class="visible-xs show-res">
+
+            	<ul class="un-styled footer_link social_icons clearfix">
+
+                	<li><a href="#" class="fa fa-facebook-f icons"></a></li>
+
+                	<li><a href="#" class="fa fa-google-plus icons"></a></li>
+
+                	<li><a href="#" class="fa fa-twitter icons"></a></li>
+
+                	<li><a href="#" class="fa fa-pinterest-p icons"></a></li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section class="copyright text-center">
+
+	<div><a href="terms.html">Terms of Use</a> | <a href="#">Privacy Policy</a> | <a href="#">Mobile Site</a></div>
+
+    <div ng-bind-html="DynamucContent.Copyright"></div>
+
 </section>

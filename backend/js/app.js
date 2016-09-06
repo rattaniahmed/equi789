@@ -55,6 +55,11 @@ app.config(function ($routeProvider, $locationProvider) {
          controller: 'faqController'
      })
 
+        .when('/faq/:id', {
+            templateUrl: 'views/editfaq.html',
+            controller: 'editFaqController'
+        })
+
      .when('/news', {
          templateUrl: 'views/news.html',
          controller: 'newsController'

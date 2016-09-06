@@ -359,35 +359,7 @@ app.controller('staticController', function ($scope, storageService, firebaseSer
 
 app.controller('sponsersController', function ($scope, storageService, firebaseService, $firebaseArray) {
 
-    //console.log("images");
-
-
-    //$("#filenew").change(function () {
-    //    readURL(this);
-    //});
-
-    //$("#fileedit").change(function () {
-    //    readURL(this);
-    //});
-
-
-    //function readURL(input) {
-    //    if (input.files && input.files[0]) {
-    //        var reader = new FileReader();
-
-    //        reader.onload = function (e) {
-    //            //alert(e.target.result);
-    //            //$('#addImg').attr('src', e.target.result);
-    //            $scope.photo = e.target.result;
-    //            //$scope.UpdateImageData();
-    //        }
-
-    //        reader.readAsDataURL(input.files[0]);
-    //    }
-    //}
-
-
-    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+       var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.images = $firebaseArray(ref.child('Content').child('Sponsers'));
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
@@ -434,7 +406,7 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
 
            
 
-            $scope.images.$add(imageRef).then(function (ref) {
+            $scope.images.$save(imageRef).then(function (ref) {
                 debugger;
                 var id = ref.key();
                 console.log("added record with id " + id);
@@ -590,7 +562,201 @@ app.controller('faqController', function ($scope, storageService, firebaseServic
         });
 
     }
+
+    $scope.Redirect = function () {
+        window.location.href = "#/faq/-1";
+    }
+
 });
+
+app.controller('editFaqController', function ($scope, $routeParams, storageService, firebaseService, $firebaseArray) {
+
+    console.log("editFaqController" + $routeParams.id);
+
+    $scope.editId = $routeParams.id;
+    $scope.Question = {};
+
+    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+    $scope.images = $firebaseArray(ref.child('Content').child('FAQ'));
+    $scope.Imgaes = [];
+    $scope.images.$loaded().then(function (dataArray) {
+        $scope.Imgaes = dataArray;
+
+        if ($routeParams.id == -1) { }
+        else {
+            $scope.Question = $scope.images.$getRecord($routeParams.id);
+            $("#title").val($scope.Question.QuestionText);
+            console.log(dataArray);
+        }
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+
+    $scope.Collopse = function (image) {
+
+        console.log(image);
+
+        $("#link_" + image.$id).addClass("collapsed");
+        $("#div_" + image.$id).addClass("in");
+
+    }
+
+    $scope.EditQuestionModal = function (image) {
+        debugger;
+        $scope.cntId = image.$id;
+        //$("#addphoto").click();
+        debugger;
+
+        $("#titleedit").val(image.QuestionText);
+        $("#linkedit").val(image.AnswerText);
+        $("#editmodal").modal('show');
+    }
+
+    $scope.EditQuestion = function () {
+
+        $("#loadingModal").show();
+        var imageRef = $scope.images.$getRecord($routeParams.id);
+        imageRef.AnswerText = $('#editor').cleanHtml();
+        imageRef.QuestionText = $("#title").val();
+
+        $scope.images.$save(imageRef).then(function (res) {
+
+            $("#loadingModal").hide();
+            //$scope.$apply(function () {
+            //    blockUI.stop();
+            //});
+
+            ////storageService.setObject("CS", rideRef);
+            //swal("", "Your notes details has been edited success fully", "success");
+            //console.log(res);
+            console.log(res);
+            window.location.href = "#/news"
+
+        });
+
+
+    }
+
+    $scope.Delete = function () {
+        $("#loadingModal").show();
+        var question = $scope.Question;
+        $scope.images.$remove(question).then(function (ref) {
+            debugger;
+            var id = ref.key();
+
+            $("#loadingModal").hide();
+            window.location.href = "#/news"
+
+        });
+
+    }
+
+
+    $scope.Cancle = function () {
+        window.location.href = "#/faq";
+    }
+
+    $scope.AddQuestion = function () {
+        $("#loadingModal").show();
+        var toAdd = {
+            AnswerText: $('#editor').cleanHtml(),
+            QuestionText: $("#title").val()
+        }
+
+        $scope.images.$add(toAdd).then(function (ref) {
+            debugger;
+            var id = ref.key();
+            console.log("added record with id " + id);
+            $("#loadingModal").hide();
+            window.location.href = "#/faq"
+
+        });
+
+    }
+
+    $scope.Action = function () {
+        if ($routeParams.id == -1)
+            $scope.AddQuestion();
+        else
+            $scope.EditQuestion();
+    }
+
+    function initToolbarBootstrapBindings() {
+        var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
+            'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+            'Times New Roman', 'Verdana'
+        ],
+          fontTarget = $('[title=Font]').siblings('.dropdown-menu');
+        $.each(fonts, function (idx, fontName) {
+            fontTarget.append($('<li><a data-edit="fontName ' + fontName + '" style="font-family:\'' + fontName + '\'">' + fontName + '</a></li>'));
+        });
+        $('a[title]').tooltip({
+            container: 'body'
+        });
+        $('.dropdown-menu input').click(function () {
+            return false;
+        })
+          .change(function () {
+              $(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');
+          })
+          .keydown('esc', function () {
+              this.value = '';
+              $(this).change();
+          });
+
+        $('[data-role=magic-overlay]').each(function () {
+            var overlay = $(this),
+              target = $(overlay.data('target'));
+            overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+        });
+
+        if ("onwebkitspeechchange" in document.createElement("input")) {
+            var editorOffset = $('#editor').offset();
+
+            $('.voiceBtn').css('position', 'absolute').offset({
+                top: editorOffset.top,
+                left: editorOffset.left + $('#editor').innerWidth() - 35
+            });
+        } else {
+            $('.voiceBtn').hide();
+        }
+    }
+
+    function showErrorAlert(reason, detail) {
+        var msg = '';
+        if (reason === 'unsupported-file-type') {
+            msg = "Unsupported format " + detail;
+        } else {
+            console.log("error uploading file", reason, detail);
+        }
+        $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>' +
+          '<strong>File upload error</strong> ' + msg + ' </div>').prependTo('#alerts');
+    }
+
+
+    $scope.Init = function () {
+
+
+
+        initToolbarBootstrapBindings();
+
+        $('#editor').wysiwyg({
+            fileUploadError: showErrorAlert
+        });
+
+        window.prettyPrint;
+        prettyPrint();
+
+
+
+    }
+
+    $scope.Init();
+
+
+
+});
+
 
 app.controller('newsController', function ($scope, storageService, firebaseService, $firebaseArray) {
 
