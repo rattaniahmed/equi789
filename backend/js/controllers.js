@@ -573,6 +573,11 @@ app.controller('editFaqController', function ($scope, $routeParams, storageServi
 
     console.log("editFaqController" + $routeParams.id);
 
+    $scope.$on("ckeditor.ready", function (event) {
+        $scope.isReady = true;
+    });
+
+
     $scope.editId = $routeParams.id;
     $scope.Question = {};
 
