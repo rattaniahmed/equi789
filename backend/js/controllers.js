@@ -97,30 +97,16 @@ app.controller('pagesController', function ($scope, storageService, firebaseServ
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
-
-        //$scope.categories = [];
-
-        //angular.forEach(dataArray, function (value, key) {
-        //    //$scope.Sections.push(value.$id);
-
-        //    debugger;
-
-
-        //    for (var p in value) {
-        //        if (p != "$id" && p != "$priority") {
-        //            var cat = {};
-        //            cat.name = value.$id;
-        //            cat.key = p;
-        //            cat.val = value[p];
-
-        //            $scope.categories.push(cat);
-        //        }
-        //    }
-
-
-        //});
+        CKEDITOR.replace('editor1');
 
         $scope.itemSelected = $scope.Imgaes[0];
+
+        CKEDITOR.on("instanceReady", function (event) {           
+            CKEDITOR.instances.editor1.setData($scope.itemSelected.$value);
+        });
+
+
+       
 
 
     }).catch(function (error) {
@@ -181,12 +167,12 @@ app.controller('pagesController', function ($scope, storageService, firebaseServ
 
     $scope.onCategoryChange = function (itemSelected) {
 
-        $('#editor').cleanHtml(itemSelected.$value);
+        CKEDITOR.instances.editor1.setData($scope.itemSelected.$value);
     }
 
     $scope.UpdateContent = function () {
         debugger;
-        var updated = $('#editor').cleanHtml();
+        var updated = CKEDITOR.instances.editor1.getData();
         var toUpdate = $scope.Imgaes.$getRecord($scope.itemSelected.$id);
         toUpdate.$value = updated;
 
@@ -253,7 +239,17 @@ app.controller('staticController', function ($scope, storageService, firebaseSer
 
         });
 
+
+        CKEDITOR.replace('editor1');
+
         $scope.itemSelected = $scope.categories[0];
+
+        CKEDITOR.on("instanceReady", function (event) {
+            debugger;
+            CKEDITOR.instances.editor1.setData($scope.itemSelected.val);
+        });
+
+        
 
         console.log($scope.Sections);
 
@@ -315,12 +311,12 @@ app.controller('staticController', function ($scope, storageService, firebaseSer
 
     $scope.onCategoryChange = function (itemSelected) {
 
-        $('#editor').cleanHtml(itemSelected.$value);
+        CKEDITOR.instances.editor1.setData($scope.itemSelected.val);
     }
 
     $scope.UpdateContent = function () {
         debugger;
-        var updated = $('#editor').cleanHtml();
+        var updated = CKEDITOR.instances.editor1.getData();
         var toUpdate = $scope.Imgaes.$getRecord($scope.itemSelected.name);
         toUpdate[$scope.itemSelected.key] = updated;
 
@@ -573,24 +569,32 @@ app.controller('editFaqController', function ($scope, $routeParams, storageServi
 
     console.log("editFaqController" + $routeParams.id);
 
-    $scope.$on("ckeditor.ready", function (event) {
-        $scope.isReady = true;
-    });
-
+    //$scope.$on("ckeditor.ready", function (event) {
+    //    $scope.isReady = true;
+    //});
 
     $scope.editId = $routeParams.id;
     $scope.Question = {};
+
+    
+    
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.images = $firebaseArray(ref.child('Content').child('FAQ'));
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
-
+        CKEDITOR.replace('editor1');              
         if ($routeParams.id == -1) { }
         else {
-            $scope.Question = $scope.images.$getRecord($routeParams.id);
-            $("#title").val($scope.Question.QuestionText);
+
+            CKEDITOR.on("instanceReady", function (event) {
+                $scope.Question = $scope.images.$getRecord($routeParams.id);
+                $("#title").val($scope.Question.QuestionText);
+                CKEDITOR.instances.editor1.setData($scope.Question.AnswerText);
+            });
+
+            
             console.log(dataArray);
         }
     }).catch(function (error) {
@@ -621,7 +625,7 @@ app.controller('editFaqController', function ($scope, $routeParams, storageServi
 
         $("#loadingModal").show();
         var imageRef = $scope.images.$getRecord($routeParams.id);
-        imageRef.AnswerText = $('#editor').cleanHtml();
+        imageRef.AnswerText = CKEDITOR.instances.editor1.getData(); 
         imageRef.QuestionText = $("#title").val();
 
         $scope.images.$save(imageRef).then(function (res) {
@@ -635,7 +639,7 @@ app.controller('editFaqController', function ($scope, $routeParams, storageServi
             //swal("", "Your notes details has been edited success fully", "success");
             //console.log(res);
             console.log(res);
-            window.location.href = "#/news"
+            window.location.href = "#/faq"
 
         });
 
@@ -664,7 +668,7 @@ app.controller('editFaqController', function ($scope, $routeParams, storageServi
     $scope.AddQuestion = function () {
         $("#loadingModal").show();
         var toAdd = {
-            AnswerText: $('#editor').cleanHtml(),
+            AnswerText: CKEDITOR.instances.editor1.getData(),
             QuestionText: $("#title").val()
         }
 
@@ -869,12 +873,17 @@ app.controller('editNewsController', function ($scope, $routeParams, storageServ
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
-
+        CKEDITOR.replace('editor1');
         if ($routeParams.id == -1) { }
         else {
-            $scope.Question = $scope.images.$getRecord($routeParams.id);
-            $("#title").val($scope.Question.Title);
-            console.log(dataArray);
+
+            CKEDITOR.on("instanceReady", function (event) {
+                $scope.Question = $scope.images.$getRecord($routeParams.id);
+                $("#title").val($scope.Question.Title);
+                CKEDITOR.instances.editor1.setData($scope.Question.Content);
+            });
+
+
         }
     }).catch(function (error) {
         console.log("Error in loading details");
@@ -903,7 +912,7 @@ app.controller('editNewsController', function ($scope, $routeParams, storageServ
 
         $("#loadingModal").show();
         var imageRef = $scope.images.$getRecord($routeParams.id);
-        imageRef.Content = $('#editor').cleanHtml();
+        imageRef.Content = CKEDITOR.instances.editor1.getData();
         imageRef.Title = $("#title").val();
 
         $scope.images.$save(imageRef).then(function (res) {
@@ -946,7 +955,7 @@ app.controller('editNewsController', function ($scope, $routeParams, storageServ
     $scope.AddQuestion = function () {
         $("#loadingModal").show();
         var toAdd = {
-            Content: $('#editor').cleanHtml(),
+            Content:  CKEDITOR.instances.editor1.getData(),
             Title: $("#title").val()
         }
 
