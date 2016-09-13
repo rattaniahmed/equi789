@@ -334,7 +334,7 @@ loginapp.controller('loginController', function ($scope, $firebaseArray) {
 
                 var isAdmin = 0;
                 try {
-                    isAdmin = user.isAdmin;
+                    isAdmin = user.isAdministrator;
                 } catch (err) {
                     isAdmin = 0;
                 }

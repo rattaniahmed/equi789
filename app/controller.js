@@ -953,18 +953,16 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
     $scope.history = $firebaseArray(ref.child('rides'));
     $scope.history.$loaded().then(function (dataArray) {
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
-        debugger;
 
         var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
         $scope.histories = [];
 
         for (var id in $scope.stb.ride_ids) {
-
             var horseHistory = $scope.history.$getRecord(id);
-            var time = $scope.stb.ride_ids[id];
+            //var time = horseHistory.start_time; //$scope.stb.ride_ids[id];
 
-            var date = new Date(parseInt(time));
+            var date = new Date(horseHistory.start_time);// //new Date(parseInt(time));
             var monthInt = parseInt(date.getMonth());
             var month = monthNames[monthInt];
             var year = date.getFullYear();
@@ -998,7 +996,6 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
         
         $scope.historiesToDisplay = [];
         for (var l = 0 ; l < $scope.histories.length; l++) {
-            debugger;
             var history = $scope.histories[l];
             
             var totalDistance = 0.0;
@@ -1106,16 +1103,19 @@ app.controller('AllHistoryController', function MyCtrl($scope, $location, $fireb
         for (var id in $scope.stb.ride_ids) {
 
             var horseHistory = $scope.history.$getRecord(id);
-            var time = $scope.stb.ride_ids[id];
+            //var time = $scope.stb.ride_ids[id];
 
-            var date = new Date(parseInt(time));
+
+            //var date = new Date(parseInt(time));
+            var date = new Date(horseHistory.start_time);
+
             var month = monthNames[date.getMonth()];
             var year = date.getFullYear();
 
 
 
             if ($scope.historyCache.Month == month && $scope.historyCache.Year == year) {
-                horseHistory.ActualTime = time;
+                horseHistory.ActualTime = date;
                 horseHistory.TimeToDisplay = date.format("mmmm d, yyyy h:MM:ss TT");
                 horseHistory.total_time = hhmmss(horseHistory.total_time);
                 $scope.histories.push(horseHistory);
@@ -1123,7 +1123,9 @@ app.controller('AllHistoryController', function MyCtrl($scope, $location, $fireb
         }
 
         $scope.histories = $scope.histories.sort(function (a, b) {
-            return new Date(b.ActualTime).getTime() - new Date(a.ActualTime).getTime()
+            //return new Date(b.ActualTime).getTime() - new Date(a.ActualTime).getTime()
+            return b.ActualTime.getTime() - a.ActualTime.getTime()
+            //return a > b;
         });
 
 

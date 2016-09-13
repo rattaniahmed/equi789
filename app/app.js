@@ -160,7 +160,7 @@ app.factory('sessionService', function (storageService, $location) {
 
 });
 
-app.run(function ($rootScope,firebaseService, $firebaseArray) { // instance-injector
+app.run(function ($rootScope, $sce,firebaseService, $firebaseArray) { // instance-injector
 
     var ref = firebaseService.FIREBASEENDPOINT();
     $rootScope.homepage = $firebaseArray(ref.child('Content').child('Static').child('HomePage'));
@@ -172,7 +172,8 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) { // instance-inje
 
             for (var prop in groupNode) {
                 if (prop != "$id" && prop != "$priority") {
-                    $rootScope.DynamucContent[prop] = groupNode[prop];
+                    var toConvert = groupNode[prop].toString();
+                    $rootScope.DynamucContent[prop] = $sce.trustAsHtml(toConvert);
                 }
             }
 
@@ -198,7 +199,8 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) { // instance-inje
     $rootScope.pages.$loaded().then(function (dataArray) {
         $rootScope.DynamucPages = {};
         angular.forEach(dataArray, function (value, key) {
-            $rootScope.DynamucPages[value.$id] = value.$value;
+            var toConvert = value.$value.toString();
+            $rootScope.DynamucPages[value.$id] = $sce.trustAsHtml(toConvert);
         });
     }).catch(function (error) {
         console.log("Error in loading details");
@@ -207,14 +209,26 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) { // instance-inje
 
     $rootScope.news  = $firebaseArray(ref.child('Content').child('News'));
     $rootScope.news.$loaded().then(function (dataArray) {
-        $rootScope.newses = dataArray;
+        $rootScope.newses = [];
+        for (var i = 0; i < dataArray.length; i++) {
+            var n = dataArray[i];
+            n.Content = $sce.trustAsHtml(n.Content.toString());
+            n.Title = $sce.trustAsHtml(n.Title.toString());
+            $rootScope.newses.push(n);
+        }
     }).catch(function (error) {
         console.log("Error in loading details");
     });
 
     $rootScope.faq = $firebaseArray(ref.child('Content').child('FAQ'));
     $rootScope.faq.$loaded().then(function (dataArray) {
-        $rootScope.faqs = dataArray;
+        $rootScope.faqs=[];
+        for (var i = 0; i < dataArray.length; i++) {
+            var f = dataArray[i];
+            f.AnswerText= $sce.trustAsHtml(f.AnswerText.toString());
+            f.QuestionText = $sce.trustAsHtml(f.QuestionText.toString());
+            $rootScope.faqs.push(f);
+        }
     }).catch(function (error) {
         console.log("Error in loading details");
     });
