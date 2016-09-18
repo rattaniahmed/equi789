@@ -2102,3 +2102,96 @@ app.controller('NewsController', function ($scope, $location, $firebaseObject, $
 
 
 });
+
+
+
+app.controller('DownloadController', function ($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService) {
+
+    $scope.showDownloadButton = false;
+   
+    $scope.HorsesData = [];
+    $scope.RidesData = [];
+    $scope.CordsData = [];
+
+    $scope.rows = [];
+    debugger;
+
+    var id = $location.search().id;
+    blockUI.start("Fetching report data. It will take a while....");
+
+    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+    $scope.images = $firebaseArray(ref.child('Content').child('Reports'));
+    $scope.images.$loaded().then(function (dataArray) {
+        $scope.Imgaes = dataArray;
+       
+            $scope.ReportConfig = $scope.images.$getRecord(id);
+
+            $scope.horses = $firebaseArray(ref.child('horses'));
+            $scope.horses.$loaded().then(function (dataArray) {
+                $scope.HorsesData = dataArray;
+
+                $scope.rides = $firebaseArray(ref.child('rides'));
+                $scope.rides.$loaded().then(function (rideArray) {
+                    $scope.RidesData = rideArray;
+
+
+                    $scope.coords = $firebaseArray(ref.child('coords'));
+                    $scope.coords.$loaded().then(function (cordsArray) {
+
+                        debugger;
+                        $scope.CordsData = cordsArray;
+
+                        $scope.rows = [];
+                        angular.forEach($scope.HorsesData, function (value, key) {
+                            var row = {}
+                            row.HorseName = value.horse_name;
+
+                            var asso = value.associations;
+
+                            if (asso == null) {
+                                for (var asCount1 = 0 ; asCount < 4; asCount++) {
+                                    var c1 = asCount1 + 1;
+                                    var n1 = "Asssociation" + c1;
+                                    row[n1 + "Name"] = "";
+                                    row[n1 + "Number"] = "";
+                                }
+                            }
+                            else {
+                                for (var asCount = 0 ; asCount < asso.length; asCount++) {
+                                    var c = asCount + 1;
+                                    var n = "Asssociation" + c;
+                                    row[n + "Name"] = asso[asCount].name;
+                                    row[n + "Number"] = asso[asCount].number;
+                                }
+                            }
+
+                            row.TopSpeed = "70.2";
+                            row.AvarageSpeed = "52";
+                            row.RideDistance = "145 miles";
+                            row.TotalHours = "4:14:20";
+                            row.EnergyBurned = "23 Cal";
+                            row.LastCordinate = "23.44354354,45.343545454";
+
+                            $scope.rows.push(row);
+                        });
+
+                        $scope.filename = "EquitrackReport";
+
+                        $scope.showDownloadButton = true;
+
+                        $scope.getHeader = function () { return ["HorseName"] };
+                        $scope.getArray = $scope.rows;
+
+                        $scope.$apply(function () {
+                            blockUI.stop();
+                        });
+
+                    }).catch(function (err) {});
+                }).catch(function (err) { });
+            }).catch(function (error) { console.log("Error in loading details"); });
+
+        
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+});

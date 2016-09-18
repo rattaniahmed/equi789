@@ -76,6 +76,16 @@ app.config(function ($routeProvider, $locationProvider) {
              controller: 'nhController'
          })
 
+         .when('/report', {
+             templateUrl: 'views/report.html',
+             controller: 'reportController'
+         })
+
+ .when('/report/:id', {
+     templateUrl: 'views/editreport.html',
+     controller: 'editReportController'
+ })
+
     .when('/alert', {
         templateUrl: 'views/alert.html',
         controller: 'alertController'

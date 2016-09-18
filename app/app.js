@@ -1,6 +1,6 @@
 angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
 
-var app = angular.module('equitrack', ['ngRoute','ngSanitize', 'firebase', 'blockUI','720kb.socialshare','720kb.datepicker']);
+var app = angular.module('equitrack', ['ngRoute', 'ngSanitize', 'firebase', 'blockUI', '720kb.socialshare', '720kb.datepicker', 'ngCsv']);
 
 app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
     $locationProvider.html5Mode(true);
@@ -69,6 +69,12 @@ app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
     $routeProvider.when('/news.html', {
         templateUrl: 'view/news.tpl.html',
         controller: 'NewsController',
+    });
+
+
+    $routeProvider.when('/download.html', {
+        templateUrl: 'view/download.tpl.html',
+        controller: 'DownloadController',
     });
 
     $routeProvider.when('/ride-detail.html', {
