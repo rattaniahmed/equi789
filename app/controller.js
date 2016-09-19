@@ -2081,7 +2081,7 @@ app.controller('FAQController', function ($scope, $location, $firebaseObject, $f
 });
 
 
-app.controller('NewsController', function ($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService) {
+app.controller('NewsController', function ($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService, $sce) {
 
 
     //console.log(newses);
@@ -2093,6 +2093,10 @@ app.controller('NewsController', function ($scope, $location, $firebaseObject, $
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
         $scope.news = $scope.Imgaes.$getRecord(id);
+
+        $scope.news.Content = $sce.trustAsHtml($scope.news.Content.toString());
+        $scope.news.Title = $sce.trustAsHtml($scope.news.Title.toString());
+
         console.log(dataArray);
     }).catch(function (error) {
         console.log("Error in loading details");
@@ -2108,7 +2112,8 @@ app.controller('NewsController', function ($scope, $location, $firebaseObject, $
 app.controller('DownloadController', function ($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService) {
 
     $scope.showDownloadButton = false;
-   
+    $scope.showAlertButton = false;
+
     $scope.HorsesData = [];
     $scope.RidesData = [];
     $scope.CordsData = [];
@@ -2124,7 +2129,17 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
        
-            $scope.ReportConfig = $scope.images.$getRecord(id);
+        $scope.ReportConfig = $scope.images.$getRecord(id);
+
+        var date = new Date($scope.ReportConfig.Expiry);
+        var current = new Date();
+
+        if (current > date) {
+            $scope.$apply(function () {
+                blockUI.stop();
+            });
+            $scope.showAlertButton = true;
+        } else {
 
             $scope.horses = $firebaseArray(ref.child('horses'));
             $scope.horses.$loaded().then(function (dataArray) {
@@ -2142,54 +2157,163 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                         $scope.CordsData = cordsArray;
 
                         $scope.rows = [];
+                        $scope.getHeader = [];
+                        $scope.isHeaderCreated = false;
                         angular.forEach($scope.HorsesData, function (value, key) {
+
                             var row = {}
+
+                            //horse name logic
+                            if (!$scope.isHeaderCreated)
+                                $scope.getHeader.push("Horse Name");
                             row.HorseName = value.horse_name;
 
-                            var asso = value.associations;
 
-                            if (asso == null) {
-                                for (var asCount1 = 0 ; asCount < 4; asCount++) {
-                                    var c1 = asCount1 + 1;
-                                    var n1 = "Asssociation" + c1;
-                                    row[n1 + "Name"] = "";
-                                    row[n1 + "Number"] = "";
+                            if ($scope.ReportConfig.IsAssociations == "1") {
+
+                                //association logic
+                                if (!$scope.isHeaderCreated) {
+                                    for (var asCount2 = 0 ; asCount2 < 4; asCount2++) {
+                                        var c2 = asCount2 + 1;
+                                        var n2 = "Asssociation " + c2;
+                                        $scope.getHeader.push(n2 + " Name");
+                                        $scope.getHeader.push(n2 + "Number");
+                                    }
                                 }
+
+                                var asso = value.associations;
+                                if (asso == null) {
+                                    for (var asCount1 = 0 ; asCount1 < 4; asCount1++) {
+                                        var c1 = asCount1 + 1;
+                                        var n1 = "Asssociation" + c1;
+                                        row[n1 + "Name"] = "";
+                                        row[n1 + "Number"] = "";
+                                    }
+                                }
+                                else {
+                                    for (var asCount = 0 ; asCount < asso.length; asCount++) {
+                                        var c = asCount + 1;
+                                        var n = "Asssociation" + c;
+                                        row[n + "Name"] = asso[asCount].name;
+                                        row[n + "Number"] = asso[asCount].number;
+                                    }
+                                }
+                            }
+
+                            var totalTopSspeed = [];
+                            var averageSpeed = 0.0;
+
+                            $scope.totalTopSspeed = 0.0;
+                            $scope.totalAverageSpeed = 0.0;
+                            $scope.totalDistance = 0.0;
+                            $scope.totalDuration = 0;
+                            $scope.totalEnergy = 0;
+
+                            debugger;
+                            $scope.isRideExist = false;
+                            for (var id in value.ride_ids) {
+                                var ride = $scope.RidesData.$getRecord(id);
+                                $scope.totalLength = $scope.totalLength + 1;
+                                $scope.totalDistance = parseFloat($scope.totalDistance) + parseFloat(ride.total_distance);
+                                $scope.totalDuration = parseInt($scope.totalDuration) + parseInt(ride.total_time);
+                                $scope.totalEnergy = parseFloat($scope.totalEnergy) + parseFloat(ride.energy);
+                                $scope.totalCalories = parseFloat($scope.totalCalories) + parseFloat(ride.calories);
+                                //$scope.totalAverageSpeed = $scope.totalAverageSpeed + ride.average_speed;
+                                //$scope.totalTopSspeed = $scope.totalTopSspeed + ride.top_speed;
+                                averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
+                                totalTopSspeed.push(parseFloat(ride.top_speed));
+                                $scope.isRideExist = true;
+                            }
+
+                            if ($scope.isRideExist) {
+                                $scope.totalDistance = parseFloat(Math.round($scope.totalDistance * 100) / 100).toFixed(2);
+                                $scope.totalEnergy = parseFloat(Math.round($scope.totalEnergy * 100) / 100).toFixed(2);
+                                $scope.totalCalories = parseFloat(Math.round($scope.totalCalories * 100) / 100).toFixed(2);
+
+                                $scope.totalAverageSpeed = averageSpeed / $scope.totalLength;
+
+                                $scope.totalAverageSpeed = parseFloat(Math.round($scope.totalAverageSpeed * 100) / 100).toFixed(2);
+
+                                $scope.totalDuration = hhmmss($scope.totalDuration);
+
+                                $scope.totalTopSspeed = Math.max.apply(Math, totalTopSspeed);
+
+                                $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
                             }
                             else {
-                                for (var asCount = 0 ; asCount < asso.length; asCount++) {
-                                    var c = asCount + 1;
-                                    var n = "Asssociation" + c;
-                                    row[n + "Name"] = asso[asCount].name;
-                                    row[n + "Number"] = asso[asCount].number;
-                                }
+                                $scope.totalTopSspeed = 0.0;
+                                $scope.totalAverageSpeed = 0.0;
+                                $scope.totalDistance = 0.0;
+                                $scope.totalDuration = 0;
+                                $scope.totalEnergy = 0;
                             }
 
-                            row.TopSpeed = "70.2";
-                            row.AvarageSpeed = "52";
-                            row.RideDistance = "145 miles";
-                            row.TotalHours = "4:14:20";
-                            row.EnergyBurned = "23 Cal";
-                            row.LastCordinate = "23.44354354,45.343545454";
+                            if ($scope.ReportConfig.IsTopSpeed == "1") {
+                                //TopSpeed logic
+                                if (!$scope.isHeaderCreated)
+                                    $scope.getHeader.push("Top Speed");
+                                row.TopSpeed = $scope.totalTopSspeed + "mph";
+                            }
+
+                            if ($scope.ReportConfig.IsAvgSpeed == "1") {
+                                //AvarageSpeed logic
+                                if (!$scope.isHeaderCreated)
+                                    $scope.getHeader.push("Avarage Speed");
+                                row.AvarageSpeed = $scope.totalAverageSpeed + "mph";
+                            }
+
+                            if ($scope.ReportConfig.IsDistance == "1") {
+                                //RideDistance logic
+                                if (!$scope.isHeaderCreated)
+                                    $scope.getHeader.push("Ride Distance");
+                                row.RideDistance = $scope.totalDistance + " miles";
+                            }
+
+                            if ($scope.ReportConfig.IsHour == "1") {
+                                //TotalHours logic
+                                if (!$scope.isHeaderCreated)
+                                    $scope.getHeader.push("Total Hours");
+                                row.TotalHours = $scope.totalDuration;
+                            }
+
+                            if ($scope.ReportConfig.IsEnergy == "1") {
+                                //EnergyBurned logic
+                                if (!$scope.isHeaderCreated)
+                                    $scope.getHeader.push("Energy Burned");
+                                row.EnergyBurned = $scope.totalEnergy + " cal";
+                            }
+
+                            if ($scope.ReportConfig.IsCords == "1") {
+                                //StartCordinate logic
+                                if (!$scope.isHeaderCreated)
+                                    $scope.getHeader.push("Start Cordinate");
+                                row.StartCordinate = "23.44354354,45.343545454";
+
+                                if (!$scope.isHeaderCreated)
+                                    $scope.getHeader.push("Last Cordinate");
+                                row.LastCordinate = "23.44354354,45.343545454";
+                            }
+                            $scope.isHeaderCreated = true;
 
                             $scope.rows.push(row);
+
                         });
 
                         $scope.filename = "EquitrackReport";
 
                         $scope.showDownloadButton = true;
 
-                        $scope.getHeader = function () { return ["HorseName"] };
+
                         $scope.getArray = $scope.rows;
 
                         $scope.$apply(function () {
                             blockUI.stop();
                         });
 
-                    }).catch(function (err) {});
+                    }).catch(function (err) { });
                 }).catch(function (err) { });
             }).catch(function (error) { console.log("Error in loading details"); });
-
+        }
         
     }).catch(function (error) {
         console.log("Error in loading details");

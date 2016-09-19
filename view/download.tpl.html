@@ -14,9 +14,14 @@
 
            <div class="content_body">
 
+
+               <button class="btn btn-default"
+                       ng-show="showAlertButton">
+                   This report has been expired,You can not download this report..
+               </button>
               
                <button class="btn btn-default"
-                       ng-csv="getArray" filename="{{ filename }}.csv" field-separator="," decimal-separator="." ng-show="showDownloadButton">
+                       ng-csv="getArray" filename="{{ filename }}.csv" csv-header="getHeader" field-separator="," decimal-separator="." ng-show="showDownloadButton">
                    You report is being generated, Click button to download now.
                </button>
 
