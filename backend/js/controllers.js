@@ -1146,11 +1146,16 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
             $("#email").val($scope.Question.EmailId);
             $("#expiry").val($scope.Question.Expiry);
 
-            $scope.SetCheckBoxValue("associations", $scope.Question.IsAssociations);
+            $scope.SetCheckBoxValue("Associations1", $scope.Question.IsAssociations1);
+            $scope.SetCheckBoxValue("Associations2", $scope.Question.IsAssociations2);
+            $scope.SetCheckBoxValue("Associations3", $scope.Question.IsAssociations3);
+            $scope.SetCheckBoxValue("Associations4", $scope.Question.IsAssociations4);
 
             $scope.SetCheckBoxValue("hours", $scope.Question.IsHours);
             $scope.SetCheckBoxValue("distance", $scope.Question.IsDistance);
             $scope.SetCheckBoxValue("cords", $scope.Question.IsCords);
+            $scope.SetCheckBoxValue("ridecount", $scope.Question.IsRideCount);
+
 
             $scope.SetCheckBoxValue("topspeed", $scope.Question.IsTopSpeed);
             $scope.SetCheckBoxValue("avgspeed", $scope.Question.IsAvgSpeed);
@@ -1196,11 +1201,16 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
         imageRef.Expiry = $("#expiry").val();
 
         imageRef.IsHorseName= 1;
-        imageRef.IsAssociations = $scope.GetCheckBoxValue("associations");
+        imageRef.IsAssociations1 = $scope.GetCheckBoxValue("Associations1");
+        imageRef.IsAssociations2 = $scope.GetCheckBoxValue("Associations2");
+        imageRef.IsAssociations3 = $scope.GetCheckBoxValue("Associations3");
+        imageRef.IsAssociations4 = $scope.GetCheckBoxValue("Associations4");
+
 
         imageRef.IsCords = $scope.GetCheckBoxValue("cords");
         imageRef.IsDistance = $scope.GetCheckBoxValue("distance");
         imageRef.IsHours = $scope.GetCheckBoxValue("hours");
+        imageRef.IsRideCount = $scope.GetCheckBoxValue("ridecount");
 
         imageRef.IsTopSpeed = $scope.GetCheckBoxValue("topspeed");
         imageRef.IsAvgSpeed = $scope.GetCheckBoxValue("avgspeed");
@@ -1253,11 +1263,15 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
         imageRef.Expiry = $("#expiry").val();
 
         imageRef.IsHorseName = 1;
-        imageRef.IsAssociations = $scope.GetCheckBoxValue("associations");
+        imageRef.IsAssociations1 = $scope.GetCheckBoxValue("Associations1");
+        imageRef.IsAssociations2 = $scope.GetCheckBoxValue("Associations2");
+        imageRef.IsAssociations3 = $scope.GetCheckBoxValue("Associations3");
+        imageRef.IsAssociations4 = $scope.GetCheckBoxValue("Associations4");
 
         imageRef.IsCords = $scope.GetCheckBoxValue("cords");
         imageRef.IsDistance = $scope.GetCheckBoxValue("distance");
         imageRef.IsHours = $scope.GetCheckBoxValue("hours");
+        imageRef.IsRideCount = $scope.GetCheckBoxValue("ridecount");
 
         imageRef.IsTopSpeed = $scope.GetCheckBoxValue("topspeed");
         imageRef.IsAvgSpeed = $scope.GetCheckBoxValue("avgspeed");

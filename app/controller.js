@@ -2171,6 +2171,7 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                             var totalTopSspeed = [];
                             var averageSpeed = 0.0;
 
+                            $scope.totalLength = 0;
                             $scope.totalTopSspeed = 0.0;
                             $scope.totalAverageSpeed = 0.0;
                             $scope.totalDistance = 0.0;
@@ -2209,6 +2210,7 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                                 $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
                             }
                             else {
+                                $scope.totalLength = 0;
                                 $scope.totalTopSspeed = 0.0;
                                 $scope.totalAverageSpeed = 0.0;
                                 $scope.totalDistance = 0.0;
@@ -2216,18 +2218,19 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                                 $scope.totalEnergy = 0;
                             }
 
+                            
                             if ($scope.ReportConfig.IsTopSpeed == "1") {
                                 //TopSpeed logic
                                 if (!$scope.isHeaderCreated)
                                     $scope.getHeader.push("Top Speed");
-                                row.TopSpeed = $scope.totalTopSspeed + "mph";
+                                row.TopSpeed = $scope.totalTopSspeed + " mph";
                             }
 
                             if ($scope.ReportConfig.IsAvgSpeed == "1") {
                                 //AvarageSpeed logic
                                 if (!$scope.isHeaderCreated)
                                     $scope.getHeader.push("Avarage Speed");
-                                row.AvarageSpeed = $scope.totalAverageSpeed + "mph";
+                                row.AvarageSpeed = $scope.totalAverageSpeed + " mph";
                             }
 
                             if ($scope.ReportConfig.IsDistance == "1") {
@@ -2236,6 +2239,15 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                                     $scope.getHeader.push("Ride Distance");
                                 row.RideDistance = $scope.totalDistance + " miles";
                             }
+
+                            if ($scope.ReportConfig.IsRideCount == "1") {
+                                //TopSpeed logic
+                                if (!$scope.isHeaderCreated)
+                                    $scope.getHeader.push("No of rides");
+                                row.RideCount = $scope.totalLength;
+                            }
+
+
 
                             if ($scope.ReportConfig.IsHour == "1") {
                                 //TotalHours logic
