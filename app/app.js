@@ -295,8 +295,8 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
 
             var TO = $scope.email;
             //TO ="vishal.kumar1145@gmail.com";
-            //TO = "rattaniahmed@gmail.com";
-            TO = "support@myequitrack.com";
+            TO = "rattaniahmed@gmail.com";
+            //TO = "support@myequitrack.com";
 
 
             var Subject = "New message on Conatct us screen on Equitrack.com";
@@ -317,89 +317,36 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
 
             //var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
                 
-
-            //var mailgunUrl = "myequitrack.com";
-            //var mailgunApiKey = window.btoa("api:key-d1a5b9de325143c036cf1701b359c325")
-
-
-            //$http({
-            //    "method": "POST",
-            //    "url": "https://api.mailgun.net/v3/" + mailgunUrl + "/messages",
-            //    "headers": {
-            //        "Content-Type": "application/x-www-form-urlencoded",
-            //        "Authorization": "Basic " + mailgunApiKey
-            //    },
-            //    data: "from=" + "test@example.com" + "&to=" + "vishal.kumar1145@gmail.com" + "&subject=" + "MailgunTest" + "&text=" + "EmailBody"
-            //}).then(function (success) {
-            //    console.log("SUCCESS " + JSON.stringify(success));
-            //}, function (error) {
-            //    console.log("ERROR " + JSON.stringify(error));
-            //});
-
-            var url = 'https://plucky-vision-140010.appspot.com/sendmail?To='+TO+'&Subject='+ Subject+'&HTML='+html;
+            var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
             
-
             $http({
                 method: 'GET',
                 url: url
             }).then(function successCallback(response) {
-                // this callback will be called asynchronously
-                // when the response is available
-                $scope.$apply(function () {
-                                blockUI.stop();
-                                $scope.first_name = "";
-                                $scope.last_name = "";
-                                $scope.email = "";
-                                $scope.mobile = "";
-                                $scope.msg = "";
-                            });
-
                 console.log(response);
             }, function errorCallback(response) {
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
-
-                $scope.$apply(function () {
-                    blockUI.stop();
-                    $scope.first_name = "";
-                    $scope.last_name = "";
-                    $scope.email = "";
-                    $scope.mobile = "";
-                    $scope.msg = "";
-                });
                 console.log(response);
             });
+            
+            $scope.$apply(function () {
+                blockUI.stop();
+            });
 
-            //$scope.$apply(function () {
-            //    blockUI.stop();
-            //});
+            $scope.first_name = "";
+            $scope.last_name = "";
+            $scope.email = "";
+            $scope.mobile = "";
+            $scope.msg = "";
 
-            //https://plucky-vision-140010.appspot.com/sendmail?To=vishal.kumar1145@gmail.com&Subject=vishak%20sdjksadjs&HTML=testing%20again
+            swal({
+                title: "",
+                text: "Thanks for contacting us, We will get back to you as soon as possible.",
+                timer: 2000,   
+                showConfirmButton: false,
+                imageUrl: "bower_components/sweetalert/example/images/thumbs-up.jpg"
+            });
 
 
-
-            //$.ajax({
-            //    type: 'POST',
-            //    //url: "http://localhost:51912/api/mail",
-            //    url: "https://52.41.72.28/mailws/api/mail",
-            //    dataType: 'json',
-            //    data: JSON.stringify(inputData),
-            //    async: true,
-            //    success: function (response) {
-            //        debugger;
-            //        $scope.$apply(function () {
-            //            blockUI.stop();
-            //            $scope.first_name = "";
-            //            $scope.last_name = "";
-            //            $scope.email = "";
-            //            $scope.mobile = "";
-            //            $scope.msg = "";
-            //        });
-            //    },
-            //    error: function (reposnse) {
-            //        console.log("Unknown error occured");
-            //    }
-            //});
         }
 
     }

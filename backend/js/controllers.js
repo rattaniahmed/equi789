@@ -1052,7 +1052,7 @@ app.controller('editNewsController', function ($scope, $routeParams, storageServ
 
 });
 
-app.controller('editReportController', function ($scope, $routeParams, storageService, firebaseService, $firebaseArray) {
+app.controller('editReportController', function ($scope, $routeParams, storageService, firebaseService, $firebaseArray, $http) {
 
     console.log("editReportController" + $routeParams.id);
 
@@ -1063,6 +1063,53 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
     $scope.editId = $routeParams.id;
     $scope.Question = {};
     $scope.showSendContent = false;
+
+    $scope.SendMail = function () {
+
+        $("#loadingModal").show();
+
+        var TO = $scope.Question.EmailId;
+        //TO = "vishal.kumar1145@gmail.com";
+
+        var Subject = "Equitrack - Reports";
+        var html = "There is new report has been uploaded on equitrack. Please use the following link to downloadd the same " + $scope.DownloadLink;
+
+        //html += "<br/><br/><br/>";
+
+        //html += "<table>"
+        //html += "<tr>      <td>First Name :- </td>  <td> " + ReplaceNull($scope.first_name) + "</td>        </tr>"
+        //html += "<tr>      <td>Last Name :- </td>  <td> " + ReplaceNull($scope.last_name) + "</td>        </tr>"
+        //html += "<tr>      <td>Email :- </td>  <td> " + ReplaceNull($scope.email) + "</td>        </tr>"
+        //html += "<tr>      <td>Mobile :- </td>  <td> " + ReplaceNull($scope.mobile) + "</td>        </tr>"
+        //html += "<tr>      <td>Message :- </td>  <td> " + ReplaceNull($scope.msg) + "</td>        </tr>"
+        //html += "</table>"
+
+        //html += "<br/><br/><br/>";
+
+        //html += "Equitrack Team</br>"
+
+
+        //var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
+
+
+        var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
+
+
+        $http({
+            method: 'GET',
+            url: url
+        }).then(function successCallback(response) {
+            console.log(response);
+        }, function errorCallback(response) {
+            console.log(response);
+        });
+
+
+        $("#loadingModal").hide();
+        alert("Mail has been sent success fully to the specified user");
+
+    }
+
 
     $scope.SetCheckBoxValue = function (id, value) {
         if (value == "1")
@@ -1078,9 +1125,7 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
             return "0";
     }
 
-    $scope.SendMail = function () {
-
-    }
+  
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.reportDataRef = $firebaseArray(ref.child('Content').child('ReportsData'));

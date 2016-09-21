@@ -1,5 +1,5 @@
 ﻿
-app.controller('AccountController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI) {
+app.controller('AccountController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, $http) {
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.users = $firebaseArray(ref.child('users'));
@@ -10,8 +10,7 @@ app.controller('AccountController', function MyCtrl($scope, $location, $firebase
         //TO = "vishal.kumar1145@gmail.com";
 
         var Subject = "Welcome message from Equitrack.com";
-
-        var html = "Thanks for joining us."
+        var html = "Thanks for joining us. You can contibue login at Equitrack.com"
 
         //html += "<br/><br/><br/>";
 
@@ -23,9 +22,9 @@ app.controller('AccountController', function MyCtrl($scope, $location, $firebase
         //html += "<tr>      <td>Message :- </td>  <td> " + ReplaceNull($scope.msg) + "</td>        </tr>"
         //html += "</table>"
 
-        html += "<br/><br/><br/>";
+        //html += "<br/><br/><br/>";
 
-        html += "Equitrack Team</br>"
+        //html += "Equitrack Team</br>"
 
 
         //var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
@@ -42,37 +41,6 @@ app.controller('AccountController', function MyCtrl($scope, $location, $firebase
         }, function errorCallback(response) {
             console.log(response);
         });
-
-        //$scope.$apply(function () {
-        //    blockUI.stop();
-        //});
-
-
-
-        
-
-
-        //$.ajax({
-        //    type: 'POST',
-        //    //url: "http://localhost:51912/api/mail",
-        //    url: "https://52.41.72.28/mailws/api/mail",
-        //    dataType: 'json',
-        //    data: JSON.stringify(inputData),
-        //    async: true,
-        //    success: function (response) {
-        //        //$scope.$apply(function () {
-        //        //    blockUI.stop();
-        //        //    $scope.first_name = "";
-        //        //    $scope.last_name = "";
-        //        //    $scope.email = "";
-        //        //    $scope.mobile = "";
-        //        //    $scope.msg = "";
-        //        //});
-        //    },
-        //    error: function (reposnse) {
-        //        console.log("Unknown error occured");
-        //    }
-        //});
 
     }
 
