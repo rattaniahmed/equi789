@@ -2089,6 +2089,27 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
     $scope.rows = [];
     debugger;
 
+
+    $scope.SetAssociationHeader = function (number, getHeader) {
+        var n = "Asssociation " + number;
+        getHeader.push(n + " Name");
+        getHeader.push(n + " Number");
+    }
+
+    $scope.SetAssociationData = function (number, row, asso) {
+
+        var prop = "Asssociation" + number;
+        if (asso == null) {
+            row[prop + "Name"] = "";
+            row[prop + "Number"] = "";
+        }
+        else {
+            row[prop + "Name"] = asso[number - 1].name;
+            row[prop + "Number"] = asso[number - 1].number;
+        }
+    }
+
+
     var id = $location.search().id;
     blockUI.start("Fetching report data. It will take a while....");
 
@@ -2137,37 +2158,30 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                             row.HorseName = value.horse_name;
 
 
-                            if ($scope.ReportConfig.IsAssociations == "1") {
-
-                                //association logic
-                                if (!$scope.isHeaderCreated) {
-                                    for (var asCount2 = 0 ; asCount2 < 4; asCount2++) {
-                                        var c2 = asCount2 + 1;
-                                        var n2 = "Asssociation " + c2;
-                                        $scope.getHeader.push(n2 + " Name");
-                                        $scope.getHeader.push(n2 + "Number");
-                                    }
-                                }
-
-                                var asso = value.associations;
-                                if (asso == null) {
-                                    for (var asCount1 = 0 ; asCount1 < 4; asCount1++) {
-                                        var c1 = asCount1 + 1;
-                                        var n1 = "Asssociation" + c1;
-                                        row[n1 + "Name"] = "";
-                                        row[n1 + "Number"] = "";
-                                    }
-                                }
-                                else {
-                                    for (var asCount = 0 ; asCount < asso.length; asCount++) {
-                                        var c = asCount + 1;
-                                        var n = "Asssociation" + c;
-                                        row[n + "Name"] = asso[asCount].name;
-                                        row[n + "Number"] = asso[asCount].number;
-                                    }
-                                }
+                            if($scope.ReportConfig.IsAssociations1 =="1"){
+                                if (!$scope.isHeaderCreated)
+                                    $scope.SetAssociationHeader(1, $scope.getHeader);
+                                $scope.SetAssociationData(1, row, value.associations);
                             }
 
+                            if ($scope.ReportConfig.IsAssociations2 == "1") {
+                                if (!$scope.isHeaderCreated)
+                                    $scope.SetAssociationHeader(2, $scope.getHeader);
+                                $scope.SetAssociationData(2, row, value.associations);
+                            }
+
+                            if ($scope.ReportConfig.IsAssociations3 == "1") {
+                                if (!$scope.isHeaderCreated)
+                                    $scope.SetAssociationHeader(3, $scope.getHeader);
+                                $scope.SetAssociationData(3, row, value.associations);
+                            }
+
+                            if ($scope.ReportConfig.IsAssociations4 == "1") {
+                                if (!$scope.isHeaderCreated)
+                                    $scope.SetAssociationHeader(4, $scope.getHeader);
+                                $scope.SetAssociationData(4, row, value.associations);
+                            }
+                            
                             var totalTopSspeed = [];
                             var averageSpeed = 0.0;
 

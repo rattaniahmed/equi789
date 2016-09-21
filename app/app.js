@@ -295,8 +295,8 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
 
             var TO = $scope.email;
             //TO ="vishal.kumar1145@gmail.com";
-            TO = "rattaniahmed@gmail.com";
-            //TO = "support@myequitrack.com";
+            //TO = "rattaniahmed@gmail.com";
+            TO = "support@myequitrack.com";
 
 
             var Subject = "New message on Conatct us screen on Equitrack.com";
