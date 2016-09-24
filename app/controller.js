@@ -1620,6 +1620,10 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
         var lastRide = $scope.rides.$getRecord(id);
         $scope.ride_time_to_display = hhmmss(lastRide.ride_time);
         $scope.total_time_to_display = hhmmss(lastRide.total_time);
+        if (IsNull(lastRide.ground_condition))
+            $("#gndcondition").val("Select");
+        else
+            $("#gndcondition").val(lastRide.ground_condition);
         $scope.lastRide = lastRide;
         console.log($scope.lastRide);
     }).catch(function (err) {
@@ -1633,6 +1637,7 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
 
         var rideRef = $scope.rides.$getRecord($scope.rideId);
         rideRef.notes = ReplaceNull($scope.lastRide.notes);
+        rideRef.ground_condition = $("#gndcondition").val();
 
         $scope.rides.$save(rideRef).then(function (res) {
 
@@ -2114,7 +2119,7 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig) {
           color: calendarConfig.colorTypes.warning,
           startsAt: moment().startOf('week').subtract(2, 'days').add(8, 'hours').toDate(),
           endsAt: moment().startOf('week').add(1, 'week').add(9, 'hours').toDate(),
-          draggable: true,
+          draggable: false,
           resizable: true,
           actions: $scope.actions
       }, {

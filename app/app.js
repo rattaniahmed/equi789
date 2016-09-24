@@ -183,6 +183,10 @@ app.run(function ($rootScope, $sce,firebaseService, $firebaseArray) { // instanc
             for (var prop in groupNode) {
                 if (prop != "$id" && prop != "$priority") {
                     var toConvert = groupNode[prop].toString();
+                    if (prop == "ConatctUsEmail") {
+                        //alert("here");
+                        toConvert = "E-mail: -" + toConvert;
+                    }
                     $rootScope.DynamucContent[prop] = $sce.trustAsHtml(toConvert);
                 }
             }
@@ -301,7 +305,8 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
             //TO ="vishal.kumar1145@gmail.com";
             //TO = "rattaniahmed@gmail.com";
             //TO = "support@myequitrack.com";
-            TO = "info@myequitrack.com";
+            //TO = "info@myequitrack.com";
+            TO = "equitrackapp@gmail.com";
 
             var Subject = "New message on Conatct us screen on Equitrack.com";
 
