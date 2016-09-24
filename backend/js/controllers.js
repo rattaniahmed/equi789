@@ -1072,7 +1072,7 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
         //TO = "vishal.kumar1145@gmail.com";
 
         var Subject = "Equitrack - Reports";
-        var html = "There is new report has been uploaded on equitrack. Please use the following link to downloadd the same " + $scope.DownloadLink;
+        var html = "Your report is ready for download.  Please click on this link : " + $scope.DownloadLink;
 
         //html += "<br/><br/><br/>";
 
