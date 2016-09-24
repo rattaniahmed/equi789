@@ -1,6 +1,6 @@
 angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
 
-var app = angular.module('equitrack', ['ngRoute', 'ngSanitize', 'firebase', 'blockUI', '720kb.socialshare', '720kb.datepicker', 'ngCsv']);
+var app = angular.module('equitrack', ['ngRoute', 'ngSanitize', 'firebase', 'blockUI', '720kb.socialshare', '720kb.datepicker', 'ngCsv', 'mwl.calendar', 'ngAnimate', 'ui.bootstrap', 'colorpicker.module']);
 
 app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
     $locationProvider.html5Mode(true);
@@ -77,6 +77,10 @@ app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
         controller: 'DownloadController',
     });
 
+    $routeProvider.when('/Calendar.html', {
+        templateUrl: 'view/Calendar.tpl.html',
+        controller: 'CalendarController',
+    });
     $routeProvider.when('/ride-detail.html', {
         templateUrl: 'view/ride-detail.tpl.html',
         controller: 'RideDetailController',

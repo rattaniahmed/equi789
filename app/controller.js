@@ -2076,6 +2076,105 @@ app.controller('NewsController', function ($scope, $location, $firebaseObject, $
 });
 
 
+app.controller('CalendarController', function ($scope, moment, calendarConfig) {
+
+
+    //events="vm.events"
+    //view="vm.calendarView"
+    //view-date="vm.viewDate"
+    //day-view-split="10"
+
+    debugger;
+    $scope.vm = this;
+    $scope.vm.events = [];
+    $scope.vm.calendarView = 'month';
+    //$scope.vm.viewDate = '12/5/2016';
+    //$scope.vm.viewDate = moment().startOf('month').toDate();
+    $scope.vm.viewDate = new Date();
+
+
+
+    $scope.actions = [
+    //    {
+    //    label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
+    //    onClick: function (args) {
+    //        alert.show('Edited', args.calendarEvent);
+    //    }
+    //}, {
+    //    label: '<i class=\'glyphicon glyphicon-remove\'></i>',
+    //    onClick: function (args) {
+    //        alert.show('Deleted', args.calendarEvent);
+    //    }
+    //}
+    ];
+
+    $scope.vm.events = [
+      {
+          title: 'An event',
+          color: calendarConfig.colorTypes.warning,
+          startsAt: moment().startOf('week').subtract(2, 'days').add(8, 'hours').toDate(),
+          endsAt: moment().startOf('week').add(1, 'week').add(9, 'hours').toDate(),
+          draggable: true,
+          resizable: true,
+          actions: $scope.actions
+      }, {
+          title: '<i class="glyphicon glyphicon-asterisk"></i> <span class="text-primary">Another event</span>, with a <i>html</i> title',
+          color: calendarConfig.colorTypes.info,
+          startsAt: moment().subtract(1, 'day').toDate(),
+          endsAt: moment().add(5, 'days').toDate(),
+          draggable: true,
+          resizable: true,
+          actions: $scope.actions
+      }, {
+          title: 'This is a really long event title that occurs on every year',
+          color: calendarConfig.colorTypes.important,
+          startsAt: moment().startOf('day').add(7, 'hours').toDate(),
+          endsAt: moment().startOf('day').add(19, 'hours').toDate(),
+          recursOn: 'year',
+          draggable: true,
+          resizable: true,
+          actions: $scope.actions
+      }
+    ];
+
+    //$scope.vm.isCellOpen = true;
+
+    //$scope.vm.addEvent = function () {
+    //    $scope.vm.events.push({
+    //        title: 'New event',
+    //        startsAt: moment().startOf('day').toDate(),
+    //        endsAt: moment().endOf('day').toDate(),
+    //        color: calendarConfig.colorTypes.important,
+    //        draggable: true,
+    //        resizable: true
+    //    });
+    //};
+
+    //$scope.vm.eventClicked = function (event) {
+    //    alert.show('Clicked', event);
+    //};
+
+    //$scope. vm.eventEdited = function (event) {
+    //    alert.show('Edited', event);
+    //};
+
+    //$scope.vm.eventDeleted = function (event) {
+    //    alert.show('Deleted', event);
+    //};
+
+    //$scope.vm.eventTimesChanged = function (event) {
+    //    alert.show('Dropped or resized', event);
+    //};
+
+    //$scope.vm.toggle = function ($event, field, event) {
+    //    $event.preventDefault();
+    //    $event.stopPropagation();
+    //    event[field] = !event[field];
+    //};
+
+});
+
+
 
 app.controller('DownloadController', function ($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService) {
 

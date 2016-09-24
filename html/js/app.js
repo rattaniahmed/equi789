@@ -1,3 +1,4 @@
+/// <reference path="../Calendar.html" />
 angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
 
 var app = angular.module('equitrack', ['ngRoute']);
@@ -49,7 +50,13 @@ app.config(['$routeProvider','$locationProvider',
 	$routeProvider.when('/my-stable-details.html', {
       templateUrl: 'my-stable-details.tpl.html',
       controller: 'ViewController',
-    });
+	});
+
+	$routeProvider.when('/Calendar.html', {
+	    templateUrl: 'Calendar.html',
+	    controller: 'ViewController',
+	});
+
 	$routeProvider.when('/last-ride.html', {
       templateUrl: 'last-ride.tpl.html',
       controller: 'ViewController',

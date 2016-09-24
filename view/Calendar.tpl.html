@@ -1,0 +1,79 @@
+﻿<header class="header">
+    <div class="fixed_nav" ng-include="'includes/nav.html'"></div>
+    <div class="slider" ng-include="'includes/slider.html'"></div>
+</header>
+<section class="inner_pages" data-0="margin-top:50px;" data-400="margin-top:-150px;">
+    <div class="container">
+        <div class="content_body">
+            <div class="page_heading">
+                <h1>EquiTrack - <span class="small">Calendar</span></h1>
+            </div>
+
+            
+            <div class="contact">
+                
+               
+                
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="btn-group">
+                            <button class="btn btn-primary"
+                                    mwl-date-modifier
+                                    date="vm.viewDate"
+                                    decrement="vm.calendarView">
+                                Previous
+                            </button>
+                            <button class="btn btn-default"
+                                    mwl-date-modifier
+                                    date="vm.viewDate"
+                                    set-to-today>
+                                Today
+                            </button>
+                            <button class="btn btn-primary"
+                                    mwl-date-modifier
+                                    date="vm.viewDate"
+                                    increment="vm.calendarView">
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                    <br class="visible-xs visible-sm">
+                    <div class="col-md-6" style="text-align:right;">
+                        <!--<div class="btn-group">-->
+                        <div class="row">
+                            <div class="col-md-3">
+                            <label class="btn btn-primary" ng-model="vm.calendarView" uib-btn-radio="'year'">Year</label>
+                            </div>
+                            <div class="col-md-3">
+
+                                <label class="btn btn-primary" ng-model="vm.calendarView" uib-btn-radio="'month'">Month</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="btn btn-primary" ng-model="vm.calendarView" uib-btn-radio="'week'">Week</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="btn btn-primary" ng-model="vm.calendarView" uib-btn-radio="'day'">Day</label>
+                            </div>
+                                    </div>    
+                        <!--</div>-->
+                    </div>
+                </div>
+                <br>
+
+                <mwl-calendar events="vm.events"
+                              view="vm.calendarView"
+                              view-title="vm.calendarTitle"
+                              view-date="vm.viewDate"
+                              >
+                </mwl-calendar>
+               
+                
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div class="" ng-include="'includes/footer.html'"></div>
