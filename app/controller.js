@@ -1396,6 +1396,13 @@ app.controller('LastRideController', function MyCtrl($scope, $location, $firebas
         var lastRide = $scope.rides.$getRecord(id);
         $scope.ride_time_to_display = hhmmss(lastRide.ride_time);
         $scope.total_time_to_display = hhmmss(lastRide.total_time);
+
+        if (IsNull(lastRide.ground_condition))
+            $("#gndcondition").val("Select");
+        else
+            $("#gndcondition").val(lastRide.ground_condition);
+
+
         $scope.lastRide = lastRide;
         console.log($scope.lastRide);
     }).catch(function (err) {
@@ -1409,6 +1416,7 @@ app.controller('LastRideController', function MyCtrl($scope, $location, $firebas
 
         var rideRef = $scope.rides.$getRecord($scope.rideId);
         rideRef.notes = ReplaceNull($scope.lastRide.notes);
+        rideRef.ground_condition =  $("#gndcondition").val();
 
         $scope.rides.$save(rideRef).then(function (res) {
 
@@ -2081,13 +2089,14 @@ app.controller('NewsController', function ($scope, $location, $firebaseObject, $
 });
 
 
-app.controller('CalendarController', function ($scope, moment, calendarConfig) {
+app.controller('CalendarController', function ($scope, moment, calendarConfig, firebaseService, $firebaseArray, storageService, $location) {
 
 
     //events="vm.events"
     //view="vm.calendarView"
     //view-date="vm.viewDate"
     //day-view-split="10"
+    $scope.user = storageService.getObject("CU");
 
     debugger;
     $scope.vm = this;
@@ -2096,51 +2105,108 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig) {
     //$scope.vm.viewDate = '12/5/2016';
     //$scope.vm.viewDate = moment().startOf('month').toDate();
     $scope.vm.viewDate = new Date();
+    $scope.vm.isCellOpen = false;
 
-
+    $scope.colors = [calendarConfig.colorTypes.warning, calendarConfig.colorTypes.info, calendarConfig.colorTypes.important];
 
     $scope.actions = [
-    //    {
-    //    label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
-    //    onClick: function (args) {
-    //        alert.show('Edited', args.calendarEvent);
-    //    }
-    //}, {
-    //    label: '<i class=\'glyphicon glyphicon-remove\'></i>',
-    //    onClick: function (args) {
-    //        alert.show('Deleted', args.calendarEvent);
-    //    }
-    //}
+        {
+            //label: '<i class=\'glyphicon glyphicon-zoom-out\'></i>',
+            label:'View Details',
+            onClick: function (args) {
+                console.log(args.calendarEvent.ride_id);
+
+                storageService.setObject("RIDEDETAILID", args.calendarEvent.ride_id);
+                $location.path('ride-detail.html');
+                console.log(args.calendarEvent.ride_id);
+
+
+            }
+        }
     ];
 
-    $scope.vm.events = [
-      {
-          title: 'An event',
-          color: calendarConfig.colorTypes.warning,
-          startsAt: moment().startOf('week').subtract(2, 'days').add(8, 'hours').toDate(),
-          endsAt: moment().startOf('week').add(1, 'week').add(9, 'hours').toDate(),
-          draggable: false,
-          resizable: true,
-          actions: $scope.actions
-      }, {
-          title: '<i class="glyphicon glyphicon-asterisk"></i> <span class="text-primary">Another event</span>, with a <i>html</i> title',
-          color: calendarConfig.colorTypes.info,
-          startsAt: moment().subtract(1, 'day').toDate(),
-          endsAt: moment().add(5, 'days').toDate(),
-          draggable: true,
-          resizable: true,
-          actions: $scope.actions
-      }, {
-          title: 'This is a really long event title that occurs on every year',
-          color: calendarConfig.colorTypes.important,
-          startsAt: moment().startOf('day').add(7, 'hours').toDate(),
-          endsAt: moment().startOf('day').add(19, 'hours').toDate(),
-          recursOn: 'year',
-          draggable: true,
-          resizable: true,
-          actions: $scope.actions
-      }
-    ];
+  
+
+
+    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+    //$scope.users = $firebaseArray(ref.child('users'));
+    $scope.horses = $firebaseArray(ref.child('horses'));
+    $scope.horses.$loaded().then(function (dataArray) {
+        debugger;
+        var ids = [];
+
+        angular.forEach($scope.user.Details.horse_ids, function (value, key) {
+            //console.log(value);
+            console.log(key);
+            var horse = $scope.horses.$getRecord(key);
+
+            try {
+                for (var i in horse.ride_ids) {
+                    ids.push(i);
+                }
+            }
+            catch (errloop) {
+                console.log(errloop);
+            }
+
+            console.log(horse);
+        });
+
+
+        $scope.history = $firebaseArray(ref.child('rides'));
+        $scope.history.$loaded().then(function (dataArray) {
+            // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
+
+            var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+            $scope.histories = [];
+            debugger;
+            for (var cnt = 0; cnt < ids.length; cnt++) // id in $scope.stb.ride_ids) {
+            {
+                var id = ids[cnt];
+                var horseHistory = $scope.history.$getRecord(id);
+
+                var startDateTime = new Date(horseHistory.start_time);
+                var endDateTime = new Date(horseHistory.end_time);
+
+
+                var eve = {
+                    //title: moment(startDateTime).format('HH:MM:SS a') + ' - ' + moment(endDateTime).format('HH:MM:SS a'),
+                    title: '',
+                    color: $scope.colors[cnt % 3],
+                    startsAt: new Date(horseHistory.start_time),
+                    endsAt: new Date(horseHistory.end_time),
+                    actions: $scope.actions,
+                    ride_id: id
+                }
+
+                $scope.vm.events.push(eve)
+            }
+        }).catch(function (err) {
+
+        });
+
+
+
+
+
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+
+
+   
+
+      //, {
+      //    title: '<i class="glyphicon glyphicon-asterisk"></i> <span class="text-primary">Another event</span>, with a <i>html</i> title',
+      //    color: ,
+      //    startsAt: moment().subtract(1, 'day').toDate(),
+      //    endsAt: moment().add(5, 'days').toDate(),
+      //    draggable: true,
+      //    resizable: true,
+      //    actions: $scope.actions
+      //}
+    //];
 
     //$scope.vm.isCellOpen = true;
 
