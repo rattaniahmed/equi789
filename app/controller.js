@@ -479,16 +479,18 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
                 //    created_at: ""
                 //};
 
-                delete $scope.user.Details.horse_ids[id];
+                delete userRef.horse_ids[id];
 
                 $scope.users.$save(userRef).then(function (res) {
+                    window.location.reload();
+
                     console.log(res);
                     //$scope.user.Details.profile = userRef.profile;
                     $scope.$apply(function () {
                         blockUI.stop();
                     });
 
-                    window.location.reload();
+                   
                 });
 
 
@@ -1621,18 +1623,16 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
 
     console.log($scope.stb);
     var ref = firebaseService.FIREBASEENDPOINT();
-    $scope.riderepo = $firebaseArray(ref.child('rides'));
+    $scope.rides = $firebaseArray(ref.child('rides'));
     $scope.horserepo = $firebaseArray(ref.child('horses'));
-    console.log($scope.riderepo);
-    console.log($scope.horserepo);
-    console.log(ref);
+  
 
 
 
     $scope.test=function(id)
     {
-
-        $scope.riderepo.$remove(id).then(function (ref) {
+        console.log($scope.currentRide);
+        $scope.rides.$remove($scope.currentRide).then(function (ref) {
             debugger;
             var id = ref.key();
 
@@ -1673,6 +1673,8 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
                 window.location.reload();
             });
 
+        }).catch(function (err) {
+            console.log(err);
         });
 
     }
@@ -1757,13 +1759,14 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
         console.log(his.rides_ids);
     }
 
-
+    $scope.currentRide = {};
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.rides = $firebaseArray(ref.child('rides'));
     $scope.rides.$loaded().then(function (dataArray) {
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
         var id = $scope.rideId;
         var lastRide = $scope.rides.$getRecord(id);
+        $scope.currentRide = lastRide;
         $scope.ride_time_to_display = hhmmss(lastRide.ride_time);
         $scope.total_time_to_display = hhmmss(lastRide.total_time);
         if (IsNull(lastRide.ground_condition))
