@@ -106,6 +106,11 @@
             swal("", "Your Ride has been added success fully", "success");
             //$location.path('my-stable.html');
             debugger;
+
+            if (IsNull($scope.currenthorse.rides_ids)) {
+                $scope.currenthorse['rides_ids'] = {};
+            }
+
             var d = new Date();
             $scope.currenthorse.rides_ids[id] = d.getTime();
 
@@ -113,6 +118,11 @@
             storageService.setObject("CS", $scope.currenthorse);
 
             var currenthorseRef = $scope.horserepo.$getRecord($scope.currenthorse.$id);
+
+            if (IsNull(currenthorseRef.rides_ids)) {
+                currenthorseRef['rides_ids'] = {};
+            }
+
             currenthorseRef.rides_ids[id] = d.getTime();
 
             $scope.horserepo.$save(currenthorseRef).then(function (res) {

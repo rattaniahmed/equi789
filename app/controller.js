@@ -868,26 +868,38 @@ app.controller('AddStableDetailsController', function MyCtrl($scope, $location, 
             swal("", "Your stable details has been added success fully", "success");
             //$location.path('my-stable.html');
 
+            if (IsNull($scope.user.Details.horse_ids)) {
+                $scope.user.Details['horse_ids'] = {};
+            }
+                   
             $scope.user.Details.horse_ids[id] = {
                 created_at: ""
             };
+            
 
             //$scope.user.Details.horse_ids.push(id);
             storageService.setObject("CU",$scope.user);
 
             var userRef = $scope.users.$getRecord($scope.user.Auth.uid);
+            if (IsNull(userRef.horse_ids)) {
+                userRef['horse_ids'] = {};;
+            }
+
             userRef.horse_ids[id] = {
                 created_at: ""
             };
 
             $scope.users.$save(userRef).then(function (res) {
+
+                window.location.reload();
+
                 console.log(res);
                 //$scope.user.Details.profile = userRef.profile;
                 $scope.$apply(function () {
                     blockUI.stop();
                 });
 
-                window.location.reload();
+                
             });
 
 
