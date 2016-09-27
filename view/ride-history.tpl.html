@@ -136,6 +136,7 @@
 
 </section>
 
+
 <div class="modal fade modal fade in" id="add_stable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="AddStableDetailsController">
 
     <div class="modal-dialog modal-lg" role="document">
@@ -194,7 +195,7 @@
 
                                         <div class="grid-3">
 
-                                            <label class="label" for="1">Horse Name:</label>
+                                            <label class="label" for="1" style="color:black;">Horse Name:</label>
 
                                         </div>
 
@@ -206,23 +207,22 @@
 
                                     </div>
 
-                                    <div class="form-group clearfix">
+                                    <!-- <div class="form-group clearfix">
 
-                                        <div class="grid-3">
+                                         <div class="grid-3">
 
-                                            <label class="label" for="2">Breed:</label>
+                                             <label class="label" for="2">Breed:</label>
 
-                                        </div>
+                                         </div>
 
-                                        <div class="grid-9">
+                                         <div class="grid-9">
 
-                                            <input type="text" class="form-control" id="breed" ng-model="stbadd.breed" placeholder="Breed i.e Arabian" value="Arabian">
+                                             <input type="text" class="form-control" id="breed" ng-model="stbadd.breed" placeholder="Breed i.e Arabian" value="Arabian">
 
-                                        </div>
+                                         </div>
 
-                                    </div>
-
-                                    <div class="form-group clearfix">
+                                     </div>-->
+                                    <!--<div class="form-group clearfix">
 
                                         <div class="grid-3">
 
@@ -236,39 +236,39 @@
 
                                         </div>
 
+                                    </div>-->
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="4" style="color:black;">Date of Birth:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+                                            <datepicker date-format="MM/dd/yyyy">
+                                                <input type="text" class="form-control" id="birthday" ng-model="stbadd.birthday" placeholder="MM/DD/YY" value="July, 16th, 2009">
+                                            </datepicker>
+                                        </div>
+
                                     </div>
 
                                     <div class="form-group clearfix">
 
                                         <div class="grid-3">
 
-                                            <label class="label" for="4">Date of Birth:</label>
+                                            <label class="label" for="7" style="color:black;">Breed.</label>
 
                                         </div>
 
                                         <div class="grid-9">
 
-                                            <input type="text" class="form-control" id="birthday" ng-model="stbadd.birthday" placeholder="MM/DD/YY" value="July, 16th, 2009">
+                                            <input type="text" class="form-control" id="registration" ng-model="stbadd.registration" placeholder="Breed" value="0034459871">
 
                                         </div>
 
                                     </div>
-
-                                  <!--  <div class="form-group clearfix">
-
-                                        <div class="grid-3">
-
-                                            <label class="label" for="7">Registeration No.</label>
-
-                                        </div>
-
-                                        <div class="grid-9">
-
-                                            <input type="text" class="form-control" id="registration" ng-model="stbadd.registration" placeholder="Registeration No" value="0034459871">
-
-                                        </div>
-
-                                    </div>-->
 
                                     <div class="form-_sub_group clearfix" ng-repeat="asso in assolist">
 
@@ -284,7 +284,7 @@
 
                                                             <div class="grid-6">
 
-                                                                <label class="label" for="s_1">Association {{$index + 1 }}:</label>
+                                                                <label class="label" for="s_1" style="color:black;">Association {{$index + 1 }}:</label>
 
                                                             </div>
 
@@ -308,7 +308,7 @@
 
                                                             <div class="grid-6">
 
-                                                                <label class="label" for="s_2">Number {{$index + 1 }}:</label>
+                                                                <label class="label" for="s_2" style="color:black;">Number {{$index + 1 }}:</label>
 
                                                             </div>
 
@@ -419,6 +419,7 @@
     </div>
 
 </div>
+
 
 <div class="" ng-include="'includes/footer.html'"></div>
 
