@@ -37,7 +37,7 @@ app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
         controller: 'ViewController',
     });
     $routeProvider.when('/terms.html', {
-        templateUrl: 'view/terms.tpl.html',
+        templateUrl: 'view/term.tpl.html',
         controller: 'ViewController',
     });
     $routeProvider.when('/sponsors.html', {
@@ -105,10 +105,10 @@ app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
         templateUrl: 'view/contact.tpl.html',
         controller: 'ViewController',
     });
-    $routeProvider.when('/terms.html', {
-        templateUrl: 'view/about-us.tpl.html',
-        controller: 'ViewController',
-    });
+    //$routeProvider.when('/terms.html', {
+    //    templateUrl: 'view/about-us.tpl.html',
+    //    controller: 'ViewController',
+    //});
 
     $routeProvider.when('/static.html', {
         templateUrl: 'view/static.tpl.html',
