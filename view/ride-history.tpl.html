@@ -36,7 +36,7 @@
 
                     </div>
 
-                    <div class="bc_right_add_btn"> <a href="#add_stable" class="btn btn-border" data-toggle="modal">Add Horse</a> </div>
+                    <div class="bc_right_add_btn"> <a href="#add_stable" class="btn btn-border" data-toggle="modal">Add Ride Manually</a> </div>
 
                 </div>
 
@@ -137,11 +137,12 @@
 </section>
 
 
-<div class="modal fade modal fade in" id="add_stable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="AddStableDetailsController">
+<div class="modal fade modal fade in" id="add_stable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="AddRideManualController">
 
     <div class="modal-dialog modal-lg" role="document">
 
         <div class="modal-content">
+
 
             <form>
 
@@ -153,39 +154,13 @@
 
                 </div>
 
-                <div class="modal-body">
+                <div class="modal-body" style="color:black;">
 
                     <div class="edit_stable">
 
-                        <div class="edit_header">
-
-                            <div class="edit_stable_img">
-
-                                <img id="addImg" ng-src={{stbadd.photo}} data-ng-src="{{stbadd.photo}}" src="{{stbadd.photo}}" width="389" height="315" class="img-responsive">
-
-                            </div>
-
-                            <div class="edit_header_text">
-
-                                <div class="page_heading"><h1><span class="small">Add Photo</span></h1></div>
-
-                                <div class="edit_btns">
-
-                                    <input type="file" style="visibility:hidden;position:absolute;width:0;height:0;" id="addphoto">
-
-                                    <label class="btn btn-transparent validn_middle" for="addphoto">Add Photo</label>
-
-                                    <!--<button class="btn btn-transparent btn-icon"><i class="fa fa-trash"></i></button>-->
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
                         <div class="edit_body">
 
-                            <div class="page_heading"><h1><span class="small">Add / Delete Description</span></h1></div>
+                            <div class="page_heading"><h1><span class="small">Add  Ride Manually</span></h1></div>
 
                             <div class="edit_fields">
 
@@ -195,13 +170,20 @@
 
                                         <div class="grid-3">
 
-                                            <label class="label" for="1" style="color:black;">Horse Name:</label>
+                                            <label class="label" for="1" style="color:black;">Start Ride:</label>
 
                                         </div>
 
                                         <div class="grid-9">
+                                            <div class='input-group date' id='datetimepicker1'>
+                                                <input type="text" class="form-control" id="StartRide" ng-model="addride.start_time" placeholder="MM/DD/YY HH:mm:ss">
 
-                                            <input type="text" class="form-control" id="horse_name" ng-model="stbadd.horse_name" placeholder="Horse Name">
+                                            </div>
+
+                                            <!--<datetimepicker date-format="MM/dd/yyyy">
+                                            <input type="text" class="form-control" id="StartRide" ng-model="addride.start" placeholder="MM/DD/YY HH:mm:ss" value="July, 16th, 2009">
+                                            </datetimepicker>-->
+                                            <!--<input type="text" class="form-control" id="StartRide" ng-model="addride.start" placeholder="Start Ride">-->
 
                                         </div>
 
@@ -209,19 +191,19 @@
 
                                     <!-- <div class="form-group clearfix">
 
-                                         <div class="grid-3">
+                                        <div class="grid-3">
 
-                                             <label class="label" for="2">Breed:</label>
+                                            <label class="label" for="2">Breed:</label>
 
-                                         </div>
+                                        </div>
 
-                                         <div class="grid-9">
+                                        <div class="grid-9">
 
-                                             <input type="text" class="form-control" id="breed" ng-model="stbadd.breed" placeholder="Breed i.e Arabian" value="Arabian">
+                                            <input type="text" class="form-control" id="breed" ng-model="stbadd.breed" placeholder="Breed i.e Arabian" value="Arabian">
 
-                                         </div>
+                                        </div>
 
-                                     </div>-->
+                                    </div>-->
                                     <!--<div class="form-group clearfix">
 
                                         <div class="grid-3">
@@ -242,87 +224,13 @@
 
                                         <div class="grid-3">
 
-                                            <label class="label" for="4" style="color:black;">Date of Birth:</label>
+                                            <label class="label" for="4" style="color:black;">End Ride</label>
 
                                         </div>
 
                                         <div class="grid-9">
-                                            <datepicker date-format="MM/dd/yyyy">
-                                                <input type="text" class="form-control" id="birthday" ng-model="stbadd.birthday" placeholder="MM/DD/YY" value="July, 16th, 2009">
-                                            </datepicker>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="form-group clearfix">
-
-                                        <div class="grid-3">
-
-                                            <label class="label" for="7" style="color:black;">Breed.</label>
-
-                                        </div>
-
-                                        <div class="grid-9">
-
-                                            <input type="text" class="form-control" id="registration" ng-model="stbadd.registration" placeholder="Breed" value="0034459871">
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="form-_sub_group clearfix" ng-repeat="asso in assolist">
-
-                                        <div class="grid-12">
-
-                                            <div class="row">
-
-                                                <div class="grid-6">
-
-                                                    <div class="row">
-
-                                                        <div class="form-group clearfix">
-
-                                                            <div class="grid-6">
-
-                                                                <label class="label" for="s_1" style="color:black;">Association {{$index + 1 }}:</label>
-
-                                                            </div>
-
-                                                            <div class="grid-6">
-
-                                                                <input type="text" class="form-control" id="s_1" ng-model="asso.name" placeholder="Association {{$index + 1 }}" value="AERC">
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="grid-6">
-
-                                                    <div class="row">
-
-                                                        <div class="form-group clearfix">
-
-                                                            <div class="grid-6">
-
-                                                                <label class="label" for="s_2" style="color:black;">Number {{$index + 1 }}:</label>
-
-                                                            </div>
-
-                                                            <div class="grid-6">
-
-                                                                <input type="text" class="form-control" id="s_2" ng-model="asso.number" placeholder="Number {{$index + 1 }}" value="178845RD">
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
+                                            <div class='input-group date' id='datetimepicker2'>
+                                                <input type="text" class="form-control" id="EndRide" ng-model="addride.end_time" placeholder="MM/DD/YY HH:mm">
 
                                             </div>
 
@@ -330,19 +238,34 @@
 
                                     </div>
 
-
-
-                                    <!--<div class="form-group clearfix">
+                                    <div class="form-group clearfix">
 
                                         <div class="grid-3">
 
-                                            <label class="label" for="8">Total Rides:</label>
+                                            <label class="label" for="7" style="color:black;">Location</label>
 
                                         </div>
 
                                         <div class="grid-9">
 
-                                            <input type="text" class="form-control" id="totalrides" ng-model="stbadd.totalrides" placeholder="Total Rides" value="34">
+                                            <input type="text" class="form-control" id="Location" ng-model="addride.location" placeholder="Location">
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="7" style="color:black;">Weather</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="Weather" ng-model="addride.weather" placeholder="Weather">
 
                                         </div>
 
@@ -352,13 +275,26 @@
 
                                         <div class="grid-3">
 
-                                            <label class="label" for="9">Miles:</label>
+                                            <label class="label" for="7" style="color:black;">Ground Condition</label>
 
                                         </div>
 
                                         <div class="grid-9">
 
-                                            <input type="text" class="form-control" id="distance" ng-model="stbadd.distance" placeholder="Miles" value="140 miles">
+                                            <select class="form-control" id="gndcondition" ng-model="addride.ground_condition">
+                                                <option>Select</option>
+                                                <option>Excellent</option>
+                                                <option>Average</option>
+                                                <option>Poor</option>
+                                                <option>Hard</option>
+                                                <option>Sandy</option>
+                                                <option>Deep</option>
+                                                <option>Sticky</option>
+                                                <option>Wet</option>
+                                                <option>Muddy</option>
+                                                <option>Soft</option>
+
+                                            </select>
 
                                         </div>
 
@@ -368,13 +304,17 @@
 
                                         <div class="grid-3">
 
-                                            <label class="label" for="10">Calories:</label>
+                                            <label class="label" for="7" style="color:black;">Ride Time:</label>
 
                                         </div>
 
                                         <div class="grid-9">
 
-                                            <input type="text" class="form-control" id="energy" ng-model="stbadd.energy" placeholder="Calories" value="1880 kcal">
+                                            <div class='input-group date'>
+                                                <input type="text" class="form-control" id="RideTime" ng-model="addride. ride_time" placeholder="HH:mm">
+
+                                            </div>
+
 
                                         </div>
 
@@ -384,17 +324,131 @@
 
                                         <div class="grid-3">
 
-                                            <label class="label" for="12">Weight:</label>
+                                            <label class="label" for="7" style="color:black;">Total Time:</label>
 
                                         </div>
 
                                         <div class="grid-9">
 
-                                            <input type="text" class="form-control" id="weight" ng-model="stbadd.weight" placeholder="Weight" value="1253 lbs">
+                                            <div class='input-group date' id='datetimepicker4'>
+                                                <input type="text" class="form-control" id="TotalTime" ng-model="addride.total_time" placeholder="HH:mm">
+
+                                            </div>
+
 
                                         </div>
 
-                                    </div>-->
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="7" style="color:black;">Distance:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="Distance" ng-model="addride.total_distance" placeholder="Distance" ng-keydown="CheckNumber($event)">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="7" style="color:black;">Top Speed:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="TopSpeed" ng-model="addride.top_speed" placeholder="Top Speed" ng-keydown="CheckNumber($event)">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="7" style="color:black;">Avg. Speed:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="AvgSpeed" ng-model="addride.average_speed" placeholder="Avg. Speed" ng-keydown="CheckNumber($event)">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="7" style="color:black;">Avg. Heart Rate:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="AvgHeartRate" ng-model="addride.average_heart_rate" placeholder="Avg. Heart Rate" ng-keydown="CheckNumber($event)">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="7" style="color:black;">High Heart Rate:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="HighHeartRate" ng-model="addride.high_heart_rate" placeholder="High Heart Rate" ng-keydown="CheckNumber($event)">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="7" style="color:black;">Equi Energy:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="EquiEnergy" ng-model="addride.energy" placeholder="Equi Energy" ng-keydown="CheckNumber($event)">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group clearfix">
+
+                                        <div class="grid-3">
+
+                                            <label class="label" for="7" style="color:black;">My Calories:</label>
+
+                                        </div>
+
+                                        <div class="grid-9">
+
+                                            <input type="text" class="form-control" id="MyCalories" ng-model="addride.calories" placeholder="My Calories" ng-keydown="CheckNumber($event)">
+
+                                        </div>
+
+                                    </div>
 
                                 </div>
 
@@ -408,7 +462,7 @@
 
                 <div class="modal-footer edit_stable_footer">
 
-                    <button type="button" class="btn btn-block" ng-click="SaveStable()">Save changes</button>
+                    <button type="button" class="btn btn-block" ng-click="SaveStable()">Save Ride</button>
 
                 </div>
 
@@ -419,7 +473,6 @@
     </div>
 
 </div>
-
 
 <div class="" ng-include="'includes/footer.html'"></div>
 

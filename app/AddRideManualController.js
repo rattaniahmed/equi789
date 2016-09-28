@@ -36,6 +36,8 @@
     var ref = firebaseService.FIREBASEENDPOINT();
     $scope.horses = $firebaseArray(ref.child('rides'));
     $scope.users = $firebaseArray(ref.child('users'));
+    $scope.horserepo = $firebaseArray(ref.child('horses'));
+    $scope.currenthorse = storageService.getObject("CS");
 
     $scope.Logout = function () {
         storageService.setObject("CU", null);
@@ -88,51 +90,42 @@
         ismanualride:1
     }
 
-
-
-
-    
-
-
-
     $scope.SaveStable = function () {
 
         $scope.addride.start_time = document.getElementById("StartRide").value;
-        $scope.  addride.end_time = document.getElementById("EndRide").value;
-        $scope. addride.ride_time = document.getElementById("RideTime").value;
+        $scope.addride.end_time = document.getElementById("EndRide").value;
+        $scope.addride.ride_time = document.getElementById("RideTime").value;
         $scope.addride.total_time = document.getElementById("TotalTime").value;
-       
-        console.log($scope.addride)
-        blockUI.start("Adding horse details.....");
-        $scope.horses.$add($scope.addride).then(function (ref)
 
-        {
+        console.log($scope.addride)
+        blockUI.start("Adding horse Ride.....");
+        $scope.horses.$add($scope.addride).then(function (ref) {
             debugger;
             var id = ref.key();
             console.log("added record with id " + id);
-            swal("", "Your stable details has been added success fully", "success");
+            swal("", "Your Ride has been added success fully", "success");
             //$location.path('my-stable.html');
-
-            $scope.user.Details.horse_ids[id] = {
-                created_at: ""
-            };
+            debugger;
+            var d = new Date();
+            $scope.currenthorse.rides_ids[id] = d.getTime();
 
             //$scope.user.Details.horse_ids.push(id);
-            storageService.setObject("CU", $scope.user);
+            storageService.setObject("CS", $scope.currenthorse);
 
-            var userRef = $scope.users.$getRecord($scope.user.Auth.uid);
-            userRef.horse_ids[id] = {
-                created_at: ""
-            };
+            var currenthorseRef = $scope.horserepo.$getRecord($scope.currenthorse.$id);
+            currenthorseRef.rides_ids[id] = d.getTime();
 
-            $scope.users.$save(userRef).then(function (res) {
+            $scope.horserepo.$save(currenthorseRef).then(function (res) {
+
+                window.location.reload();
+
                 console.log(res);
                 //$scope.user.Details.profile = userRef.profile;
                 $scope.$apply(function () {
                     blockUI.stop();
                 });
 
-                window.location.reload();
+               
             });
 
 

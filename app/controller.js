@@ -609,7 +609,7 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
         var totalTopSspeed = [];
         var averageSpeed = 0.0;
         debugger;
-        for (var id in $scope.stb.ride_ids) {
+        for (var id in $scope.stb.rides_ids) {
             var ride = $scope.rides.$getRecord(id);
             debugger;
             //$scope.totalRidesDetails.push(ride);
@@ -926,7 +926,7 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
 
         $scope.histories = [];
 
-        for (var id in $scope.stb.ride_ids) {
+        for (var id in $scope.stb.rides_ids) {
             var horseHistory = $scope.history.$getRecord(id);
             //var time = horseHistory.start_time; //$scope.stb.ride_ids[id];
 
@@ -1048,13 +1048,13 @@ app.controller('AllHistoryController', function MyCtrl($scope, $location, $fireb
     $scope.SeeMap = function (his) {
         storageService.setObject("RIFM", his.$id);
         $location.path('ridemap.html');
-        console.log(his.ride_ids);
+        console.log(his.rides_ids);
     }
 
     $scope.RideDetail = function (his) {
         storageService.setObject("RIDEDETAILID", his.$id);
         $location.path('ride-detail.html');
-        console.log(his.ride_ids);
+        console.log(his.rides_ids);
     }
 
 
@@ -1068,7 +1068,7 @@ app.controller('AllHistoryController', function MyCtrl($scope, $location, $fireb
 
         $scope.histories = [];
 
-        for (var id in $scope.stb.ride_ids) {
+        for (var id in $scope.stb.rides_ids) {
 
             var horseHistory = $scope.history.$getRecord(id);
             //var time = $scope.stb.ride_ids[id];
@@ -1167,11 +1167,11 @@ app.controller('DashboardController', function MyCtrl($scope, $location, $fireba
             var horse = $scope.horses.$getRecord(key);
             
             try{
-                for (var i in horse.ride_ids) {
+                for (var i in horse.rides_ids) {
                     ids.push({
-                        Id: i, Val: horse.ride_ids[i]
+                        Id: i, Val: horse.rides_ids[i]
                     })
-                    vals.push(horse.ride_ids[i]);
+                    vals.push(horse.rides_ids[i]);
                 }
             }
             catch (errloop) {
@@ -1351,12 +1351,12 @@ app.controller('LastRideController', function MyCtrl($scope, $location, $firebas
 
     var ids = [];
     var vals = [];
-    for (var i in $scope.stb.ride_ids)
+    for (var i in $scope.stb.rides_ids)
     {
         ids.push({
-            Id: i, Val: $scope.stb.ride_ids[i]
+            Id: i, Val: $scope.stb.rides_ids[i]
         })
-        vals.push($scope.stb.ride_ids[i]);
+        vals.push($scope.stb.rides_ids[i]);
     }
 
     var max = Math.max.apply(Math, vals);
@@ -1572,7 +1572,9 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
     $scope.user = storageService.getObject("CU");
 
     $scope.stb = storageService.getObject("CS");
+  
     console.log($scope.stb);
+    
 
     //var ids = [];
     //var vals = [];
@@ -1606,6 +1608,130 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
 
 
     console.log($scope.stb);
+    var ref = firebaseService.FIREBASEENDPOINT();
+    $scope.riderepo = $firebaseArray(ref.child('rides'));
+    $scope.horserepo = $firebaseArray(ref.child('horses'));
+    console.log($scope.riderepo);
+    console.log($scope.horserepo);
+    console.log(ref);
+
+
+
+    $scope.test=function(id)
+    {
+
+        $scope.riderepo.$remove(id).then(function (ref) {
+            debugger;
+            var id = ref.key();
+
+            for (var i = 0; i <= $scope.stb.rides_ids.length; i++) {
+                if ($scope.stb.rides_ids[i] == id) {
+                    console.log("Deleted success fully");
+                }
+            }
+
+
+
+            //console.log("added record with id " + id);               
+            //$location.path('my-stable.html');
+
+            //$scope.user.Details.horse_ids[id] = {
+            //    created_at: ""
+            //};
+
+            delete $scope.stb.rides_ids[id];
+
+            //$scope.user.Details.horse_ids.push(id);
+            storageService.setObject("CS", $scope.stb);
+
+
+            //userRef.horse_ids[id] = {
+            //    created_at: ""
+            //};
+            //var currenthorseRef = $scope.horserepo.$getRecord($scope.currenthorse.$id);
+            //delete $scope.horserepo.ride_ids[id];
+
+            $scope.horserepo.$save($scope.stb).then(function (res) {
+                console.log(res);
+                //$scope.user.Details.profile = userRef.profile;
+                $scope.$apply(function () {
+                    blockUI.stop();
+                });
+
+                window.location.reload();
+            });
+
+        });
+
+    }
+
+
+
+
+
+
+    $scope.DeleteRide = function (id) {
+
+
+
+        swal({
+            title: "Are you sure?", text: "This Ride will be deleted from the web and all devices, do you wish to continue!",
+            type: "warning", showCancelButton: true,
+            confirmButtonColor: "#DD6B55", confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        }, function () {
+        
+
+            blockUI.start("Removing Ride .....");
+            $scope.riderepo.$remove(id).then(function (ref) {
+                debugger;
+                var id = ref.key();
+
+                for (var i = 0; i <= $scope.stb.rides_ids.length; i++)
+                {
+                    if ($scope.stb.rides_ids[i] == id) {
+                        console.log("Deleted success fully");
+                    }
+                }
+
+               
+
+                //console.log("added record with id " + id);               
+                //$location.path('my-stable.html');
+
+                //$scope.user.Details.horse_ids[id] = {
+                //    created_at: ""
+                //};
+
+                delete $scope.stb.rides_ids[id];
+
+                //$scope.user.Details.horse_ids.push(id);
+                storageService.setObject("CS", $scope.stb);
+
+
+                //userRef.horse_ids[id] = {
+                //    created_at: ""
+                //};
+                //var currenthorseRef = $scope.horserepo.$getRecord($scope.currenthorse.$id);
+                //delete $scope.horserepo.ride_ids[id];
+
+                $scope.horserepo.$save($scope.stb).then(function (res) {
+                    console.log(res);
+                    //$scope.user.Details.profile = userRef.profile;
+                    $scope.$apply(function () {
+                        blockUI.stop();
+                    });
+
+                    window.location.reload();
+                });
+
+            });
+
+            //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+        });
+
+    }
+
 
     $scope.Logout = function () {
         storageService.setObject("CU", null);
@@ -1616,7 +1742,7 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
     $scope.SeeMap = function (his) {
         storageService.setObject("RIFM", his.$id);
         $location.path('ridemap.html');
-        console.log(his.ride_ids);
+        console.log(his.rides_ids);
     }
 
 
@@ -2141,7 +2267,7 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
             var horse = $scope.horses.$getRecord(key);
 
             try {
-                for (var i in horse.ride_ids) {
+                for (var i in horse.rides_ids) {
                     ids.push(i);
                 }
             }
@@ -2364,7 +2490,7 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
 
                             debugger;
                             $scope.isRideExist = false;
-                            for (var id in value.ride_ids) {
+                            for (var id in value.rides_ids) {
                                 var ride = $scope.RidesData.$getRecord(id);
                                 $scope.totalLength = $scope.totalLength + 1;
                                 $scope.totalDistance = parseFloat($scope.totalDistance) + parseFloat(ride.total_distance);
