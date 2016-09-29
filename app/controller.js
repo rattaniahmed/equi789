@@ -932,8 +932,8 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
     $scope.histories = [];
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
-    $scope.history = $firebaseArray(ref.child('rides'));
-    $scope.history.$loaded().then(function (dataArray) {
+    $scope.rides = $firebaseArray(ref.child('rides'));
+    $scope.rides.$loaded().then(function (dataArray) {
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
 
         var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -941,7 +941,7 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
         $scope.histories = [];
 
         for (var id in $scope.stb.rides_ids) {
-            var horseHistory = $scope.history.$getRecord(id);
+            var horseHistory = $scope.rides.$getRecord(id);
             //var time = horseHistory.start_time; //$scope.stb.ride_ids[id];
 
             var date = new Date(horseHistory.start_time);// //new Date(parseInt(time));
@@ -1671,12 +1671,14 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
                 });
 
                 window.location.reload();
+              
             });
 
         }).catch(function (err) {
             console.log(err);
         });
-
+        swal("", "Your Ride has been removed success fully", "success");
+        $location.path('ride-history.html');
     }
 
 
@@ -1695,53 +1697,7 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
             closeOnConfirm: false
         }, function () {
         
-
-            blockUI.start("Removing Ride .....");
-            $scope.riderepo.$remove(id).then(function (ref) {
-                debugger;
-                var id = ref.key();
-
-                for (var i = 0; i <= $scope.stb.rides_ids.length; i++)
-                {
-                    if ($scope.stb.rides_ids[i] == id) {
-                        console.log("Deleted success fully");
-                    }
-                }
-
-               
-
-                //console.log("added record with id " + id);               
-                //$location.path('my-stable.html');
-
-                //$scope.user.Details.horse_ids[id] = {
-                //    created_at: ""
-                //};
-
-                delete $scope.stb.rides_ids[id];
-
-                //$scope.user.Details.horse_ids.push(id);
-                storageService.setObject("CS", $scope.stb);
-
-
-                //userRef.horse_ids[id] = {
-                //    created_at: ""
-                //};
-                //var currenthorseRef = $scope.horserepo.$getRecord($scope.currenthorse.$id);
-                //delete $scope.horserepo.ride_ids[id];
-
-                $scope.horserepo.$save($scope.stb).then(function (res) {
-                    console.log(res);
-                    //$scope.user.Details.profile = userRef.profile;
-                    $scope.$apply(function () {
-                        blockUI.stop();
-                    });
-
-                    window.location.reload();
-                });
-
-            });
-
-            //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+            $scope.test(id);
         });
 
     }
@@ -1944,6 +1900,8 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
     $scope.stb = storageService.getObject("CS");
 
     $scope.rideId = storageService.getObject("RIFM");
+
+    $scope.rideId = "-KSkp_i7vrNQGqm4z6E";
 
     try {
         //$scope.rideId = $scope.stb.ride_ids[0];
@@ -2502,6 +2460,7 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                             $scope.totalDistance = 0.0;
                             $scope.totalDuration = 0;
                             $scope.totalEnergy = 0;
+                            $scope.rideCount = 0;
 
                             debugger;
                             $scope.isRideExist = false;
@@ -2517,6 +2476,14 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                                 averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
                                 totalTopSspeed.push(parseFloat(ride.top_speed));
                                 $scope.isRideExist = true;
+                               
+                                if (ride.ismanualride == 1) {
+                                    $scope.rideCount++;
+
+                                }
+                                   
+
+                                  
                             }
 
                             if ($scope.isRideExist) {
@@ -2533,6 +2500,7 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                                 $scope.totalTopSspeed = Math.max.apply(Math, totalTopSspeed);
 
                                 $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
+                             
                             }
                             else {
                                 $scope.totalLength = 0;
@@ -2598,6 +2566,15 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                                     $scope.getHeader.push("Last Cordinate");
                                 row.LastCordinate = "23.44354354,45.343545454";
                             }
+
+                            if (!$scope.isHeaderCreated)
+                                $scope.getHeader.push("Manual Ride");
+                            row.ManualRideCount = $scope.rideCount;
+
+                              
+                                
+                          
+
                             $scope.isHeaderCreated = true;
 
                             $scope.rows.push(row);

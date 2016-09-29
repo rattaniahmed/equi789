@@ -36,7 +36,7 @@
 
                     </div>
 
-                    <div class="bc_right_add_btn"> <a href="#add_stable" class="btn btn-border" data-toggle="modal"> Add Manual Ride</a> </div>
+                    <!--<div class="bc_right_add_btn"> <a href="#add_stable" class="btn btn-border" data-toggle="modal"> Add Manual Ride</a> </div>-->
 
                 </div>
 
@@ -323,7 +323,7 @@
                                         <div class="grid-9">
 
                                             <div class='input-group date' >
-                                                <input type="text" class="form-control" id="RideTime" ng-model="addride. ride_time" placeholder="HH:mm">
+                                                <input type="text" class="form-control" id="RideTime" ng-model="addride. ride_time" placeholder="Ride Time" ng-keydown="CheckNumber($event)">
                                                 
                                             </div>
 
@@ -343,7 +343,7 @@
                                         <div class="grid-9">
 
                                             <div class='input-group date' id='datetimepicker4'>
-                                                <input type="text" class="form-control" id="TotalTime" ng-model="addride.total_time" placeholder="HH:mm">
+                                                <input type="text" class="form-control" id="TotalTime" ng-model="addride.total_time" placeholder="Total Time" ng-keydown="CheckNumber($event)">
                                                 
                                             </div>
                                            

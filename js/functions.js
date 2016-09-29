@@ -3,24 +3,33 @@ function IsNull(val) {
         return true;
     else
         return false;
-}
+}
+
 
 function ReplaceNull(val) {
     if (val == '' || val == null || val === undefined)
         return '';
     else
         return val;
-}function CleanProfileUrl(url) {
+}
+
+
+function CleanProfileUrl(url) {
     if (IsNull(url))
         return "images/duser.png";
     else
         return url;
-}function CleanHorseProfileUrl(url) {
+}
+
+function CleanHorseProfileUrl(url) {
     if (IsNull(url) || url== "images/placeholder.png")
         return "images/horsePlaceHolder.png";
     else
         return url;
-}function ValidateControl(ctrls) {
+}
+
+
+function ValidateControl(ctrls) {
 
     var isValid = true;
     
@@ -38,7 +47,9 @@ function ReplaceNull(val) {
 
     return isValid;
 
-}
+}
+
+
 function PrepareRequestForMail(prcid, TO, CC, From, Subject, Body, DisplayName) {
     var inputData = {};
     inputData.PRCID = prcid;
@@ -53,13 +64,15 @@ function PrepareRequestForMail(prcid, TO, CC, From, Subject, Body, DisplayName) 
     console.log(inputData);
     return inputData;
 }
-function DrawMap(flightPlanCoordinates ) {
+
+function DrawMap(flightPlanCoordinates ) {
 
 
     if (flightPlanCoordinates == null || flightPlanCoordinates.length == 0 ) {
 
         var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 14,
+            //zoom: 14,
+            zoom: 4,
             center: {
                 lat: 40.712784, lng: -74.005941
             },
@@ -142,6 +155,7 @@ function PrepareRequestForMail(prcid, TO, CC, From, Subject, Body, DisplayName) 
         directionsService.route(request, function (result, status) {
             if (status == 'OK') {
                 directionsDisplay.setDirections(result);
+                var route = response.routes[0];
             }
         });
 
@@ -156,7 +170,9 @@ function PrepareRequestForMail(prcid, TO, CC, From, Subject, Body, DisplayName) 
         flightPath.setMap(map);
 
     }
-}function pad(num) {
+}
+
+function pad(num) {
     return ("0" + num).slice(-2);
 }
 
@@ -166,47 +182,93 @@ function hhmmss(secs) {
     var hours = Math.floor(minutes / 60)
     minutes = minutes % 60;
     return pad(hours) + ":" + pad(minutes) + ":" + pad(secs);
-}function initparallax() {
-    var a = {
-        Android: function() {
-            return navigator.userAgent.match(/Android/i);
-        },
-        BlackBerry: function() {
-            return navigator.userAgent.match(/BlackBerry/i);
-        },
-        iOS: function() {
-            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        },
-        Opera: function() {
-            return navigator.userAgent.match(/Opera Mini/i);
-        },
-        Windows: function() {
-            return navigator.userAgent.match(/IEMobile/i);
-        },
-        any: function() {
-            return a.Android() || a.BlackBerry() || a.iOS() || a.Opera() || a.Windows();
-        }
-    };
-    trueMobile = a.any();
-    if (null == trueMobile) {
-        var s = skrollr.init();
-    }
-    	 
-}
-$(document).ready(function() {
-    initparallax();
-});
-
-app.directive('toogle',  ['$rootScope', function($rootScope) {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-            $(".nav_bar_btn").click(function(e) {
-        		$(".nav_bar_nav").slideToggle();
-    		});
-			$(window).resize(function(e) {
-                $(".nav_bar_nav").removeAttr("style");
-            });
-        }
-    };
+}
+
+
+function initparallax() {
+
+    var a = {
+
+        Android: function() {
+
+            return navigator.userAgent.match(/Android/i);
+
+        },
+
+        BlackBerry: function() {
+
+            return navigator.userAgent.match(/BlackBerry/i);
+
+        },
+
+        iOS: function() {
+
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+
+        },
+
+        Opera: function() {
+
+            return navigator.userAgent.match(/Opera Mini/i);
+
+        },
+
+        Windows: function() {
+
+            return navigator.userAgent.match(/IEMobile/i);
+
+        },
+
+        any: function() {
+
+            return a.Android() || a.BlackBerry() || a.iOS() || a.Opera() || a.Windows();
+
+        }
+
+    };
+
+    trueMobile = a.any();
+
+    if (null == trueMobile) {
+
+        var s = skrollr.init();
+
+    }
+
+    	 
+
+}
+
+$(document).ready(function() {
+
+    initparallax();
+
+});
+
+
+
+app.directive('toogle',  ['$rootScope', function($rootScope) {
+
+    return {
+
+        restrict: 'A',
+
+        link: function(scope, element, attrs) {
+
+            $(".nav_bar_btn").click(function(e) {
+
+        		$(".nav_bar_nav").slideToggle();
+
+    		});
+
+			$(window).resize(function(e) {
+
+                $(".nav_bar_nav").removeAttr("style");
+
+            });
+
+        }
+
+    };
+
 }]);
