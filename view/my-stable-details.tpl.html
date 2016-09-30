@@ -1279,7 +1279,7 @@
 </div>
 
 
-<div class="modal" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="AddRideManualController">
+<div class="modal" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="SearchRide">
 
     <div class="modal-dialog modal-lg" role="document">
 
@@ -1288,13 +1288,16 @@
 
             <form>
 
-
+                <div id="floating-panel">
+                    <b>Start: </b>
+                    <input id="pac-input" class="controls" type="text" placeholder="Start Ride">
+                    <b>End: </b>
+                    <input id="pac-input1" class="controls" type="text" placeholder="End Ride">
+                </div>
              
                  
-                    <input id="pac-input" class="controls" type="text" placeholder="Start Ride">
+                    
                    
-                    <!--<input id="pac-input1" class="controls" type="text" placeholder="End Ride">-->
-
                 <!--<input id="pac-input" class="controls" type="text" placeholder="Search Box">
 
                 <input id="pac-input" class="controls" type="text" placeholder="Search Box">-->

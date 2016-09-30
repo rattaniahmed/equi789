@@ -17,6 +17,21 @@
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
       }
 
+       #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 0%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+
+
       #pac-input {
         background-color: #fff;
         font-family: Roboto;
@@ -37,16 +52,17 @@
         text-overflow: ellipsis;
         width: 300px;
       }
+
       #pac-input:focus {
         border-color: #4d90fe;
       }
 
-      .pac-container {
-        font-family: Roboto;
-      }
-
-
       /*.pac-container {
+        font-family: Roboto;
+      }*/
+
+
+      .pac-container {
     background-color: #FFF;
     z-index: 20;
     position: fixed;
@@ -58,7 +74,7 @@
 }
 .modal-backdrop{
     z-index: 10;        
-}*/
+}
       #type-selector {
         color: #fff;
         background-color: #4d90fe;
