@@ -65,10 +65,10 @@ function PrepareRequestForMail(prcid, TO, CC, From, Subject, Body, DisplayName) 
     return inputData;
 }
 
-function DrawMap(flightPlanCoordinates ) {
+function DrawMap(flightPlanCoordinates) {
 
 
-    if (flightPlanCoordinates == null || flightPlanCoordinates.length == 0 ) {
+    if (flightPlanCoordinates == null || flightPlanCoordinates.length == 0) {
 
         var map = new google.maps.Map(document.getElementById('map'), {
             //zoom: 14,
@@ -87,21 +87,55 @@ function DrawMap(flightPlanCoordinates ) {
     else {
         var lat = 0;
         var lng = -180;
-        // if (flightPlanCoordinates.length > 2) {
-        //     var index = parseInt((flightPlanCoordinates.length - 1) / 2);
-        //     lat = flightPlanCoordinates[index].lat;
-        //     lng = flightPlanCoordinates[index].lng;
-        // }
-        // else {
-        //     lat = 0;
-        //     lng = -180;
-        // }
 
         lat = flightPlanCoordinates[0].lat;
         lng = flightPlanCoordinates[0].lng;
 
 
-        var directionsService = new google.maps.DirectionsService();
+        //var directionsService = new google.maps.DirectionsService();
+
+        //var map = new google.maps.Map(document.getElementById('map'), {
+        //    zoom: 14,
+        //    center: { lat: lat, lng: lng },
+        //    zoomControl: true,
+        //    zoomControlOptions: {
+        //        position: google.maps.ControlPosition.TOP_RIGHT
+        //    },
+        //    mapTypeId: 'terrain'
+        //});
+
+        //var directionsDisplay = new google.maps.DirectionsRenderer({ map: map });
+
+        ////var toDisplay = [];
+
+
+        ////for (var i = 0 ; i < flightPlanCoordinates.length; i++) {
+        ////    toDisplay.push({
+        ////        location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
+        ////        stopover: true
+        ////    });
+        ////}
+
+
+
+        //var request = {
+        //    origin: flightPlanCoordinates[0],
+        //    destination: flightPlanCoordinates[flightPlanCoordinates.length - 1],
+        //    travelMode: 'BICYCLING'           
+        //};
+
+        //directionsService.route(request, function (result, status) {
+        //    if (status == 'OK') {
+        //        directionsDisplay.setDirections(result);
+        //        var route = response.routes[0];
+        //    }
+        //});
+
+
+
+
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
 
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 14,
@@ -113,51 +147,40 @@ function DrawMap(flightPlanCoordinates ) {
             mapTypeId: 'terrain'
         });
 
-        var directionsDisplay = new google.maps.DirectionsRenderer({ map: map });
-
-        var toDisplay = [];
-
-        // if (flightPlanCoordinates.length > 8) {
-
-        //     for (var i = 1 ; i <= 3; i++) {
-        //         toDisplay.push({
-        //             location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
-        //             stopover: true
-        //         });
-        //     }
-
-        //     for (var i = flightPlanCoordinates.length - 5 ; i <= flightPlanCoordinates.length - 2; i++) {
-        //         toDisplay.push({
-        //             location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
-        //             stopover: true
-        //         });
-        //     }
-
-        // }
-
-        //else {
-        for (var i = 0 ; i < flightPlanCoordinates.length; i++) {
-            toDisplay.push({
-                location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
-                stopover: true
-            });
-        }
-        //}
+        //var map = new google.maps.Map(document.getElementById('map'), {
+        //    zoom: 7,
+        //    center: { lat: 41.85, lng: -87.65 }
+        //});
 
 
-        var request = {
+        directionsDisplay.setMap(map);
+
+
+
+        directionsService.route({
             origin: flightPlanCoordinates[0],
             destination: flightPlanCoordinates[flightPlanCoordinates.length - 1],
-            travelMode: 'BICYCLING',
-            waypoints: toDisplay
-        };
-
-        directionsService.route(request, function (result, status) {
-            if (status == 'OK') {
-                directionsDisplay.setDirections(result);
-                var route = response.routes[0];
+            travelMode: 'DRIVING'
+        }, function (response, status) {
+            if (status === 'OK') {
+                directionsDisplay.setDirections(response);
+            } else {
+                window.alert('Directions request failed due to ' + status);
             }
         });
+
+
+        //directionsService.route({
+        //    origin: document.getElementById('start').value,
+        //    destination: document.getElementById('end').value,
+        //    travelMode: 'DRIVING'
+        //}, function (response, status) {
+        //    if (status === 'OK') {
+        //        directionsDisplay.setDirections(response);
+        //    } else {
+        //        window.alert('Directions request failed due to ' + status);
+        //    }
+        //});
 
         var flightPath = new google.maps.Polyline({
             path: flightPlanCoordinates,

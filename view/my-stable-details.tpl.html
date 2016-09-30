@@ -128,9 +128,9 @@
                         <div class="row">
 
                             <div class="left_btns"> 
-                                <a href="last-ride.html" class="btn btn-sm">Last Ride</a>
-                                <a href="ride-history.html" class="btn btn-sm" ng-click="History()">Ride History</a>
-                                <a href="#add_ride" class="btn btn-sm">Add Manual Ride </a>
+                                <a href="last-ride.html" class="btn btn-sm" style="border: 2px solid #f5ca73;background-color: transparent">Last Ride</a>
+                                <a href="ride-history.html" class="btn btn-sm" ng-click="History()" style="border: 2px solid #f5ca73;background-color: transparent">Ride History</a>
+                                <a href="#mapModal" class="btn btn-sm" data-toggle="modal"style="border: 2px solid #f5ca73;background-color: transparent">Add Manual Ride </a>
                              </div>
 
                             <div class="right_btns">
@@ -1052,7 +1052,7 @@
 
                                         <div class="grid-9">
 
-                                            <input type="text" class="form-control" id="Location" ng-model="addride.location" placeholder="Location">
+                                            <input type="text" class="form-control" id="location" ng-model="addride.location" placeholder="Enter a location">
 
                                         </div>
 
@@ -1086,7 +1086,7 @@
                                         <div class="grid-9">
 
                                             <select class="form-control" id="gndcondition" ng-model="addride.ground_condition">
-                                                <option>Select</option>
+                                                <option selected>Select</option>
                                                 <option>Excellent</option>
                                                 <option>Average</option>
                                                 <option>Poor</option>
@@ -1277,6 +1277,49 @@
     </div>
 
 </div>
+
+
+<div class="modal" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="AddRideManualController">
+
+    <div class="modal-dialog modal-lg" role="document">
+
+        <div class="modal-content">
+
+
+            <form>
+
+
+             
+                 
+                    <input id="pac-input" class="controls" type="text" placeholder="Start Ride">
+                   
+                    <!--<input id="pac-input1" class="controls" type="text" placeholder="End Ride">-->
+
+                <!--<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+
+                <input id="pac-input" class="controls" type="text" placeholder="Search Box">-->
+
+
+                <div id="map" style="height:400px;"></div>
+
+
+
+                <div class="modal-footer edit_stable_footer">
+
+                    <button type="button" class="btn btn-block" ng-click="SaveMap()">Save Co-ordinate</button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
 <div class="" ng-include="'includes/footer.html'"></div>
 
 

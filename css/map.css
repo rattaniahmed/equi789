@@ -27,7 +27,16 @@
         text-overflow: ellipsis;
         width: 300px;
       }
-
+          #pac-input1 {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 300px;
+      }
       #pac-input:focus {
         border-color: #4d90fe;
       }
@@ -36,6 +45,20 @@
         font-family: Roboto;
       }
 
+
+      /*.pac-container {
+    background-color: #FFF;
+    z-index: 20;
+    position: fixed;
+    display: inline-block;
+    float: left;
+}
+.modal{
+    z-index: 20;   
+}
+.modal-backdrop{
+    z-index: 10;        
+}*/
       #type-selector {
         color: #fff;
         background-color: #4d90fe;
@@ -49,4 +72,22 @@
       }
       #target {
         width: 345px;
+      }
+
+
+      #map {
+        height: 100%;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
       }
