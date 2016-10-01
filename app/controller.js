@@ -933,6 +933,7 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.rides = $firebaseArray(ref.child('rides'));
+    $scope.horserepo = $firebaseArray(ref.child('horses'));
     $scope.rides.$loaded().then(function (dataArray) {
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
 
@@ -974,6 +975,10 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
             }
         }
 
+     
+     
+      
+
 
         
         $scope.historiesToDisplay = [];
@@ -991,7 +996,7 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
 
             for (var inner = 0; inner < history.DataArray.length; inner++) {
 
-                debugger;
+            
 
                 var ride = history.DataArray[inner];
                 totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
@@ -1004,7 +1009,7 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
                 totalTopSspeed.push(parseFloat(ride.top_speed));
             }
 
-            debugger;
+           
             history.totalDistance = parseFloat(Math.round(totalDistance * 100) / 100).toFixed(2);
             history.totalEnergy = parseFloat(Math.round(totalEnergy * 100) / 100).toFixed(2);
             history.totalCalories = parseFloat(Math.round(totalCalories * 100) / 100).toFixed(2);
@@ -1031,93 +1036,9 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
 
     });
     
-
 });
 
-app.controller('AllHistoryController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
-
-
-    //$(function () {
-    //    $('#dp3').datepicker({
-    //        viewMode: 'years'
-    //    });
-
-    //});
-
-    console.log("AllHistoryController");
-    sessionService.CHECKSESSION();
-    $scope.user = storageService.getObject("CU");
-
-    $scope.stb = storageService.getObject("CS");
-
-    $scope.historyCache = storageService.getObject("CHIST");
-
-    console.log($scope.stb);
-
-    $scope.Logout = function () {
-        storageService.setObject("CU", null);
-        $location.path('/');
-    }
-
-    $scope.SeeMap = function (his) {
-        storageService.setObject("RIFM", his.$id);
-        $location.path('ridemap.html');
-        console.log(his.ride_ids);
-    }
-
-    $scope.RideDetail = function (his) {
-        storageService.setObject("RIDEDETAILID", his.$id);
-        $location.path('ride-detail.html');
-        console.log(his.ride_ids);
-    }
-
-
-    $scope.histories = [];
-
-    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
-    $scope.history = $firebaseArray(ref.child('rides'));
-    $scope.history.$loaded().then(function (dataArray) {
-        // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
-        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-        $scope.histories = [];
-
-        for (var id in $scope.stb.ride_ids) {
-
-            var horseHistory = $scope.history.$getRecord(id);
-            //var time = $scope.stb.ride_ids[id];
-
-
-            //var date = new Date(parseInt(time));
-            var date = new Date(horseHistory.start_time);
-
-            var month = monthNames[date.getMonth()];
-            var year = date.getFullYear();
-
-
-
-            if ($scope.historyCache.Month == month && $scope.historyCache.Year == year) {
-                horseHistory.ActualTime = date;
-                horseHistory.TimeToDisplay = date.format("mmmm d, yyyy h:MM:ss TT");
-                horseHistory.total_time = hhmmss(horseHistory.total_time);
-                $scope.histories.push(horseHistory);
-            }
-        }
-
-        $scope.histories = $scope.histories.sort(function (a, b) {
-            //return new Date(b.ActualTime).getTime() - new Date(a.ActualTime).getTime()
-            return b.ActualTime.getTime() - a.ActualTime.getTime()
-            //return a > b;
-        });
-
-
-        //$scope.histories = horseHistory;
-    }).catch(function (err) {
-
-    });
-
-
-});
+//AllHistoryController
 
 app.controller('NavController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI) {
 

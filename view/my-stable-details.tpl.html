@@ -128,9 +128,9 @@
                         <div class="row">
 
                             <div class="left_btns"> 
-                                <a href="last-ride.html" class="btn btn-sm" style="border: 2px solid #f5ca73;background-color: transparent">Last Ride</a>
-                                <a href="ride-history.html" class="btn btn-sm" ng-click="History()" style="border: 2px solid #f5ca73;background-color: transparent">Ride History</a>
-                                <a href="#mapModal" class="btn btn-sm" data-toggle="modal"style="border: 2px solid #f5ca73;background-color: transparent">Add Manual Ride </a>
+                                <a href="last-ride.html" class="btn btn-sm" style="border: 2px solid #f5ca73;background-color: transparent; color:#f5ca73">Last Ride</a>
+                                <a href="ride-history.html" class="btn btn-sm" ng-click="History()" style="border: 2px solid #f5ca73;background-color: transparent;color:#f5ca73">Ride History</a>
+                                <a href="#add_ride" class="btn btn-sm" data-toggle="modal"style="border: 2px solid #f5ca73;background-color: transparent;color:#f5ca73">Add Manual Ride </a>
                              </div>
 
                             <div class="right_btns">
@@ -1279,7 +1279,7 @@
 </div>
 
 
-<div class="modal" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="SearchRide">
+<div class="modal" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="AddRideManualController">
 
     <div class="modal-dialog modal-lg" role="document">
 
@@ -1288,14 +1288,11 @@
 
             <form>
 
-                <div id="floating-panel">
-                    <b>Start: </b>
+          
                     <input id="pac-input" class="controls" type="text" placeholder="Start Ride">
-                    <b>End: </b>
+                  
                     <input id="pac-input1" class="controls" type="text" placeholder="End Ride">
-                </div>
-             
-                 
+              
                     
                    
                 <!--<input id="pac-input" class="controls" type="text" placeholder="Search Box">
@@ -1309,7 +1306,7 @@
 
                 <div class="modal-footer edit_stable_footer">
 
-                    <button type="button" class="btn btn-block" ng-click="SaveMap()">Save Co-ordinate</button>
+                    <button type="button" ng-click="SaveMap()">Save Co-ordinate</button>
 
                 </div>
 

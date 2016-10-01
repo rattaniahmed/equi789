@@ -1,4 +1,4 @@
-﻿app.controller('AddRideManualController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
+﻿app.controller('EditRideManualController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
 
 
     $scope.init = function () {
@@ -11,25 +11,12 @@
         });
 
 
-        //$(function () {
-        //    $('#RideTime').datetimepicker({
-        //        format: 'LT'
-        //    });
-        //});
-
-        //$(function () {
-        //    $('#TotalTime').datetimepicker({
-        //        format: 'LT'
-        //    });
-        //});
-
-
 
 
 
     }
 
-    console.log("AddRideManualController");
+    console.log("EditRideManualController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
 
@@ -67,6 +54,7 @@
         }
     }
     $scope.init();
+
     $scope.assolist = [
         { name: "", number: "" },
           { name: "", number: "" },
@@ -74,23 +62,8 @@
               { name: "", number: "" },
     ];
 
-    $scope.addride = {
-        average_heart_rate:"",
-        average_speed: "",
-        calories:"",
-        end_time: "",
-        energy: "",
-        ground_condition: "",
-        high_heart_rate:"",
-        location:"",
-        ride_time:"",
-        start_time:"",
-        top_speed:"",
-        total_distance:"",
-        total_time:"",
-        weather: "",
-        ismanualride:1
-    }
+    //
+    $scope.addride = storageService.getObject("EditedRideObject")
    
     $scope.SaveStable = function () {
        
@@ -100,7 +73,7 @@
         //$scope.addride.total_time = document.getElementById("TotalTime").value;
 
         console.log($scope.addride)
-        storageService.setObject("AddedRIDE", $scope.addride);
+        storageService.setObject("EditedRideObject", $scope.addride);
         $("#add_ride").hide();
         $("#mapModal").show();
     }
@@ -118,7 +91,7 @@
     //    alert(mesg);
     //});
 
- 
+
     $scope.location=function()
     {
         debugger;
@@ -199,7 +172,7 @@
 
         var markers = [];
         var markers1 = [];
-
+      
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
         searchBox.addListener('places_changed', function () {
@@ -296,12 +269,12 @@
 
     $scope.initAutocomplete();
 
+    $scope.SaveCoods = function ()
+    {
+   
+        var currentRide = storageService.getObject("EditedRideObject");
 
-    $scope.SaveMap = function () {
-
-        var currentRide = storageService.getObject("AddedRIDE");
-
-
+        
         debugger;
         //var obj = {  0: { lat: 23.4545, lng: 12.4546565 }, 1: { lat: 23.4545, lng: 12.4546565 } } ;
 
@@ -310,12 +283,12 @@
         currentRide.start_cord = { lat: 23.3454354, lng: 12.3454354 };
         currentRide.end_cord = { lat: 23.3454354, lng: 12.3454354 };
 
-        blockUI.start("Adding horse Ride.....");
+        //blockUI.start("Adding horse Ride.....");
         $scope.horses.$add(currentRide).then(function (ref) {
             debugger;
             var id = ref.key();
             console.log("added record with id " + id);
-
+            
             //swal("", "Your Ride has been added success fully", "success");
             //$location.path('my-stable.html');
             debugger;
@@ -340,7 +313,7 @@
 
             $scope.horserepo.$save(currenthorseRef).then(function (res) {
 
-
+               
                 //$('#map').modal('show');
 
                 window.location.reload();
@@ -352,12 +325,15 @@
                 });
                 swal("", "Your Ride has been add success fully", "success");
 
+            }).catch(function (err) {
+                console.log(err);
+
             });
 
 
         });
 
-    }
+   }
 
 
 });

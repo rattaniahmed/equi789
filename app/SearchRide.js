@@ -12,6 +12,10 @@
         var searchBox = new google.maps.places.SearchBox(input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
+        var input1 = document.getElementById('pac-input1');
+        var searchBox1 = new google.maps.places.SearchBox(input1);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input1);
+
         // Bias the SearchBox results towards current map's viewport.
         map.addListener('bounds_changed', function () {
             searchBox.setBounds(map.getBounds());
