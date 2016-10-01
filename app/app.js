@@ -105,6 +105,13 @@ app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
         templateUrl: 'view/contact.tpl.html',
         controller: 'ViewController',
     });
+
+    //$routeProvider.when('/mapModal.html', {
+    //    templateUrl: 'view/mapModal.tpl.html',
+    //    controller: 'MapModalController',
+    //});
+    
+
     //$routeProvider.when('/terms.html', {
     //    templateUrl: 'view/about-us.tpl.html',
     //    controller: 'ViewController',

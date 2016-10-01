@@ -92,46 +92,7 @@ function DrawMap(flightPlanCoordinates) {
         lng = flightPlanCoordinates[0].lng;
 
 
-        //var directionsService = new google.maps.DirectionsService();
-
-        //var map = new google.maps.Map(document.getElementById('map'), {
-        //    zoom: 14,
-        //    center: { lat: lat, lng: lng },
-        //    zoomControl: true,
-        //    zoomControlOptions: {
-        //        position: google.maps.ControlPosition.TOP_RIGHT
-        //    },
-        //    mapTypeId: 'terrain'
-        //});
-
-        //var directionsDisplay = new google.maps.DirectionsRenderer({ map: map });
-
-        ////var toDisplay = [];
-
-
-        ////for (var i = 0 ; i < flightPlanCoordinates.length; i++) {
-        ////    toDisplay.push({
-        ////        location: new google.maps.LatLng(flightPlanCoordinates[i].lat, flightPlanCoordinates[i].lng),
-        ////        stopover: true
-        ////    });
-        ////}
-
-
-
-        //var request = {
-        //    origin: flightPlanCoordinates[0],
-        //    destination: flightPlanCoordinates[flightPlanCoordinates.length - 1],
-        //    travelMode: 'BICYCLING'           
-        //};
-
-        //directionsService.route(request, function (result, status) {
-        //    if (status == 'OK') {
-        //        directionsDisplay.setDirections(result);
-        //        var route = response.routes[0];
-        //    }
-        //});
-
-
+       
 
 
         var directionsService = new google.maps.DirectionsService;
@@ -147,15 +108,10 @@ function DrawMap(flightPlanCoordinates) {
             mapTypeId: 'terrain'
         });
 
-        //var map = new google.maps.Map(document.getElementById('map'), {
-        //    zoom: 7,
-        //    center: { lat: 41.85, lng: -87.65 }
-        //});
+       
 
 
         directionsDisplay.setMap(map);
-
-
 
         directionsService.route({
             origin: flightPlanCoordinates[0],
@@ -170,19 +126,7 @@ function DrawMap(flightPlanCoordinates) {
         });
 
 
-        //directionsService.route({
-        //    origin: document.getElementById('start').value,
-        //    destination: document.getElementById('end').value,
-        //    travelMode: 'DRIVING'
-        //}, function (response, status) {
-        //    if (status === 'OK') {
-        //        directionsDisplay.setDirections(response);
-        //    } else {
-        //        window.alert('Directions request failed due to ' + status);
-        //    }
-        //});
-
-        var flightPath = new google.maps.Polyline({
+       var flightPath = new google.maps.Polyline({
             path: flightPlanCoordinates,
             geodesic: true,
             strokeColor: '#FF0000',
@@ -194,6 +138,59 @@ function DrawMap(flightPlanCoordinates) {
 
     }
 }
+
+
+function DrawMap2(map, flightPlanCoordinates, flightPath) {
+
+
+
+    var lat = flightPlanCoordinates[0].lat;
+    var lng = flightPlanCoordinates[0].lng;
+
+    var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer;
+
+    //var map = new google.maps.Map(document.getElementById('map'), {
+    //    zoom: 14,
+    //    center: { lat: lat, lng: lng },
+    //    zoomControl: true,
+    //    zoomControlOptions: {
+    //        position: google.maps.ControlPosition.TOP_RIGHT
+    //    },
+    //    mapTypeId: 'terrain'
+    //});
+
+    map.setCenter(new google.maps.LatLng(lat, lng));
+
+    directionsDisplay.setMap(map);
+
+    directionsService.route({
+        origin: flightPlanCoordinates[0],
+        destination: flightPlanCoordinates[flightPlanCoordinates.length - 1],
+        travelMode: 'DRIVING'
+    }, function (response, status) {
+        if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+        } else {
+            window.alert('Directions request failed due to ' + status);
+        }
+    });
+
+
+    
+
+    //var flightPath = new google.maps.Polyline({
+    //    path: flightPlanCoordinates,
+    //    geodesic: true,
+    //    strokeColor: '#FF0000',
+    //    strokeOpacity: 1.0,
+    //    strokeWeight: 2
+    //});
+
+    flightPath.setMap(map);
+
+}
+
 
 function pad(num) {
     return ("0" + num).slice(-2);

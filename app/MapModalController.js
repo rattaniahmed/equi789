@@ -1,4 +1,4 @@
-﻿app.controller('EditRideManualController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
+﻿app.controller('AddRideManualController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
 
 
     $scope.init = function () {
@@ -11,12 +11,25 @@
         });
 
 
+        //$(function () {
+        //    $('#RideTime').datetimepicker({
+        //        format: 'LT'
+        //    });
+        //});
+
+        //$(function () {
+        //    $('#TotalTime').datetimepicker({
+        //        format: 'LT'
+        //    });
+        //});
+
+
 
 
 
     }
 
-    console.log("EditRideManualController");
+    console.log("AddRideManualController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
 
@@ -54,7 +67,6 @@
         }
     }
     $scope.init();
-
     $scope.assolist = [
         { name: "", number: "" },
           { name: "", number: "" },
@@ -62,8 +74,23 @@
               { name: "", number: "" },
     ];
 
-    //
-    $scope.addride = storageService.getObject("EditedRideObject")
+    $scope.addride = {
+        average_heart_rate:"",
+        average_speed: "",
+        calories:"",
+        end_time: "",
+        energy: "",
+        ground_condition: "",
+        high_heart_rate:"",
+        location:"",
+        ride_time:"",
+        start_time:"",
+        top_speed:"",
+        total_distance:"",
+        total_time:"",
+        weather: "",
+        ismanualride:1
+    }
    
     $scope.SaveStable = function () {
        
@@ -73,10 +100,9 @@
         //$scope.addride.total_time = document.getElementById("TotalTime").value;
 
         console.log($scope.addride)
-        storageService.setObject("EditedRideObject", $scope.addride);
+        storageService.setObject("AddedRIDE", $scope.addride);
         $("#add_ride").hide();
-        $("#editMapModal").show();
-
+        $("#mapModal").show();
     }
 
 
@@ -92,51 +118,48 @@
     //    alert(mesg);
     //});
 
+ 
+    $scope.location=function()
+    {
+        debugger;
+        var map_options = {
+            center: new google.maps.LatLng(-6.21, 106.84),
+            zoom: 11,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
 
-    //$scope.location=function()
-    //{
-    //    debugger;
-    //    var map_options = {
-    //        center: new google.maps.LatLng(-6.21, 106.84),
-    //        zoom: 11,
-    //        mapTypeId: google.maps.MapTypeId.ROADMAP
-    //    };
+        var map = new google.maps.Map(document.getElementById("map"), map_options);
 
-    //    var map = new google.maps.Map(document.getElementById("map"), map_options);
+        var defaultBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(-6, 106.6),
+            new google.maps.LatLng(-6.3, 107)
+        );
 
-    //    var defaultBounds = new google.maps.LatLngBounds(
-    //        new google.maps.LatLng(-6, 106.6),
-    //        new google.maps.LatLng(-6.3, 107)
-    //    );
+        var input = document.getElementById("location");
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo("bounds", map);
 
-    //    var input = document.getElementById("location");
-    //    var autocomplete = new google.maps.places.Autocomplete(input);
-    //    autocomplete.bindTo("bounds", map);
+        var marker = new google.maps.Marker({ map: map });
 
-    //    var marker = new google.maps.Marker({ map: map });
+        google.maps.event.addListener(autocomplete, "place_changed", function () {
+            var place = autocomplete.getPlace();
 
-    //    google.maps.event.addListener(autocomplete, "place_changed", function () {
-    //        var place = autocomplete.getPlace();
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(15);
+            }
 
-    //        if (place.geometry.viewport) {
-    //            map.fitBounds(place.geometry.viewport);
-    //        } else {
-    //            map.setCenter(place.geometry.location);
-    //            map.setZoom(15);
-    //        }
+            marker.setPosition(place.geometry.location);
+        });
 
-    //        marker.setPosition(place.geometry.location);
-    //    });
+        google.maps.event.addListener(map, "click", function (event) {
+            marker.setPosition(event.latLng);
+        });
 
-    //    google.maps.event.addListener(map, "click", function (event) {
-    //        marker.setPosition(event.latLng);
-    //    });
-
-    //}
-
-    //$scope.location();
-
-
+    }
+    $scope.location();
     $scope.CheckNumber=function(event)
     {
        
@@ -149,21 +172,11 @@
         }
 
     }
-
-
-    $scope.flightPath = null;
-
     $scope.initAutocomplete = function () {
-
         var map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: -33.8688, lng: 151.2195 },
-            zoom: 14,
-            zoomControl: true,
-            zoomControlOptions: {
-                position: google.maps.ControlPosition.TOP_RIGHT
-            },
-            mapTypeId: 'terrain'
-
+            zoom: 13,
+            mapTypeId: 'roadmap'
         });
 
         // Create the search box and link it to the UI element.
@@ -175,11 +188,10 @@
         var searchBox1 = new google.maps.places.SearchBox(input1);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input1);
 
-        //// Bias the SearchBox results towards current map's viewport.
+        // Bias the SearchBox results towards current map's viewport.
         map.addListener('bounds_changed', function () {
             searchBox.setBounds(map.getBounds());
         });
-
         map.addListener('bounds_changed1', function () {
             searchBox1.setBounds(map.getBounds());
         });
@@ -187,112 +199,23 @@
 
         var markers = [];
         var markers1 = [];
-      
+
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
-
-        $scope.coords = [];
-        $scope.startSelected = false;
-        $scope.endSelected = false;
         searchBox.addListener('places_changed', function () {
-            debugger;
             var places = searchBox.getPlaces();
 
             if (places.length == 0) {
                 return;
             }
-            //console.log(markers);
-            $scope.startSelected = true;
-            $scope.coords[0] = { lat: places[0].geometry.location.lat(), lng: places[0].geometry.location.lng() };
-
-            if ($scope.startSelected && $scope.endSelected) {
-
-                if ($scope.flightPath != null)
-                    $scope.flightPath.setMap(null);
-
-                $scope.flightPath = new google.maps.Polyline({
-                    path: $scope.coords,
-                    geodesic: true,
-                    strokeColor: '#FF0000',
-                    strokeOpacity: 1.0,
-                    strokeWeight: 2
-                });
-                DrawMap2(map, $scope.coords, $scope.flightPath);
-            }
-            //// Clear out the old markers.
+            console.log(markers);
+            // Clear out the old markers.
             markers.forEach(function (marker) {
                 marker.setMap(null);
             });
             markers = [];
 
-            //// For each place, get the icon, name and location.
-            var bounds = new google.maps.LatLngBounds();
-            places.forEach(function (place) {
-                if (!place.geometry) {
-                    console.log("Returned place contains no geometry");
-                    return;
-                }
-                var icon = {
-                    url: place.icon,
-                    size: new google.maps.Size(71, 71),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(17, 34),
-                    scaledSize: new google.maps.Size(25, 25)
-                };
-
-                 //Create a marker for each place.
-                //markers.push(new google.maps.Marker({
-                //    map: map,
-                //    icon: icon,
-                //    title: place.name,
-                //    position: place.geometry.location
-                //}));
-
-                if (place.geometry.viewport) {
-                    // Only geocodes have viewport.
-                    bounds.union(place.geometry.viewport);
-                } else {
-                    bounds.extend(place.geometry.location);
-                }
-            });
-            map.fitBounds(bounds);
-        });
-
-        searchBox1.addListener('places_changed', function () {
-            debugger;
-            var places = searchBox1.getPlaces();
-
-            if (places.length == 0) {
-                return;
-            }
-            //console.log(markers);
-
-            $scope.endSelected = true;
-            $scope.coords[1] = { lat: places[0].geometry.location.lat(), lng: places[0].geometry.location.lng() };
-
-            if ($scope.startSelected && $scope.endSelected) {
-                if ($scope.flightPath != null)
-                    $scope.flightPath.setMap(null);
-
-                $scope.flightPath = new google.maps.Polyline({
-                    path: $scope.coords,
-                    geodesic: true,
-                    strokeColor: '#FF0000',
-                    strokeOpacity: 1.0,
-                    strokeWeight: 2
-                });
-                DrawMap2(map, $scope.coords, $scope.flightPath);
-
-            }
-
-             //Clear out the old markers.
-            markers1.forEach(function (marker1) {
-                marker1.setMap(null);
-            });
-            markers1 = [];
-
-
-            //// For each place, get the icon, name and location.
+            // For each place, get the icon, name and location.
             var bounds = new google.maps.LatLngBounds();
             places.forEach(function (place) {
                 if (!place.geometry) {
@@ -308,12 +231,57 @@
                 };
 
                 // Create a marker for each place.
-                //markers1.push(new google.maps.Marker({
-                //    map: map,
-                //    icon: icon,
-                //    title: place.name,
-                //    position: place.geometry.location
-                //}));
+                markers.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+                }));
+
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            });
+            map.fitBounds(bounds);
+        });
+        searchBox1.addListener('places_changed1', function () {
+            var places = searchBox1.getPlaces();
+
+            if (places.length == 0) {
+                return;
+            }
+            console.log(markers);
+            // Clear out the old markers.
+            markers1.forEach(function (marker1) {
+                marker1.setMap(null);
+            });
+            markers1 = [];
+
+            // For each place, get the icon, name and location.
+            var bounds = new google.maps.LatLngBounds();
+            places.forEach(function (place) {
+                if (!place.geometry) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+                var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
+
+                // Create a marker for each place.
+                markers1.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+                }));
 
                 if (place.geometry.viewport) {
                     // Only geocodes have viewport.
@@ -328,12 +296,12 @@
 
     $scope.initAutocomplete();
 
-    $scope.SaveCoods = function ()
-    {
-   
-        var currentRide = storageService.getObject("EditedRideObject");
 
-        
+    $scope.SaveMap = function () {
+
+        var currentRide = storageService.getObject("AddedRIDE");
+
+
         debugger;
         //var obj = {  0: { lat: 23.4545, lng: 12.4546565 }, 1: { lat: 23.4545, lng: 12.4546565 } } ;
 
@@ -342,12 +310,12 @@
         currentRide.start_cord = { lat: 23.3454354, lng: 12.3454354 };
         currentRide.end_cord = { lat: 23.3454354, lng: 12.3454354 };
 
-        //blockUI.start("Adding horse Ride.....");
+        blockUI.start("Adding horse Ride.....");
         $scope.horses.$add(currentRide).then(function (ref) {
             debugger;
             var id = ref.key();
             console.log("added record with id " + id);
-            
+
             //swal("", "Your Ride has been added success fully", "success");
             //$location.path('my-stable.html');
             debugger;
@@ -372,7 +340,7 @@
 
             $scope.horserepo.$save(currenthorseRef).then(function (res) {
 
-               
+
                 //$('#map').modal('show');
 
                 window.location.reload();
@@ -384,15 +352,12 @@
                 });
                 swal("", "Your Ride has been add success fully", "success");
 
-            }).catch(function (err) {
-                console.log(err);
-
             });
 
 
         });
 
-   }
+    }
 
 
 });
