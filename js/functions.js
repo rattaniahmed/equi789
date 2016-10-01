@@ -140,15 +140,15 @@ function DrawMap(flightPlanCoordinates) {
 }
 
 
-function DrawMap2(map, flightPlanCoordinates, flightPath) {
+function DrawMap2(map, flightPlanCoordinates, flightPath,  directionsService, directionsDisplay) {
 
 
 
     var lat = flightPlanCoordinates[0].lat;
     var lng = flightPlanCoordinates[0].lng;
 
-    var directionsService = new google.maps.DirectionsService;
-    var directionsDisplay = new google.maps.DirectionsRenderer;
+    //var directionsService = new google.maps.DirectionsService;
+    //var directionsDisplay = new google.maps.DirectionsRenderer;
 
     //var map = new google.maps.Map(document.getElementById('map'), {
     //    zoom: 14,
@@ -162,7 +162,13 @@ function DrawMap2(map, flightPlanCoordinates, flightPath) {
 
     map.setCenter(new google.maps.LatLng(lat, lng));
 
-    directionsDisplay.setMap(map);
+    //if (reRequest) {
+    //    directionsDisplay.setMap(null);
+    //    //directionsDisplay.setDirections(null);
+    //    directionsDisplay = null;
+    //}
+
+    //directionsDisplay.setMap(map);
 
     directionsService.route({
         origin: flightPlanCoordinates[0],

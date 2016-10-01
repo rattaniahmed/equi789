@@ -152,6 +152,8 @@
 
 
     $scope.flightPath = null;
+    $scope.directionsService = new google.maps.DirectionsService;
+    $scope.directionsDisplay = new google.maps.DirectionsRenderer;
 
     $scope.initAutocomplete = function () {
 
@@ -194,6 +196,9 @@
         $scope.coords = [];
         $scope.startSelected = false;
         $scope.endSelected = false;
+
+        $scope.directionsDisplay.setMap(map);
+
         searchBox.addListener('places_changed', function () {
             debugger;
             var places = searchBox.getPlaces();
@@ -209,6 +214,7 @@
 
                 if ($scope.flightPath != null)
                     $scope.flightPath.setMap(null);
+               
 
                 $scope.flightPath = new google.maps.Polyline({
                     path: $scope.coords,
@@ -217,7 +223,8 @@
                     strokeOpacity: 1.0,
                     strokeWeight: 2
                 });
-                DrawMap2(map, $scope.coords, $scope.flightPath);
+
+                DrawMap2(map, $scope.coords, $scope.flightPath, $scope.directionsService , $scope.directionsDisplay);
             }
             //// Clear out the old markers.
             markers.forEach(function (marker) {
@@ -271,8 +278,10 @@
             $scope.coords[1] = { lat: places[0].geometry.location.lat(), lng: places[0].geometry.location.lng() };
 
             if ($scope.startSelected && $scope.endSelected) {
-                if ($scope.flightPath != null)
+
+                if ($scope.flightPath != null) 
                     $scope.flightPath.setMap(null);
+                
 
                 $scope.flightPath = new google.maps.Polyline({
                     path: $scope.coords,
@@ -281,7 +290,8 @@
                     strokeOpacity: 1.0,
                     strokeWeight: 2
                 });
-                DrawMap2(map, $scope.coords, $scope.flightPath);
+
+                DrawMap2(map, $scope.coords, $scope.flightPath, $scope.directionsService , $scope.directionsDisplay);
 
             }
 
@@ -339,13 +349,13 @@
 
         //var currentRide = ///get from local storageService
 
-        currentRide.start_cord = { lat: 23.3454354, lng: 12.3454354 };
-        currentRide.end_cord = { lat: 23.3454354, lng: 12.3454354 };
+        currentRide.start_cord = $scope.coords[0];
+        currentRide.end_cord = $scope.coords[1];
 
         //blockUI.start("Adding horse Ride.....");
-        $scope.horses.$add(currentRide).then(function (ref) {
+        $scope.horses.$save(currentRide).then(function (ref) {
             debugger;
-            var id = ref.key();
+            //var id = ref.key();
             console.log("added record with id " + id);
             
             //swal("", "Your Ride has been added success fully", "success");
@@ -357,7 +367,7 @@
             }
 
             var d = new Date();
-            $scope.currenthorse.ride_ids[id] = d.getTime();
+            $scope.currenthorse.ride_ids[currentRide.$id] = d.getTime();
 
             //$scope.user.Details.horse_ids.push(id);
             storageService.setObject("CS", $scope.currenthorse);
@@ -368,7 +378,7 @@
                 currenthorseRef['ride_ids'] = {};
             }
 
-            currenthorseRef.ride_ids[id] = d.getTime();
+            currenthorseRef.ride_ids[currentRide.$id] = d.getTime();
 
             $scope.horserepo.$save(currenthorseRef).then(function (res) {
 
