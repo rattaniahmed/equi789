@@ -103,6 +103,8 @@
         storageService.setObject("AddedRIDE", $scope.addride);
         $("#add_ride").hide();
         $("#mapModal").show();
+
+        google.maps.event.trigger(map, 'resize', {});
     }
 
 
@@ -160,6 +162,11 @@
 
     }
     $scope.location();
+
+
+
+
+
     $scope.CheckNumber=function(event)
     {
        
@@ -172,7 +179,7 @@
         }
 
     }
-   /* $scope.initAutocomplete = function () {
+   /*$scope.initAutocomplete = function () {
         var map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: -33.8688, lng: 151.2195 },
             zoom: 13,
@@ -608,5 +615,9 @@
     }
     */
 
+    jQuery('#mapModal').on('shown.bs.modal', function () {
+        google.maps.event.trigger(map, 'resize', {});
+        map.setCenter(myLatlng);
+    });
 
 });

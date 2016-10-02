@@ -77,6 +77,8 @@
         $("#add_ride").hide();
         $("#editMapModal").show();
 
+        google.maps.event.trigger(map, 'resize', {});
+
     }
 
 
@@ -93,48 +95,48 @@
     //});
 
 
-    //$scope.location=function()
-    //{
-    //    debugger;
-    //    var map_options = {
-    //        center: new google.maps.LatLng(-6.21, 106.84),
-    //        zoom: 11,
-    //        mapTypeId: google.maps.MapTypeId.ROADMAP
-    //    };
+    $scope.location=function()
+    {
+        debugger;
+        var map_options = {
+            center: new google.maps.LatLng(-6.21, 106.84),
+            zoom: 11,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
 
-    //    var map = new google.maps.Map(document.getElementById("map"), map_options);
+        var map = new google.maps.Map(document.getElementById("map"), map_options);
 
-    //    var defaultBounds = new google.maps.LatLngBounds(
-    //        new google.maps.LatLng(-6, 106.6),
-    //        new google.maps.LatLng(-6.3, 107)
-    //    );
+        var defaultBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(-6, 106.6),
+            new google.maps.LatLng(-6.3, 107)
+        );
 
-    //    var input = document.getElementById("location");
-    //    var autocomplete = new google.maps.places.Autocomplete(input);
-    //    autocomplete.bindTo("bounds", map);
+        var input = document.getElementById("location");
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo("bounds", map);
 
-    //    var marker = new google.maps.Marker({ map: map });
+        var marker = new google.maps.Marker({ map: map });
 
-    //    google.maps.event.addListener(autocomplete, "place_changed", function () {
-    //        var place = autocomplete.getPlace();
+        google.maps.event.addListener(autocomplete, "place_changed", function () {
+            var place = autocomplete.getPlace();
 
-    //        if (place.geometry.viewport) {
-    //            map.fitBounds(place.geometry.viewport);
-    //        } else {
-    //            map.setCenter(place.geometry.location);
-    //            map.setZoom(15);
-    //        }
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(15);
+            }
 
-    //        marker.setPosition(place.geometry.location);
-    //    });
+            marker.setPosition(place.geometry.location);
+        });
 
-    //    google.maps.event.addListener(map, "click", function (event) {
-    //        marker.setPosition(event.latLng);
-    //    });
+        google.maps.event.addListener(map, "click", function (event) {
+            marker.setPosition(event.latLng);
+        });
 
-    //}
+    }
 
-    //$scope.location();
+    $scope.location();
 
 
     $scope.CheckNumber=function(event)
