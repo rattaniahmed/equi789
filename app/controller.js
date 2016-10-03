@@ -1127,7 +1127,7 @@ app.controller('DashboardController', function MyCtrl($scope, $location, $fireba
 
 
         var coord = [];
-        $scope.rideId = "-KSpPpJKZ5IicOQ-P5kM";
+        //$scope.rideId = "-KSpPpJKZ5IicOQ-P5kM";
         $scope.rides = $firebaseArray(ref.child('rides'));
         $scope.rides.$loaded().then(function (dataArray) {
             // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
