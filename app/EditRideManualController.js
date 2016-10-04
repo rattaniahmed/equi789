@@ -339,27 +339,41 @@
     }
 
     $scope.initAutocomplete();
+    $scope.SaveCoods = function () {
 
-    $scope.SaveCoods = function ()
-    {
-   
         var currentRide = storageService.getObject("EditedRideObject");
 
-        
         debugger;
         //var obj = {  0: { lat: 23.4545, lng: 12.4546565 }, 1: { lat: 23.4545, lng: 12.4546565 } } ;
 
         //var currentRide = ///get from local storageService
-
+        blockUI.start("Adding horse Ride.....");
         currentRide.start_cord = $scope.coords[0];
         currentRide.end_cord = $scope.coords[1];
 
-        //blockUI.start("Adding horse Ride.....");
+
+        $scope.AddRideTODAtabase(currentRide);
+
+    }
+
+
+
+
+    $scope.CancelCoods = function () {
+
+        var currentRide = storageService.getObject("EditedRideObject");
+
+
+        $scope.AddRideTODAtabase(currentRide);
+
+    }
+
+    $scope.AddRideTODAtabase = function (currentRide) {
         $scope.horses.$save(currentRide).then(function (ref) {
             debugger;
             //var id = ref.key();
             console.log("added record with id " + id);
-            
+
             //swal("", "Your Ride has been added success fully", "success");
             //$location.path('my-stable.html');
             debugger;
@@ -384,7 +398,7 @@
 
             $scope.horserepo.$save(currenthorseRef).then(function (res) {
 
-               
+
                 //$('#map').modal('show');
 
                 window.location.reload();
@@ -403,8 +417,8 @@
 
 
         });
-
-   }
+    }
+  
 
 
 });
