@@ -876,7 +876,7 @@
 
         <div class="modal-content">
 
-            <form>
+            <form >
 
                 <div class="modal-header">
 
@@ -948,7 +948,7 @@
         <div class="modal-content">
 
 
-            <form>
+            <form >
 
                 <div class="modal-header">
 
@@ -1304,11 +1304,18 @@
 
 
 
-                <div class="modal-footer edit_stable_footer">
+                <div style="height:100px; padding-top:30px">
+                    <center>
 
-                    <button type="button" class="btn btn-block" ng-click="SaveCoods()">Save Co-ordinate</button>
-
+                        <button type="button" class="btn btn-danger" ng-click="CancelCoods()" style="background-color:red;width: 300px; height: 60px">I don't have Co-ordiante</button>
+                        <button type="button" class="btn btn-danger" ng-click="SaveCoods()" style="width: 300px; height: 60px;">Save Co-ordinate</button>
+                      
+                    </center>
                 </div>
+
+                   
+
+              
 
             </form>
 

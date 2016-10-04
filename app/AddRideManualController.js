@@ -2,6 +2,7 @@
 
 
     $scope.init = function () {
+
         $(function () {
             $('#StartRide').datetimepicker();
         });
@@ -9,25 +10,10 @@
         $(function () {
             $('#EndRide').datetimepicker();
         });
-
-
-        //$(function () {
-        //    $('#RideTime').datetimepicker({
-        //        format: 'LT'
-        //    });
-        //});
-
-        //$(function () {
-        //    $('#TotalTime').datetimepicker({
-        //        format: 'LT'
-        //    });
-        //});
-
-
-
-
-
     }
+
+
+
 
     console.log("AddRideManualController");
     sessionService.CHECKSESSION();
@@ -98,11 +84,51 @@
         $scope.addride.end_time = document.getElementById("EndRide").value;
         //$scope.addride.ride_time = document.getElementById("RideTime").value;
         //$scope.addride.total_time = document.getElementById("TotalTime").value;
+        if ($scope.addride.start_time == "" )
+        {
+            swal({ title: '', text: 'STARTING TIME CAN NOT BE NULL', type: 'warning' });
+        }
 
-        console.log($scope.addride)
-        storageService.setObject("AddedRIDE", $scope.addride);
-        $("#add_ride").hide();
-        $("#mapModal").show();
+       else if($scope.addride.end_time == "")
+       {
+           swal({ title: '', text: 'ENDING TIME CAN NOT BE NULL', type: 'warning' });
+
+         
+
+       }
+       else if ($scope.addride.ride_time == "") {
+
+           swal({ title: '', text: 'RIDE TIME CAN NOT BE NULL', type: 'warning' });
+          
+
+       }
+       else if ($scope.addride.top_speed == "") {
+
+           swal({ title: '', text: 'TOP SPEED TIME CAN NOT BE NULL', type: 'warning' });
+       }
+
+       else if ($scope.addride.total_distance == "") {
+
+           swal({ title: '', text: 'TOTAL DISTANCE TIME CAN NOT BE NULL', type: 'warning' });
+     
+
+       }
+       else if ($scope.addride.calories == "") {
+
+           swal({ title: '', text: 'CALORIES CAN TIME CAN NOT BE NULL', type: 'warning' });
+           
+
+       }
+
+
+        else {
+            console.log($scope.addride)
+            storageService.setObject("AddedRIDE", $scope.addride);
+            $("#add_ride").hide();
+            $("#mapModal").show();
+
+        }
+        
 
         google.maps.event.trigger(map, 'resize', {});
     }
@@ -495,11 +521,28 @@
         //var obj = {  0: { lat: 23.4545, lng: 12.4546565 }, 1: { lat: 23.4545, lng: 12.4546565 } } ;
 
         //var currentRide = ///get from local storageService
-
+        blockUI.start("Adding horse Ride.....");
         currentRide.start_cord = $scope.coords[0];
         currentRide.end_cord = $scope.coords[1];
 
-        //blockUI.start("Adding horse Ride.....");
+       
+        $scope.AddRideTODAtabase(currentRide);
+
+    }
+
+
+
+
+    $scope.CancelCoods = function () {
+
+        var currentRide = storageService.getObject("AddedRIDE");
+
+       
+        $scope.AddRideTODAtabase(currentRide);
+
+    }
+
+    $scope.AddRideTODAtabase = function (currentRide) {
         $scope.horses.$add(currentRide).then(function (ref) {
             debugger;
             var id = ref.key();
@@ -548,7 +591,6 @@
 
 
         });
-
     }
 
 
