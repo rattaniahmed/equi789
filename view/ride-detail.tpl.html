@@ -8,326 +8,426 @@
 
 F<section class="inner_pages" data-0="margin-top:50px;" data-400="margin-top:-150px;">
 
-    <div class="container">
+     <div class="container">
 
-        <div class="content_body">
+         <div class="content_body">
 
-            <div class="page_heading">
+             <div class="page_heading">
 
-                <h1>EquiTrack - <span class="small">My Stable</span></h1>
+                 <h1>EquiTrack - <span class="small">My Stable</span></h1>
 
-            </div>
+             </div>
 
-            <div class="my_stable">
+             <div class="my_stable">
 
-                <div class="clearfix">
+                 <div class="clearfix">
 
-                    <div class="breadcrumbs">
+                     <div class="breadcrumbs">
 
-                        <ul class="un-styled clearfix">
+                         <ul class="un-styled clearfix">
 
-                            <li><a href="my-stable.html">My Stable</a></li>
+                             <li><a href="my-stable.html">My Stable</a></li>
 
-                            <li><a href="my-stable-details.html">Horse Details</a></li>
+                             <li><a href="my-stable-details.html">Horse Details</a></li>
 
-                            <li><a href="last-ride.html">Ride Detail</a></li>
+                             <li><a href="last-ride.html">Ride Detail</a></li>
 
-                        </ul>
+                         </ul>
 
-                    </div>
+                     </div>
 
-                    <!--<div class="bc_right_add_btn"> <a href="#" class="btn btn-border">Add Horse</a> </div>-->
+                     <!--<div class="bc_right_add_btn"> <a href="#" class="btn btn-border">Add Horse</a> </div>-->
 
-                </div>
+                 </div>
 
-            </div>
-            
-            <div class="last_ride lora">
-                <p  style="color: red;" ng-if="ismanualride=1">This Is Manual Ride </p>
-                <div class="box clearfix">
+             </div>
 
-                	<div class="share_btn pull-right">
+             <div class="last_ride lora">
+                 <p style="color: red;" ng-if="ismanualride=1">This Is Manual Ride </p>
+                 <div class="box clearfix">
 
-                        <a href="#" class="btn btn-transparent btn-icon" socialshare
-                           socialshare-provider="facebook"
-                           socialshare-text="Myequitrack - Socialsharing"
-                           socialshare-hashtags="Myequitrack, Myequitrack-socialshare"
-                           socialshare-url="https://myequitrack.com/share.html?type=2&id={{rideId}}">
-                        <i class="fa fa-share"></i></a>
-                        <!--<a href="#" class="btn btn-transparent btn-icon" ng-click="DeleteRide(rideId)" style="color: red;border: 2px solid red;">
+                     <div class="share_btn pull-right">
+                         
+                         <a class="btn btn-transparent btn-icon" ng-click="PrintPDF()" style="color: red;border: 2px solid red;">
+                             <i class="fa fa-print" aria-hidden="true"></i>
+                         </a>
+
+                         <a href="#" class="btn btn-transparent btn-icon" socialshare
+                            socialshare-provider="facebook"
+                            socialshare-text="Myequitrack - Socialsharing"
+                            socialshare-hashtags="Myequitrack, Myequitrack-socialshare"
+                            socialshare-url="https://myequitrack.com/share.html?type=2&id={{rideId}}">
+                             <i class="fa fa-share"></i>
+                         </a>
+                         <!--<a href="#" class="btn btn-transparent btn-icon" ng-click="DeleteRide(rideId)" style="color: red;border: 2px solid red;">
                             <i class="fa fa-trash"></i>
                         </a>-->
 
-                	</div>
-
-                   	<div class="last_ride_title">Start:</div>
-
-                    <div class="last_ride_desc">{{lastRide.start_time}}</div>
-
-                </div>
+                     </div>
 
                
+                   
+               
 
-                <div class="box clearfix">
+                     <img id="preview" src="http://www.w3schools.com/howto/img_fjords.jpg">
+                     
+                          <div>
+                             <div class="last_ride_title">Start:</div>
 
-                   	<div class="last_ride_title">End:</div>
+                             <div class="last_ride_desc">{{lastRide.start_time}}</div>
 
-                    <div class="last_ride_desc">{{lastRide.end_time}}</div>
+                         </div>
 
-                </div>
 
-                <div class="box clearfix">
 
-                   	<div class="last_ride_title">Location:</div>
+                         <div class="box clearfix">
 
-                    <div class="last_ride_desc">{{lastRide.location}}</div>
+                             <div class="last_ride_title">End:</div>
 
-                </div>
+                             <div class="last_ride_desc">{{lastRide.end_time}}</div>
 
-                <div class="box clearfix">
+                         </div>
 
-                   	<div class="last_ride_title">Weather:</div>
+                         <div class="box clearfix">
 
-                    <div class="last_ride_desc">{{lastRide.weather}}</div>
+                             <div class="last_ride_title">Location:</div>
 
-                </div>
+                             <div class="last_ride_desc">{{lastRide.location}}</div>
 
-                <div class="box clearfix">
+                         </div>
 
-                   	<div class="last_ride_title">Ground Condition::</div>
+                         <div class="box clearfix">
 
-                    <div class="last_ride_desc">
+                             <div class="last_ride_title">Weather:</div>
 
-                    	<select class="form-control" id="gndcondition">
-                            <option>Select</option>
-                        	<option>Excellent</option>
-                            <option>Average</option>
-                            <option>Poor</option>
-                            <option>Hard</option>
-                            <option>Sandy</option>
-                            <option>Deep</option>
-                            <option>Sticky</option>
-                            <option>Wet</option>
-                            <option>Muddy</option>
-                            <option>Soft</option>
+                             <div class="last_ride_desc">{{lastRide.weather}}</div>
 
-                        </select>
+                         </div>
 
-                        <a href="ridemap.html" class="btn btn-transparent" ng-click="SeeMap(lastRide)">See on Map</a>
+                         <div class="box clearfix">
 
-                    </div>
+                             <div class="last_ride_title">Ground Condition::</div>
 
-                </div>
+                             <div class="last_ride_desc">
 
-            </div>
+                                 <select class="form-control" id="gndcondition">
+                                     <option>Select</option>
+                                     <option>Excellent</option>
+                                     <option>Average</option>
+                                     <option>Poor</option>
+                                     <option>Hard</option>
+                                     <option>Sandy</option>
+                                     <option>Deep</option>
+                                     <option>Sticky</option>
+                                     <option>Wet</option>
+                                     <option>Muddy</option>
+                                     <option>Soft</option>
 
-            <div class="chart_table">
+                                 </select>
 
-            	<div class="chart_row">
+                                 <a href="ridemap.html" class="btn btn-transparent" ng-click="SeeMap(lastRide)">See on Map</a>
 
-                	<ul class="un-styled chart_box">
+                             </div>
 
-                    	<li>
+                         </div>
 
-                        	<div class="chart_title">Ride Time:</div>
 
-                            <div class="chart_result">{{ride_time_to_display}}</div>
 
-                        </li>
+                         <div class="chart_table">
 
-                        <li>
+                             <div class="chart_row">
 
-                        	<div class="chart_title">Total Time:</div>
+                                 <ul class="un-styled chart_box">
 
-                            <div class="chart_result">{{total_time_to_display}}</div>
+                                     <li>
 
-                        </li>
+                                         <div class="chart_title">Ride Time:</div>
 
-                        <li>
+                                         <div class="chart_result">{{ride_time_to_display}}</div>
 
-                        	<div class="chart_title">Distance:</div>
+                                     </li>
 
-                            <div class="chart_result">{{lastRide.total_distance}}</div>
+                                     <li>
 
-                        </li>
+                                         <div class="chart_title">Total Time:</div>
 
-                    </ul>
+                                         <div class="chart_result">{{total_time_to_display}}</div>
 
-                    <ul class="un-styled chart_box">
+                                     </li>
 
-                    	<li>
+                                     <li>
 
-                        	<div class="chart_title">Top Speed:</div>
+                                         <div class="chart_title">Distance:</div>
 
-                            <div class="chart_result">{{lastRide.top_speed}}</div>
+                                         <div class="chart_result">{{lastRide.total_distance}}</div>
 
-                        </li>
+                                     </li>
 
-                        <li>
+                                 </ul>
 
-                        	<div class="chart_title">Avg. Speed:</div>
+                                 <ul class="un-styled chart_box">
 
-                            <div class="chart_result">{{lastRide.average_speed}}</div>
+                                     <li>
 
-                        </li>
+                                         <div class="chart_title">Top Speed:</div>
 
-                    </ul>
+                                         <div class="chart_result">{{lastRide.top_speed}}</div>
 
-                </div>
+                                     </li>
 
-                <div class="chart_row">
+                                     <li>
 
-                	<ul class="un-styled chart_box">
+                                         <div class="chart_title">Avg. Speed:</div>
 
-                        <li>
+                                         <div class="chart_result">{{lastRide.average_speed}}</div>
 
-                        	<div class="chart_title">Avg. Heart Rate:</div>
+                                     </li>
 
-                            <div class="chart_result">{{lastRide.average_heart_rate}}</div>
+                                 </ul>
 
-                        </li>
+                             </div>
 
-                        <li>
+                             <div class="chart_row">
 
-                        	<div class="chart_title">High Heart Rate:</div>
+                                 <ul class="un-styled chart_box">
 
-                            <div class="chart_result">{{lastRide.high_heart_rate}}</div>
+                                     <li>
 
-                        </li>
+                                         <div class="chart_title">Avg. Heart Rate:</div>
 
-                    </ul>
+                                         <div class="chart_result">{{lastRide.average_heart_rate}}</div>
 
-                    <ul class="un-styled chart_box">
+                                     </li>
 
-                    	<li>
+                                     <li>
 
-                        	<div class="chart_title">Equi Energy:</div>
+                                         <div class="chart_title">High Heart Rate:</div>
 
-                            <div class="chart_result">{{lastRide.energy}}</div>
+                                         <div class="chart_result">{{lastRide.high_heart_rate}}</div>
 
-                        </li>
+                                     </li>
 
-                        <li>
+                                 </ul>
 
-                        	<div class="chart_title">My Calories:</div>
+                                 <ul class="un-styled chart_box">
 
-                            <div class="chart_result">{{lastRide.calories}}</div>
+                                     <li>
 
-                        </li>
+                                         <div class="chart_title">Equi Energy:</div>
 
-                    </ul>
+                                         <div class="chart_result">{{lastRide.energy}}</div>
 
-                </div>
+                                     </li>
 
-            </div>
+                                     <li>
 
-            
+                                         <div class="chart_title">My Calories:</div>
 
-            <div class="note_box">
+                                         <div class="chart_result">{{lastRide.calories}}</div>
 
-            	<form class="note_form">
+                                     </li>
 
-                	<div class="form-group">
+                                 </ul>
 
-                        <textarea class="form-control" rows="9" placeholder="Notes" ng-model="lastRide.notes"></textarea>
+                             </div>
 
-                    </div>
+                         </div>
 
-                    <div class="btn_area">
 
-                    	<button class="btn btn-block" ng-click="UpdateNotes()">Submit</button>
 
-                    </div>
+                         <div class="note_box">
 
-                </form>
+                             <form class="note_form">
 
-            </div>
+                                 <div class="form-group">
 
-            
+                                     <textarea class="form-control" rows="9" placeholder="Notes" ng-model="lastRide.notes"></textarea>
 
-            <div class="training_program_chart">
+                                 </div>
 
-            	<div class="lora text-center"> <h1 class="heading" style="font-size:45px;">Training Program: <span class="brand-color">EASY</span></h1> </div>
+                                 <div class="btn_area">
 
-                <table cellpadding="0" cellspacing="0" class="table table_trainig text-center">
+                                     <button class="btn btn-block" ng-click="UpdateNotes()">Submit</button>
 
-                	<thead>
+                                 </div>
 
-                        <tr>
+                             </form>
 
-                            <th>#</th>
+                         </div>
 
-                            <th>Name</th>
 
-                            <th>Target</th>
 
-                            <!--<th>Result</th>-->
+                         <div class="training_program_chart">
 
-                            <th>Avg. SP</th>
+                             <div class="lora text-center"> <h1 class="heading" style="font-size:45px;">Training Program: <span class="brand-color">EASY</span></h1> </div>
 
-                            <th>Top SP</th>
+                             <table cellpadding="0" cellspacing="0" class="table table_trainig text-center">
 
-                            <th>Equi Energy</th>
+                                 <thead>
 
-                            <th>My Cal</th>
+                                     <tr>
 
-                        </tr>
+                                         <th>#</th>
 
-                    </thead>
+                                         <th>Name</th>
 
-                    <tbody class="table_striped">
+                                         <th>Target</th>
 
-                        <tr ng-repeat="progr in lastRide.training_program">
+                                         <!--<th>Result</th>-->
 
-                            <td>{{$index +1}}</td>
+                                         <th>Avg. SP</th>
 
-                            <td>{{progr.name}}</td>
+                                         <th>Top SP</th>
 
-                            <td>{{progr.target}}</td>
+                                         <th>Equi Energy</th>
 
-                            <!--<td>{{progr.name}}</td>-->
+                                         <th>My Cal</th>
 
-                            <td>{{progr.average_speed}}</td>
+                                     </tr>
 
-                            <td>{{progr.top_speed}}</td>
+                                 </thead>
 
-                            <td>{{progr.energy}}</td>
+                                 <tbody class="table_striped">
 
-                            <td>{{progr.calories}}</td>
+                                     <tr ng-repeat="progr in lastRide.training_program">
 
-                        </tr>
+                                         <td>{{$index +1}}</td>
 
-                    </tbody>
+                                         <td>{{progr.name}}</td>
 
-                    <tfoot>
+                                         <td>{{progr.target}}</td>
 
-                    	<tr>
+                                         <!--<td>{{progr.name}}</td>-->
 
-                    		<td colspan="8"><div class="text-left marg trainig_result"><span class="roboto light wd">Freestyle Time:</span> &nbsp;&nbsp;&nbsp; 00:00</div></td>
+                                         <td>{{progr.average_speed}}</td>
 
-                        </tr>
+                                         <td>{{progr.top_speed}}</td>
 
-                        <tr>
+                                         <td>{{progr.energy}}</td>
 
-                    		<td colspan="8"><div class="text-left trainig_result"><span class="roboto light wd">Hotwalk Time:</span> &nbsp;&nbsp;&nbsp; 00:00</div></td>
+                                         <td>{{progr.calories}}</td>
 
-                        </tr>
+                                     </tr>
 
-                    </tfoot>
+                                 </tbody>
 
-                </table>
+                                 <tfoot>
 
-                
+                                     <tr>
 
-            </div>
+                                         <td colspan="8"><div class="text-left marg trainig_result"><span class="roboto light wd">Freestyle Time:</span> &nbsp;&nbsp;&nbsp; 00:00</div></td>
 
-        </div>
+                                     </tr>
 
-    </div>
+                                     <tr>
 
+                                         <td colspan="8"><div class="text-left trainig_result"><span class="roboto light wd">Hotwalk Time:</span> &nbsp;&nbsp;&nbsp; 00:00</div></td>
+
+                                     </tr>
+
+                                 </tfoot>
+
+                             </table>
+
+
+
+                         </div>
+                  
+                     <canvas id="myCanvas" width="578" height="200"></canvas>
+                     <div id="HorseRideDetailNew" style="display:none;">
+                         
+                       
+                         <canvas id="myCanvas" width="578" height="200"></canvas>
+                        
+
+                         <div>
+                             <div class="last_ride_title">Start: -                     {{lastRide.start_time}}</div>
+
+
+                         </div>
+
+
+
+                         <div class="box clearfix">
+
+                             <div class="last_ride_title">End: -                       {{lastRide.end_time}}</div>
+
+
+                         </div>
+
+                         <div class="box clearfix">
+
+                             <div class="last_ride_title">Location: -                  {{lastRide.location}}</div>
+
+                           
+
+                         </div>
+
+                         <div class="box clearfix">
+
+                             <div class="last_ride_title">Weather: -                   {{lastRide.weather}}</div>
+
+                       
+
+                         </div>
+
+                         <div class="box clearfix">
+
+                             <div class="last_ride_title">Ground Condition: -          {{addride.ground_condition}}</div
+                             </div>
+
+
+                         <div class="box clearfix">
+
+                             <div class="last_ride_title">Ride Time: -                 {{ride_time_to_display}}</div>
+                         </div>
+                         <div class="box clearfix">
+
+                             <div class="last_ride_title">Total Time: -                {{total_time_to_display}}</div>
+                         </div>
+                         <div class="box clearfix">
+
+                             <div class="last_ride_title">Distance: -                  {{lastRide.total_distance}}</div>
+                         </div>
+                         <div class="box clearfix">
+
+                             <div class="last_ride_title">Top Speed: -                 {{lastRide.top_speed}}</div>
+                         </div>
+                         <div class="box clearfix">
+
+                             <div class="last_ride_title">Average Speed: -             {{lastRide.average_speed}}</div>
+                         </div>
+                         <div class="box clearfix">
+
+                             <div class="last_ride_title">Average Heart Rate: -        {{lastRide.average_heart_rate}}</div>
+                         </div>
+                         <div class="box clearfix">
+
+                             <div class="last_ride_title">High Heart Rate: -           {{lastRide.high_heart_rate}}</div>
+                         </div>
+                         <div class="box clearfix">
+
+                             <div class="last_ride_title">Energy: -                    {{lastRide.energy}}</div>
+                         </div>
+                         <div class="box clearfix">
+
+                             <div class="last_ride_title">Calories: -                 {{lastRide.calories}}</div>
+                         </div>
+                         <div class="box clearfix">
+
+                             <div class="last_ride_title">Notes: -                     {{lastRide.notes}}</div>
+                         </div>
+   </div>
+                    
+                 </div>
+             </div>
+         </div>
+     </div>
 </section>
 
 
 
 <div class="" ng-include="'includes/footer.html'"></div>
+
+
 
