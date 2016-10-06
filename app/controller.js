@@ -1650,7 +1650,7 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
 
     var canvas = document.getElementById('myCanvas');
     var context = canvas.getContext('2d');
-    var imgData = canvas.toDataURL("http://www.w3schools.com/howto/img_fjords.jpg", 1.0);
+    $scope.imgData = canvas.toDataURL("http://www.w3schools.com/howto/img_fjords.jpg", 1.0);
 
     $scope.PrintPDF = function () {
 
@@ -1669,8 +1669,10 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
             // (class, of compound) at this time.
             specialElementHandlers = {
                 // element with id of "by pass" - jQuery style selector
-                '#bypassme': function (element, renderer) {
+                '#imgtext': function (element, renderer) {
                     // true = "handled elsewhere, bypass text extraction"
+                    debugger;
+                    console.log(renderer);
                     return true
                 }
             };
