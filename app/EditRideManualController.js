@@ -71,14 +71,44 @@
         $scope.addride.end_time = document.getElementById("EndRide").value;
         //$scope.addride.ride_time = document.getElementById("RideTime").value;
         //$scope.addride.total_time = document.getElementById("TotalTime").value;
+        var startTime = new Date($scope.addride.start_time);
+        var endTime = new Date($scope.addride.end_time);
+        if (startTime < endTime)
+        {
+            if (endTime <= new Date() && startTime< new Date())
+            {
+                var distance = 100;
+                var time = (startTime - endTime) / 1000;
+                var speed = distance / time;
 
-        console.log($scope.addride)
-        storageService.setObject("EditedRideObject", $scope.addride);
+                $scope.addride.average_speed = speed;
+                $scope.addride.calories = "0";
+                $scope.addride.energy = "0";
+                $scope.addride.ride_time = time;
+                $scope.addride.top_speed = speed;
+                $scope.addride.total_time = time;
+                $scope.addride.ismanualride = 1;
 
-        //$("#add_ride").hide();
-        //$("#editMapModal").show();
 
-        $scope.AddRideTODAtabase($scope.addride);
+                console.log($scope.addride)
+                storageService.setObject("EditedRideObject", $scope.addride);
+
+                //$("#add_ride").hide();
+                //$("#editMapModal").show();
+
+                $scope.AddRideTODAtabase($scope.addride);
+            }
+            else {
+
+                alert("Start date and end date  Cannot be greater than today date")
+
+            }
+           
+        }
+        else {
+            alert("Start date Cannot be greater than End date")
+        }
+        
 
         //google.maps.event.trigger(map, 'resize', {});
 
