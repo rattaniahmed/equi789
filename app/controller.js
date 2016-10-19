@@ -2283,6 +2283,12 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
     //$scope.vm.viewDate = moment().startOf('month').toDate();
     $scope.vm.viewDate = new Date();
     $scope.vm.isCellOpen = false;
+    $scope.vm.viewChangeEnabled = true;
+    $scope.vm.viewChangeClicked = function (date, nextView) {
+        console.log(date, nextView);
+        return $scope.vm.viewChangeEnabled;
+    };
+
 
     $scope.colors = [calendarConfig.colorTypes.warning, calendarConfig.colorTypes.info, calendarConfig.colorTypes.important];
 
@@ -2372,8 +2378,8 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
     });
 
 
+  
    
-
       //, {
       //    title: '<i class="glyphicon glyphicon-asterisk"></i> <span class="text-primary">Another event</span>, with a <i>html</i> title',
       //    color: ,

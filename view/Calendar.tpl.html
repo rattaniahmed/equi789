@@ -60,14 +60,17 @@
                     </div>
                 </div>
                 <br>
+                
+                <h1 class="text-center">{{ vm.viewTitle }}</h1>
 
                 <mwl-calendar events="vm.events"
                               view="vm.calendarView"
-                              view-title="vm.calendarTitle"
+                              view-title="vm.viewTitle"
                               view-date="vm.viewDate"
                               slide-box-disabled="true"
                               day-view-split="10"
-                              cell-is-open="vm.isCellOpen">
+                              cell-is-open="vm.isCellOpen"
+                              on-view-change-click="vm.viewChangeClicked(calendarDate, calendarNextView)">
                 </mwl-calendar>
                
                 
