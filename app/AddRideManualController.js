@@ -96,16 +96,7 @@
          
 
        }
-       else if ($scope.addride.ride_time == "") {
-
-           swal({ title: '', text: 'RIDE TIME CAN NOT BE NULL', type: 'warning' });
-          
-
-       }
-       else if ($scope.addride.top_speed == "") {
-
-           swal({ title: '', text: 'TOP SPEED TIME CAN NOT BE NULL', type: 'warning' });
-       }
+    
 
        else if ($scope.addride.total_distance == "") {
 
@@ -113,24 +104,35 @@
      
 
        }
-       else if ($scope.addride.calories == "") {
-
-           swal({ title: '', text: 'CALORIES CAN TIME CAN NOT BE NULL', type: 'warning' });
-           
-
-       }
+     
 
 
         else {
-            console.log($scope.addride)
+           console.log($scope.addride)
+
+           var distance =100;
+           var time = 110;
+           var speed = distance/time;
+           
+               $scope.addride.average_speed = speed;
+               $scope.addride.calories = "0";
+               $scope.addride.energy = "0";
+               $scope.addride.ride_time = time;
+               $scope.addride.top_speed = speed;
+               $scope.addride.total_time = time;
+               $scope.addride.ismanualride = 1;
+           
+
+
             storageService.setObject("AddedRIDE", $scope.addride);
             $("#add_ride").hide();
-            $("#mapModal").show();
+            //$("#mapModal").show();
 
+            $scope.AddRideTODAtabase($scope.addride);
         }
         
 
-        google.maps.event.trigger(map, 'resize', {});
+        //google.maps.event.trigger(map, 'resize', {});
     }
 
 
@@ -205,127 +207,7 @@
         }
 
     }
-   /*$scope.initAutocomplete = function () {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: -33.8688, lng: 151.2195 },
-            zoom: 13,
-            mapTypeId: 'roadmap'
-        });
-
-         Create the search box and link it to the UI element.
-        var input = document.getElementById('pac-input');
-        var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-        var input1 = document.getElementById('pac-input1');
-        var searchBox1 = new google.maps.places.SearchBox(input1);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input1);
-
-         Bias the SearchBox results towards current map's viewport.
-        map.addListener('bounds_changed', function () {
-            searchBox.setBounds(map.getBounds());
-        });
-        map.addListener('bounds_changed1', function () {
-            searchBox1.setBounds(map.getBounds());
-        });
-
-
-        var markers = [];
-        var markers1 = [];
-
-         Listen for the event fired when the user selects a prediction and retrieve
-         more details for that place.
-        searchBox.addListener('places_changed', function () {
-            var places = searchBox.getPlaces();
-
-            if (places.length == 0) {
-                return;
-            }
-            console.log(markers);
-             Clear out the old markers.
-            markers.forEach(function (marker) {
-                marker.setMap(null);
-            });
-            markers = [];
-
-             For each place, get the icon, name and location.
-            var bounds = new google.maps.LatLngBounds();
-            places.forEach(function (place) {
-                if (!place.geometry) {
-                    console.log("Returned place contains no geometry");
-                    return;
-                }
-                var icon = {
-                    url: place.icon,
-                    size: new google.maps.Size(71, 71),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(17, 34),
-                    scaledSize: new google.maps.Size(25, 25)
-                };
-
-                 Create a marker for each place.
-                markers.push(new google.maps.Marker({
-                    map: map,
-                    icon: icon,
-                    title: place.name,
-                    position: place.geometry.location
-                }));
-
-                if (place.geometry.viewport) {
-                     Only geocodes have viewport.
-                    bounds.union(place.geometry.viewport);
-                } else {
-                    bounds.extend(place.geometry.location);
-                }
-            });
-            map.fitBounds(bounds);
-        });
-        searchBox1.addListener('places_changed1', function () {
-            var places = searchBox1.getPlaces();
-
-            if (places.length == 0) {
-                return;
-            }
-            console.log(markers);
-             Clear out the old markers.
-            markers1.forEach(function (marker1) {
-                marker1.setMap(null);
-            });
-            markers1 = [];
-
-             For each place, get the icon, name and location.
-            var bounds = new google.maps.LatLngBounds();
-            places.forEach(function (place) {
-                if (!place.geometry) {
-                    console.log("Returned place contains no geometry");
-                    return;
-                }
-                var icon = {
-                    url: place.icon,
-                    size: new google.maps.Size(71, 71),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(17, 34),
-                    scaledSize: new google.maps.Size(25, 25)
-                };
-
-                 Create a marker for each place.
-                markers1.push(new google.maps.Marker({
-                    map: map,
-                    icon: icon,
-                    title: place.name,
-                    position: place.geometry.location
-                }));
-
-                if (place.geometry.viewport) {
-                     Only geocodes have viewport.
-                    bounds.union(place.geometry.viewport);
-                } else {
-                    bounds.extend(place.geometry.location);
-                }
-            });
-            map.fitBounds(bounds);
-        });
-    }*/
+   
     $scope.flightPath = null;
     $scope.directionsService = new google.maps.DirectionsService;
     $scope.directionsDisplay = new google.maps.DirectionsRenderer;
@@ -521,7 +403,7 @@
         //var obj = {  0: { lat: 23.4545, lng: 12.4546565 }, 1: { lat: 23.4545, lng: 12.4546565 } } ;
 
         //var currentRide = ///get from local storageService
-        blockUI.start("Adding horse Ride.....");
+        
         currentRide.start_cord = $scope.coords[0];
         currentRide.end_cord = $scope.coords[1];
 
@@ -543,6 +425,9 @@
     }
 
     $scope.AddRideTODAtabase = function (currentRide) {
+
+        blockUI.start("Adding horse Ride.....");
+
         $scope.horses.$add(currentRide).then(function (ref) {
             debugger;
             var id = ref.key();

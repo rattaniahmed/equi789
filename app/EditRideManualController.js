@@ -74,10 +74,13 @@
 
         console.log($scope.addride)
         storageService.setObject("EditedRideObject", $scope.addride);
-        $("#add_ride").hide();
-        $("#editMapModal").show();
 
-        google.maps.event.trigger(map, 'resize', {});
+        //$("#add_ride").hide();
+        //$("#editMapModal").show();
+
+        $scope.AddRideTODAtabase($scope.addride);
+
+        //google.maps.event.trigger(map, 'resize', {});
 
     }
 
@@ -347,7 +350,7 @@
         //var obj = {  0: { lat: 23.4545, lng: 12.4546565 }, 1: { lat: 23.4545, lng: 12.4546565 } } ;
 
         //var currentRide = ///get from local storageService
-        blockUI.start("Adding horse Ride.....");
+       
         currentRide.start_cord = $scope.coords[0];
         currentRide.end_cord = $scope.coords[1];
 
@@ -369,6 +372,9 @@
     }
 
     $scope.AddRideTODAtabase = function (currentRide) {
+
+        blockUI.start("Adding horse Ride.....");
+
         $scope.horses.$save(currentRide).then(function (ref) {
             debugger;
             //var id = ref.key();

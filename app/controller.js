@@ -366,6 +366,7 @@ app.controller('SettingsController', function MyCtrl($scope, $location, $firebas
 
 app.controller('StableController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
 
+
     sessionService.CHECKSESSION();
     
 
@@ -675,6 +676,14 @@ app.controller('EditStableDetailsController', function MyCtrl($scope, $location,
     }
 
 
+    $scope.OpenEditFileDialog = function () {
+        $("#addphotonewname").change(function () {
+            readURL(this);
+        });
+        $("#addphotonewname").click();
+
+    }
+
     console.log("EditStableDetailsController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
@@ -784,15 +793,17 @@ app.controller('EditStableDetailsController', function MyCtrl($scope, $location,
 
         $scope.horses.$save(horseRef).then(function (res) {
 
-            $scope.$apply(function () {
-                blockUI.stop();
-            });
+         
 
             storageService.setObject("CS", horseRef);
             swal("", "Your stable details has been added edied success fully", "success");
             console.log(res);
 
             window.location.reload();
+
+            $scope.$apply(function () {
+                blockUI.stop();
+            });
 
         });
 
@@ -801,6 +812,10 @@ app.controller('EditStableDetailsController', function MyCtrl($scope, $location,
 });
 
 app.controller('AddStableDetailsController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
+
+
+    console.log($("#addphotonewname"));
+
     console.log("AddStableDetailsController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
@@ -816,10 +831,17 @@ app.controller('AddStableDetailsController', function MyCtrl($scope, $location, 
 
     //$('.datepicker').datepicker();
 
-    $("#addphoto").change(function () {
-        readURL(this);
-    });
+    //$("#addphotonewname").change(function () {
+    //    readURL(this);
+    //});
 
+    $scope.OpenFileDialog = function () {
+        $("#addphotonewname").change(function () {
+            readURL(this);
+        });
+        $("#addphotonewname").click();
+
+    }
 
     function readURL(input) {
         if (input.files && input.files[0]) {
