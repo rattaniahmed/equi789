@@ -118,7 +118,7 @@
                if (endTime <= new Date() && startTime< new Date())
                {
                var distance = 100;
-               var time = (startTime - endTime) / 1000;
+               var time = (endTime-startTime) / 1000;
                var speed = distance / time;
 
                $scope.addride.average_speed = speed;
