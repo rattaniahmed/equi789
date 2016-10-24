@@ -129,8 +129,7 @@ function DrawMap(flightPlanCoordinates) {
         directionsService.route({
             origin: flightPlanCoordinates[0],
             destination: flightPlanCoordinates[flightPlanCoordinates.length - 1],
-            travelMode: 'DRIVING'
-        }, function (response, status) {
+         }, function (response, status) {
             if (status === 'OK') {
                 directionsDisplay.setDirections(response);
             } else {

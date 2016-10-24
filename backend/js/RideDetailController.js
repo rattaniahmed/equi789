@@ -7,7 +7,7 @@
     $scope.gridOptions = {
         paginationPageSizes: [5, 10, 20],
         paginationPageSize: 10,
-        enableFiltering: true,
+        enableFiltering: false,
         columnDefs: [
              { name: 'total_distance', enableFiltering: false },
           { name: 'total_time' },

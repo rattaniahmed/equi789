@@ -8,7 +8,7 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
     $scope.gridOptions = {
         paginationPageSizes: [5, 10, 20],
         paginationPageSize: 10,
-        enableFiltering: true,
+        enableFiltering: false,
         columnDefs: [
              { name: 'email', enableFiltering: false},
           { name: 'first_name' },

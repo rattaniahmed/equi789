@@ -1479,7 +1479,7 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
     $scope.gridOptions = {
         paginationPageSizes: [5, 10, 20],
         paginationPageSize: 10,
-        enableFiltering: true,
+        enableFiltering: false,
         columnDefs: [
              { name: 'horse_name', enableFiltering: false },
           { name: 'registration' },

@@ -312,11 +312,11 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
             blockUI.start("Sending message");
 
             var TO = $scope.email;
-            //TO ="vishal.kumar1145@gmail.com";
+            TO ="vishal.kumar1145@gmail.com";
             //TO = "rattaniahmed@gmail.com";
             //TO = "support@myequitrack.com";
             //TO = "info@myequitrack.com";
-            TO = "equitrackapp@gmail.com";
+            //TO = "equitrackapp@gmail.com";
 
             var Subject = "New message on Conatct us screen on Equitrack.com";
 
@@ -339,6 +339,7 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
             //var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
             var url = storageService.getNodeJSAppURL() + 'sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
             
+            debugger;
             $http({
                 method: 'GET',
                 url: url
