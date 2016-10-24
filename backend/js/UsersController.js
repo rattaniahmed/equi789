@@ -16,12 +16,12 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
           { name: 'display_name' },
           {
               name: " ", cellTemplate: '<div>' +
-                      '<a href="{{col.last_name}}">Horses</a>' +
+                      '<a href="horses/{{row.entity.$id}}">Horses</a>' +
                       '</div>'
           },
         {
             name: "    ", cellTemplate: '<div>' +
-                    '<a href="javascript:void(0)" ng-click="grid.appScope.Test()">Remove</a>' +
+                    '<a href="javascript:void(0)" ng-click="grid.appScope.RemoveUser({{row.entity.$id}})">Remove</a>' +
                     '</div>'
         }
         ]
@@ -83,12 +83,12 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
         console.log("Error in loading details");
     });
 
-    function Test() {
+    function Test(id) {
         alert("dsfsdfdf");
     }
 
-    $scope.Test = function () {
-        alert("dsfsdfdf");
+    $scope.RemoveUser = function (id) {
+        alert(id);
     }
     //$scope.highlightFilteredHeader = function (row, rowRenderIndex, col, colRenderIndex) {
     //    if (col.filters[0].term) {
