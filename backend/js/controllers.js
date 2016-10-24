@@ -1092,8 +1092,8 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
         //var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
 
 
-        var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
-
+        //var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
+        var url = storageService.getNodeJSAppURL() + 'sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
 
         $http({
             method: 'GET',
@@ -1471,43 +1471,7 @@ app.controller('reportController', function ($scope, storageService, firebaseSer
     }
 });
 
-app.controller('HorseDetailController', function ($scope, storageService, firebaseService, $firebaseArray) {
 
-    console.log("HorseDetailController");
-
-
-    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
-    $scope.users = $firebaseArray(ref.child('horses'));
-    $scope.usersArray = [];
-    $scope.users.$loaded().then(function (dataArray) {
-        //$scope.usersArray = dataArray;
-        console.log($scope.usersArray);
-
-        angular.forEach(dataArray, function (value, key) {
-
-            var innerO = [];
-            innerO.push(value.horse_name);
-          
-            innerO.push('<a href="#/adasdasdasd">Show Horses</a>');
-            innerO.push('<a href="javascript:void(0)" onclick="Test()">Delete</a>');
-
-            $scope.usersArray.push(innerO);
-
-        });
-
-        $('#example').DataTable({
-            data: $scope.usersArray,
-            columns: [
-                { title: "Email" },
-               
-                { title: " Show Hourse " },
-                { title: "Remove " }
-            ]
-        });
-    }).catch(function (error) {
-        console.log("Error in loading details");
-    });
-});
 
 
 

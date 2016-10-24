@@ -43,7 +43,9 @@
     $scope.UpdateRide=function(obj)
     {
         storageService.setObject("EditedRideObject", obj);
-        $("#add_ride").show();
+        $("#add_ride").modal();
+        $('#StartRide').datetimepicker();
+        $('#EndRide').datetimepicker();
 
     }
 

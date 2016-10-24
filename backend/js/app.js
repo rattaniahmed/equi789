@@ -2,7 +2,7 @@
 /// <reference path="../views/directives/leftNav.html" />
 /// <reference path="../views/directives/leftNav.html" />
 // create the module and name it app
-var app = angular.module('app', ['ngRoute', 'firebase', '720kb.datepicker', 'ui.grid']);
+var app = angular.module('app', ['ngRoute', 'firebase', '720kb.datepicker', 'ui.grid', 'ui.grid.pagination']);
 
 // configure our routes
 app.config(function ($routeProvider, $locationProvider) {
@@ -137,6 +137,9 @@ app.factory('storageService', function () {
                 return null;
             else
                 return JSON.parse(obj);
+        },
+        getNodeJSAppURL: function () {
+            return "https://myequitracknodejsemail.appspot.com/";
         }
     }
 

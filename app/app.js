@@ -159,6 +159,9 @@ app.factory('storageService', function () {
                 return null;
             else
                 return JSON.parse(obj);
+        },
+        getNodeJSAppURL: function () {
+            return "https://myequitracknodejsemail.appspot.com/";
         }
     }
 
@@ -333,7 +336,8 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
 
             //var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
                 
-            var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
+            //var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
+            var url = storageService.getNodeJSAppURL() + 'sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
             
             $http({
                 method: 'GET',

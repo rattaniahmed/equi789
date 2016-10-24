@@ -2,14 +2,17 @@
 
 
     $scope.init = function () {
+        console.log("adding ride manual controller");
+        //$(function () {
+        //    $('#StartRide').datetimepicker();
+        //});
 
-        $(function () {
-            $('#StartRide').datetimepicker();
-        });
+        //$(function () {
+        //    $('#EndRide').datetimepicker();
+        //});
 
-        $(function () {
-            $('#EndRide').datetimepicker();
-        });
+        $('#StartRide').datetimepicker();
+        $('#EndRide').datetimepicker();
     }
 
 
@@ -120,7 +123,7 @@
                var distance = 100;
                var time = (endTime-startTime) / 1000;
                var speed = distance / time;
-
+               speed = speed.toFixed(3);
                $scope.addride.average_speed = speed;
                $scope.addride.calories = "0";
                $scope.addride.energy = "0";
@@ -218,7 +221,7 @@
     {
        
 
-        if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || event.keyCode == 13 || event.keyCode == 8 || event.keyCode == 9) { }
+        if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || event.keyCode == 13 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 190 || event.keyCode == 110 ) { }
         else
         {
             alert("Only Digits you can press")

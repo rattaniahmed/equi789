@@ -71,6 +71,8 @@
 
                             </div>
 
+                            <span style="color: red;" ng-if="hist.ismanualride == 1">This is A Manual Ride</span>
+
                         </div>
 
                         <div class="history_body">
@@ -193,19 +195,21 @@
 
                                         </div>
 
-                                        <div class="grid-9">
+                                        <div class="grid-6">
                                             <div class='input-group date' id='datetimepicker1'>
                                                 <input type="text" class="form-control" id="StartRide" ng-model="addride.start_time" placeholder="MM/DD/YY HH:mm:ss">
 
                                             </div>
 
-                                            <!--<datetimepicker date-format="MM/dd/yyyy">
-                                            <input type="text" class="form-control" id="StartRide" ng-model="addride.start" placeholder="MM/DD/YY HH:mm:ss" value="July, 16th, 2009">
-                                            </datetimepicker>-->
-                                            <!--<input type="text" class="form-control" id="StartRide" ng-model="addride.start" placeholder="Start Ride">-->
-
+                                          
                                         </div>
 
+
+                                        <div class="grid-3">
+
+                                            <a class="btn btn-sm" style="border: 2px solid #f5ca73;background-color: transparent; color:#f5ca73">Done</a>
+
+                                        </div>
                                     </div>
 
                                     <!-- <div class="form-group clearfix">
@@ -247,11 +251,18 @@
 
                                         </div>
 
-                                        <div class="grid-9">
+                                        <div class="grid-6">
                                             <div class='input-group date' id='datetimepicker2'>
                                                 <input type="text" class="form-control" id="EndRide" ng-model="addride.end_time" placeholder="MM/DD/YY HH:mm">
 
                                             </div>
+
+                                        </div>
+
+
+                                        <div class="grid-3">
+
+                                            <a class="btn btn-sm" style="border: 2px solid #f5ca73;background-color: transparent; color:#f5ca73">Done</a>
 
                                         </div>
 

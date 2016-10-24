@@ -91,6 +91,20 @@ function PrepareRequestForMail(prcid, TO, CC, From, Subject, Body, DisplayName) 
         });
 
     }
+    else if(flightPlanCoordinates[0] ==null||    flightPlanCoordinates[0] == ''||    flightPlanCoordinates[0] == undefined)
+    {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: {
+                lat: 40.712784, lng: -74.005941
+            },
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.TOP_RIGHT
+            },
+            mapTypeId: 'terrain'
+        });
+    }
     else {
         var lat = 0;
         var lng = -180;
