@@ -20,7 +20,7 @@ app.config(function ($routeProvider, $locationProvider) {
         //    templateUrl: 'index.html',
         //    controller: 'mainController'
         //})
-
+    HorseDetail
         .when('/home', {
             templateUrl: 'views/home.html',
             controller: 'homeController'
@@ -30,6 +30,10 @@ app.config(function ($routeProvider, $locationProvider) {
             controller: 'UsersController'
         })
 
+        .when('/HorseDetail', {
+            templateUrl: 'views/HorseDetail.html',
+            controller: 'HorseDetailController'
+        })
 
       .when('/images', {
           templateUrl: 'views/images.html',

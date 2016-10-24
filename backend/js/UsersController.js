@@ -17,7 +17,7 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
             innerO.push(value.first_name);
             innerO.push(value.last_name);
             innerO.push(value.last_name);
-            innerO.push('<a href="#/adasdasdasd">Horses</a>');
+            innerO.push('<a href="HorseDetail.html">Horses</a>');
             innerO.push('<a href="javascript:void(0)" onclick="Test()">Delete</a>');
 
             $scope.usersArray.push(innerO);
