@@ -2,7 +2,7 @@
 /// <reference path="../views/directives/leftNav.html" />
 /// <reference path="../views/directives/leftNav.html" />
 // create the module and name it app
-var app = angular.module('app', ['ngRoute', 'firebase', '720kb.datepicker']);
+var app = angular.module('app', ['ngRoute', 'firebase', '720kb.datepicker', 'ui.grid']);
 
 // configure our routes
 app.config(function ($routeProvider, $locationProvider) {
@@ -24,6 +24,10 @@ app.config(function ($routeProvider, $locationProvider) {
         .when('/home', {
             templateUrl: 'views/home.html',
             controller: 'homeController'
+        })
+        .when('/users', {
+            templateUrl: 'views/users.html',
+            controller: 'UsersController'
         })
 
 
