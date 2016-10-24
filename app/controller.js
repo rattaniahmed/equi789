@@ -30,8 +30,8 @@ app.controller('AccountController', function MyCtrl($scope, $location, $firebase
         //var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
 
 
-        var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
-
+        //var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
+        var url = storageService.getNodeJSAppURL() + 'sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
 
         $http({
             method: 'GET',
@@ -379,6 +379,7 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
 
     $scope.stables = [];
 
+    
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     //$scope.users = $firebaseArray(ref.child('users'));
     $scope.horses = $firebaseArray(ref.child('horses'));
@@ -590,8 +591,16 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
         }
     }
 
+    $scope.OpenAddRidePopup = function () {
+        console.log("using this");
+        $("#add_ride").modal();
+        $('#StartRide').datetimepicker();
+        $('#EndRide').datetimepicker();
 
-    
+    }// = "#add_ride"
+    $scope.CloseAddRideModal = function () {
+        $("#add_ride").hide();
+    }
     debugger;
 
     $scope.totalRidesDetails = [];
@@ -896,8 +905,14 @@ app.controller('AddStableDetailsController', function MyCtrl($scope, $location, 
                 $scope.user.Details['horse_ids'] = {};
             }
                    
+            var dtd123 = new Date();
+
+            var time123 = dtd123.getTime();
+
             $scope.user.Details.horse_ids[id] = {
-                created_at: ""
+                created_at: time123,
+                last_updated: time123,
+                sync: "1"
             };
             
 
@@ -910,7 +925,9 @@ app.controller('AddStableDetailsController', function MyCtrl($scope, $location, 
             }
 
             userRef.horse_ids[id] = {
-                created_at: ""
+                created_at: time123,
+                last_updated: time123,
+                sync: "1"
             };
 
             $scope.users.$save(userRef).then(function (res) {
@@ -1097,7 +1114,7 @@ $scope.UpdateContent = function(){
 }
 });
 
-app.controller('DashboardController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, Socialshare) {
+app.controller('DashboardController', function MyCtrl($http,$scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, Socialshare) {
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.user = storageService.getObject("CU");
@@ -1154,27 +1171,63 @@ app.controller('DashboardController', function MyCtrl($scope, $location, $fireba
         $scope.rides.$loaded().then(function (dataArray) {
             // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
             var ride = $scope.rides.$getRecord($scope.rideId);
-            if (ride.ismanualride =="1") {
+            console.log(ride)
+            var ti = "Equitrack - Ride Map";
+            if (!IsNull(ride.location))
+                ti = ride.location;
+            if (ride.ismanualride == "1") {
                 coord.push(ride.start_cord);
                 coord.push(ride.end_cord);
 
+                DrawMap(coord);
                 //coord.push({ lat: 28.4089, lng: 77.3178 });
                 //coord.push({ lat: 28.4595, lng: 77.0266 });
+                
+                
 
-                DrawMap(coord);
+
+                if (ride.start_cord != null && ride.end_cord != null) {
+                    var sc = ride.start_cord.lat + "%2C" + ride.start_cord.lng;
+                    var ec = ride.end_cord.lat + "%2C" + ride.start_cord.lng;
+                    $scope.socialshareurlstring = storageService.getNodeJSAppURL() + "sharemap?Title=" + ti + "&Start=" + sc + "&End=" + ec;
+                }
+                else {
+                    $scope.socialshareurlstring = storageService.getNodeJSAppURL() + "sharemap?Title=" + ti;
+                }
+
+
             }
 
+            else {
+                ////var ref1 = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+                $scope.coords = $firebaseArray(ref.child('coords'));
+                $scope.coords.$loaded().then(function (dataArray) {
+                    // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
+                    var id = $scope.rideId;
+                    var coord = $scope.coords.$getRecord(id);
+                    DrawMap(coord);
+
+                    var sc = coord[0].lat + "%2C" + coord[0].lng;
+                    var ec = coord[coord.length - 1].lat + "%2C" + coord[coord.length - 1].lng;
+
+                    $scope.socialshareurlstring = storageService.getNodeJSAppURL() + "sharemap?Title=" + ti + "&Start=" + sc + "&End=" + ec;
+
+
+                    $http({
+                        method: 'GET',
+                        url: $scope.socialshareurlstring
+                    }).then(function successCallback(response) {
+                        console.log(response);
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
 
 
 
-        ////var ref1 = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
-        //$scope.coords = $firebaseArray(ref.child('coords'));
-        //$scope.coords.$loaded().then(function (dataArray) {
-        //    // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
-        //    var id = $scope.rideId;
-        //    var coord = $scope.coords.$getRecord(id);
-        //    DrawMap(coord);
-        //    console.log(coord);
+                    console.log(coord);
+
+                });
+            }
         }).catch(function (err) {
 
         });
@@ -1771,6 +1824,7 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.rides = $firebaseArray(ref.child('rides'));
     $scope.rides.$loaded().then(function (dataArray) {
+        debugger;
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
         var id = $scope.rideId;
         var lastRide = $scope.rides.$getRecord(id);
@@ -1952,7 +2006,7 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
     $scope.stb = storageService.getObject("CS");
 
     $scope.rideId = storageService.getObject("RIFM");
-    $scope.rideId="-KSpPpJKZ5IicOQ-P5kM";
+    //$scope.rideId="-KSpPpJKZ5IicOQ-P5kM";
  
     try {
         //$scope.rideId = $scope.stb.ride_ids[0];

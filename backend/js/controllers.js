@@ -1092,8 +1092,8 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
         //var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
 
 
-        var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
-
+        //var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
+        var url = storageService.getNodeJSAppURL() + 'sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
 
         $http({
             method: 'GET',
