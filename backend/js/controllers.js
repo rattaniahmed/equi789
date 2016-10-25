@@ -1504,25 +1504,32 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.users = $firebaseArray(ref.child('users'));
-   
-    $scope.GetUserHorse = function (user) {
-        console.log(user);
-        console.log($scope.stables);
+    
+    //$scope.GetUserHorse = function (user) {
+    //    $scope.stableToShow = [];
+    //    console.log(user);
+    //    console.log($scope.stables);
       
-        angular.forEach(user, function (value, key) {
-            angular.forEach($scope.stables, function (value, key) {
+    //    angular.forEach(user.horse_ids, function (value1, key1) {
+
+    //        angular.forEach($scope.stables, function (value2, key2) {
                
 
-                    if($scope.stables.$id==user.horse_ids)
-                    {
-                        $scope.userToShow.push(value);
-
-                    }
+    //            debugger;
+    //            if (key1 == value2.$id) {
+    //                $scope.stableToShow.push(value2);
+    //            }
                     
-                });
+    //            });
                 
-            });
+    //        });
          
+    //    return $scope.stableToShow;
+    //}
+
+    
+    $scope.onCategoryChange = function (user) {
+        $scope.gridOptions.data = $scope.GetUserHorse($scope.user);
     }
 
     $scope.users.$loaded().then(function (dataArray) {
@@ -1531,17 +1538,18 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
         angular.forEach(dataArray, function (value, key) {
             $scope.userToShow.push(value);
         });
-
+        $scope.itemSelected = $scope.userToShow[0];
         $scope.user = $scope.users.$getRecord($scope.editId);
 
         $scope.horses = $firebaseArray(ref.child('horses'));
         $scope.horses.$loaded().then(function (dataArray) {
 
             console.log(dataArray);
-            angular.forEach(dataArray, function (value, key) {
+            angular.forEach($scope.user.horse_ids, function (value, key) {
                 //console.log(value);
                 console.log(key);
-                var horse = value;// $scope.horses.$getRecord(key);
+                //var horse = value;// $scope.horses.$getRecord(key);
+                var horse =  $scope.horses.$getRecord(key);
                 if (horse != null) {
                     horse.photo = "";//CleanHorseProfileUrl(horse.photo);
 
@@ -1592,7 +1600,8 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
                 
             });
 
-            $scope.gridOptions.data = $scope.GetUserHorse($scope.user); //$scope.stables;  = .horse_ids
+            $scope.gridOptions.data = $scope.stables;
+            //$scope.gridOptions.data = $scope.GetUserHorse($scope.user); //$scope.stables;  = .horse_ids
 
         }).catch(function (error) {
             console.log("Error in loading details");
