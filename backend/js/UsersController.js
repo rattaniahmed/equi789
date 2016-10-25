@@ -9,6 +9,10 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
         paginationPageSizes: [5, 10, 20],
         paginationPageSize: 10,
         enableFiltering: false,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+            $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
+        },
         columnDefs: [
              { name: 'email', enableFiltering: false},
           { name: 'first_name' },
@@ -20,15 +24,98 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
                       '</div>'
           },
         {
-            name: "    ", cellTemplate: '<div>   <div ng-click="grid.appScope.RemoveUser(row,col)" class="ui-grid-cell-contents" title="TOOLTIP">Remove</div>      </div>',
+            name: "    ", cellTemplate: '<div><div ng-click="grid.appScope.RemoveUser(row,col)" class="ui-grid-cell-contents" title="TOOLTIP">Remove</div> </div>',
         }        ]
     };
     
     $scope.RemoveUser = function (row, col) {
-        debugger;
-        alert(row.entity.$id);
+ 
+        //get user object
+        $scope.user = $scope.users.$getRecord(row.entity.$id);
+
+        //remve object from user ref
+        $scope.users.$remove($scope.user).then(function (ref) {
+
+            var id = ref.key();
+            if ($scope.user.$id == id) {
+                console.log("Deleted success fully");
+            }
+
+        });
+
+        var index = -1;
+        for (var i = 0 ; i < $scope.users.length; i++) {//console.log(value);
+            if ($scope.users[i].$id == row.entity.$id) {           //remove
+                index = i;
+            }
+        }
+
+        $scope.users.splice(i);
+
+        $scope.usersArray = [];
+        angular.forEach($scope.users, function (value, key) {
+            //console.log(value);
+            
+            $scope.usersArray.push(value);
+            $scope.gridOptions.data = $scope.usersArray;
+
+        });
+
+        // delete horse of user 
+        angular.forEach($scope.user.horse_ids, function (value, key) {
+            var horse = $scope.horses.$getRecord(key);
+
+            angular.forEach(horse.horse_ids, function (value, key) {
+                var ride = $scope.rides.$getRecord(key);
+
+                $scope.rides.$remove(ride).then(function (ref) {
+                
+                    var id = ref.key();
+                    if (ride.$id == id) {
+                        console.log("Deleted success fully");
+                    }
+                });
+
+            });
+            $scope.horses.$remove(horse).then(function (ref) {
+                 
+                var id = ref.key();
+                if (horse.$id == id) {
+                    console.log("Deleted success fully");
+                }
+            });
+
+        });
+
+       
+
+    }
+    $scope.filterValue = '';
+    $scope.Search = function () {
+        $scope.filterValue = document.getElementById("search").value;
+        $scope.gridApi.grid.refresh();
     }
 
+    $scope.singleFilter = function (renderableRows) {
+        debugger;
+        var matcher = new RegExp($scope.filterValue);
+        renderableRows.forEach(function (row) {
+            debugger;
+            var match = false;
+            ['email', 'first_name', 'last_name', 'display_name'].forEach(function (field) {
+                if (row.entity[field].match(matcher)) {
+                    match = true;
+                }
+            });
+            if (!match) {
+                row.visible = false;
+            }
+        });
+        return renderableRows;
+    }
+
+
+    //alert(row.entity.$id);
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.users = $firebaseArray(ref.child('users'));
     $scope.usersArray = [];
@@ -38,14 +125,7 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
 
         angular.forEach(dataArray, function (value, key) {
 
-            //var innerO = [];
-            //innerO.push(value.email);
-            //innerO.push(value.first_name);
-            //innerO.push(value.last_name);
-            //innerO.push(value.last_name);
-            //innerO.push('<a href="#/adasdasdasd">Horses</a>');
-            //innerO.push('<a href="javascript:void(0)" onclick="Test()">Delete</a>');
-
+           
             $scope.usersArray.push(value);
 
         });
@@ -84,6 +164,18 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
         console.log("Error in loading details");
     });
 
+    $scope.horses = $firebaseArray(ref.child('horses'));
+    $scope.horses.$loaded().then(function (dataArray) {
+       // $scope.horses = dataArray;
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+    $scope.rides = $firebaseArray(ref.child('rides'));
+    $scope.rides.$loaded().then(function (dataArray) {
+        // $scope.horses = dataArray;
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
    
     //$scope.highlightFilteredHeader = function (row, rowRenderIndex, col, colRenderIndex) {
     //    if (col.filters[0].term) {

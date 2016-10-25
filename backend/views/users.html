@@ -4,7 +4,8 @@
             <div class="title_left">
                 <h2>Equitrack <small> Users Managerment </small></h2>
             </div>
-
+            <input type="text" id="search" />
+            <button ng-click="Search()">Seach</button>
             
         </div>
 
@@ -16,46 +17,11 @@
                    
                     <div class="x_content">
                         
-                        <!--<div id="grid" ui-grid="gridOptions" class="grid" style="width: 500px;
-    height: 250px;"></div>-->
+                   
 
                         <div ui-grid="gridOptions" ui-grid-pagination></div>
 
-                        <!--<table id="example" class="display" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                           
-                        </table>-->
-                        <!--<table datatable="ng" class="row-border hover">
-                            <thead>
-                                <tr>
-                                    
-                                    <th>FirstName</th>
-                                    <th>LastName</th>
-                                    <th>Email</th>
-                                    <th>Show Hourse</th>
-                                    <th>Remove</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="person in persons">
-                                    <td>{{ person.first_name }}</td>
-                                    <td>{{ person.last_name }}</td>
-                                    <td>{{ person.email }}</td>
-                                    <td>Show</td>
-                                    <td>Remove</td>
-                                </tr>
-                            </tbody>
-                        </table>-->
-                        
+                  
 
                     </div>
                 

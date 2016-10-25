@@ -1480,6 +1480,10 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
         paginationPageSizes: [5, 10, 20],
         paginationPageSize: 10,
         enableFiltering: false,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+            $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
+        },
         columnDefs: [
              { name: 'horse_name', enableFiltering: false },
           { name: 'registration' },
@@ -1492,40 +1496,92 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
           },
         {
             name: "    ", cellTemplate: '<div>' +
-                    '<div>   <div ng-click="grid.appScope.RemoveUser(row,col)" class="ui-grid-cell-contents" title="TOOLTIP">Remove</div> </div>',enableFiltering: false 
+                    '<div>   <div ng-click="grid.appScope.RemoveHorse(row,col)" class="ui-grid-cell-contents" title="TOOLTIP">Remove</div> </div>',enableFiltering: false 
         }
         ]
     };
 
 
+    $scope.RemoveHorse = function (row, col) {
 
+        //get horse object
+        $scope.horse = $scope.horses.$getRecord(row.entity.$id);
+
+        //remve object from horse ref
+        $scope.horses.$remove($scope.horse).then(function (ref) {
+
+            var id = ref.key();
+            if ($scope.horse.$id == id) {
+                console.log("Deleted success fully");
+            }
+
+        })
+
+        // delete fom user's object 
+        delete $scope.user.horse_ids[row.entity.$id];
+
+        // delete rides of horse 
+        angular.forEach($scope.horse.ride_ids, function (value, key) {
+            var ride = $scope.rides.$getRecord(key);
+
+            $scope.rides.$remove(ride).then(function (ref) {
+
+                var id = ref.key();
+                if ($scope.ride.$id == id) {
+                    console.log("Deleted success fully");
+                }
+            });
+
+        });
+
+       
+        $scope.stables = [];
+        angular.forEach($scope.user.horse_ids, function (value, key) {
+            //console.log(value);
+            console.log(key);
+            var horse = $scope.horses.$getRecord(key);
+            if (horse != null) {
+
+                $scope.stables.push(horse);
+            }
+            console.log($scope.stables);
+            $scope.gridOptions.data = $scope.stables;
+
+        });
+
+        $scope.users.$save($scope.user).then(function (res) {
+        });
+
+    }
     
+    $scope.filterValue = '';
+    $scope.Search = function () {
+        $scope.filterValue = document.getElementById("search").value;
+        $scope.gridApi.grid.refresh();
+    }
+
+    $scope.singleFilter = function (renderableRows) {
+        debugger;
+        var matcher = new RegExp($scope.filterValue);
+        renderableRows.forEach(function (row) {
+            debugger;
+            var match = false;
+            ['horse_name', 'registration', 'birthday'].forEach(function (field) {
+                if (row.entity[field].match(matcher)) {
+                    match = true;
+                }
+            });
+            if (!match) {
+                row.visible = false;
+            }
+        });
+        return renderableRows;
+    }
     $scope.stables = [];
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.users = $firebaseArray(ref.child('users'));
     
-    //$scope.GetUserHorse = function (user) {
-    //    $scope.stableToShow = [];
-    //    console.log(user);
-    //    console.log($scope.stables);
-      
-    //    angular.forEach(user.horse_ids, function (value1, key1) {
-
-    //        angular.forEach($scope.stables, function (value2, key2) {
-               
-
-    //            debugger;
-    //            if (key1 == value2.$id) {
-    //                $scope.stableToShow.push(value2);
-    //            }
-                    
-    //            });
-                
-    //        });
-         
-    //    return $scope.stableToShow;
-    //}
 
     
     $scope.onCategoryChange = function (user) {
@@ -1608,7 +1664,12 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
         });
 
     });
-   
+    $scope.rides = $firebaseArray(ref.child('rides'));
+    $scope.rides.$loaded().then(function (dataArray) {
+        // $scope.horses = dataArray;
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
 });
 
 
