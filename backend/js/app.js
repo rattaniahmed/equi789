@@ -20,7 +20,7 @@ app.config(function ($routeProvider, $locationProvider) {
         //    templateUrl: 'index.html',
         //    controller: 'mainController'
         //})
-    HorseDetail
+    
         .when('/home', {
             templateUrl: 'views/home.html',
             controller: 'homeController'

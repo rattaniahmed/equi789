@@ -1471,7 +1471,99 @@ app.controller('reportController', function ($scope, storageService, firebaseSer
     }
 });
 
+app.controller('HorseDetailController', function ($scope, storageService, firebaseService, $firebaseArray) {
 
+    console.log("HorseDetailController");
+
+
+    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+    $scope.images = $firebaseArray(ref.child('Content').child('Reports'));
+    $scope.Imgaes = [];
+    $scope.images.$loaded().then(function (dataArray) {
+        $scope.Imgaes = dataArray;
+        console.log(dataArray);
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+
+    $scope.Collopse = function (image) {
+
+        console.log(image);
+
+        $("#link_" + image.$id).addClass("collapsed");
+        $("#div_" + image.$id).addClass("in");
+
+    }
+
+    $scope.EditQuestionModal = function (image) {
+        $scope.cntId = image.$id;
+        //$("#addphoto").click();
+        debugger;
+
+        $("#titleedit").val(image.QuestionText);
+        $("#linkedit").val(image.AnswerText);
+        $("#editmodal").modal('show');
+    }
+
+    $scope.EditQuestion = function () {
+
+        var imageRef = $scope.images.$getRecord($scope.cntId);
+        imageRef.QuestionText = $("#titleedit").val();
+        imageRef.AnswerText = $("#linkedit").val();
+
+        $scope.images.$save(imageRef).then(function (res) {
+
+            //$scope.$apply(function () {
+            //    blockUI.stop();
+            //});
+
+            ////storageService.setObject("CS", rideRef);
+            //swal("", "Your notes details has been edited success fully", "success");
+            //console.log(res);
+            console.log(res);
+            window.location.reload();
+
+        });
+
+
+    }
+
+    $scope.RemoveQuestion = function (image) {
+
+        $scope.images.$remove(image).then(function (ref) {
+            debugger;
+            var id = ref.key();
+            if (stb.$id == id) {
+                console.log("Deleted success fully");
+            }
+
+        });
+
+    }
+
+    $scope.AddQuestion = function () {
+
+        var toAdd = {
+            AnswerText: $("#linknew").val(),
+            QuestionText: $("#titlenew").val()
+        }
+
+        $scope.images.$add(toAdd).then(function (ref) {
+            debugger;
+            var id = ref.key();
+            console.log("added record with id " + id);
+
+
+            window.location.reload();
+
+        });
+
+    }
+
+    $scope.Redirect = function () {
+        window.location.href = "#/report/-1";
+    }
+});
 
 
 
