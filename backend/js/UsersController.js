@@ -16,17 +16,18 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
           { name: 'display_name' },
           {
               name: " ", cellTemplate: '<div>' +
-                      '<a href="horses/{{row.entity.$id}}">Horses</a>' +
+                      '<a href="#/horses/{{row.entity.$id}}">Horses</a>' +
                       '</div>'
           },
         {
-            name: "    ", cellTemplate: '<div>' +
-                    '<a href="javascript:void(0)" ng-click="grid.appScope.RemoveUser({{row.entity.$id}})">Remove</a>' +
-                    '</div>'
-        }
-        ]
+            name: "    ", cellTemplate: '<div>   <div ng-click="grid.appScope.RemoveUser(row,col)" class="ui-grid-cell-contents" title="TOOLTIP">Remove</div>      </div>',
+        }        ]
     };
-
+    
+    $scope.RemoveUser = function (row, col) {
+        debugger;
+        alert(row.entity.$id);
+    }
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.users = $firebaseArray(ref.child('users'));
@@ -83,13 +84,7 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
         console.log("Error in loading details");
     });
 
-    function Test(id) {
-        alert("dsfsdfdf");
-    }
-
-    $scope.RemoveUser = function (id) {
-        alert(id);
-    }
+   
     //$scope.highlightFilteredHeader = function (row, rowRenderIndex, col, colRenderIndex) {
     //    if (col.filters[0].term) {
     //        return 'header-filtered';
@@ -119,4 +114,5 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
 
 
 });
+
 

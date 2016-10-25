@@ -30,7 +30,12 @@ app.config(function ($routeProvider, $locationProvider) {
             controller: 'UsersController'
         })
 
-        .when('/HorseDetail', {
+      .when('/rides/:id', {
+          templateUrl: 'views/RideDetail.html',
+          controller: 'rideDetailController'
+       })
+
+        .when('/horses/:id', {
             templateUrl: 'views/HorseDetail.html',
             controller: 'HorseDetailController'
         })
