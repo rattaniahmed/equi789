@@ -88,7 +88,7 @@
                         match = true;
                     }}
                 catch (e) {
-                    match = true;
+                    //match = true;
                     console.log(e);
                 }
             });
