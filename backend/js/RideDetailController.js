@@ -13,13 +13,19 @@
             $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
         },
         columnDefs: [
-             { name: 'total_distance', enableFiltering: false },
+          { name: 'total_distance', enableFiltering: false },
           { name: 'total_time' },
           { name: 'top_speed' },
           { name: 'average_speed' },
+          {name:'start_time'},
+          {name:'end_time'},
+          {name:'location'},
+          {name:'weather'},
+          {name:'energy'},
+          {name:'calories'},
           
         {
-            name: "    ", cellTemplate: '<div>   <div ng-click="grid.appScope.RemoveRide(row,col)" class="ui-grid-cell-contents" title="TOOLTIP">Remove</div>      </div>',
+            name: "    ", cellTemplate: '<div>   <div ng-click="grid.appScope.RemoveRide(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;">Remove</div>      </div>',
         }]
     };
     $scope.RemoveRide = function (row, col) {
@@ -81,7 +87,6 @@
         renderableRows.forEach(function (row) {
             debugger;
             var match = false;
-            
             ['total_distance','total_time','top_speed','average_speed'].forEach(function (field) {
                 try{
                     if (row.entity[field].match(matcher)) {

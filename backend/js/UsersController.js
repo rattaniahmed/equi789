@@ -19,12 +19,12 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
           { name: 'last_name' },
           { name: 'display_name' },
           {
-              name: " ", cellTemplate: '<div>' +
+              name: " ", cellTemplate: '<div style="text-align:center;">' +
                       '<a href="#/horses/{{row.entity.$id}}">Horses</a>' +
                       '</div>'
           },
         {
-            name: "    ", cellTemplate: '<div><div ng-click="grid.appScope.RemoveUser(row,col)" class="ui-grid-cell-contents" title="TOOLTIP">Remove</div> </div>',
+            name: "    ", cellTemplate: '<div><div ng-click="grid.appScope.RemoveUser(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;">Remove</div> </div>',
         }        ]
     };
     

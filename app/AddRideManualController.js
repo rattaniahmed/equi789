@@ -62,7 +62,15 @@
             { name: "", number: "" },
               { name: "", number: "" },
     ];
-
+    function generateUUID() {
+        var d = new Date().getTime();
+        var uuid = 'xxxxxxxxxxxxxxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = (d + Math.random() * 16) % 16 | 0;
+            d = Math.floor(d / 16);
+            return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+        return uuid;
+    };
     $scope.addride = {
         average_heart_rate:"",
         average_speed: "",
@@ -71,7 +79,8 @@
         energy: "",
         ground_condition: "",
         high_heart_rate:"",
-        location:"",
+        location: "",
+        id:"",
         ride_time:"",
         start_time:"",
         top_speed:"",
@@ -131,6 +140,7 @@
                $scope.addride.top_speed = speed;
                $scope.addride.total_time = time;
                $scope.addride.ismanualride = 1;
+               $scope.addride.id = generateUUID();
 
 
 

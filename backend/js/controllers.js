@@ -1485,18 +1485,19 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
             $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
         },
         columnDefs: [
-             { name: 'horse_name', enableFiltering: false },
-          { name: 'registration' },
+          { name: 'horse_name', enableFiltering: false },
+          { name: 'registration', displayName:'Breed' },
           { name: 'birthday' },
          
           {
-              name: " ", cellTemplate: '<div>' +
-                      '<a href="#/rides/{{row.entity.$id}}">Rides Detail</a>' +
-                      '</div>',enableFiltering: false 
+              name: " ", cellTemplate: '<div style="text-align:center;">' +
+                      '<a href="#/rides/{{row.entity.$id}}" >Ride Detail</a>' +
+                      '</div>', enableFiltering: false
           },
         {
             name: "    ", cellTemplate: '<div>' +
-                    '<div>   <div ng-click="grid.appScope.RemoveHorse(row,col)" class="ui-grid-cell-contents" title="TOOLTIP">Remove</div> </div>',enableFiltering: false 
+                    '<div>   <div ng-click="grid.appScope.RemoveHorse(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;">Remove</div> </div>',
+            enableFiltering: false
         }
         ]
     };
