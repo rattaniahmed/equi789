@@ -1485,13 +1485,13 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
             $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
         },
         columnDefs: [
-          { name: 'horse_name', enableFiltering: false },
-          { name: 'registration', displayName:'Breed' },
-          { name: 'birthday' },
+          { name: 'horse_name', enableFiltering: false, headerCellClass: 'blue' },
+          { name: 'registration', displayName: 'Breed', headerCellClass: 'blue' },
+          { name: 'birthday', headerCellClass: 'blue' },
          
           {
               name: " ", cellTemplate: '<div style="text-align:center;">' +
-                      '<a href="#/rides/{{row.entity.$id}}" >Ride Detail</a>' +
+                      '<a href="#/rides/{{row.entity.$id}}" >Rides</a>' +
                       '</div>', enableFiltering: false
           },
         {
@@ -1504,7 +1504,18 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
 
 
     $scope.RemoveHorse = function (row, col) {
-
+        swal({
+            title: "Are you sure?",
+            text: "You Want to delete horse!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        },
+        function () {
+    
         //get horse object
         $scope.horse = $scope.horses.$getRecord(row.entity.$id);
 
@@ -1551,6 +1562,9 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
         });
 
         $scope.users.$save($scope.user).then(function (res) {
+        });
+
+        swal("Deleted!", "Your imaginary file has been deleted.", "success");
         });
 
     }

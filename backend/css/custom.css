@@ -4700,3 +4700,17 @@ ul.notifications {
 .grid-align {
     text-align: center;
 }
+
+.btn-danger2 {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+.red { color: red;  background-color: yellow !important; }
+.blue { color: blue;  }
+.breadcrumbs {
+    float: left;
+    width: 900px;
+    background-color: #f7f8f8;
+    position: relative;
+}

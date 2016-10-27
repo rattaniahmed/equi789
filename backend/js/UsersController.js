@@ -14,10 +14,10 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
             $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
         },
         columnDefs: [
-             { name: 'email', enableFiltering: false},
-          { name: 'first_name' },
-          { name: 'last_name' },
-          { name: 'display_name' },
+             { name: 'email', enableFiltering: false, headerCellClass: 'blue' },
+          { name: 'first_name', headerCellClass: 'blue' },
+          { name: 'last_name', headerCellClass: 'blue' },
+          { name: 'display_name', headerCellClass: 'blue' },
           {
               name: " ", cellTemplate: '<div style="text-align:center;">' +
                       '<a href="#/horses/{{row.entity.$id}}">Horses</a>' +
@@ -29,6 +29,20 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
     };
     
     $scope.RemoveUser = function (row, col) {
+
+        swal({
+            title: "Are you sure?",
+            text: "You Want to Delete User!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        },
+       function () {
+
+   
  
         //get user object
         $scope.user = $scope.users.$getRecord(row.entity.$id);
@@ -87,7 +101,8 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
 
         });
 
-       
+        swal("Deleted!", "Your imaginary file has been deleted.", "success");
+});
 
     }
     $scope.filterValue = '';

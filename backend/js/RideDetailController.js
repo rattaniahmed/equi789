@@ -13,22 +13,34 @@
             $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
         },
         columnDefs: [
-          { name: 'total_distance', enableFiltering: false },
-          { name: 'total_time' },
-          { name: 'top_speed' },
-          { name: 'average_speed' },
-          {name:'start_time'},
-          {name:'end_time'},
-          {name:'location'},
-          {name:'weather'},
-          {name:'energy'},
-          {name:'calories'},
+          { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue' },
+          { name: 'total_time', headerCellClass: 'blue' },
+          { name: 'top_speed', headerCellClass: 'blue' },
+          { name: 'average_speed', headerCellClass: 'blue' },
+          { name: 'start_time', headerCellClass: 'blue' },
+          { name: 'end_time', headerCellClass: 'blue' },
+          { name: 'location', headerCellClass: 'blue' },
+          { name: 'weather', headerCellClass: 'blue' },
+          { name: 'energy', headerCellClass: 'blue' },
+          { name: 'calories', headerCellClass: 'blue' },
           
         {
             name: "    ", cellTemplate: '<div>   <div ng-click="grid.appScope.RemoveRide(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;">Remove</div>      </div>',
         }]
     };
     $scope.RemoveRide = function (row, col) {
+        swal({
+            title: "Are you sure?",
+            text: "You Want to Delete Ride!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        },
+      function () {
+    
 
         $scope.ride = $scope.rides.$getRecord(row.entity.$id);
         $scope.rides.$remove($scope.ride).then(function (ref) {
@@ -54,24 +66,34 @@
             $scope.gridOptions.data = $scope.stables;
 
         });
+        var index = -1;
+        for (var i = 0 ; i < $scope.rides.length; i++) {//console.log(value);
+            if ($scope.rides[i].$id == row.entity.$id) {           //remove
+                index = i;
+            }
+        }
 
+        $scope.rides.splice(i);
+
+        $scope.stables = [];
+        angular.forEach($scope.users, function (value, key) {
+            //console.log(value);
+
+            $scope.stables.push(rides);
+            $scope.gridOptions.data = $scope.stables;
+
+        });
 
         $scope.horses.$save($scope.horse).then(function (res) {
             console.log(res);
-            swal("", "Your Ride has been removed success fully", "success");
+            
 
         }).catch(function (err) {
             console.log(err);
         });
-
-        //angular.forEach($scope.stables, function (value, key) {
-
-        
-
-        //});
-        //$scope.stables
-        //$scope.gridOptions.data = $scope.stables;
-
+        swal("Deleted!", "Your imaginary file has been deleted.", "success");
+      });
+       
     }
 
 
