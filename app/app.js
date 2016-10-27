@@ -309,14 +309,14 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
             return;
         else {
 
-            blockUI.start("Sending message");
+            //blockUI.start("Sending message");
 
             var TO = $scope.email;
-            TO ="vishal.kumar1145@gmail.com";
+            //TO ="vishal.kumar1145@gmail.com";
             //TO = "rattaniahmed@gmail.com";
             //TO = "support@myequitrack.com";
             //TO = "info@myequitrack.com";
-            //TO = "equitrackapp@gmail.com";
+            TO = "equitrackapp@gmail.com";
 
             var Subject = "New message on Conatct us screen on Equitrack.com";
 
@@ -349,9 +349,9 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
                 console.log(response);
             });
             
-            $scope.$apply(function () {
-                blockUI.stop();
-            });
+            //$scope.$apply(function () {
+            //    blockUI.stop();
+            //});
 
             $scope.first_name = "";
             $scope.last_name = "";

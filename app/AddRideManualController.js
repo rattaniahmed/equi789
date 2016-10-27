@@ -141,7 +141,10 @@
                $scope.addride.total_time = time;
                $scope.addride.ismanualride = 1;
                $scope.addride.id = generateUUID();
+               $scope.addride.horse_firebase_key = $scope.currenthorse.$id;
 
+               console.log("adding ride object");
+               console.log($scope.addride);
 
 
                storageService.setObject("AddedRIDE", $scope.addride);
