@@ -71,6 +71,13 @@
         });
         return uuid;
     };
+
+    function getRandamNumber() {
+
+        return Math.floor((Math.random() * 100000) + 1);
+    }
+
+
     $scope.addride = {
         average_heart_rate:"",
         average_speed: "",
@@ -140,8 +147,12 @@
                $scope.addride.top_speed = speed;
                $scope.addride.total_time = time;
                $scope.addride.ismanualride = 1;
-               $scope.addride.id = generateUUID();
+               $scope.addride.id = getRandamNumber(); // generateUUID();
                $scope.addride.horse_firebase_key = $scope.currenthorse.$id;
+               $scope.addride.freestyle_time = "100";
+               $scope.addride.hotwalk_time = "100";
+               $scope.addride.coords = false;
+               $scope.addride.notes = "";
 
                console.log("adding ride object");
                console.log($scope.addride);
