@@ -63,17 +63,19 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
                 index = i;
             }
         }
-
-        $scope.users.splice(i);
+        debugger;
+        $scope.users.splice(index, 1);
 
         $scope.usersArray = [];
         angular.forEach($scope.users, function (value, key) {
             //console.log(value);
             
             $scope.usersArray.push(value);
-            $scope.gridOptions.data = $scope.usersArray;
+          
 
         });
+
+        $scope.gridOptions.data = $scope.usersArray;
 
         // delete horse of user 
         angular.forEach($scope.user.horse_ids, function (value, key) {
@@ -101,7 +103,7 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
 
         });
 
-        swal("Deleted!", "Your imaginary file has been deleted.", "success");
+        swal("Deleted!", "User has been deleted success fully.", "success");
 });
 
     }
@@ -112,10 +114,8 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
     }
 
     $scope.singleFilter = function (renderableRows) {
-        debugger;
         var matcher = new RegExp($scope.filterValue);
         renderableRows.forEach(function (row) {
-            debugger;
             var match = false;
             ['email', 'first_name', 'last_name', 'display_name'].forEach(function (field) {
                 if (row.entity[field].match(matcher)) {

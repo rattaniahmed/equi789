@@ -23,6 +23,15 @@
 
                 <div class="clearfix">
 
+                    <!--<div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>-->
+
+
+                    
+
                     <!--<div class="breadcrumbs">
 
                         <ul class="un-styled clearfix">
@@ -37,7 +46,7 @@
 
                     </div>-->
 
-                    <div class="bc_right_add_btn">
+                    <div class="bc_right_add_btn" ng-show="!loadingcord">
 
                         <a href="#" class="btn btn-transparent btn-icon"
                            socialshare
@@ -55,12 +64,35 @@
 
             </div>
 
+            
+
+            <div class="map_area" >
+
+                <!--<div id="fountainG" ng-show="loadingcord">
+                    <div id="fountainG_1" class="fountainG"></div>
+                    <div id="fountainG_2" class="fountainG"></div>
+                    <div id="fountainG_3" class="fountainG"></div>
+                    <div id="fountainG_4" class="fountainG"></div>
+                    <div id="fountainG_5" class="fountainG"></div>
+                    <div id="fountainG_6" class="fountainG"></div>
+                    <div id="fountainG_7" class="fountainG"></div>
+                    <div id="fountainG_8" class="fountainG"></div>
+                </div>-->
 
 
+                <div id="floatingBarsG" ng-show="loadingcord">
+                    <div class="blockG" id="rotateG_01"></div>
+                    <div class="blockG" id="rotateG_02"></div>
+                    <div class="blockG" id="rotateG_03"></div>
+                    <div class="blockG" id="rotateG_04"></div>
+                    <div class="blockG" id="rotateG_05"></div>
+                    <div class="blockG" id="rotateG_06"></div>
+                    <div class="blockG" id="rotateG_07"></div>
+                    <div class="blockG" id="rotateG_08"></div>
+                </div>
 
-            <div class="map_area">
 
-                <div class="map">
+                <div class="map" ng-show="!loadingcord">
 
                     <div id="map"  frameborder="0" style="border:0;width:1080px;height:570px;"></div>
 

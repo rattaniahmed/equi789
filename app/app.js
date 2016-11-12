@@ -266,6 +266,7 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
     $scope.isLogged = 0;
 
     $scope.UpdateLoggedStatus = function () {
+        console.log("calling function");
         var user = storageService.getObject("CU");
         if(user == null)
             $scope.isLogged = 0;
@@ -278,6 +279,7 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
             $scope.isLogged = 1;
         }
     }
+
     $scope.UpdateLoggedStatus();
 
     $scope.StartTrack = function () {
@@ -320,25 +322,36 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
 
             var Subject = "New message on Conatct us screen on Equitrack.com";
 
-            var html = "There is new contact us request on the portal with followiing message : - " + ReplaceNull($scope.msg);
+            var html = 'New contact message from the user " ' + ReplaceNull($scope.first_name) + ' '+ ReplaceNull($scope.last_name) + ' ( ' + ReplaceNull($scope.email) + ' ) "  and Message is - ' + ReplaceNull($scope.msg);
 
-            //html += "<br/><br/><br/>";
-            //            html += "<table>"
-            //html += "<tr>      <td>First Name :- </td>  <td> " + ReplaceNull($scope.first_name) + "</td>        </tr>"
-            //html += "<tr>      <td>Last Name :- </td>  <td> " + ReplaceNull($scope.last_name) + "</td>        </tr>"
-            //html += "<tr>      <td>Email :- </td>  <td> " + ReplaceNull($scope.email) + "</td>        </tr>"
-            //html += "<tr>      <td>Mobile :- </td>  <td> " + ReplaceNull($scope.mobile) + "</td>        </tr>"
-            //html += "<tr>      <td>Message :- </td>  <td> " + ReplaceNull($scope.msg) + "</td>        </tr>"
-            //html += "</table>"
-            //            html += "<br/><br/><br/>";
-            //            html += "Equitrack Team</br>"
+            //html += "<tr>      <td>First Name :- </td>  <td> " + ReplaceNull($scope.first_name) + "</td>        </tr>";
+            //  html += "<tr>      <td>Last Name :- </td>  <td> " + ReplaceNull($scope.last_name) + "</td>        </tr>";
+            //  html += "<tr>      <td>Email :- </td>  <td> " + ReplaceNull($scope.email) + "</td>        </tr>";
+            //  html += "<tr>      <td>Mobile :- </td>  <td> " + ReplaceNull($scope.mobile) + "</td>        </tr>";
+            //  html += "<tr>      <td>Message :- </td>  <td> " + ReplaceNull($scope.msg) + "</td>        </tr>";
+
+           // html += "<br/><br/><br/>";
+          //  html += "<table>";
+          //  html += "<tr>      <td>First Name :- </td>  <td> " + ReplaceNull($scope.first_name) + "</td>        </tr>";
+          //  html += "<tr>      <td>Last Name :- </td>  <td> " + ReplaceNull($scope.last_name) + "</td>        </tr>";
+          //  html += "<tr>      <td>Email :- </td>  <td> " + ReplaceNull($scope.email) + "</td>        </tr>";
+          //  html += "<tr>      <td>Mobile :- </td>  <td> " + ReplaceNull($scope.mobile) + "</td>        </tr>";
+          //  html += "<tr>      <td>Message :- </td>  <td> " + ReplaceNull($scope.msg) + "</td>        </tr>";
+          //  html += "</table>";
+                    //    html += "<br/><br/><br/>";
+                    //    html += "Equitrack Team</br>";
             
 
             //var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
                 
             //var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
+
             var url = storageService.getNodeJSAppURL() + 'sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
-            
+                        //var url = "http://localhost:8080/" + 'sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
+
+
+
+
             debugger;
             $http({
                 method: 'GET',

@@ -83,6 +83,7 @@ app.controller('AccountController', function MyCtrl($scope, $location, $firebase
                     swal({ title: "", text: "Invalid user name and password. Please try again", imageUrl: "bower_components/sweetalert/example/images/wrong.png" });
                     //console.log("Login Failed!", error);
                 } else {
+
                     var user = $scope.users.$getRecord(authData.uid);
                     user.profile = CleanProfileUrl(user.profile);
                     var obj = {
@@ -91,31 +92,11 @@ app.controller('AccountController', function MyCtrl($scope, $location, $firebase
                     };
                     storageService.setObject("CU", obj);
 
-var isAdmin =  0;
- try{
-isAdmin = user.isAdmin;
- }catch(err){
-isAdmin = 0 ;
- }
-
- if(isAdmin == 1)
-storageService.setObject("isAdmin", true);
-else
-storageService.setObject("isAdmin", false);
-
-
-                    swal("", "You have success fully logged In, You being redirect to dashboard.", "success");
-                    if(isAdmin == 1)
-                    {
-$scope.$apply(function () {
-                        $location.path('static.html');
-                    });
-                    }
-                    else{
+                    swal("", "You have successfully logged in.  You are now being redirected to your dashboard.", "success");
                     $scope.$apply(function () {
+                        $scope.$parent.UpdateLoggedStatus();
                         $location.path('dashboard.html');
                     });
-                    }
                 }
             });
         }
@@ -374,18 +355,35 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
 
     var ref = firebaseService.FIREBASEENDPOINT();
     $scope.users = $firebaseArray(ref.child('users'));
+    $scope.users.$loaded().then(function (dataArray) {
+        debugger;
+        var user = $scope.users.$getRecord($scope.user.Auth.uid);
+        user.profile = CleanProfileUrl(user.profile);
+        var obj = {
+            Auth: $scope.user.Auth,
+            Details: user
+        };
+        $scope.user = obj;
+        storageService.setObject("CU", obj);
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
 
     console.log($scope.user);
 
     $scope.stables = [];
 
-    
+    $scope.loadingcord = true;
+
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     //$scope.users = $firebaseArray(ref.child('users'));
     $scope.horses = $firebaseArray(ref.child('horses'));
     $scope.horses.$loaded().then(function (dataArray) {
         angular.forEach($scope.user.Details.horse_ids, function (value, key) {
             //console.log(value);
+
+            $scope.loadingcord = false;
+
             console.log(key);
             var horse = $scope.horses.$getRecord(key);
             if (horse != null) {
@@ -625,15 +623,18 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
             var ride = $scope.rides.$getRecord(id);
             debugger;
             //$scope.totalRidesDetails.push(ride);
-            $scope.totalLength = $scope.totalLength + 1;
-            $scope.totalDistance = parseFloat($scope.totalDistance) + parseFloat(ride.total_distance);
-            $scope.totalDuration = parseInt($scope.totalDuration) + parseInt(ride.total_time);
-            $scope.totalEnergy = parseFloat($scope.totalEnergy) + parseFloat(ride.energy);
-            $scope.totalCalories = parseFloat($scope.totalCalories) + parseFloat(ride.calories);
-            //$scope.totalAverageSpeed = $scope.totalAverageSpeed + ride.average_speed;
-            //$scope.totalTopSspeed = $scope.totalTopSspeed + ride.top_speed;
-            averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
-            totalTopSspeed.push(parseFloat(ride.top_speed));
+
+            if (ride != null) {
+                $scope.totalLength = $scope.totalLength + 1;
+                $scope.totalDistance = parseFloat($scope.totalDistance) + parseFloat(ride.total_distance);
+                $scope.totalDuration = parseInt($scope.totalDuration) + parseInt(ride.total_time);
+                $scope.totalEnergy = parseFloat($scope.totalEnergy) + parseFloat(ride.energy);
+                $scope.totalCalories = parseFloat($scope.totalCalories) + parseFloat(ride.calories);
+                //$scope.totalAverageSpeed = $scope.totalAverageSpeed + ride.average_speed;
+                //$scope.totalTopSspeed = $scope.totalTopSspeed + ride.top_speed;
+                averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
+                totalTopSspeed.push(parseFloat(ride.top_speed));
+            }
         }
 
         $scope.totalDistance = parseFloat(Math.round($scope.totalDistance * 100) / 100).toFixed(2); 
@@ -658,6 +659,80 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
         storageService.setObject("CU", null);
         $location.path('/');
     }
+
+    $scope.markers = [];
+    function addMarker(location) {
+        if ($scope.markers.length == 2) {
+            alert("you can set only start and end marers , to change the position , double click on previous marker to delete");
+        }
+        else {
+            var marker = new google.maps.Marker({
+                position: location,
+                map: $scope.map
+            });
+
+            $scope.markers.push(marker);
+
+            marker.addListener("dblclick", function () {
+
+
+                var indexToRemove = -1;
+                for (var m = 0 ; m < $scope.markers.length; m++) {
+                    var mt = $scope.markers[m];
+                    if (marker.position.lat() == mt.position.lat() && marker.position.lng() == mt.position.lng()) {
+                        indexToRemove = m;
+                    }
+                }
+                $scope.markers.splice(indexToRemove, 1);
+
+                console.log($scope.markers);
+
+                marker.setMap(null);
+
+            });
+
+
+        }
+    }
+
+    $scope.StartMap = function (lat, lng ) {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: lat, lng: lng },
+            zoom: 14,
+            mapTypeId: 'terrain'
+        });
+
+        $scope.map = map;
+
+        $scope.map.addListener('click', function (event) {
+            addMarker(event.latLng);
+        });
+
+    }
+
+    $scope.initMap = function () {
+
+
+        var lat = 31.968599;
+        var lng = -99.901813;
+
+        navigator.geolocation.getCurrentPosition(function (pos) {
+            $scope.StartMap(pos.coords.latitude, lng = pos.coords.longitude);
+        }, function () {
+            $scope.StartMap(lat, lng);
+        }, {
+            maximumAge: 0,
+            frequency: 3000,
+            enableHighAccurancy: true
+        });
+
+        
+
+
+    }
+
+    $scope.initMap();
 
     
 
@@ -997,34 +1072,37 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
             var horseHistory = $scope.rides.$getRecord(id);
             //var time = horseHistory.start_time; //$scope.stb.ride_ids[id];
 
-            var date = new Date(horseHistory.start_time);// //new Date(parseInt(time));
-            var monthInt = parseInt(date.getMonth());
-            var month = monthNames[monthInt];
-            var year = date.getFullYear();
+            if (horseHistory != null) {
+                var date = new Date(horseHistory.start_time);// //new Date(parseInt(time));
+                var monthInt = parseInt(date.getMonth());
+                var month = monthNames[monthInt];
+                var year = date.getFullYear();
 
-            var monthyear = month + " " + year;
+                var monthyear = month + " " + year;
 
-            var existIndex = -1;
-            for (var k = 0; k < $scope.histories.length; k++) {
-                var hi = $scope.histories[k];
-                if (hi.MonthYear == monthyear) {
-                    existIndex = k;
-                    break;
+                var existIndex = -1;
+                for (var k = 0; k < $scope.histories.length; k++) {
+                    var hi = $scope.histories[k];
+                    if (hi.MonthYear == monthyear) {
+                        existIndex = k;
+                        break;
+                    }
+                }
+
+                if (existIndex == -1) {
+                    $scope.histories.push({
+                        Month: month,
+                        Year: year,
+                        MonthYear: monthyear,
+                        MonthInt: monthInt,
+                        DataArray: [horseHistory]
+                    });
+                }
+                else {
+                    $scope.histories[k].DataArray.push(horseHistory)
                 }
             }
 
-            if (existIndex == -1) {
-                $scope.histories.push({
-                    Month: month,
-                    Year:year,
-                    MonthYear: monthyear,
-                    MonthInt:monthInt,
-                    DataArray: [horseHistory]
-                });
-            }
-            else {
-                $scope.histories[k].DataArray.push(horseHistory)
-            }
         }
 
      
@@ -1129,6 +1207,13 @@ $scope.UpdateContent = function(){
 
 app.controller('DashboardController', function MyCtrl($http,$scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, Socialshare) {
 
+    //var isLoggedIn = storageService.getObject("LoggedIn");
+    //if (isLoggedIn == 1)
+    //{
+    //    storageService.setObject("LoggedIn", 0);
+    //    window.location.reload();
+    //}
+
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.user = storageService.getObject("CU");
     console.log("DashboardController");
@@ -1139,6 +1224,12 @@ app.controller('DashboardController', function MyCtrl($http,$scope, $location, $
     }
 
     $scope.selectedValue = "";
+
+
+    //$.blockUI({
+    //    message: '<img src="images/loading.gif" />',
+    //});
+    $scope.loadingcord = true;
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     //$scope.users = $firebaseArray(ref.child('users'));
@@ -1178,71 +1269,29 @@ app.controller('DashboardController', function MyCtrl($http,$scope, $location, $
         }
 
 
-        var coord = [];
-        //$scope.rideId = "-KSpPpJKZ5IicOQ-P5kM";
+       
         $scope.rides = $firebaseArray(ref.child('rides'));
         $scope.rides.$loaded().then(function (dataArray) {
-            // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
             var ride = $scope.rides.$getRecord($scope.rideId);
             console.log(ride)
-            var ti = "Equitrack - Ride Map";
-            if (!IsNull(ride.location))
-                ti = ride.location;
             if (ride.ismanualride == "1") {
-                coord.push(ride.start_cord);
-                coord.push(ride.end_cord);
-
-                DrawMap(coord);
-                //coord.push({ lat: 28.4089, lng: 77.3178 });
-                //coord.push({ lat: 28.4595, lng: 77.0266 });
-                
-                
-
-
-                if (ride.start_cord != null && ride.end_cord != null) {
-                    var sc = ride.start_cord.lat + "%2C" + ride.start_cord.lng;
-                    var ec = ride.end_cord.lat + "%2C" + ride.start_cord.lng;
-                    $scope.socialshareurlstring = storageService.getNodeJSAppURL() + "sharemap?Title=" + ti + "&Start=" + sc + "&End=" + ec;
-                }
-                else {
-                    $scope.socialshareurlstring = storageService.getNodeJSAppURL() + "sharemap?Title=" + ti;
-                }
-
-
+                $scope.loadingcord = false;
+                DrawManualRideOnMap(ride);
+                $scope.socialshareurlstring = GetSharingUrl(ride, storageService.getNodeJSAppURL());
             }
-
             else {
-                ////var ref1 = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
                 $scope.coords = $firebaseArray(ref.child('coords'));
                 $scope.coords.$loaded().then(function (dataArray) {
-                    // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
+                    debugger;
+                    $scope.loadingcord = false;
                     var id = $scope.rideId;
                     var coord = $scope.coords.$getRecord(id);
-                    DrawMap(coord);
-
-                    var sc = coord[0].lat + "%2C" + coord[0].lng;
-                    var ec = coord[coord.length - 1].lat + "%2C" + coord[coord.length - 1].lng;
-
-                    $scope.socialshareurlstring = storageService.getNodeJSAppURL() + "sharemap?Title=" + ti + "&Start=" + sc + "&End=" + ec;
-
-
-                    $http({
-                        method: 'GET',
-                        url: $scope.socialshareurlstring
-                    }).then(function successCallback(response) {
-                        console.log(response);
-                    }, function errorCallback(response) {
-                        console.log(response);
-                    });
-
-
-
+                    DrawAutomatedRideOnMap(coord)
                     console.log(coord);
-
                 });
             }
+            $.unblockUI();
         }).catch(function (err) {
-
         });
 
         
@@ -2030,32 +2079,35 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
     }
 
     var coord=[];
-
+    $scope.loadingcord = true;
     var ref = firebaseService.FIREBASEENDPOINT();
     $scope.rides = $firebaseArray(ref.child('rides'));
     $scope.rides.$loaded().then(function (dataArray) {
+        debugger;
+        console.log("hererrdfsdfdsfdsf");
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
         var ride = $scope.rides.$getRecord($scope.rideId);
-        if (ride.ismanualride =="1") {
-            coord.push(ride.start_cord);
-            coord.push(ride.end_cord);
-
-            //coord.push({ lat: 28.4089, lng: 77.3178 });
-            //coord.push({ lat: 28.4595, lng: 77.0266 });
-
-            DrawMap(coord);
+        if (ride.ismanualride == "1") {
+            $scope.loadingcord = false;
+            DrawManualRideOnMap(ride);
+            try{
+                $scope.$apply();
+            }
+            catch(err){}
         }
         else {
 
             $scope.coords = $firebaseArray(ref.child('coords'));
             $scope.coords.$loaded().then(function (dataArray) {
                 // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
+                $scope.loadingcord = false;
                 var id = $scope.rideId;
-                coord = $scope.coords.$getRecord(id);
-                if (coord == null)
-                    coord = [];
-                DrawMap(coord);
+                DrawAutomatedRideOnMap($scope.coords.$getRecord(id));
                 console.log(coord);
+                try {
+                    $scope.$apply();
+                }
+                catch (err) { }
             }).catch(function (err) {
 
             });
@@ -2063,7 +2115,7 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
             
         }
     }).catch(function (err) {
-
+        console.log(err);
     });
 
 
@@ -2225,40 +2277,7 @@ app.controller('ShareController', function MyCtrl($scope, $location, $firebaseOb
    
 
     $scope.Start = function () {
-        if ($scope.type == 1) {
-            $scope.coords = $firebaseArray(ref.child('coords'));
-            $scope.coords.$loaded().then(function (dataArray) {
-                // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
-                var coord = $scope.coords.$getRecord($scope.id);
-                DrawMap(coord);
-                console.log(coord);
-            }).catch(function (err) {
-
-            });
-        } else if ($scope.type == 2) {
-            $scope.coords = $firebaseArray(ref.child('coords'));
-            $scope.coords.$loaded().then(function (dataArray) {
-                // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
-                var coord = $scope.coords.$getRecord($scope.id);
-                DrawMap(coord);
-                console.log(coord);
-            }).catch(function (err) {
-
-            });
-
-        } else if ($scope.type == 3) {
-
-            $scope.coords = $firebaseArray(ref.child('coords'));
-            $scope.coords.$loaded().then(function (dataArray) {
-                // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
-                var coord = $scope.coords.$getRecord($scope.id);
-                DrawMap(coord);
-                console.log(coord);
-            }).catch(function (err) {
-
-            });
-        }
-
+        
     }
 
     $scope.Start();

@@ -1164,7 +1164,7 @@
 
                                         <div class="grid-9">
 
-                                            <input type="text" class="form-control" id="Distance" ng-model="addride.total_distance" placeholder="Distance" ng-keydown="CheckNumber($event)">
+                                            <input type="text" class="form-control" id="Distance" ng-model="addride.total_distance" placeholder="Distance ( Miles )" ng-keydown="CheckNumber($event)">
 
                                         </div>
 
@@ -1289,7 +1289,7 @@
 </div>
 
 
-<div class="modal" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="AddRideManualController">
+<div class="modal" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="MapModalController">
 
     <div class="modal-dialog modal-lg" role="document">
 
@@ -1299,9 +1299,9 @@
             <form>
 
           
-                    <input id="pac-input" class="controls" type="text" placeholder="Start Ride">
+                    <!--<input id="pac-input" class="controls" type="text" placeholder="Start Ride">
                   
-                    <input id="pac-input1" class="controls" type="text" placeholder="End Ride">
+                    <input id="pac-input1" class="controls" type="text" placeholder="End Ride">-->
               
                     
                    
@@ -1317,8 +1317,8 @@
                 <div style="height:100px; padding-top:30px">
                     <center>
 
-                        <button type="button" class="btn btn-danger" ng-click="CancelCoods()" style="background-color:red;width: 300px; height: 60px">Cancel</button>
-                        <button type="button" class="btn btn-danger" ng-click="SaveCoods()" style="width: 300px; height: 60px;">Save</button>
+                        <button type="button" class="btn btn-danger" ng-click="CancelCoods()" style="background-color:red;width: 300px; height: 60px;color:white;">Cancel</button>
+                        <button type="button" class="btn btn-danger" ng-click="SaveCoods()" style="width: 300px; height: 60px;color:black;">Save</button>
                       
                     </center>
                 </div>

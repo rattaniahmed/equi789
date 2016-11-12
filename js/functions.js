@@ -67,6 +67,19 @@ function PrepareRequestForMail(prcid, TO, CC, From, Subject, Body, DisplayName) 
 
 function DrawMap(flightPlanCoordinates) {
 
+    try{
+        delete flightPlanCoordinates.$id;
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+    try {
+        delete flightPlanCoordinates.$priority;
+    }
+    catch (err) {
+        console.log(err);
+    }
 
     if (flightPlanCoordinates == null || flightPlanCoordinates.length == 0) {
 
@@ -104,12 +117,7 @@ function DrawMap(flightPlanCoordinates) {
         lat = flightPlanCoordinates[0].lat;
         lng = flightPlanCoordinates[0].lng;
 
-
-       
-
-
-        var directionsService = new google.maps.DirectionsService;
-        var directionsDisplay = new google.maps.DirectionsRenderer;
+        
 
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 14,
@@ -121,25 +129,53 @@ function DrawMap(flightPlanCoordinates) {
             mapTypeId: 'terrain'
         });
 
-       
+        //var directionsService = new google.maps.DirectionsService;
+        //var directionsDisplay = new google.maps.DirectionsRenderer;
 
+        //directionsDisplay.setMap(map);
 
-        directionsDisplay.setMap(map);
+        //directionsService.route({
+        //    origin: flightPlanCoordinates[0],
+        //    destination: flightPlanCoordinates[flightPlanCoordinates.length - 1],
+        // }, function (response, status) {
+        //    if (status === 'OK') {
+        //        directionsDisplay.setDirections(response);
+        //    } else {
+        //        window.alert('Directions request failed due to ' + status);
+        //    }
+        //});
 
-        directionsService.route({
-            origin: flightPlanCoordinates[0],
-            destination: flightPlanCoordinates[flightPlanCoordinates.length - 1],
-         }, function (response, status) {
-            if (status === 'OK') {
-                directionsDisplay.setDirections(response);
-            } else {
-                window.alert('Directions request failed due to ' + status);
+        var polcors = [];
+        for (var i = 0 ; i < flightPlanCoordinates.length; i++) {
+            var co = flightPlanCoordinates[i];
+            try {
+                var newco = { lat: co.lat, lng: co.lng }
+                polcors.push(newco);
             }
+            catch(err){
+
+            }
+        }
+
+
+        var marker = new google.maps.Marker({
+            icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+            position: polcors[0],
+            map: map
         });
 
+        var marker1 = new google.maps.Marker({
+            icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+            position: polcors[polcors.length - 1],
+            map: map
+        });
 
-       var flightPath = new google.maps.Polyline({
-            path: flightPlanCoordinates,
+        //marker.setMap(map);
+        //marker1.setMap(map);
+
+        var flightPath = new google.maps.Polyline({
+           //path: flightPlanCoordinates,
+            path:polcors,
             geodesic: true,
             strokeColor: '#FF0000',
             strokeOpacity: 1.0,
@@ -148,8 +184,44 @@ function DrawMap(flightPlanCoordinates) {
 
         flightPath.setMap(map);
 
+        google.maps.event.trigger(map, 'resize', {});
+
     }
 }
+
+function DrawManualRideOnMap(ride) {
+    var coord = [];
+    if (ride.coords) {
+        coord.push(ride.start_cord);
+        coord.push(ride.end_cord);
+    }
+    DrawMap(coord);
+}
+
+function DrawAutomatedRideOnMap(coord) {
+    if (coord == null)
+        coord = [];
+    DrawMap(coord);
+}
+
+function GetSharingUrl(ride,baseUrl) {
+    var url = "";
+
+    var ti = "Equitrack - Ride Map";
+    if (!IsNull(ride.location))
+        ti = ride.location;
+
+    if (ride.start_cord != null && ride.end_cord != null) {
+        var sc = ride.start_cord.lat + "%2C" + ride.start_cord.lng;
+        var ec = ride.end_cord.lat + "%2C" + ride.start_cord.lng;
+        url = baseUrl+ "sharemap?Title=" + ti + "&Start=" + sc + "&End=" + ec;
+    }
+    else {
+        url = baseUrl + "sharemap?Title=" + ti;
+    }
+    return url;
+}
+
 
 
 function DrawMap2(map, flightPlanCoordinates, flightPath,  directionsService, directionsDisplay) {

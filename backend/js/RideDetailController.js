@@ -73,7 +73,7 @@
             }
         }
 
-        $scope.rides.splice(i);
+        $scope.rides.splice(index, 1);
 
         $scope.stables = [];
         angular.forEach($scope.users, function (value, key) {
