@@ -666,7 +666,18 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
             alert("you can set only start and end marers , to change the position , double click on previous marker to delete");
         }
         else {
+
+            var iconurl = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
+
+            if ($scope.markers.length == 1) {
+                var marker = $scope.markers[0];
+                if (marker.icon == iconurl)
+                    iconurl = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
+            }
+
+
             var marker = new google.maps.Marker({
+                icon: iconurl,
                 position: location,
                 map: $scope.map
             });
@@ -1061,110 +1072,120 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.rides = $firebaseArray(ref.child('rides'));
     $scope.horserepo = $firebaseArray(ref.child('horses'));
-    $scope.rides.$loaded().then(function (dataArray) {
-        // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
 
-        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    $scope.loadingcord = true;
+    $scope.horserepo.$loaded().then(function (dataArray) {
+           debugger;
+            //$scope.loadingcord = false;
 
-        $scope.histories = [];
+            
+            $scope.stb = $scope.horserepo.$getRecord($scope.stb.$id);
+            storageService.setObject("CS", $scope.stb);
 
-        for (var id in $scope.stb.ride_ids) {
-            var horseHistory = $scope.rides.$getRecord(id);
-            //var time = horseHistory.start_time; //$scope.stb.ride_ids[id];
+            $scope.rides.$loaded().then(function (dataArray) {
+                $scope.loadingcord = false;
+                var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-            if (horseHistory != null) {
-                var date = new Date(horseHistory.start_time);// //new Date(parseInt(time));
-                var monthInt = parseInt(date.getMonth());
-                var month = monthNames[monthInt];
-                var year = date.getFullYear();
+                $scope.histories = [];
 
-                var monthyear = month + " " + year;
+                for (var id in $scope.stb.ride_ids) {
+                    var horseHistory = $scope.rides.$getRecord(id);
+                    //var time = horseHistory.start_time; //$scope.stb.ride_ids[id];
 
-                var existIndex = -1;
-                for (var k = 0; k < $scope.histories.length; k++) {
-                    var hi = $scope.histories[k];
-                    if (hi.MonthYear == monthyear) {
-                        existIndex = k;
-                        break;
+                    if (horseHistory != null) {
+                        var date = new Date(horseHistory.start_time);// //new Date(parseInt(time));
+                        var monthInt = parseInt(date.getMonth());
+                        var month = monthNames[monthInt];
+                        var year = date.getFullYear();
+
+                        var monthyear = month + " " + year;
+
+                        var existIndex = -1;
+                        for (var k = 0; k < $scope.histories.length; k++) {
+                            var hi = $scope.histories[k];
+                            if (hi.MonthYear == monthyear) {
+                                existIndex = k;
+                                break;
+                            }
+                        }
+
+                        if (existIndex == -1) {
+                            $scope.histories.push({
+                                Month: month,
+                                Year: year,
+                                MonthYear: monthyear,
+                                MonthInt: monthInt,
+                                DataArray: [horseHistory]
+                            });
+                        }
+                        else {
+                            $scope.histories[k].DataArray.push(horseHistory)
+                        }
                     }
+
                 }
 
-                if (existIndex == -1) {
-                    $scope.histories.push({
-                        Month: month,
-                        Year: year,
-                        MonthYear: monthyear,
-                        MonthInt: monthInt,
-                        DataArray: [horseHistory]
-                    });
-                }
-                else {
-                    $scope.histories[k].DataArray.push(horseHistory)
-                }
-            }
 
-        }
+                $scope.historiesToDisplay = [];
+                for (var l = 0 ; l < $scope.histories.length; l++) {
+                    var history = $scope.histories[l];
 
-     
-     
+                    var totalDistance = 0.0;
+                    var totalDuration = 0;
+                    var totalEnergy = 0;
+                    var totalCalories = 0;
+                    var totalAverageSpeed = 0.0;
+                    var totalTopSspeed = [];
+                    var averageSpeed = 0.0;
+
+
+                    for (var inner = 0; inner < history.DataArray.length; inner++) {
+
+
+
+                        var ride = history.DataArray[inner];
+                        totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
+                        totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
+                        totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);
+                        totalCalories = parseFloat(totalCalories) + parseFloat(ride.calories);
+                        //$scope.totalAverageSpeed = $scope.totalAverageSpeed + ride.average_speed;
+                        //$scope.totalTopSspeed = $scope.totalTopSspeed + ride.top_speed;
+                        averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
+                        totalTopSspeed.push(parseFloat(ride.top_speed));
+                    }
+
+
+                    history.totalDistance = parseFloat(Math.round(totalDistance * 100) / 100).toFixed(2);
+                    history.totalEnergy = parseFloat(Math.round(totalEnergy * 100) / 100).toFixed(2);
+                    history.totalCalories = parseFloat(Math.round(totalCalories * 100) / 100).toFixed(2);
+
+                    history.totalAverageSpeed = averageSpeed / history.DataArray.length;
+
+                    history.totalAverageSpeed = parseFloat(Math.round(history.totalAverageSpeed * 100) / 100).toFixed(2);
+
+                    history.totalDuration = hhmmss(totalDuration);
+
+                    history.totalTopSspeedToDisplay = Math.max.apply(Math, totalTopSspeed);
+
+                    history.totalTopSspeedToDisplay = parseFloat(Math.round(history.totalTopSspeedToDisplay * 100) / 100).toFixed(2);
+
+
+
+                    $scope.historiesToDisplay.push(history);
+                }
+
+                console.log($scope.historiesToDisplay)
+
+            }).catch(function (err) {
+
+            });
+
       
-
-
-        
-        $scope.historiesToDisplay = [];
-        for (var l = 0 ; l < $scope.histories.length; l++) {
-            var history = $scope.histories[l];
-            
-            var totalDistance = 0.0;
-            var totalDuration = 0;
-            var totalEnergy = 0;
-            var totalCalories = 0;
-            var totalAverageSpeed = 0.0;
-            var totalTopSspeed = [];
-            var averageSpeed = 0.0;
-
-
-            for (var inner = 0; inner < history.DataArray.length; inner++) {
-
-            
-
-                var ride = history.DataArray[inner];
-                totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
-                totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
-                totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);
-                totalCalories = parseFloat(totalCalories) + parseFloat(ride.calories);
-                //$scope.totalAverageSpeed = $scope.totalAverageSpeed + ride.average_speed;
-                //$scope.totalTopSspeed = $scope.totalTopSspeed + ride.top_speed;
-                averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
-                totalTopSspeed.push(parseFloat(ride.top_speed));
-            }
-
-           
-            history.totalDistance = parseFloat(Math.round(totalDistance * 100) / 100).toFixed(2);
-            history.totalEnergy = parseFloat(Math.round(totalEnergy * 100) / 100).toFixed(2);
-            history.totalCalories = parseFloat(Math.round(totalCalories * 100) / 100).toFixed(2);
-
-            history.totalAverageSpeed = averageSpeed / history.DataArray.length;
-
-            history.totalAverageSpeed = parseFloat(Math.round(history.totalAverageSpeed * 100) / 100).toFixed(2);
-
-            history.totalDuration = hhmmss(totalDuration);
-
-            history.totalTopSspeedToDisplay = Math.max.apply(Math, totalTopSspeed);
-
-            history.totalTopSspeedToDisplay = parseFloat(Math.round(history.totalTopSspeedToDisplay * 100) / 100).toFixed(2);
-
-
-
-            $scope.historiesToDisplay.push(history);
-        }
-
-        console.log($scope.historiesToDisplay)
-
-       
-    }).catch(function (err) {
-
+    }).catch(function (error) {
+        console.log("Error in loading details");
     });
+
+
     
 });
 
@@ -2563,10 +2584,16 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
         var current = new Date();
 
         if (current > date) {
-            $scope.$apply(function () {
-                blockUI.stop();
-            });
             $scope.showAlertButton = true;
+            try{
+                $scope.$apply(function () {
+                    blockUI.stop();
+                });
+            }
+            catch (error) {
+
+            }
+            
         } else {
 
             $scope.horses = $firebaseArray(ref.child('horses'));
@@ -2581,7 +2608,6 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                     $scope.coords = $firebaseArray(ref.child('coords'));
                     $scope.coords.$loaded().then(function (cordsArray) {
 
-                        debugger;
                         $scope.CordsData = cordsArray;
 
                         $scope.rows = [];
@@ -2632,10 +2658,10 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                             $scope.totalEnergy = 0;
                             $scope.rideCount = 0;
 
-                            debugger;
                             $scope.isRideExist = false;
                             for (var id in value.ride_ids) {
                                 var ride = $scope.RidesData.$getRecord(id);
+
                                 $scope.totalLength = $scope.totalLength + 1;
                                 $scope.totalDistance = parseFloat($scope.totalDistance) + parseFloat(ride.total_distance);
                                 $scope.totalDuration = parseInt($scope.totalDuration) + parseInt(ride.total_time);
@@ -2710,13 +2736,15 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                                 row.RideCount = $scope.totalLength;
                             }
 
-
-
-                            if ($scope.ReportConfig.IsHour == "1") {
+                            if ($scope.ReportConfig.IsHours == "1") {
                                 //TotalHours logic
                                 if (!$scope.isHeaderCreated)
                                     $scope.getHeader.push("Total Hours");
                                 row.TotalHours = $scope.totalDuration;
+
+                                if (!$scope.isHeaderCreated)
+                                    $scope.getHeader.push("Ride Hours");
+                                row.RideHours = $scope.totalDuration;
                             }
 
                             if ($scope.ReportConfig.IsEnergy == "1") {
@@ -2725,25 +2753,92 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                                     $scope.getHeader.push("Energy Burned");
                                 row.EnergyBurned = $scope.totalEnergy + " cal";
                             }
-
+                           
                             if ($scope.ReportConfig.IsCords == "1") {
-                                //StartCordinate logic
                                 if (!$scope.isHeaderCreated)
                                     $scope.getHeader.push("Start Cordinate");
-                                row.StartCordinate = "23.44354354,45.343545454";
 
                                 if (!$scope.isHeaderCreated)
                                     $scope.getHeader.push("Last Cordinate");
-                                row.LastCordinate = "23.44354354,45.343545454";
+
+                                var ids = [];
+                                var vals = [];
+
+                                $scope.coordId = -1;
+
+                                try {
+                                    for (var i in value.ride_ids) {
+                                        ids.push({
+                                            Id: i, Val: value.ride_ids[i]
+                                        });
+                                        vals.push(value.ride_ids[i]);
+                                    }
+                                }
+                                catch (errloop) {
+                                    console.log(errloop);
+                                }
+
+                                var max = Math.max.apply(Math, vals);
+
+                                for (var i = 0; i < ids.length; i++) {
+                                    var o = ids[i];
+                                    if (o.Val == max)
+                                        $scope.coordId = o.Id;// '-KP44cqcDIZo4G5-ziq4'
+                                }
+
+                                if ($scope.coordId == -1) {
+                                    row.StartCordinate = "Not Available";
+                                    row.LastCordinate = "Not Available";
+                                }
+                                else {
+                                    debugger;
+                                    var coordinate = $scope.CordsData.$getRecord($scope.coordId);
+
+                                    if (coordinate != null) {
+                                        //StartCordinate logic
+
+                                        try {
+                                            var start = coordinate[0];
+                                            row.StartCordinate = start.lat + "," + start.lng;
+                                        }
+                                        catch (coorerror) {
+                                            row.StartCordinate = "Not Available";
+                                        }
+
+                                        try {
+                                            var end = coordinate[coordinate.length - 1];
+                                            row.LastCordinate = end.lat + "," + end.lng;
+                                        }
+                                        catch (endcorderror) {
+
+                                            try {
+                                                var counters = [];
+                                                for (cnt in coordinate) {
+                                                    if (cnt != "$priority" && cnt != "$id") {
+                                                        counters.push(cnt);
+                                                    }
+                                                }
+                                                //var max = Math.max.apply(Math, counters);
+                                                var endindex = counters[counters.length - 1];//coordinate[max];
+                                                var end = coordinate[parseInt(endindex)];
+                                                row.LastCordinate = end.lat + "," + end.lng;
+                                            }
+                                            catch (newerror) {
+                                                row.LastCordinate = "Not Available";
+                                            }
+
+                                        }
+                                    }
+                                    else {
+                                        row.StartCordinate = "Not Available";
+                                        row.LastCordinate = "Not Available";
+                                    }
+                                }
                             }
 
                             if (!$scope.isHeaderCreated)
                                 $scope.getHeader.push("Manual Ride");
                             row.ManualRideCount = $scope.rideCount;
-
-                              
-                                
-                          
 
                             $scope.isHeaderCreated = true;
 
@@ -2758,10 +2853,14 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
 
                         $scope.getArray = $scope.rows;
 
-                        $scope.$apply(function () {
-                            blockUI.stop();
-                        });
+                        try {
+                            $scope.$apply(function () {
+                                blockUI.stop();
+                            });
+                        }
+                        catch (error) {
 
+                        }
                     }).catch(function (err) { });
                 }).catch(function (err) { });
             }).catch(function (error) { console.log("Error in loading details"); });
