@@ -182,6 +182,11 @@ app.factory('sessionService', function (storageService, $location) {
 
 app.run(function ($rootScope, $sce,firebaseService, $firebaseArray) { // instance-injector
 
+    firebase.database().ref('/users/41880a58-e099-422a-bc69-becbe974d3f0/').on('value', function (snapshot) {
+        console.log(snapshot);
+        console.log(snapshot.val())
+    })
+
     var ref = firebaseService.FIREBASEENDPOINT();
     $rootScope.homepage = $firebaseArray(ref.child('Content').child('Static').child('HomePage'));
     $rootScope.homepage.$loaded().then(function (dataArray) {
@@ -258,6 +263,17 @@ app.run(function ($rootScope, $sce,firebaseService, $firebaseArray) { // instanc
     });
 
 
+    $rootScope.appHorses = $firebaseArray(ref.child('horses'));
+    $rootScope.appHorses.$loaded().then(function (dataArray) {
+
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+
+    $rootScope.appHorses.$watch(function (event) {
+        console.log(event);
+        $rootScope.$broadcast("horseRefEvent", { data: event });
+    });
 
 });
 

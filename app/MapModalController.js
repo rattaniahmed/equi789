@@ -49,11 +49,11 @@
 
     $scope.CancelCoods = function () {
 
-        //var currentRide = storageService.getObject("AddedRIDE");
-        //currentRide.coords = false;
-        //$scope.AddRideTODAtabase(currentRide);
+        var currentRide = storageService.getObject("AddedRIDE");
+        currentRide.coords = false;
+        $scope.AddRideTODAtabase(currentRide);
 
-        window.location.reload();
+        //window.location.reload();
     }
 
     $scope.AddRideTODAtabase = function (currentRide) {

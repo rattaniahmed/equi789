@@ -128,15 +128,16 @@
            if (startTime < endTime) {
                if (endTime <= new Date() && startTime < new Date()) {
                    var distance = $scope.addride.total_distance;
+                   var ttime = (endTime - startTime) / (1000);
                    var time = (endTime - startTime) / (1000 * 60 * 60);
                    var speed = distance / time;
                    speed = speed.toFixed(3);
                    $scope.addride.average_speed = speed;
                    $scope.addride.calories = "0";
                    $scope.addride.energy = "0";
-                   $scope.addride.ride_time = time;
+                   $scope.addride.ride_time = ttime;
                    $scope.addride.top_speed = speed;
-                   $scope.addride.total_time = time;
+                   $scope.addride.total_time = ttime;
                    $scope.addride.ismanualride = 1;
                    $scope.addride.id = getRandamNumber(); // generateUUID();
                    $scope.addride.horse_firebase_key = $scope.currenthorse.$id;

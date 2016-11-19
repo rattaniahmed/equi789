@@ -216,7 +216,7 @@ app.controller('AccountController', function MyCtrl($scope, $location, $firebase
 
 });
 
-app.controller('SettingsController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI) {
+app.controller('SettingsController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, $rootScope) {
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.users = $firebaseArray(ref.child('users'));
@@ -343,6 +343,12 @@ app.controller('SettingsController', function MyCtrl($scope, $location, $firebas
         $scope.ImageUploaded = true;
     }
 
+    console.log($rootScope.appHorses);
+
+    $scope.$on('horseRefEvent', function (event, data) {
+        console.log(event);
+        console.log(data);
+    });
 });
 
 app.controller('StableController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
@@ -356,7 +362,6 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
     var ref = firebaseService.FIREBASEENDPOINT();
     $scope.users = $firebaseArray(ref.child('users'));
     $scope.users.$loaded().then(function (dataArray) {
-        debugger;
         var user = $scope.users.$getRecord($scope.user.Auth.uid);
         user.profile = CleanProfileUrl(user.profile);
         var obj = {
@@ -400,7 +405,6 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
                         else {
                             var diff = today - d;
                             var days = parseInt(diff / 1000 / 60 / 60 / 24 );
-                            debugger;
                             console.log(days);
                              
                             var year = parseInt(days / 365);
@@ -453,11 +457,9 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
             confirmButtonColor: "#DD6B55", confirmButtonText: "Yes, delete it!",
             closeOnConfirm: false
         }, function () {
-            debugger;
 
             blockUI.start("Removing horse.....");
             $scope.horses.$remove(stb).then(function (ref) {
-                debugger;
                 var id = ref.key();
                 if(stb.$id == id){
                     console.log("Deleted success fully");
@@ -514,7 +516,6 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
 
 app.controller('StableDetailsController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
 
-    debugger;
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
     
@@ -535,7 +536,6 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
                 
                 var diff = today - d;
                 var days = parseInt(diff / 1000 / 60 / 60 / 24);
-                debugger;
                 console.log(days);
 
                 var year = parseInt(days / 365);
@@ -599,7 +599,6 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
     $scope.CloseAddRideModal = function () {
         $("#add_ride").hide();
     }
-    debugger;
 
     $scope.totalRidesDetails = [];
     $scope.totalLength = 0;
@@ -618,10 +617,8 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
        
         var totalTopSspeed = [];
         var averageSpeed = 0.0;
-        debugger;
         for (var id in $scope.stb.ride_ids) {
             var ride = $scope.rides.$getRecord(id);
-            debugger;
             //$scope.totalRidesDetails.push(ride);
 
             if (ride != null) {
@@ -863,7 +860,6 @@ app.controller('EditStableDetailsController', function MyCtrl($scope, $location,
     $scope.SaveStable = function () {
 
         blockUI.start("Editing horse details.....");
-        debugger;
         var horseRef = $scope.horses.$getRecord($scope.stb.$id);
 
         //horseRef.age = '';//ReplaceNull($scope.stb.age);
@@ -994,7 +990,6 @@ app.controller('AddStableDetailsController', function MyCtrl($scope, $location, 
 
         blockUI.start("Adding horse details.....");
         $scope.horses.$add($scope.stbadd).then(function (ref) {
-            debugger;
             var id = ref.key();
             console.log("added record with id " + id);
             swal("", "Your stable details has been added success fully", "success");
@@ -1075,7 +1070,6 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
 
     $scope.loadingcord = true;
     $scope.horserepo.$loaded().then(function (dataArray) {
-           debugger;
             //$scope.loadingcord = false;
 
             
@@ -1303,7 +1297,6 @@ app.controller('DashboardController', function MyCtrl($http,$scope, $location, $
             else {
                 $scope.coords = $firebaseArray(ref.child('coords'));
                 $scope.coords.$loaded().then(function (dataArray) {
-                    debugger;
                     $scope.loadingcord = false;
                     var id = $scope.rideId;
                     var coord = $scope.coords.$getRecord(id);
@@ -1508,6 +1501,10 @@ app.controller('LastRideController', function MyCtrl($scope, $location, $firebas
         $scope.ride_time_to_display = hhmmss(lastRide.ride_time);
         $scope.total_time_to_display = hhmmss(lastRide.total_time);
 
+
+        $scope.freestyle_time_to_display = hhmmss(lastRide.freestyle_time);
+        $scope.hotwalk_time_to_display = hhmmss(lastRide.hotwalk_time);
+
         if (IsNull(lastRide.ground_condition))
             $("#gndcondition").val("Select");
         else
@@ -1522,7 +1519,6 @@ app.controller('LastRideController', function MyCtrl($scope, $location, $firebas
 
     $scope.UpdateNotes = function () {
 
-        debugger;
         blockUI.start("Updating notes details.....");
 
         var rideRef = $scope.rides.$getRecord($scope.rideId);
@@ -1730,7 +1726,6 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
     {
         console.log($scope.currentRide);
         $scope.rides.$remove($scope.currentRide).then(function (ref) {
-            debugger;
             var id = ref.key();
 
             for (var i = 0; i <= $scope.stb.ride_ids.length; i++) {
@@ -1829,7 +1824,6 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
                 // element with id of "by pass" - jQuery style selector
                 '#imgtext': function (element, renderer) {
                     // true = "handled elsewhere, bypass text extraction"
-                    debugger;
                     console.log(renderer);
                     return true
                 }
@@ -1907,13 +1901,17 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.rides = $firebaseArray(ref.child('rides'));
     $scope.rides.$loaded().then(function (dataArray) {
-        debugger;
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
         var id = $scope.rideId;
         var lastRide = $scope.rides.$getRecord(id);
         $scope.currentRide = lastRide;
         $scope.ride_time_to_display = hhmmss(lastRide.ride_time);
         $scope.total_time_to_display = hhmmss(lastRide.total_time);
+
+        $scope.freestyle_time_to_display = hhmmss(lastRide.freestyle_time);
+        $scope.hotwalk_time_to_display = hhmmss(lastRide.hotwalk_time);
+
+        console.log("getting ride id -" + $scope.rideId);
         if (IsNull(lastRide.ground_condition))
             $("#gndcondition").val("Select");
         else
@@ -1926,7 +1924,6 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
 
     $scope.UpdateNotes = function () {
 
-        debugger;
         blockUI.start("Updating notes details.....");
 
         var rideRef = $scope.rides.$getRecord($scope.rideId);
@@ -2104,7 +2101,6 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
     var ref = firebaseService.FIREBASEENDPOINT();
     $scope.rides = $firebaseArray(ref.child('rides'));
     $scope.rides.$loaded().then(function (dataArray) {
-        debugger;
         console.log("hererrdfsdfdsfdsf");
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
         var ride = $scope.rides.$getRecord($scope.rideId);
@@ -2382,7 +2378,6 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
     //day-view-split="10"
     $scope.user = storageService.getObject("CU");
 
-    debugger;
     $scope.vm = this;
     $scope.vm.events = [];
     $scope.vm.calendarView = 'month';
@@ -2422,7 +2417,6 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
     //$scope.users = $firebaseArray(ref.child('users'));
     $scope.horses = $firebaseArray(ref.child('horses'));
     $scope.horses.$loaded().then(function (dataArray) {
-        debugger;
         var ids = [];
 
         angular.forEach($scope.user.Details.horse_ids, function (value, key) {
@@ -2450,7 +2444,6 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
             var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
             $scope.histories = [];
-            debugger;
             for (var cnt = 0; cnt < ids.length; cnt++) // id in $scope.stb.ride_ids) {
             {
                 var id = ids[cnt];
@@ -2547,7 +2540,6 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
     $scope.CordsData = [];
 
     $scope.rows = [];
-    debugger;
 
 
     $scope.SetAssociationHeader = function (number, getHeader) {
@@ -2791,7 +2783,6 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                                     row.LastCordinate = "Not Available";
                                 }
                                 else {
-                                    debugger;
                                     var coordinate = $scope.CordsData.$getRecord($scope.coordId);
 
                                     if (coordinate != null) {
