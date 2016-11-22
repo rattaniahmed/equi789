@@ -609,6 +609,19 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
     $scope.totalAverageSpeed = 0.0;
     $scope.totalTopSspeed = 0;
 
+
+
+    $scope.ShareObject = null;
+
+    $scope.SocialShare = function () {
+
+        FB.ui($scope.ShareObject, function (response) {
+            console.log(response);
+        });
+
+    }
+
+
     var ref = firebaseService.FIREBASEENDPOINT();
     $scope.rides = $firebaseArray(ref.child('rides'));
     $scope.rides.$loaded().then(function (dataArray) {
@@ -622,6 +635,7 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
             //$scope.totalRidesDetails.push(ride);
 
             if (ride != null) {
+
                 $scope.totalLength = $scope.totalLength + 1;
                 $scope.totalDistance = parseFloat($scope.totalDistance) + parseFloat(ride.total_distance);
                 $scope.totalDuration = parseInt($scope.totalDuration) + parseInt(ride.total_time);
@@ -631,6 +645,9 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
                 //$scope.totalTopSspeed = $scope.totalTopSspeed + ride.top_speed;
                 averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
                 totalTopSspeed.push(parseFloat(ride.top_speed));
+
+                $scope.ShareObject = GetShareObjectByRide(ride);
+
             }
         }
 
@@ -647,6 +664,8 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
         $scope.totalTopSspeed = Math.max.apply(Math, totalTopSspeed);
 
         $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
+
+     
 
     }).catch(function (err) {
 
@@ -1958,6 +1977,19 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
         console.log(his.ride_ids);
     }
 
+
+    $scope.ShareObject = null;
+
+    $scope.SocialShare = function () {
+
+        FB.ui($scope.ShareObject, function (response) {
+            console.log(response);
+        });
+
+    }
+
+
+
     $scope.currentRide = {};
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.rides = $firebaseArray(ref.child('rides'));
@@ -1979,6 +2011,10 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
             $("#gndcondition").val(lastRide.ground_condition);
         $scope.lastRide = lastRide;
         console.log($scope.lastRide);
+
+        $scope.ShareObject = GetShareObjectByRide($scope.lastRide);
+
+
     }).catch(function (err) {
 
     });
