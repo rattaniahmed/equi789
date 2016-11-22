@@ -1240,7 +1240,57 @@ app.controller('DashboardController', function MyCtrl($http,$scope, $location, $
 
     $scope.selectedValue = "";
 
+    function SaveImage(url) {
 
+
+        $http.get(url, {}, {
+            headers: {
+                'Content-Type': 'image/jpg'
+            },
+            responseType: 'blob'
+        }).then(function (image) {
+            debugger;
+            console.log(image)
+            var blob = new Blob([image.data], {
+                type: 'image/jpg'
+            });
+
+            //var fr = new FileReader();
+            //fr.readAsDataURL(blob);
+
+            var metadata = {
+                'contentType': blob.type
+            };
+
+            var fname = Math.random().toString(36).substring(7) + ".jpg";// +file.name.substring(file.name.indexOf("."));
+            var storageRef = firebase.storage().ref();
+            storageRef.child('shares/' + fname).put(blob, metadata).then(function (snapshot) {
+                debugger;
+                var url = snapshot.metadata.downloadURLs[0];
+                console.log(url)
+            }).catch(function (error) {
+                console.error('Upload failed:', error);
+            });
+
+
+        }, function (error) {
+            debugger;
+            deferred.reject(error);
+        });
+
+    }
+
+    $scope.ShareObject = null;
+
+    $scope.SocialShare = function () {
+
+        FB.ui($scope.ShareObject, function (response) {
+            console.log(response);
+        });r
+
+    }
+
+    //SaveImage("https://maps.googleapis.com/maps/api/staticmap?zoom=8&size=600x300&maptype=roadmap&markers=color:green%7Clabel:G%7C&markers=color:red%7Clabel:C%7C&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0&path=color:red|weight:3||");
     //$.blockUI({
     //    message: '<img src="images/loading.gif" />',
     //});
@@ -1258,20 +1308,21 @@ app.controller('DashboardController', function MyCtrl($http,$scope, $location, $
             //console.log(value);
             console.log(key);
             var horse = $scope.horses.$getRecord(key);
-            
-            try{
-                for (var i in horse.ride_ids) {
-                    ids.push({
-                        Id: i, Val: horse.ride_ids[i]
-                    })
-                    vals.push(horse.ride_ids[i]);
+            if (horse != null) {
+                try {
+                    for (var i in horse.ride_ids) {
+                        ids.push({
+                            Id: i, Val: horse.ride_ids[i]
+                        })
+                        vals.push(horse.ride_ids[i]);
+                    }
                 }
+                catch (errloop) {
+                    console.log(errloop);
+                }
+
+                console.log(horse);
             }
-            catch (errloop) {
-                console.log(errloop);
-            }
-           
-            console.log(horse);
         });
 
 
@@ -1292,18 +1343,28 @@ app.controller('DashboardController', function MyCtrl($http,$scope, $location, $
             if (ride.ismanualride == "1") {
                 $scope.loadingcord = false;
                 DrawManualRideOnMap(ride);
-                $scope.socialshareurlstring = GetSharingUrl(ride, storageService.getNodeJSAppURL());
+                debugger;
+                //$scope.socialshareurlstring = GetSharingUrl(ride, storageService.getNodeJSAppURL());
+                $scope.ShareObject = GetShareObjectByRide(ride);
             }
             else {
                 $scope.coords = $firebaseArray(ref.child('coords'));
                 $scope.coords.$loaded().then(function (dataArray) {
+                    debugger;
                     $scope.loadingcord = false;
                     var id = $scope.rideId;
                     var coord = $scope.coords.$getRecord(id);
                     DrawAutomatedRideOnMap(coord)
                     console.log(coord);
+                    //$scope.socialshareurlstring = GetSharingUrlByCord(ride, coord, storageService.getNodeJSAppURL());
+                    //console.log(horse);
+                    $scope.ShareObject = GetShareObjectByCoordinate(ride, coord);
                 });
             }
+
+            
+
+
             $.unblockUI();
         }).catch(function (err) {
         });
@@ -2096,6 +2157,19 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
 
     }
 
+
+
+    $scope.ShareObject = null;
+
+    $scope.SocialShare = function () {
+
+        FB.ui($scope.ShareObject, function (response) {
+            console.log(response);
+        });
+
+    }
+
+
     var coord=[];
     $scope.loadingcord = true;
     var ref = firebaseService.FIREBASEENDPOINT();
@@ -2110,7 +2184,8 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
             try{
                 $scope.$apply();
             }
-            catch(err){}
+            catch (err) { }
+            $scope.ShareObject = GetShareObjectByRide(ride);
         }
         else {
 
@@ -2125,6 +2200,7 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
                     $scope.$apply();
                 }
                 catch (err) { }
+                $scope.ShareObject = GetShareObjectByCoordinate(ride, coord);
             }).catch(function (err) {
 
             });

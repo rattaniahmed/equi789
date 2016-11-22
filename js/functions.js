@@ -223,6 +223,130 @@ function GetSharingUrl(ride,baseUrl) {
 }
 
 
+function GetSharingUrlByCord(ride, cords , baseUrl) {
+
+    var url = "";
+
+    var ti = "Equitrack - Ride Map";
+    if (!IsNull(ride.location))
+        ti = ride.location;
+
+    var start = '';
+    var end = '';
+
+    if (cords == null) {
+        url = baseUrl + "sharemap?Title=" + ti;
+    }
+    else {
+
+        var last = cords.length - 1;
+        var sc = cords[0].lat + "%2C" + cords[0].lng;
+        var ec = cords[last].lat + "%2C" + cords[last].lng;
+        url = baseUrl + "sharemap?Title=" + ti + "&Start=" + sc + "&End=" + ec;
+        start = sc;
+        end = ec;
+    }
+
+    var gurl = 'https://maps.googleapis.com/maps/api/staticmap?zoom=12&size=600x400&maptype=roadmap&markers=color:green%7Clabel:G%7C' + start + '&markers=color:red%7Clabel:C%7C' + end + '&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0&path=color:red|weight:3|' + start + '|' + end;
+    console.log(gurl);
+    return gurl;
+}
+
+function GetShareObjectByRide(ride) {
+
+    //var horseName =''
+    //if (IsNull(horse.Name))
+    //    horseName = horse.Name;
+
+    var ti = "Equitrack - Rides Map";
+    if (!IsNull(ride.location))
+        ti = ride.location;
+
+
+    var start = '';
+    var end = '';
+
+    if (ride.start_cord != null && ride.end_cord != null) {
+        start = ride.start_cord.lat + "%2C" + ride.start_cord.lng;
+        end = ride.end_cord.lat + "%2C" + ride.start_cord.lng;
+    }
+   
+
+    var gurl = 'https://maps.googleapis.com/maps/api/staticmap?zoom=14&size=600x400&maptype=roadmap&markers=color:red%7Clabel:G%7C' + start + '&markers=color:red%7Clabel:C%7C' + end + '&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0'; //&path=color:red|weight:2|' + start + '|' + end
+
+
+    var obj = {
+        method: 'feed',
+        title: "Ride taken on " + ride.start_time, //horseName,//'This is horse name with ride start and end time',
+        link: 'https://www.google.com/maps/place/Nacogdoches,+TX/@33.1689148,-93.2097426,6z/data=!4m21!1m15!4m14!1m6!1m2!1s0x8863f80e5b170141:0x850cb92ad6b577f6!2sMurfreesboro,+TN!2m2!1d-86.39027!2d35.8456213!1m6!1m2!1s0x864c19f77b45974b:0xb9ec9ba4f647678f!2sDallas,+TX!2m2!1d-96.7969879!2d32.7766642!3m4!1s0x8637895fa4158787:0x88db1616dcfba3ee!8m2!3d31.6042705!4d-94.6554565',
+        caption: 'https://myequitrack.com/',
+        picture: gurl,
+        description: ti
+    }
+
+    //var obj ={
+    //    method: 'feed',
+    //    title: 'This is horse name with ride start and end time',
+    //    link: 'https://www.google.com/maps/place/Nacogdoches,+TX/@33.1689148,-93.2097426,6z/data=!4m21!1m15!4m14!1m6!1m2!1s0x8863f80e5b170141:0x850cb92ad6b577f6!2sMurfreesboro,+TN!2m2!1d-86.39027!2d35.8456213!1m6!1m2!1s0x864c19f77b45974b:0xb9ec9ba4f647678f!2sDallas,+TX!2m2!1d-96.7969879!2d32.7766642!3m4!1s0x8637895fa4158787:0x88db1616dcfba3ee!8m2!3d31.6042705!4d-94.6554565',
+    //    caption: 'https://myequitrack.com/',
+    //    picture: 'https://maps.googleapis.com/maps/api/staticmap?center=Williamsburg,Brooklyn,NY&zoom=13&size=600x400&markers=color:red%7Clabel:S%7C11211%7C11206%7C11222&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0',
+    //    description: 'This is ride location if provide else become blank'
+    //}
+
+    return obj;
+}
+
+
+function GetShareObjectByCoordinate(ride, cords) {
+
+    //var horseName =''
+    //if (IsNull(horse.Name))
+    //    horseName = horse.Name;
+
+    var ti = "Equitrack - Rides Map";
+    if (!IsNull(ride.location))
+        ti = ride.location;
+
+
+    var start = '';
+    var end = '';
+
+    if (cords == null) {
+        url = baseUrl + "sharemap?Title=" + ti;
+    }
+    else {
+        var last = cords.length - 1;
+        start=cords[0].lat + "%2C" + cords[0].lng;
+        end = cords[last].lat + "%2C" + cords[last].lng;
+    }
+
+    var gurl = 'https://maps.googleapis.com/maps/api/staticmap?zoom=14&size=600x400&maptype=roadmap&markers=color:red%7Clabel:G%7C' + start + '&markers=color:red%7Clabel:C%7C' + end + '&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0'; //&path=color:red|weight:2|' + start + '|' + end
+
+
+    var obj = {
+        method: 'feed',
+        title: "Ride taken on " + ride.start_time, //horseName,//'This is horse name with ride start and end time',
+        link: 'https://www.google.com/maps/place/Nacogdoches,+TX/@33.1689148,-93.2097426,6z/data=!4m21!1m15!4m14!1m6!1m2!1s0x8863f80e5b170141:0x850cb92ad6b577f6!2sMurfreesboro,+TN!2m2!1d-86.39027!2d35.8456213!1m6!1m2!1s0x864c19f77b45974b:0xb9ec9ba4f647678f!2sDallas,+TX!2m2!1d-96.7969879!2d32.7766642!3m4!1s0x8637895fa4158787:0x88db1616dcfba3ee!8m2!3d31.6042705!4d-94.6554565',
+        caption: 'https://myequitrack.com/',
+        picture: gurl,
+        description: ti
+    }
+
+    //var obj ={
+    //    method: 'feed',
+    //    title: 'This is horse name with ride start and end time',
+    //    link: 'https://www.google.com/maps/place/Nacogdoches,+TX/@33.1689148,-93.2097426,6z/data=!4m21!1m15!4m14!1m6!1m2!1s0x8863f80e5b170141:0x850cb92ad6b577f6!2sMurfreesboro,+TN!2m2!1d-86.39027!2d35.8456213!1m6!1m2!1s0x864c19f77b45974b:0xb9ec9ba4f647678f!2sDallas,+TX!2m2!1d-96.7969879!2d32.7766642!3m4!1s0x8637895fa4158787:0x88db1616dcfba3ee!8m2!3d31.6042705!4d-94.6554565',
+    //    caption: 'https://myequitrack.com/',
+    //    picture: 'https://maps.googleapis.com/maps/api/staticmap?center=Williamsburg,Brooklyn,NY&zoom=13&size=600x400&markers=color:red%7Clabel:S%7C11211%7C11206%7C11222&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0',
+    //    description: 'This is ride location if provide else become blank'
+    //}
+
+    return obj;
+}
+
+function GetStaticMapUrl(cords) {
+
+}
 
 function DrawMap2(map, flightPlanCoordinates, flightPath,  directionsService, directionsDisplay) {
 
