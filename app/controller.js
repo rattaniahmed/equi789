@@ -379,15 +379,16 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
     $scope.stables = [];
 
     $scope.loadingcord = true;
+    $scope.ZeroStable = false;
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     //$scope.users = $firebaseArray(ref.child('users'));
     $scope.horses = $firebaseArray(ref.child('horses'));
     $scope.horses.$loaded().then(function (dataArray) {
+        $scope.loadingcord = false;
+
         angular.forEach($scope.user.Details.horse_ids, function (value, key) {
             //console.log(value);
-
-            $scope.loadingcord = false;
 
             console.log(key);
             var horse = $scope.horses.$getRecord(key);
@@ -439,6 +440,11 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
 
             console.log(horse);
         });
+
+        if ($scope.stables.length == 0) {
+            $scope.ZeroStable = true;
+        }
+
     }).catch(function (error) {
         console.log("Error in loading details");
     });
@@ -615,12 +621,18 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
 
     $scope.SocialShare = function () {
 
-        FB.ui($scope.ShareObject, function (response) {
-            console.log(response);
-        });
+        if ($scope.IsRideExist) {
+            FB.ui($scope.ShareObject, function (response) {
+                console.log(response);
+            });
+        }
+        else {
+            alert("No ride details exist for sharing");
+        }
 
     }
 
+    $scope.IsRideExist = false;
 
     var ref = firebaseService.FIREBASEENDPOINT();
     $scope.rides = $firebaseArray(ref.child('rides'));
@@ -636,6 +648,8 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
 
             if (ride != null) {
 
+                $scope.IsRideExist = true;
+
                 $scope.totalLength = $scope.totalLength + 1;
                 $scope.totalDistance = parseFloat($scope.totalDistance) + parseFloat(ride.total_distance);
                 $scope.totalDuration = parseInt($scope.totalDuration) + parseInt(ride.total_time);
@@ -646,7 +660,7 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
                 averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
                 totalTopSspeed.push(parseFloat(ride.top_speed));
 
-                $scope.ShareObject = GetShareObjectByRide(ride);
+                
 
             }
         }
@@ -665,7 +679,59 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
 
         $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
 
-     
+
+        debugger;
+        var horse = $scope.stb;
+        var pic = $scope.stb.photo;
+        if ($scope.stb.photo.indexOf("horsePlaceHolder") >= 0)
+        {
+            pic = "https://myequitrack.com/" + pic;
+
+            var obj = {
+                method: 'feed',
+                title: "I rode " + horse.horse_name + " for " + hhmmss2($scope.totalDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
+                link: 'https://myequitrack.com/',
+                caption: 'https://myequitrack.com/',
+                picture: pic,
+                description: "Find more details on www.myequitrack.com"
+            }
+
+            $scope.ShareObject = obj;
+
+        }
+        else
+        {
+            pic = $scope.stb.photo.replace("data:image/jpeg;base64,", "");
+            var blob = b64toBlob(pic, "image/png");
+            var metadata = {
+                'contentType': blob.type
+            };
+
+            var fname = Math.random().toString(36).substring(7) + ".jpg";// +file.name.substring(file.name.indexOf("."));
+            var storageRef = firebase.storage().ref();
+            storageRef.child('shares/' + fname).put(blob, metadata).then(function (snapshot) {
+                debugger;
+                var url = snapshot.metadata.downloadURLs[0];
+                console.log(url)
+
+                pic = url;
+
+                var obj = {
+                    method: 'feed',
+                    title: "I rode " + horse.horse_name + " for " + hhmmss2($scope.totalDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
+                    link: 'https://myequitrack.com/',
+                    caption: 'https://myequitrack.com/',
+                    picture: pic,
+                    description: "Find more details on www.myequitrack.com"
+                }
+
+            }).catch(function (error) {
+                console.error('Upload failed:', error);
+            });
+
+        }
+            
+       
 
     }).catch(function (err) {
 
@@ -674,6 +740,14 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
     $scope.Logout = function () {
         storageService.setObject("CU", null);
         $location.path('/');
+    }
+
+
+    $scope.MoveToLastRide = function () {
+        if ($scope.IsRideExist)
+            $location.path('last-ride.html');
+        else
+            alert("No ride exist for this horse");
     }
 
     $scope.markers = [];
@@ -1202,8 +1276,6 @@ app.controller('HistoryController', function MyCtrl($scope, $location, $firebase
     
 });
 
-//AllHistoryController
-
 app.controller('NavController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI) {
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
@@ -1301,12 +1373,16 @@ app.controller('DashboardController', function MyCtrl($http,$scope, $location, $
 
     $scope.ShareObject = null;
 
+    $scope.RideExist = false;
     $scope.SocialShare = function () {
-
-        FB.ui($scope.ShareObject, function (response) {
-            console.log(response);
-        });r
-
+        if ($scope.RideExist) {
+            FB.ui($scope.ShareObject, function (response) {
+                console.log(response);
+            });
+        }
+        else {
+            alert("No ride details exist for sharing")
+        }
     }
 
     //SaveImage("https://maps.googleapis.com/maps/api/staticmap?zoom=8&size=600x300&maptype=roadmap&markers=color:green%7Clabel:G%7C&markers=color:red%7Clabel:C%7C&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0&path=color:red|weight:3||");
@@ -1359,28 +1435,49 @@ app.controller('DashboardController', function MyCtrl($http,$scope, $location, $
         $scope.rides.$loaded().then(function (dataArray) {
             var ride = $scope.rides.$getRecord($scope.rideId);
             console.log(ride)
-            if (ride.ismanualride == "1") {
-                $scope.loadingcord = false;
-                DrawManualRideOnMap(ride);
-                debugger;
-                //$scope.socialshareurlstring = GetSharingUrl(ride, storageService.getNodeJSAppURL());
-                $scope.ShareObject = GetShareObjectByRide(ride);
+
+            if (ride != null) {
+                $scope.RideExist = true;
+                if (ride.ismanualride == "1") {
+
+
+                    debugger;
+                    //$scope.socialshareurlstring = GetSharingUrl(ride, storageService.getNodeJSAppURL());
+
+                    //firebase.database().ref('/horses/' + ride.horse_firebase_key + '/').on('value', function (snapshot) {
+                    var horseobj = $scope.horses.$getRecord(ride.horse_firebase_key);
+                    $scope.loadingcord = false;
+                    DrawManualRideOnMap(ride);
+                    $scope.ShareObject = GetShareObjectByRide(horseobj, ride);
+                    //})
+
+
+
+                }
+                else {
+                    $scope.coords = $firebaseArray(ref.child('coords'));
+                    $scope.coords.$loaded().then(function (dataArray) {
+                        debugger;
+                        $scope.loadingcord = false;
+                        var id = $scope.rideId;
+                        var coord = $scope.coords.$getRecord(id);
+                        DrawAutomatedRideOnMap(coord)
+                        console.log(coord);
+                        //$scope.socialshareurlstring = GetSharingUrlByCord(ride, coord, storageService.getNodeJSAppURL());
+                        //console.log(horse);
+
+                        var horseobj = $scope.horses.$getRecord(ride.horse_firebase_key);
+
+                        $scope.ShareObject = GetShareObjectByCoordinate(horseobj, ride, coord);
+
+                    });
+                }
             }
             else {
-                $scope.coords = $firebaseArray(ref.child('coords'));
-                $scope.coords.$loaded().then(function (dataArray) {
-                    debugger;
-                    $scope.loadingcord = false;
-                    var id = $scope.rideId;
-                    var coord = $scope.coords.$getRecord(id);
-                    DrawAutomatedRideOnMap(coord)
-                    console.log(coord);
-                    //$scope.socialshareurlstring = GetSharingUrlByCord(ride, coord, storageService.getNodeJSAppURL());
-                    //console.log(horse);
-                    $scope.ShareObject = GetShareObjectByCoordinate(ride, coord);
-                });
+                $scope.RideExist = false;
+                $scope.loadingcord = false;
+                DrawMap([]);
             }
-
             
 
 
@@ -1570,7 +1667,16 @@ app.controller('LastRideController', function MyCtrl($scope, $location, $firebas
         $location.path('/');
     }
 
-   
+    $scope.ShareObject = null;
+
+    $scope.SocialShare = function () {
+
+        FB.ui($scope.ShareObject, function (response) {
+            console.log(response);
+        });
+
+    }
+
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.rides = $firebaseArray(ref.child('rides'));
@@ -1593,6 +1699,21 @@ app.controller('LastRideController', function MyCtrl($scope, $location, $firebas
 
         $scope.lastRide = lastRide;
         console.log($scope.lastRide);
+
+        if ($scope.lastRide.ismanualride == "1") {
+
+            $scope.ShareObject = GetShareObjectByRide($scope.stb,$scope.lastRide);
+        }
+        else {
+            $scope.coords = $firebaseArray(ref.child('coords'));
+            $scope.coords.$loaded().then(function (dataArray) {
+                debugger;
+                var coord = $scope.coords.$getRecord(id);
+                $scope.ShareObject = GetShareObjectByCoordinate($scope.stb,$scope.lastRide, coord);
+            });
+        }
+
+
     }).catch(function (err) {
 
     });
@@ -2012,7 +2133,17 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
         $scope.lastRide = lastRide;
         console.log($scope.lastRide);
 
-        $scope.ShareObject = GetShareObjectByRide($scope.lastRide);
+        if ($scope.lastRide.ismanualride == "1") {
+            $scope.ShareObject = GetShareObjectByRide($scope.stb,$scope.lastRide);
+        }
+        else {
+            $scope.coords = $firebaseArray(ref.child('coords'));
+            $scope.coords.$loaded().then(function (dataArray) {
+                debugger;
+                var coord = $scope.coords.$getRecord(id);
+                $scope.ShareObject = GetShareObjectByCoordinate($scope.stb,$scope.lastRide, coord);
+            });
+        }
 
 
     }).catch(function (err) {
@@ -2221,7 +2352,7 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
                 $scope.$apply();
             }
             catch (err) { }
-            $scope.ShareObject = GetShareObjectByRide(ride);
+            $scope.ShareObject = GetShareObjectByRide($scope.stb,ride);
         }
         else {
 
@@ -2236,7 +2367,7 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
                     $scope.$apply();
                 }
                 catch (err) { }
-                $scope.ShareObject = GetShareObjectByCoordinate(ride, coord);
+                $scope.ShareObject = GetShareObjectByCoordinate($scope.stb,ride, coord);
             }).catch(function (err) {
 
             });
@@ -2453,7 +2584,6 @@ app.controller('FAQController', function ($scope, $location, $firebaseObject, $f
 
 });
 
-
 app.controller('NewsController', function ($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService, $sce) {
 
 
@@ -2479,7 +2609,6 @@ app.controller('NewsController', function ($scope, $location, $firebaseObject, $
 
 
 });
-
 
 app.controller('CalendarController', function ($scope, moment, calendarConfig, firebaseService, $firebaseArray, storageService, $location) {
 
@@ -2639,8 +2768,6 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
     //};
 
 });
-
-
 
 app.controller('DownloadController', function ($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService) {
 

@@ -252,33 +252,33 @@ function GetSharingUrlByCord(ride, cords , baseUrl) {
     return gurl;
 }
 
-function GetShareObjectByRide(ride) {
+function GetShareObjectByRide(horse , ride) {
 
-    //var horseName =''
-    //if (IsNull(horse.Name))
-    //    horseName = horse.Name;
-
+    
+   
     var ti = "Equitrack - Rides Map";
     if (!IsNull(ride.location))
         ti = ride.location;
 
+    ti = "Find more details on www.myequitrack.com";
 
     var start = '';
     var end = '';
 
     if (ride.start_cord != null && ride.end_cord != null) {
-        start = ride.start_cord.lat + "%2C" + ride.start_cord.lng;
-        end = ride.end_cord.lat + "%2C" + ride.start_cord.lng;
+        start = ride.start_cord.lat + "," + ride.start_cord.lng;
+        end = ride.end_cord.lat + "," + ride.start_cord.lng;
     }
-   
+    ride.ride_time = 144;
 
-    var gurl = 'https://maps.googleapis.com/maps/api/staticmap?zoom=14&size=600x400&maptype=roadmap&markers=color:red%7Clabel:G%7C' + start + '&markers=color:red%7Clabel:C%7C' + end + '&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0'; //&path=color:red|weight:2|' + start + '|' + end
-
+    var gurl = 'https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=600x400&maptype=roadmap&markers=color:green%7Clabel:G%7C' + start + '&markers=color:red%7Clabel:C%7C' + end + '&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0&path=color:red|weight:2|' + start + '|' + end
+    var link = "https://www.google.com/maps/dir/" + start + "/" + end;
+    var title = "I rode " + horse.horse_name + " for " + hhmmss2(ride.ride_time) + " and covered " + ride.total_distance + " miles at an average speed of " + ride.average_speed;
 
     var obj = {
         method: 'feed',
-        title: "Ride taken on " + ride.start_time, //horseName,//'This is horse name with ride start and end time',
-        link: 'https://www.google.com/maps/place/Nacogdoches,+TX/@33.1689148,-93.2097426,6z/data=!4m21!1m15!4m14!1m6!1m2!1s0x8863f80e5b170141:0x850cb92ad6b577f6!2sMurfreesboro,+TN!2m2!1d-86.39027!2d35.8456213!1m6!1m2!1s0x864c19f77b45974b:0xb9ec9ba4f647678f!2sDallas,+TX!2m2!1d-96.7969879!2d32.7766642!3m4!1s0x8637895fa4158787:0x88db1616dcfba3ee!8m2!3d31.6042705!4d-94.6554565',
+        title: title, //"Ride taken on " + ride.start_time, //horseName,//'This is horse name with ride start and end time',
+        link: link,// 'https://www.google.com/maps/place/Nacogdoches,+TX/@33.1689148,-93.2097426,6z/data=!4m21!1m15!4m14!1m6!1m2!1s0x8863f80e5b170141:0x850cb92ad6b577f6!2sMurfreesboro,+TN!2m2!1d-86.39027!2d35.8456213!1m6!1m2!1s0x864c19f77b45974b:0xb9ec9ba4f647678f!2sDallas,+TX!2m2!1d-96.7969879!2d32.7766642!3m4!1s0x8637895fa4158787:0x88db1616dcfba3ee!8m2!3d31.6042705!4d-94.6554565',
         caption: 'https://myequitrack.com/',
         picture: gurl,
         description: ti
@@ -296,8 +296,7 @@ function GetShareObjectByRide(ride) {
     return obj;
 }
 
-
-function GetShareObjectByCoordinate(ride, cords) {
+function GetShareObjectByCoordinate(horse, ride, cords) {
 
     //var horseName =''
     //if (IsNull(horse.Name))
@@ -307,6 +306,7 @@ function GetShareObjectByCoordinate(ride, cords) {
     if (!IsNull(ride.location))
         ti = ride.location;
 
+    ti = "Find more details on www.myequitrack.com";
 
     var start = '';
     var end = '';
@@ -316,17 +316,18 @@ function GetShareObjectByCoordinate(ride, cords) {
     }
     else {
         var last = cords.length - 1;
-        start=cords[0].lat + "%2C" + cords[0].lng;
-        end = cords[last].lat + "%2C" + cords[last].lng;
+        start = cords[0].lat + "," + cords[0].lng;
+        end = cords[last].lat + "," + cords[last].lng;
     }
 
-    var gurl = 'https://maps.googleapis.com/maps/api/staticmap?zoom=14&size=600x400&maptype=roadmap&markers=color:red%7Clabel:G%7C' + start + '&markers=color:red%7Clabel:C%7C' + end + '&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0'; //&path=color:red|weight:2|' + start + '|' + end
-
+    var gurl = 'https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=600x400&maptype=roadmap&markers=color:green%7Clabel:G%7C' + start + '&markers=color:red%7Clabel:C%7C' + end + '&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0&path=color:red|weight:2|' + start + '|' + end
+    var link = "https://www.google.com/maps/dir/" + start + "/" + end;
+    var title = "I rode " + horse.horse_name + " for " + hhmmss2(ride.ride_time) + " and covered " + ride.total_distance + " miles at an average speed of " + ride.average_speed;
 
     var obj = {
         method: 'feed',
-        title: "Ride taken on " + ride.start_time, //horseName,//'This is horse name with ride start and end time',
-        link: 'https://www.google.com/maps/place/Nacogdoches,+TX/@33.1689148,-93.2097426,6z/data=!4m21!1m15!4m14!1m6!1m2!1s0x8863f80e5b170141:0x850cb92ad6b577f6!2sMurfreesboro,+TN!2m2!1d-86.39027!2d35.8456213!1m6!1m2!1s0x864c19f77b45974b:0xb9ec9ba4f647678f!2sDallas,+TX!2m2!1d-96.7969879!2d32.7766642!3m4!1s0x8637895fa4158787:0x88db1616dcfba3ee!8m2!3d31.6042705!4d-94.6554565',
+        title: title, //"Ride taken on " + ride.start_time, //horseName,//'This is horse name with ride start and end time',
+        link: link, //'https://www.google.com/maps/place/Nacogdoches,+TX/@33.1689148,-93.2097426,6z/data=!4m21!1m15!4m14!1m6!1m2!1s0x8863f80e5b170141:0x850cb92ad6b577f6!2sMurfreesboro,+TN!2m2!1d-86.39027!2d35.8456213!1m6!1m2!1s0x864c19f77b45974b:0xb9ec9ba4f647678f!2sDallas,+TX!2m2!1d-96.7969879!2d32.7766642!3m4!1s0x8637895fa4158787:0x88db1616dcfba3ee!8m2!3d31.6042705!4d-94.6554565',
         caption: 'https://myequitrack.com/',
         picture: gurl,
         description: ti
@@ -419,6 +420,19 @@ function hhmmss(secs) {
 }
 
 
+function hhmmss2(secs) {
+    var minutes = Math.floor(secs / 60);
+    secs = secs % 60;
+    var hours = Math.floor(minutes / 60)
+    minutes = minutes % 60;
+    if (hours > 0)
+        return pad(hours) + " hours " + pad(minutes) + " minutes " + pad(secs) + " seconds";
+    else if (minutes > 0)
+        return pad(minutes) + " minutes " + pad(secs) + " seconds";
+    else
+        return pad(secs) + " seconds";
+}
+
 function initparallax() {
 
     var a = {
@@ -506,3 +520,29 @@ app.directive('toogle',  ['$rootScope', function($rootScope) {
     };
 
 }]);
+
+
+
+function b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+}
