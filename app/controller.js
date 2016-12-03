@@ -2632,6 +2632,10 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
         return $scope.vm.viewChangeEnabled;
     };
 
+    $scope.testing = function () {
+        $scope.vm.calendarView = 'day';
+        $scope.vm.viewDate = '12/11/2015';
+    }
 
     $scope.colors = [calendarConfig.colorTypes.warning, calendarConfig.colorTypes.info, calendarConfig.colorTypes.important];
 
@@ -2652,7 +2656,20 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
     ];
 
   
+    $scope.vm.timespanClicked = function (date, cell) {
+        console.log(date);
+        console.log(cell);
 
+        if ($scope.vm.calendarView === 'month') {
+            if (($scope.vm.cellIsOpen && moment(date).startOf('day').isSame(moment($scope.vm.viewDate).startOf('day'))) || cell.events.length === 0 || !cell.inMonth) {
+                $scope.vm.cellIsOpen = false;
+            } else {
+                $scope.vm.cellIsOpen = true;
+                $scope.vm.viewDate = date;
+                $scope.vm.calendarView = 'day';
+            }
+        }
+    }
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     //$scope.users = $firebaseArray(ref.child('users'));
@@ -2692,6 +2709,20 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
 
                 var startDateTime = new Date(horseHistory.start_time);
                 var endDateTime = new Date(horseHistory.end_time);
+                
+                var h = $scope.horses.$getRecord(horseHistory.horse_firebase_key);
+
+                $scope.actions = [{
+                   //label: '<i class=\'glyphicon glyphicon-zoom-out\'></i>',
+                    label: h.horse_name,
+                   onClick: function (args) {
+                       console.log(args.calendarEvent.ride_id);
+                       storageService.setObject("RIDEDETAILID", args.calendarEvent.ride_id);
+                       $location.path('ride-detail.html');
+                       console.log(args.calendarEvent.ride_id);
+
+                   }
+               }];
 
 
                 var eve = {

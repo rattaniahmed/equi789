@@ -55,7 +55,10 @@
                             <div class="col-md-3">
                                 <label class="btn btn-primary" ng-model="vm.calendarView" uib-btn-radio="'day'">Day</label>
                             </div>
-                                    </div>    
+
+                                                                </div>    
+
+                       
                         <!--</div>-->
                     </div>
                 </div>
@@ -70,7 +73,8 @@
                               slide-box-disabled="true"
                               day-view-split="10"
                               cell-is-open="vm.isCellOpen"
-                              on-view-change-click="vm.viewChangeClicked(calendarDate, calendarNextView)">
+                              on-view-change-click="vm.viewChangeClicked(calendarDate, calendarNextView)"
+                              on-timespan-click="vm.timespanClicked(calendarDate, calendarCell)">
                 </mwl-calendar>
                
                 
