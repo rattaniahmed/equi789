@@ -621,6 +621,14 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
 
     $scope.SocialShare = function () {
 
+        $("#sharemodal").show();
+    }
+    $scope.ClosedShareModel = function () {
+        $("#sharemodal").hide();
+    }
+
+    $scope.ShareWithFb = function () {
+        $("#sharemodal").hide();
         if ($scope.IsRideExist) {
             FB.ui($scope.ShareObject, function (response) {
                 console.log(response);
@@ -631,6 +639,23 @@ app.controller('StableDetailsController', function MyCtrl($scope, $location, $fi
         }
 
     }
+    $scope.SendPdf = function () {
+        $("#sharemodal").hide();
+        swal({ title: '', text: 'Send Pdf Module UnderConstruction', type: 'info' });
+
+    }
+    //$scope.SocialShare = function () {
+
+    //    if ($scope.IsRideExist) {
+    //        FB.ui($scope.ShareObject, function (response) {
+    //            console.log(response);
+    //        });
+    //    }
+    //    else {
+    //        alert("No ride details exist for sharing");
+    //    }
+
+    //}
 
     $scope.IsRideExist = false;
 
@@ -1373,8 +1398,16 @@ app.controller('DashboardController', function MyCtrl($http,$scope, $location, $
 
     $scope.ShareObject = null;
 
-    $scope.RideExist = false;
     $scope.SocialShare = function () {
+
+        $("#sharemodal").show();
+    }
+    $scope.ClosedShareModel = function () {
+        $("#sharemodal").hide();
+    }
+    $scope.RideExist = false;
+    $scope.ShareWithFb = function () {
+        $("#sharemodal").hide();
         if ($scope.RideExist) {
             FB.ui($scope.ShareObject, function (response) {
                 console.log(response);
@@ -1383,7 +1416,27 @@ app.controller('DashboardController', function MyCtrl($http,$scope, $location, $
         else {
             alert("No ride details exist for sharing")
         }
+
     }
+    $scope.SendPdf = function () {
+        $("#sharemodal").hide();
+        swal({ title: '', text: 'Send Pdf Module UnderConstruction', type: 'info' });
+
+    }
+
+
+
+ 
+    //$scope.SocialShare = function () {
+    //    if ($scope.RideExist) {
+    //        FB.ui($scope.ShareObject, function (response) {
+    //            console.log(response);
+    //        });
+    //    }
+    //    else {
+    //        alert("No ride details exist for sharing")
+    //    }
+    //}
 
     //SaveImage("https://maps.googleapis.com/maps/api/staticmap?zoom=8&size=600x300&maptype=roadmap&markers=color:green%7Clabel:G%7C&markers=color:red%7Clabel:C%7C&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0&path=color:red|weight:3||");
     //$.blockUI({
@@ -2336,8 +2389,6 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
 
     }
 
-
-
     $scope.ShareObject = null;
 
     $scope.SocialShare = function () {
@@ -2345,6 +2396,29 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
         $("#sharemodal").modal();
         
     }
+    $scope.ClosedShareModel = function () {
+        $("#sharemodal").hide();
+    }
+
+    $scope.ShareWithFb = function () {
+        $("#sharemodal").modal('hide');
+        $(".modal-backdrop").remove(); //css("display", "none");
+        $('body').removeClass('modal-open');
+    
+        FB.ui($scope.ShareObject, function (response) {
+            console.log(response);
+        });
+
+    }
+    $scope.SendPdf = function () {
+        $("#sharemodal").modal('hide');
+        $(".modal-backdrop").remove(); 
+        $('body').removeClass('modal-open');
+       
+        swal({ title: '', text: 'Send Pdf Module UnderConstruction', type: 'info' });
+
+    }
+
 
 
     var coord=[];
