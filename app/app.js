@@ -400,7 +400,6 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
         }
 
     }
-
     
 
 

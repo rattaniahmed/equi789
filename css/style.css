@@ -414,7 +414,11 @@ textarea.form-control {height:auto;resize:none}
 
 /*Inner pages*/
 
-.inner_pages {position:relative;z-index:20;}
+.inner_pages {
+    position:relative;
+              /*z-index:20;*/
+
+}
 
 .content_body {padding:50px 30px;box-shadow:0px 0px 25px rgba(0,0,0,0.2);position:relative;background-color:#fff}
 

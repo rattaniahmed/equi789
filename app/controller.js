@@ -2103,13 +2103,25 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
 
     $scope.SocialShare = function () {
 
-        FB.ui($scope.ShareObject, function (response) {
-            console.log(response);
-        });
-
+        $("#sharemodal").show();
+    }
+    $scope.ClosedShareModel = function () {
+        $("#sharemodal").hide();
     }
 
-
+    $scope.ShareWithFb = function()
+    {
+        $("#sharemodal").hide();
+      FB.ui($scope.ShareObject, function (response) {
+            console.log(response);
+        });
+     
+    }
+    $scope.SendPdf = function () {
+        $("#sharemodal").hide();
+        swal({title:'',text:'Send Pdf Module UnderConstruction', type:'info'});
+       
+    }
 
     $scope.currentRide = {};
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
@@ -2159,19 +2171,19 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
         rideRef.ground_condition = $("#gndcondition").val();
 
         $scope.rides.$save(rideRef).then(function (res) {
-
+            swal("", "Your notes details has been edited success fully", "success");
             $scope.$apply(function () {
                 blockUI.stop();
             });
 
             //storageService.setObject("CS", rideRef);
-            swal("", "Your notes details has been edited success fully", "success");
+           // swal("", "Your notes details has been edited success fully", "success");
             console.log(res);
 
             window.location.reload();
 
         });
-
+      
     }
 
 
@@ -2330,10 +2342,8 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
 
     $scope.SocialShare = function () {
 
-        FB.ui($scope.ShareObject, function (response) {
-            console.log(response);
-        });
-
+        $("#sharemodal").modal();
+        
     }
 
 
