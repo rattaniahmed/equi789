@@ -1,6 +1,7 @@
 ﻿<div class="right_col" role="main">
-    <div class="">
-        <div class="row top_tiles">
+    <div class="" ng-if="user.Role == 'SuperAdmin'">
+      
+          <div class="row top_tiles">
             <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <a href="#/images">
                     <div class="tile-stats">
@@ -39,14 +40,52 @@
             </div>
         </div>
 
+    </div>
 
+    <div class="" ng-if="user.Role != 'SuperAdmin'">
 
-
-
-
-
-
-
+        <div class="row top_tiles">
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <a href="#/ridedetails">
+                    <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+                        <div class="count">1</div>
+                        <h3>Ride Details</h3>
+                        <p>View All Users,Horses and Ride Details.</p>
+                    </div>
+                </a>
+            </div>
+            <!--<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <a href="#/orghorses/-1">
+                    <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-comments-o"></i></div>
+                        <div class="count">2</div>
+                        <h3>Horses</h3>
+                        <p>View All horses from all riders.</p>
+                    </div>
+                </a>
+            </div>
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <a href="#/orgrides/-1">
+                    <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
+                        <div class="count">3</div>
+                        <h3>Rides</h3>
+                        <p>View All Rides taken by riders</p>
+                    </div>
+                </a>
+            </div>-->
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <a href="#/orgreport/-1">
+                    <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-check-square-o"></i></div>
+                        <div class="count">2</div>
+                        <h3>Reports </h3>
+                        <p>View Grouped data and report.</p>
+                    </div>
+                </a>
+</div>
+        </div>
 
     </div>
 </div>

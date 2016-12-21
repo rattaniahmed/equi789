@@ -2,7 +2,7 @@
 /// <reference path="../views/directives/leftNav.html" />
 /// <reference path="../views/directives/leftNav.html" />
 // create the module and name it app
-var app = angular.module('app', ['ngRoute', 'firebase', '720kb.datepicker', 'ui.grid', 'ui.grid.pagination']);
+var app = angular.module('app', ['ngRoute', 'firebase', '720kb.datepicker', 'ui.grid', 'ui.grid.pagination','angularjs-dropdown-multiselect']);
 
 // configure our routes
 app.config(function ($routeProvider, $locationProvider) {
@@ -29,6 +29,12 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: 'views/users.html',
             controller: 'UsersController'
         })
+
+         .when('/ridedetails', {
+             templateUrl: 'views/org/ridedetails.html',
+             controller: 'RideDetailsController'
+         })
+
 
       .when('/rides/:id', {
           templateUrl: 'views/RideDetail.html',
@@ -62,6 +68,13 @@ app.config(function ($routeProvider, $locationProvider) {
             controller: 'sponsersController'
         })
 
+    .when('/organisations', {
+        templateUrl: 'views/organisations.html',
+        controller: 'sponsersController'
+    })
+
+
+    
 
         .when('/faq', {
          templateUrl: 'views/faq.html',
@@ -193,36 +206,17 @@ app.controller('homeController', function ($scope, storageService) {
 
 app.controller('mainController', function ($scope, storageService) {
 
-    //$scope.user = storageService.getObject('user');
-
-    //$scope.isAdmin = false;
-    //$scope.isSpe = false;
-    //$scope.isPAT = false;
-
-    //for (var cnt = 0; cnt < $scope.user.Roles.length; cnt++) {
-    //    if ($scope.user.Roles[cnt] == "Admin")
-    //        $scope.isAdmin = true;
-    //}
-
-    //if ($scope.user.username == "spe@demo.com")
-    //    $scope.isSpe = true;
-
-    //if ($scope.user.username == "pat@demo.com")
-    //    $scope.isPAT = true;
-
-    //console.log($scope.user);
-    //console.log($scope.user);
-
+    
     $scope.Check = function () {
 
-        var user = null;
+        $scope.user = null;
         var obj = localStorage.getItem("adminObject");
         if (obj == null || obj == '' || obj == "undefined")
-            user = null;
+            $scope.user = null;
         else
-            user = JSON.parse(obj);
+            $scope.user = JSON.parse(obj);
 
-        if (user == null) {
+        if ($scope.user == null) {
             window.location.href = "login.html";
         }
 
@@ -245,23 +239,6 @@ var loginapp = angular.module('loginapp', ['ngRoute', 'firebase']);
 
 
 loginapp.controller('loginController', function ($scope, $firebaseArray) {
-
-    //$scope.dummyAdmin = { username: 'admin@demo.com', password: 'admin', isAdmin: 1, displayName: 'Administrator', designation: 'Administrator', Face: 'images/img.jpg' };
-    //$scope.dummySpe = { username: 'spe@demo.com', password: 'admin', isAdmin: 1, displayName: 'Test Specialist', designation: 'Specilist', Face: 'images/img.jpg' };
-    //$scope.dummyPat = { username: 'pat@demo.com', password: 'admin', isAdmin: 1, displayName: 'Test patient', designation: 'Patient', Face: 'images/img.jpg' };
-
-    //$scope.user = { username: '', password: '' };
-
-    //$scope.compareAndStore = function (dummy) {
-
-    //    if ($scope.user.username == dummy.username && $scope.user.password == dummy.password) {
-    //        StorageService.setObject('user', dummy);
-    //        return true;
-    //    }
-    //    else
-    //        return false;
-
-    //}
 
     console.log("loginController");
 
@@ -342,41 +319,55 @@ loginapp.controller('loginController', function ($scope, $firebaseArray) {
 
     var ref = new Firebase("https://myequitrack.firebaseio.com");
 
-    $scope.users = $firebaseArray(ref.child('users'));
+    $scope.users = $firebaseArray(ref.child('admin'));
 
     $scope.login = function () {
         $("#loadingModal").show();
-        ref.authWithPassword({
-            email: $("#usrval").val(),
-            password: $("#pwdval").val()
-        }, function (error, authData) {
+        $scope.users.$loaded().then(function (dataArray) {
+            var found = false;
             $("#loadingModal").hide();
-            if (error) {
-                alert("Invlid User name and passord !!!");
-                //console.log("Login Failed!", error);
-            } else {
-
-                var user = $scope.users.$getRecord(authData.uid);
-
-                var isAdmin = 0;
-                try {
-                    isAdmin = user.isAdministrator;
-                } catch (err) {
-                    isAdmin = 0;
-                }
-
-                if (isAdmin == 1) {
+            angular.forEach(dataArray, function (value, key) {
+                var user = $scope.users.$getRecord(key);
+                console.log(user);
+                if (user.UserId == $("#usrval").val() && user.Password == $("#pwdval").val()) {
+                    found = true;
                     localStorage.setItem("adminObject", JSON.stringify(user));
-                    window.location.href = "start.html";
                 }
-                else
-                    alert("You are not authorised to visit the application !!!");
-            }
+            });
+            
+            if (found)
+                window.location.href = "start.html";
+            else
+                alert("You are not authorised to visit the application !!!");
+
         });
-        //}
+
+        
+
+
+
+        //ref.authWithPassword({
+        //    email: $("#usrval").val(),
+        //    password: $("#pwdval").val()
+        //}, function (error, authData) {
+        //    $("#loadingModal").hide();
+        //    if (error) {
+        //        alert("Invlid User name and passord !!!");
+        //    } else {
+        //        var user = $scope.users.$getRecord(authData.uid);
+        //        var isAdmin = 0;
+        //        try {
+        //            isAdmin = user.isAdministrator;
+        //        } catch (err) {
+        //            isAdmin = 0;
+        //        }
+        //        if (isAdmin == 1) {
+        //            localStorage.setItem("adminObject", JSON.stringify(user));
+        //            window.location.href = "start.html";
+        //        }
+        //        else
+        //            alert("You are not authorised to visit the application !!!");
+        //    }
+        //});
     }
-
-
-
-
 });

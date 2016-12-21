@@ -1,0 +1,229 @@
+﻿<div class="right_col" role="main">
+    <div class="">
+        <!--<div class="page-title">
+            <div class="title_left">
+                <h3> Media Gallery <small> gallery design</small> </h3>
+            </div>
+
+            <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Equitrack <small> Organisations </small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                               
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalid"><i class="fa fa-plus"></i> Add Organisation</button>
+
+                            </li>
+                           <!-- <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>-->
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <input type="file" style="visibility:hidden;position:absolute;width:0;height:0;" id="addphoto">
+
+                    <div class="x_content">
+
+                        <div class="row">
+
+                            <!--<p>Media gallery design emelents</p>-->
+
+                            <div class="col-md-4" ng-repeat="img in [1,2,3,4]">
+                                <div class="thumbnail">
+                                    <div class="image view view-first">
+                                        <img style="width: 100%; display: block;" height="100%"
+                                             src="https://www.wired.com/wp-content/uploads/2015/09/google-logo.jpg"
+                                             alt="image" />
+                                        <div class="mask">
+                                            <p>Test</p>
+                                            <div class="tools tools-bottom">
+                                                <!--<a href="#"><i class="fa fa-link"></i></a>-->
+                                                <a href="javascript:void(0)" ng-click="UpdateImage(img,$index)" ><i class="fa fa-pencil"></i></a>
+                                                <a href="javascript:void(0)" ng-click="RemoveSponser(img)"><i class="fa fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="caption">
+                                        <p>Name     : - ABC- Equine {{$index}}</p>
+                                        <p>Number   : - Equine123456</p>
+                                        <p>UserId : - Equi@1234 </p>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="editmodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">Edit Sponsor</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+
+
+
+                    <div class="x_content">
+                        <br>
+                        <form class="form-horizontal form-label-left">
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-3">Title</label>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <input type="text" class="form-control" id="titleedit">
+                                    <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-3">Link</label>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <input type="text" class="form-control" id="linkedit">
+                                    <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-3">Image</label>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <input type="file" class="form-control" id="fileedit">
+                                    <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="UpdateImageData()">Update Sponsor</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none; " id="modalid">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">Add New Organisation</h4>
+            </div>
+            <div class="modal-body">
+               
+                <div class="row">
+
+                   
+                            
+                            <div class="x_content">
+                                <br>
+                                <form class="form-horizontal form-label-left">
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Name</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-9">
+                                            <input type="text" class="form-control" id="titlenew">
+                                            <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Number</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-9">
+                                            <input type="text" class="form-control" id="linknew">
+                                            <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                        </div>
+                                    </div>
+                              
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-3">UserId</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-9">
+                                            <input type="text" class="form-control" id="linknew">
+                                            <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Passsword</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-9">
+                                            <input type="text" class="form-control" id="linknew">
+                                            <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Image</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-9">
+                                            <input type="file" class="form-control" id="filenew">
+                                            <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                        </div>
+                                    </div>
+                                    
+
+                                </form>
+                            </div>
+                        
+
+
+                </div>
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"  ng-click="AddSponser()">Add Organisation</button>
+            </div>
+
+        </div>
+    </div>
+</div>
