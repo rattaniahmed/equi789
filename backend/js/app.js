@@ -327,11 +327,16 @@ loginapp.controller('loginController', function ($scope, $firebaseArray) {
             var found = false;
             $("#loadingModal").hide();
             angular.forEach(dataArray, function (value, key) {
-                var user = $scope.users.$getRecord(key);
+                var user = $scope.users.$getRecord(value.$id);
                 console.log(user);
-                if (user.UserId == $("#usrval").val() && user.Password == $("#pwdval").val()) {
-                    found = true;
-                    localStorage.setItem("adminObject", JSON.stringify(user));
+                try {
+                    if (user.UserId == $("#usrval").val() && user.Password == $("#pwdval").val()) {
+                        found = true;
+                        localStorage.setItem("adminObject", JSON.stringify(user));
+                    }
+                } catch (error)
+                {
+                   // alert("Please Enter Correct Name and Password");
                 }
             });
             

@@ -3,7 +3,7 @@
    
 app.controller('RideDetailsController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams) {
 
-        console.log("rideDetailController");
+        console.log("rideDetailController jhghhjhgjhgjhgjhg");
 
 
         $scope.gridOptions = {
@@ -130,7 +130,6 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
 
         $('#lstStates').multiselect({
             buttonText: function (options, select) {
-                console.log(select[0].length);
                 if (options.length === 0) {
                     return 'None selected';
                 }
@@ -154,7 +153,6 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
 
         $('#lstHorses').multiselect({
             buttonText: function (options, select) {
-                console.log(select[0].length);
                 if (options.length === 0) {
                     return 'None selected';
                 }
@@ -199,5 +197,9 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
             });
 
         
+            $scope.users = $firebaseArray(ref.child('users'));
+            $scope.users.$loaded().then(function (dataArray) {
+                console.log(dataArray);
+            });
 
 });
