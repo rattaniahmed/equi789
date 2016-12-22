@@ -106,24 +106,24 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
         }
 
         $scope.singleFilter = function (renderableRows) {
-            debugger;
+      
             var matcher = new RegExp($scope.filterValue);
             renderableRows.forEach(function (row) {
-                debugger;
-                var match = false;
-                ['total_distance','total_time','top_speed','average_speed'].forEach(function (field) {
-                    try{
-                        if (row.entity[field].match(matcher)) {
-                            match = true;
-                        }}
-                    catch (e) {
-                        //match = true;
-                        console.log(e);
-                    }
-                });
-                if (!match) {
-                    row.visible = false;
-                }
+              
+                var match = true;
+                //['total_distance','total_time','top_speed','average_speed'].forEach(function (field) {
+                //    try{
+                //        if (row.entity[field].match(matcher)) {
+                //            match = true;
+                //        }}
+                //    catch (e) {
+                //        //match = true;
+                //        console.log(e);
+                //    }
+                //});
+                //if (!match) {
+                //    row.visible = false;
+                //}
             });
             return renderableRows;
         }
@@ -180,7 +180,8 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
         var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
         $scope.rides = $firebaseArray(ref.child('rides'));
 
-            $scope.rides.$loaded().then(function (dataArray) {
+    $scope.rides.$loaded().then(function (dataArray) {
+        $scope.gridOptions.data = dataArray;
                 angular.forEach(dataArray, function (value, key) {
                     //console.log(value);
                     console.log(key);
@@ -191,15 +192,62 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
                     
                 });
                 console.log($scope.stables);
-                $scope.gridOptions.data = $scope.stables;
+               // $scope.gridOptions.data = $scope.stables;
             }).catch(function (error) {
                 console.log("Error in loading details");
             });
 
-        
+    $scope.filterValue = '';
+    $scope.Search = function () {
+        $scope.filterValue = document.getElementById("search").value;
+        $scope.gridApi.grid.refresh();
+    }
+
+
+    $scope.example15model = [];
+    
+    $scope.example15customTexts = { buttonDefaultText: 'Select Users' };
+    $scope.example14customTexts = { buttonDefaultText: 'Select Horse' };
             $scope.users = $firebaseArray(ref.child('users'));
             $scope.users.$loaded().then(function (dataArray) {
+
+    //            $scope.example15data = [
+    //{ id: 1, label: "David" },
+    //{ id: 2, label: "Jhon" },
+    //{ id: 3, label: "Lisa" },
+    //{ id: 4, label: "Nicole" },
+    //{ id: 5, label: "Danny" }];
+
+                $scope.example15data = _.map(dataArray, function (elem) { return { id: elem.$id, label: elem.first_name +" "+ elem.last_name } });
                 console.log(dataArray);
             });
+            $scope.example15settings = { enableSearch: true, buttonDefaultText :'Select Riders'};
+            $scope.customFilter = '';
+            
+
+
+            $scope.example14data=[]
+            $scope.horses = $firebaseArray(ref.child('horses'));
+
+            $scope.horses.$loaded().then(function (dataArray) {
+                for (var i = 0; i<=dataArray.length; i++)
+                {
+                    try {
+                    if(dataArray[i].horse_name!=undefined)
+                    {
+                        $scope.example14data.push({ id: dataArray[i].$id, label: dataArray[i].horse_name });
+                    }
+                }
+                    catch(e)
+                    {
+                        console.log(e);
+                    }
+                }
+             
+                console.log(dataArray);
+
+            });
+
+            $scope.example14settings = { enableSearch: true, dynamicTitle:false, buttonDefaultText: 'Select Horse' };
 
 });

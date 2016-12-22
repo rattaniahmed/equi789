@@ -15,40 +15,38 @@
         <div class="clearfix"></div>
 
         <div class="row" style="float:right;">
-<div class="col-md-3"  style="text-align:center;">
-    <span>Riders</span>
-    <select size="5" name="lstStates" multiple="multiple" id="lstStates">
-        <option value="R1kljljasldjklsajdlksajdkljsakl">Rider 1</option>
-        <option value="R2">Rider 2</option>
-        <option value="R3">Rider 3</option>
-        <option value="R4">Rider 4</option>
-        <option value="R5">Rider 5</option>
-    </select>   
-</div>
+            <div class="col-md-3">
+                <div ng-dropdown-multiselect="" search-filter="customFilter" options="example15data" selected-model="example15model" extra-settings="example15settings" translation-texts="example15customTexts">
 
-            <div class="col-md-3" style="text-align:center;">
-                <span>Horses</span>
-                <select size="5" name="lstHorses" multiple="multiple" id="lstHorses">
-                    <option value="R1">Horse 1</option>
-                    <option value="R2">Horse 2</option>
-                    <option value="R3">Horse 3</option>
-                    <option value="R4">Horse 4</option>
-                    <option value="R5">Horse 5</option>
-                </select>
+                </div>
             </div>
+            <div class="col-md-3" style="margin-right: 150px;">
+                <div ng-dropdown-multiselect="" class="col-md-3" search-filter="customFilter" options="example14data" selected-model="example14model" extra-settings="example14settings" translation-texts="example14customTexts">
 
-            <div class="col-md-2" style="text-align:center;">
-                <span>Group By</span>
-                <select name="lstHorses" id="lstHorsessdsad" style="padding:6px;">
-                    <option value="R1">User</option>
-                    <option value="R2">Horse</option>
-                    <option value="R3">Year</option>
-                    <option value="R4">Month</option>
-                    <option value="R5">Day</option>
-                </select>
-            </div>
+                </div>
+                </div>
+                <!--<div class="col-md-3" style="text-align:center;">
+            <span>Horses</span>
+            <select size="5" name="lstHorses" multiple="multiple" id="lstHorses">
+                <option value="R1">Horse 1</option>
+                <option value="R2">Horse 2</option>
+                <option value="R3">Horse 3</option>
+                <option value="R4">Horse 4</option>
+                <option value="R5">Horse 5</option>
+            </select>
+        </div>-->
+                <!--<div class="col-md-2" style="text-align:center;">
+            <span>Group By</span>
+            <select name="lstHorses" id="lstHorsessdsad" style="padding:6px;">
+                <option value="R1">User</option>
+                <option value="R2">Horse</option>
+                <option value="R3">Year</option>
+                <option value="R4">Month</option>
+                <option value="R5">Day</option>
+            </select>
+        </div>-->
 
-          
+
             </div>
 
             <div class="row">
@@ -59,7 +57,7 @@
 
 
 
-                        <div ui-grid="gridOptions" ui-grid-pagination height="400px"></div>
+                        <div ui-grid="gridOptions" ui-grid-pagination ></div>
 
 
 
