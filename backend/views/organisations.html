@@ -56,7 +56,7 @@
 
                             <!--<p>Media gallery design emelents</p>-->
 
-                            <div class="col-md-4" ng-repeat="img in [1,2,3,4]">
+                            <div class="col-md-4" ng-repeat="img in Imgaes" ng-show="img.Role != 'SuperAdmin'">
                                 <div class="thumbnail">
                                     <div class="image view view-first">
                                         <img style="width: 100%; display: block;" height="100%"
@@ -72,9 +72,9 @@
                                         </div>
                                     </div>
                                     <div class="caption">
-                                        <p>Name     : - ABC- Equine {{$index}}</p>
-                                        <p>Number   : - Equine123456</p>
-                                        <p>UserId : - Equi@1234 </p>
+                                        <p>Organisation Name      : - {{img.DisplayName}}</p>
+                                        <p>Organisation Number    : - {{img.OrganisationNumber}}</p>
+                                        <p>User Id : - {{img.UserId}} </p>
                                     </div>
                                 </div>
                             </div>
@@ -88,15 +88,15 @@
 </div>
 
 
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="editmodal">
+<div class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="editmodal">
     <div class="modal-dialog">
         <div class="modal-content">
 
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="closeEditModel()">
                     <span aria-hidden="true">×</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel2">Edit Sponsor</h4>
+                <h4 class="modal-title" id="myModalLabel2">Edit Organisation</h4>
             </div>
             <div class="modal-body">
 
@@ -109,24 +109,31 @@
                         <form class="form-horizontal form-label-left">
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-3">Title</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-3" >Name</label>
                                 <div class="col-md-9 col-sm-9 col-xs-9">
-                                    <input type="text" class="form-control" id="titleedit">
+                                    <input type="text" class="form-control" id="nameedit" ng-model="Image.DisplayName">
                                     <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-3">Link</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-3">Number</label>
                                 <div class="col-md-9 col-sm-9 col-xs-9">
-                                    <input type="text" class="form-control" id="linkedit">
+                                    <input type="text" class="form-control" id="numberedit" ng-model="Image.OrganisationNumber">
                                     <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
                                 </div>
                             </div>
 
                             <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-3">User Id</label>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <input type="text" class="form-control" id="useridedit">
+                                    <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-3">Image</label>
                                 <div class="col-md-9 col-sm-9 col-xs-9">
-                                    <input type="file" class="form-control" id="fileedit">
+                                    <input type="file" class="form-control" id="imagefileedit">
                                     <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
                                 </div>
                             </div>
@@ -141,8 +148,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" ng-click="UpdateImageData()">Update Sponsor</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeEditModel()">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="UpdateImageData()">Update Organisation</button>
             </div>
 
         </div>
@@ -174,14 +181,14 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Name</label>
                                         <div class="col-md-9 col-sm-9 col-xs-9">
-                                            <input type="text" class="form-control" id="titlenew">
+                                            <input type="text" class="form-control" id="namenew">
                                             <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Number</label>
                                         <div class="col-md-9 col-sm-9 col-xs-9">
-                                            <input type="text" class="form-control" id="linknew">
+                                            <input type="text" class="form-control" id="numbernew">
                                             <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
                                         </div>
                                     </div>
@@ -189,7 +196,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-3">UserId</label>
                                         <div class="col-md-9 col-sm-9 col-xs-9">
-                                            <input type="text" class="form-control" id="linknew">
+                                            <input type="text" class="form-control" id="useridnew">
                                             <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
                                         </div>
                                     </div>
@@ -197,7 +204,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Passsword</label>
                                         <div class="col-md-9 col-sm-9 col-xs-9">
-                                            <input type="text" class="form-control" id="linknew">
+                                            <input type="text" class="form-control" id="passwordnew">
                                             <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
                                         </div>
                                     </div>

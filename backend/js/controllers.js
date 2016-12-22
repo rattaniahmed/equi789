@@ -1339,6 +1339,3 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
         console.log("Error in loading details");
     });
 });
-
-
-

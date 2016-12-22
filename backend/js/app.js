@@ -70,7 +70,7 @@ app.config(function ($routeProvider, $locationProvider) {
 
     .when('/organisations', {
         templateUrl: 'views/organisations.html',
-        controller: 'sponsersController'
+        controller: 'organisationsController'
     })
 
 
