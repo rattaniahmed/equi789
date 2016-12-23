@@ -1,20 +1,46 @@
-﻿app.controller('RideMapController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService, $http) {
+﻿app.controller('LastRideController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService, $http) {
 
     console.log("HistoryController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
 
     $scope.stb = storageService.getObject("CS");
+    console.log($scope.stb);
 
-    $scope.rideId = storageService.getObject("RIFM");
-    //$scope.rideId="-KSpPpJKZ5IicOQ-P5kM";
+    var ids = [];
+    var vals = [];
+    for (var i in $scope.stb.ride_ids) {
+        ids.push({
+            Id: i, Val: $scope.stb.ride_ids[i]
+        })
+        vals.push($scope.stb.ride_ids[i]);
+    }
+
+    var max = Math.max.apply(Math, vals);
+
+    for (var i = 0; i < ids.length; i++) {
+        var o = ids[i];
+        if (o.Val == max)
+            $scope.rideId = o.Id;// '-KP44cqcDIZo4G5-ziq4'
+    }
+
+
 
     try {
         //$scope.rideId = $scope.stb.ride_ids[0];
         console.log($scope.rideId)
+        storageService.setObject("RIFM", $scope.rideId);
     }
     catch (err) {
 
+    }
+
+
+    console.log($scope.stb);
+
+    $scope.Logout = function () {
+        storageService.setObject("CU", null);
+        $location.path('/');
     }
 
     $scope.ShareObject = null;
@@ -23,10 +49,13 @@
 
         $("#sharemodal").modal();
 
+
     }
+
     $scope.ClosedShareModel = function () {
         $("#sharemodal").hide();
     }
+
 
     $scope.ShareWithFb = function () {
         $("#sharemodal").modal('hide');
@@ -38,7 +67,8 @@
         });
 
     }
-   
+
+
     $scope.SendPdf = function () {
         $("#sharemodal").hide();
         $(".modal-backdrop").remove();
@@ -65,63 +95,69 @@
     }
 
 
-    var coord = [];
-    $scope.loadingcord = true;
-    var ref = firebaseService.FIREBASEENDPOINT();
+    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.rides = $firebaseArray(ref.child('rides'));
     $scope.rides.$loaded().then(function (dataArray) {
-        console.log("hererrdfsdfdsfdsf");
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
-        var ride = $scope.rides.$getRecord($scope.rideId);
-        if (ride.ismanualride == "1") {
-            $scope.loadingcord = false;
-            DrawManualRideOnMap(ride);
-            try {
-                $scope.$apply();
-            }
-            catch (err) { }
-            $scope.ShareObject = GetShareObjectByRide($scope.stb, ride);
+        var id = $scope.rideId;
+        var lastRide = $scope.rides.$getRecord(id);
+        $scope.ride_time_to_display = hhmmss(lastRide.ride_time);
+        $scope.total_time_to_display = hhmmss(lastRide.total_time);
+
+
+        $scope.freestyle_time_to_display = hhmmss(lastRide.freestyle_time);
+        $scope.hotwalk_time_to_display = hhmmss(lastRide.hotwalk_time);
+
+        if (IsNull(lastRide.ground_condition))
+            $("#gndcondition").val("Select");
+        else
+            $("#gndcondition").val(lastRide.ground_condition);
+
+
+        $scope.lastRide = lastRide;
+        console.log($scope.lastRide);
+
+        if ($scope.lastRide.ismanualride == "1") {
+
+            $scope.ShareObject = GetShareObjectByRide($scope.stb, $scope.lastRide);
         }
         else {
-
             $scope.coords = $firebaseArray(ref.child('coords'));
             $scope.coords.$loaded().then(function (dataArray) {
-                // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
-                $scope.loadingcord = false;
-                var id = $scope.rideId;
-                DrawAutomatedRideOnMap($scope.coords.$getRecord(id));
-                console.log(coord);
-                try {
-                    $scope.$apply();
-                }
-                catch (err) { }
-                $scope.ShareObject = GetShareObjectByCoordinate($scope.stb, ride, coord);
-            }).catch(function (err) {
-
+                debugger;
+                var coord = $scope.coords.$getRecord(id);
+                $scope.ShareObject = GetShareObjectByCoordinate($scope.stb, $scope.lastRide, coord);
             });
-
-
         }
+
+
     }).catch(function (err) {
-        console.log(err);
+
     });
 
+    $scope.UpdateNotes = function () {
 
+        blockUI.start("Updating notes details.....");
 
+        var rideRef = $scope.rides.$getRecord($scope.rideId);
+        rideRef.notes = ReplaceNull($scope.lastRide.notes);
+        rideRef.ground_condition = $("#gndcondition").val();
 
+        $scope.rides.$save(rideRef).then(function (res) {
 
+            $scope.$apply(function () {
+                blockUI.stop();
+            });
 
-    console.log($scope.stb);
+            //storageService.setObject("CS", rideRef);
+            swal("", "Your notes details has been edited success fully", "success");
+            console.log(res);
 
-    $scope.Logout = function () {
-        storageService.setObject("CU", null);
-        $location.path('/');
+            window.location.reload();
+
+        });
+
     }
-
-
-
-
-
 
 
     $scope.graph1 = function () {
@@ -188,6 +224,8 @@
 
     }
 
+
+
     $scope.graph2 = function () {
 
         var container = $("#graph_2");
@@ -248,6 +286,6 @@
 
     }
 
-    $scope.Start();
+    //$scope.Start();
 
 });

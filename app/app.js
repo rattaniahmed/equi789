@@ -162,7 +162,7 @@ app.factory('storageService', function () {
         },
         getNodeJSAppURL: function () {
             //return "https://myequitracknodejsemail.appspot.com/";
-            return "http://localhost:8080/"
+            //return "http://localhost:8080/"
         }
     }
 
