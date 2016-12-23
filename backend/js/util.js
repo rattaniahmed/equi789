@@ -23,24 +23,33 @@ function IsNull(val) {
         return true;
     else
         return false;
-}
+}
+
 
 function ReplaceNull(val) {
     if (val == '' || val == null || val === undefined)
         return '';
     else
         return val;
-}function CleanProfileUrl(url) {
+}
+
+
+function CleanProfileUrl(url) {
     if (IsNull(url))
         return "images/duser.png";
     else
         return url;
-}function CleanHorseProfileUrl(url) {
+}
+
+function CleanHorseProfileUrl(url) {
     if (IsNull(url) || url == "images/placeholder.png")
         return "images/horsePlaceHolder.png";
     else
         return url;
-}function ValidateControl(ctrls) {
+}
+
+
+function ValidateControl(ctrls) {
 
     var isValid = true;
 
@@ -58,7 +67,9 @@ function ReplaceNull(val) {
 
     return isValid;
 
-}
+}
+
+
 function PrepareRequestForMail(prcid, TO, CC, From, Subject, Body, DisplayName) {
     var inputData = {};
     inputData.PRCID = prcid;
@@ -73,7 +84,8 @@ function PrepareRequestForMail(prcid, TO, CC, From, Subject, Body, DisplayName) 
     console.log(inputData);
     return inputData;
 }
-function DrawMap(flightPlanCoordinates) {
+
+function DrawMap(flightPlanCoordinates) {
 
 
     if (flightPlanCoordinates == null || flightPlanCoordinates.length == 0) {
@@ -190,7 +202,9 @@ function PrepareRequestForMail(prcid, TO, CC, From, Subject, Body, DisplayName) 
         flightPath.setMap(map);
 
     }
-}function pad(num) {
+}
+
+function pad(num) {
     return ("0" + num).slice(-2);
 }
 
@@ -200,7 +214,8 @@ function hhmmss(secs) {
     var hours = Math.floor(minutes / 60)
     minutes = minutes % 60;
     return pad(hours) + ":" + pad(minutes) + ":" + pad(secs);
-}
+}
+
 
 
 

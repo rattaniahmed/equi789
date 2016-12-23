@@ -2370,7 +2370,7 @@ app.controller('RideDetailController', function MyCtrl($scope, $location, $fireb
 
 });
 
-app.controller('RideMapController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService) {
+app.controller('RideMapController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService, $http) {
 
     console.log("HistoryController");
     sessionService.CHECKSESSION();
@@ -2415,7 +2415,28 @@ app.controller('RideMapController', function MyCtrl($scope, $location, $firebase
         $(".modal-backdrop").remove(); 
         $('body').removeClass('modal-open');
        
-        swal({ title: '', text: 'Send Pdf Module UnderConstruction', type: 'info' });
+        //swal({ title: '', text: 'Send Pdf Module UnderConstruction', type: 'info' });
+
+        console.log($scope.ShareObject);
+        console.log($scope.user);
+
+        //var to = "vishal.kumar1145@gmail.com";
+        //var message = "I rode horse name for 30 seconds and covered 23.00 miles at an avarage speed of 0.96 miles/hour !!!";
+        //var imageurl = "https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0";
+
+
+        var url = storageService.getNodeJSAppURL() + 'sendpdf?&MS=' + $scope.ShareObject.title + '&TO=' + $scope.user.Details.email + '&IU=' + $scope.ShareObject.picture;
+       
+        debugger;
+        $http({
+            method: 'GET',
+            url: url
+        }).then(function successCallback(response) {
+            console.log(response);
+        }, function errorCallback(response) {
+            console.log(response);
+        });
+
 
     }
 
