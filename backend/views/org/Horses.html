@@ -1,0 +1,52 @@
+﻿<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h2>Equitrack <small> Horse Managerment </small></h2>
+            </div>
+         
+            <input type="text" id="search" style="float:right;border:1px solid; width:250px; height:30px;border-radius:5px; padding:5px;" ng-keyup="Search()" placeholder="Search" />
+            <button style="float:right;height:30px;">Download</button>
+            <button style="float:right;height:30px;">Email</button>
+            <button style="float:right;height:30px;">Print</button>
+
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row" style="float:right;">
+            <div class="col-md-3">
+                <div ng-dropdown-multiselect="" search-filter="customFilter" options="example15data" selected-model="example15model" extra-settings="example15settings" translation-texts="example15customTexts">
+
+                </div>
+            </div>
+            
+            <div class="col-md-3" style="text-align:center;margin-left: 80px;">
+                    <button type="button" class="btn btn-primary" ng-click="SelectItem()">Filter</button>
+        </div>
+                
+
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="x_content">
+
+
+
+                        <div ui-grid="gridOptions" ui-grid-pagination ></div>
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+</div>
+
+

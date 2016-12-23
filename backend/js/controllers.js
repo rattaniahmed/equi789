@@ -1229,10 +1229,10 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
     }
 
     $scope.singleFilter = function (renderableRows) {
-        debugger;
+       
         var matcher = new RegExp($scope.filterValue);
         renderableRows.forEach(function (row) {
-            debugger;
+         
             var match = false;
             ['horse_name', 'registration', 'birthday'].forEach(function (field) {
                 if (row.entity[field].match(matcher)) {
