@@ -106,6 +106,8 @@ app.controller('organisationsController', function ($scope, storageService, fire
         else {
             $("#loadingModal").show();
 
+            $("#modalid").hide();
+
             var file = document.getElementById('filenew').files[0];
             var metadata = {
                 'contentType': file.type
@@ -125,12 +127,12 @@ app.controller('organisationsController', function ($scope, storageService, fire
                     OrganisationNumber: $("#numbernew").val(),
                     Password: $("#passwordnew").val(),
                     Role: "Organisation",
-                    UserId: $("#useridnew").val()
-
+                    UserId: $("#useridnew").val(),
+                    Url:url
 
                 }
 
-                $("#modalid").hide();
+                
 
                 $scope.images.$add(toAdd).then(function (ref) {
                     debugger;

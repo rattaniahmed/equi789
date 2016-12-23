@@ -60,10 +60,10 @@
                                 <div class="thumbnail">
                                     <div class="image view view-first">
                                         <img style="width: 100%; display: block;" height="100%"
-                                             src="https://www.wired.com/wp-content/uploads/2015/09/google-logo.jpg"
+                                             ng-src={{img.Url}} src="{{img.Url}}"
                                              alt="image" />
                                         <div class="mask">
-                                            <p>Test</p>
+                                            <p>{{img.DisplayName}}</p>
                                             <div class="tools tools-bottom">
                                                 <!--<a href="#"><i class="fa fa-link"></i></a>-->
                                                 <a href="javascript:void(0)" ng-click="UpdateImage(img,$index)" ><i class="fa fa-pencil"></i></a>
