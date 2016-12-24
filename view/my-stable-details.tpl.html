@@ -233,6 +233,9 @@
 
 <!-- Modal -->
 
+
+
+
 <div class="modal fade modal fade in" id="edit_stable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="EditStableDetailsController">
 
     <div class="modal-dialog modal-lg" role="document">
@@ -368,13 +371,13 @@
 
                                     </div>
 
-                                    <div class="form-_sub_group clearfix" ng-repeat="asso in stb.associations">
+                                    <div class="form-_sub_group clearfix" ng-repeat="FinalOrg in FinalOrganisations">
 
                                         <div class="grid-12">
 
                                             <div class="row">
 
-                                                <div class="grid-6">
+                                                <div class="grid-4">
 
                                                     <div class="row">
 
@@ -382,13 +385,12 @@
 
                                                             <div class="grid-6">
 
-                                                                <label class="label" for="s_1" style="color:black;">Association {{$index + 1}}:</label>
+                                                                <label class="label" for="s_1" style="color:black;">Association:</label>
 
                                                             </div>
 
                                                             <div class="grid-6">
-
-                                                                <input type="text" class="form-control" id="s_1" ng-model="asso.name" placeholder="Association {{$index + 1}}" value="AERC">
+                                                                <select class="form-control" id="org" ng-model="FinalOrg.SelectedOrganisation" ng-change="OnOrganisaionChange(FinalOrg)" ng-options="obj.DisplayName for obj in FinalOrg.Options"></select>
 
                                                             </div>
 
@@ -398,7 +400,7 @@
 
                                                 </div>
 
-                                                <div class="grid-6">
+                                                <div class="grid-4">
 
                                                     <div class="row">
 
@@ -406,15 +408,33 @@
 
                                                             <div class="grid-6">
 
-                                                                <label class="label" for="s_2" style="color:black;">Number {{$index + 1}}:</label>
+                                                                <label class="label" for="s_2" style="color:black;">Number:</label>
 
                                                             </div>
 
                                                             <div class="grid-6">
 
-                                                                <input type="text" class="form-control" id="s_2" ng-model="asso.number" placeholder="Number {{$index + 1}}" value="178845RD">
+                                                                <input type="text" class="form-control" id="orgNo" ng-model="FinalOrg.SelectedOrganisation.OrganisationNumber" placeholder="Number" style="color:black;">
 
                                                             </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="grid-4">
+
+                                                    <div class="row">
+
+                                                        <div class="form-group clearfix">
+
+                                                            <div class="grid-6">
+
+                                                                <button type="button" class="btn btn-danger" ng-click="RemoveOrganisation($index)">Delete</button>
+                                                            </div>
+
+
 
                                                         </div>
 
@@ -429,69 +449,7 @@
                                     </div>
 
 
-                                    <!--<div class="form-group clearfix">
-
-                                        <div class="grid-3">
-
-                                            <label class="label" for="8">Total Rides:</label>
-
-                                        </div>
-
-                                        <div class="grid-9">
-
-                                            <input type="text" class="form-control" id="totalrides" ng-model="stb.totalrides" placeholder="Total Rides" value="34">
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="form-group clearfix">
-
-                                        <div class="grid-3">
-
-                                            <label class="label" for="9">Miles:</label>
-
-                                        </div>
-
-                                        <div class="grid-9">
-
-                                            <input type="text" class="form-control" id="distance" ng-model="stb.distance" placeholder="Miles" value="140 miles">
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="form-group clearfix">
-
-                                        <div class="grid-3">
-
-                                            <label class="label" for="10">Calories:</label>
-
-                                        </div>
-
-                                        <div class="grid-9">
-
-                                            <input type="text" class="form-control" id="energy" ng-model="stb.energy" placeholder="Calories" value="1880 kcal">
-
-                                        </div>
-
-                                    </div>
                                     
-                                    <div class="form-group clearfix">
-
-                                        <div class="grid-3">
-
-                                            <label class="label" for="12">Weight:</label>
-
-                                        </div>
-
-                                        <div class="grid-9">
-
-                                            <input type="text" class="form-control" id="weight" ng-model="stb.weight" placeholder="Weight" value="1253 lbs">
-
-                                        </div>
-
-                                    </div>-->
 
                                 </div>
 
@@ -504,7 +462,8 @@
                 </div>
 
                 <div class="modal-footer edit_stable_footer">
-
+                    <button type="button" class="btn btn-block" ng-click="AddNewOrganisation()">AddNewOrganisation changes</button>
+                    <br />
                     <button type="button" class="btn btn-block" ng-click="SaveStable()">Save changes</button>
 
                 </div>
@@ -516,6 +475,21 @@
     </div>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="modal fade modal fade in" id="add_stable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="AddStableDetailsController">
 
@@ -650,7 +624,86 @@
 
                                     </div>
 
-                                    <div class="form-_sub_group clearfix" ng-repeat="asso in assolist">
+
+                                    <div class="form-_sub_group clearfix" ng-repeat="FinalOrg in FinalOrganisations">
+
+                                        <div class="grid-12">
+
+                                            <div class="row">
+
+                                                <div class="grid-4">
+
+                                                    <div class="row">
+
+                                                        <div class="form-group clearfix">
+
+                                                            <div class="grid-6">
+
+                                                                <label class="label" for="s_1" style="color:black;">Association:</label>
+
+                                                            </div>
+
+                                                            <div class="grid-6">
+                                                                <select class="form-control" id="org" ng-model="FinalOrg.SelectedOrganisation" ng-change="OnOrganisaionChange(FinalOrg)" ng-options="obj.DisplayName for obj in FinalOrg.Options"></select>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="grid-4">
+
+                                                    <div class="row">
+
+                                                        <div class="form-group clearfix">
+
+                                                            <div class="grid-6">
+
+                                                                <label class="label" for="s_2" style="color:black;">Number:</label>
+
+                                                            </div>
+
+                                                            <div class="grid-6">
+
+                                                                <input type="text" class="form-control" id="orgNo" ng-model="FinalOrg.SelectedOrganisation.OrganisationNumber" placeholder="Number" style="color:black;">
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="grid-4">
+
+                                                    <div class="row">
+
+                                                        <div class="form-group clearfix">
+
+                                                            <div class="grid-6">
+
+                                                                <button type="button" class="btn btn-danger" ng-click="RemoveOrganisation($index)">Delete</button>
+                                                            </div>
+
+
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!--<div class="form-_sub_group clearfix" ng-repeat="asso in assolist">
 
                                         <div class="grid-12">
 
@@ -664,13 +717,13 @@
 
                                                             <div class="grid-6">
 
-                                                                <label class="label" for="s_1" style="color:black;">Association {{$index + 1 }}:</label>
+                                                                <label class="label" for="s_1" style="color:black;">Association {{$index + 2 }}:</label>
 
                                                             </div>
 
                                                             <div class="grid-6">
 
-                                                                <input type="text" class="form-control" id="s_1" ng-model="asso.name" placeholder="Association {{$index + 1 }}" value="AERC">
+                                                                <input type="text" class="form-control" id="s_1" ng-model="asso.name" placeholder="Association {{$index + 1 }}" value="AERC" style="color:black;">
 
                                                             </div>
 
@@ -694,7 +747,7 @@
 
                                                             <div class="grid-6">
 
-                                                                <input type="text" class="form-control" id="s_2" ng-model="asso.number" placeholder="Number {{$index + 1 }}" value="178845RD">
+                                                                <input type="text" class="form-control" id="s_2" ng-model="asso.number" placeholder="Number {{$index + 1 }}" value="178845RD" style="color:black;">
 
                                                             </div>
 
@@ -708,10 +761,7 @@
 
                                         </div>
 
-                                    </div>
-
-
-
+                                    </div>-->
                                     <!--<div class="form-group clearfix">
 
                                         <div class="grid-3">
@@ -787,7 +837,8 @@
                 </div>
 
                 <div class="modal-footer edit_stable_footer">
-
+                    <button type="button" class="btn btn-block" ng-click="AddNewOrganisation()">AddNewOrganisation changes</button>
+                    <br />
                     <button type="button" class="btn btn-block" ng-click="SaveStable()">Save changes</button>
 
                 </div>
@@ -799,6 +850,24 @@
     </div>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="modal fade modal fade in" id="medical" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="EditStableDetailsController">
 
@@ -870,7 +939,6 @@
     </div>
 
 </div>
-
 
 <div class="modal fade modal fade in" id="notes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="EditStableDetailsController">
 
@@ -1288,7 +1356,6 @@
     </div>
 
 </div>
-
 
 <div class="modal" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="MapModalController">
 
