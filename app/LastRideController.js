@@ -52,48 +52,19 @@
 
     }
 
-    $scope.ClosedShareModel = function () {
-        $("#sharemodal").hide();
-    }
 
 
-    $scope.ShareWithFb = function () {
-        $("#sharemodal").modal('hide');
-        $(".modal-backdrop").remove(); //css("display", "none");
-        $('body').removeClass('modal-open');
-
-        FB.ui($scope.ShareObject, function (response) {
-            console.log(response);
-        });
-
-    }
+    
 
 
-    $scope.SendPdf = function () {
+    $scope.IsDataExist = function () {
         $("#sharemodal").hide();
         $(".modal-backdrop").remove();
         $('body').removeClass('modal-open');
 
-        console.log($scope.ShareObject);
-        console.log($scope.user);
 
-        var url = storageService.getNodeJSAppURL() + 'sendpdf?&MS=' + $scope.ShareObject.title + '&TO=' + $scope.user.Details.email + '&IU=' + $scope.ShareObject.picture;
-
-        debugger;
-        $http({
-            method: 'GET',
-            url: url
-        }).then(function successCallback(response) {
-            console.log(response);
-        }, function errorCallback(response) {
-            console.log(response);
-        });
-
-
-        swal("", "We will send you the report on your registered id shorly", "success");
-
+        return true;
     }
-
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.rides = $firebaseArray(ref.child('rides'));

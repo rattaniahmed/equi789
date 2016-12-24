@@ -66,26 +66,13 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
         $("#sharemodal").show();
     }
 
-    $scope.ClosedShareModel = function () {
-        $("#sharemodal").hide();
-    }
+    
 
     $scope.RideExist = false;
-    $scope.ShareWithFb = function () {
-        $("#sharemodal").hide();
-        if ($scope.RideExist) {
-            FB.ui($scope.ShareObject, function (response) {
-                console.log(response);
-            });
-        }
-        else {
-            alert("No ride details exist for sharing")
-        }
-
-    }
+    
 
 
-    $scope.SendPdf = function () {
+    $scope.IsDataExist = function () {
         $("#sharemodal").hide();
         $(".modal-backdrop").remove();
         $('body').removeClass('modal-open');
@@ -93,23 +80,14 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
         console.log($scope.ShareObject);
         console.log($scope.user);
 
-        var url = storageService.getNodeJSAppURL() + 'sendpdf?&MS=' + $scope.ShareObject.title + '&TO=' + $scope.user.Details.email + '&IU=' + $scope.ShareObject.picture;
-
-        debugger;
-        $http({
-            method: 'GET',
-            url: url
-        }).then(function successCallback(response) {
-            console.log(response);
-        }, function errorCallback(response) {
-            console.log(response);
-        });
-
-
-        swal("", "We will send you the report on your registered id shorly", "success");
-
+        if ($scope.RideExist) {
+            return true;
+        }
+        else {
+            alert("No ride details exist for sharing");
+            return false;
+        }
     }
-
 
 
    

@@ -1,4 +1,4 @@
-﻿<div class="modal" id="sharemodal" tabindex="-1" role="dialog" data-backdrop="false">
+﻿<div class="modal" id="sharemodal" tabindex="-1" role="dialog" data-backdrop="false" ng-controller="ShareController">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content" style="width:350px;">
             <div class="modal-header">
@@ -7,11 +7,22 @@
             </div>
             <div class="modal-body">
                 <div class="row" style="margin:15px;">
-                    <button type="button" class="btn btn-default" style="width: 100%;    border-radius: 4px;" ng-click="ShareWithFb()">Share with facebook</button>
+                    <button type="button" class="btn btn-default" style="width: 100%;    border-radius: 4px;" ng-click="ShareWithFb()">Share with Facebook</button>
                 </div>
+
+                <div class="row" style="margin:15px;text-align:center;">
+                    Or
+                </div>
+
                 <div class="row" style="margin:15px;">
-                    <button type="button" class="btn btn-default" style="width: 100%;    border-radius: 4px;" ng-click="SendPdf()">Send Pdf Report</button>
+                    <input type="text" class="form-control" id="shareemailaddress" placeholder="Email Address">
+
                 </div>
+
+                <div class="row" style="margin:15px;">
+                    <button type="button" class="btn btn-default" style="width: 100%;    border-radius: 4px;" ng-click="SendPdf()">Send PDF Report</button>
+                </div>
+
                 </div>
         </div>
     </div>
