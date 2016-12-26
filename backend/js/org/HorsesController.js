@@ -1,7 +1,4 @@
-﻿
-
-   
-app.controller('HorsesController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams) {
+﻿app.controller('HorsesController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams) {
 
     console.log("HorsesController jhghhjhgjhgjhgjhg");
 
@@ -203,10 +200,10 @@ app.controller('HorsesController', function ($scope, storageService, firebaseSer
     
             $scope.users = $firebaseArray(ref.child('users'));
             $scope.users.$loaded().then(function (dataArray) {
+                LoadingState();
+                $scope.AllDBUsers = dataArray;
 
-                $scope.Users = dataArray;
-
-                $scope.example15data = _.map(dataArray, function (elem) { return { id: elem.$id, label: elem.first_name +" "+ elem.last_name } });
+                //$scope.example15data = _.map(dataArray, function (elem) { return { id: elem.$id, label: elem.first_name +" "+ elem.last_name } });
                 console.log(dataArray);
             });
             $scope.example15settings = { enableSearch: true, buttonDefaultText :'Select Riders'};
@@ -221,7 +218,11 @@ app.controller('HorsesController', function ($scope, storageService, firebaseSer
                 for (var i = 0; i <= dataArray.length; i++) {
                     try {
                         if (dataArray[i].horse_name != undefined) {
-                            $scope.AllHorses.push(dataArray[i]);
+                            $scope.org = JSON.parse(localStorage.getItem('adminObject'));
+                            var evens = _.filter(dataArray[i].associations, function (num) { return num.name == $scope.org.OrganisationName; });
+                            if (evens.length>0) {
+                                $scope.AllHorses.push(dataArray[i]);
+                            }
                         }
                     }
                     catch (e) {
@@ -231,8 +232,37 @@ app.controller('HorsesController', function ($scope, storageService, firebaseSer
 
                 console.log($scope.AllHorses);
                 $scope.gridOptions.data = $scope.AllHorses;
-             
                 
+                
+                $scope.Users = [];
+                
+                for (var counter = 0; counter < $scope.AllDBUsers.length; counter++) {
+
+                    if ($scope.AllDBUsers[counter].horse_ids) {
+
+                        var ids = Object.keys($scope.AllDBUsers[counter].horse_ids);
+                        console.log(ids);
+
+                        for (var i in $scope.AllHorses) {
+                            var evens = _.filter(ids, function (num) { return num == $scope.AllHorses[i].$id; });
+                            if (evens.length > 0) {
+                                if (!(_.contains($scope.Users,$scope.AllDBUsers[counter])))
+                                {
+                                    $scope.Users.push($scope.AllDBUsers[counter]);
+                                }
+                                
+                            }
+                         
+                        }
+
+                    }
+                }
+                
+                console.log($scope.Users);
+
+                $scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
+             
+                UnLoadingState();
 
             });
 
@@ -241,23 +271,31 @@ app.controller('HorsesController', function ($scope, storageService, firebaseSer
 
 
             $scope.SelectItem = function () {
+            
                 $scope.SearchData = []
                 var tempHorseArray = [];
                 console.log($scope.example15model);
-                if ($scope.example15model.length >0) {
+                if ($scope.example15model.length > 0) {
+                    LoadingState();
                     for (var i = 0; i < $scope.example15model.length; i++)
                     {
                        var data =_.findWhere($scope.Users, { $id: $scope.example15model[i].id })
                        if (data.horse_ids != undefined)
                        {
+                           
                            for (var id in data.horse_ids) {
                               // tempHorseArray.push(id)
                                var horse = $scope.horses.$getRecord(id);
-                               $scope.SearchData.push(horse);
+                               var evens = _.filter(horse.associations, function (num) { return num.name == $scope.org.OrganisationName; });
+                               if (evens.length > 0) {
+                                   $scope.SearchData.push(horse);
+                               }
+                             
                            }
                            
                         }
                     }
+                    UnLoadingState();
                     $scope.gridOptions.data = $scope.SearchData;
              
                    

@@ -180,8 +180,8 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
         var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
         $scope.rides = $firebaseArray(ref.child('rides'));
 
-    $scope.rides.$loaded().then(function (dataArray) {
-        $scope.gridOptions.data = dataArray;
+        $scope.rides.$loaded().then(function (dataArray) {
+       // $scope.gridOptions.data = dataArray;
         $scope.Rides = dataArray;
                 //angular.forEach(dataArray, function (value, key) {
                 //    //console.log(value);
@@ -205,32 +205,51 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
             $scope.users = $firebaseArray(ref.child('users'));
             $scope.users.$loaded().then(function (dataArray) {
 
-    //            $scope.example15data = [
-    //{ id: 1, label: "David" },
-    //{ id: 2, label: "Jhon" },
-    //{ id: 3, label: "Lisa" },
-    //{ id: 4, label: "Nicole" },
-    //{ id: 5, label: "Danny" }];
-
-                $scope.example15data = _.map(dataArray, function (elem) { return { id: elem.$id, label: elem.first_name +" "+ elem.last_name } });
+                $scope.AllDBUsers = dataArray;
+                //$scope.example15data = _.map(dataArray, function (elem) { return { id: elem.$id, label: elem.first_name +" "+ elem.last_name } });
                 console.log(dataArray);
             });
             $scope.example15settings = { enableSearch: true, buttonDefaultText :'Select Riders'};
             $scope.customFilter = '';
             
-
-
+            $scope.AllRides = [];
+            $scope.AllHorses = [];
             $scope.example14data = [];
             $scope.horses = $firebaseArray(ref.child('horses'));
-
+            $scope.rideIdsTOFetch = [];
             $scope.horses.$loaded().then(function (dataArray) {
+                LoadingState();
+          
                 $scope.Horses = dataArray;
                 for (var i = 0; i<=dataArray.length; i++)
                 {
                     try {
                     if(dataArray[i].horse_name!=undefined)
                     {
-                        $scope.example14data.push({ id: dataArray[i].$id, label: dataArray[i].horse_name });
+                        $scope.org = JSON.parse(localStorage.getItem('adminObject'));
+                        var evens = _.filter(dataArray[i].associations, function (num) { return num.name == $scope.org.OrganisationName; });
+                        if (evens.length > 0) {
+                            $scope.AllHorses.push(dataArray[i]);
+                           // var rideids = Object.keys($scope.Rides);
+                          
+
+                            //for (var cnt = 0 ; cnt < $scope.AllHorses.length; cnt++) {
+                            //    if ($scope.AllHorses.ride_ids) {
+
+                            //        for(var  )
+                            //        $scope.rideIdsTOFetch.push();
+                            //    }
+                            //}
+
+                            for (var r in dataArray[i].ride_ids)
+                            {
+                                $scope.rideIdsTOFetch.push(_.find($scope.Rides, function (num) { return num.$id == r; }));
+                              
+                            }
+                            $scope.example14data.push({ id: dataArray[i].$id, label: dataArray[i].horse_name });
+                            
+                        }
+                       
                     }
                 }
                     catch(e)
@@ -238,8 +257,37 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
                         console.log(e);
                     }
                 }
-             
-                console.log(dataArray);
+                console.log($scope.rideIdsTOFetch);
+                $scope.gridOptions.data = $scope.rideIdsTOFetch;
+                //console.log(dataArray);
+                $scope.Users = [];
+
+                for (var counter = 0; counter < $scope.AllDBUsers.length; counter++) {
+
+                    if ($scope.AllDBUsers[counter].horse_ids) {
+
+                        var ids = Object.keys($scope.AllDBUsers[counter].horse_ids);
+                        console.log(ids);
+
+                        for (var i in $scope.AllHorses) {
+                            var evens = _.filter(ids, function (num) { return num == $scope.AllHorses[i].$id; });
+
+                            if (evens.length > 0) {
+                                if (!(_.contains($scope.Users, $scope.AllDBUsers[counter]))) {
+                                    $scope.Users.push($scope.AllDBUsers[counter]);
+                                }
+
+                            }
+
+                        }
+
+                    }
+                }
+
+                console.log($scope.Users);
+
+                $scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
+                UnLoadingState();
 
             });
 
@@ -251,11 +299,13 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
             }
          
    
+               
             $scope.SelectItem = function () {
                 try {
-
+                  
 
                     if ($scope.example14model.length > 0) {
+                        LoadingState();
                         $scope.SearchData = [];
                         for (var i = 0; i < $scope.example14model.length; i++) {
                             var data = _.findWhere($scope.Horses, { $id: $scope.example14model[i].id })
@@ -268,6 +318,7 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
 
                             }
                         }
+                        UnLoadingState();
                         $scope.gridOptions.data = $scope.SearchData;
 
 

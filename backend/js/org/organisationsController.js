@@ -9,6 +9,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
+
                 console.log(dataArray);
     }).catch(function (error) {
         console.log("Error in loading details");

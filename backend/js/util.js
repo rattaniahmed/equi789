@@ -977,11 +977,13 @@ function CustomError(message)
 }
 
 
-function LoadingState(stateType)
+function LoadingState()
 {
-    $('#loadingModal').modal(stateType);
+    $('#loadingModal').show();
 }
-
+function UnLoadingState() {
+    $('#loadingModal').hide();
+}
 
 
 
