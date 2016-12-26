@@ -5,6 +5,31 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
 
         console.log("rideDetailController jhghhjhgjhgjhgjhg");
 
+        $scope.date = {
+            startDate: moment().subtract(1, "days"),
+            endDate: moment()
+        };
+        
+
+        $scope.opts = {
+            locale: {
+                applyClass: 'btn-green',
+                applyLabel: "Use",
+                fromLabel: "From",
+                toLabel: "To",
+                cancelLabel: 'Cancle',
+                customRangeLabel: 'Custom range',
+                daysOfWeek: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                firstDay: 1,
+                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
+                    'October', 'November', 'December'
+                ]
+            },
+            ranges: {
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()]
+            }
+        };
 
         $scope.gridOptions = {
             paginationPageSizes: [5, 10, 20],
