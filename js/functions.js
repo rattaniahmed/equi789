@@ -397,7 +397,7 @@ function GetShareObjectByRide(horse , ride) {
     }
     ride.ride_time = 144;
 
-    var gurl = 'https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=600x400&maptype=roadmap&markers=color:green%7Clabel:G%7C' + start + '&markers=color:red%7Clabel:C%7C' + end + '&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0&path=color:red|weight:2|' + start + '|' + end
+    var gurl = 'https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=600x400&maptype=roadmap&markers=color:green%7Clabel:G%7C' + start + '&markers=color:red%7Clabel:C%7C' + end + '&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0'//&path=color:red|weight:2|' + start + '|' + end
     var link = "https://www.google.com/maps/dir/" + start + "/" + end;
     var title = "I rode " + horse.horse_name + " for " + hhmmss2(ride.ride_time) + " and covered " + ride.total_distance + " miles at an average speed of " + ride.average_speed;
 
@@ -446,7 +446,7 @@ function GetShareObjectByCoordinate(horse, ride, cords) {
         end = cords[last].lat + "," + cords[last].lng;
     }
 
-    var gurl = 'https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=600x400&maptype=roadmap&markers=color:green%7Clabel:G%7C' + start + '&markers=color:red%7Clabel:C%7C' + end + '&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0&path=color:red|weight:2|' + start + '|' + end
+    var gurl = 'https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=600x400&maptype=roadmap&markers=color:green%7Clabel:G%7C' + start + '&markers=color:red%7Clabel:C%7C' + end + '&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0' //&path=color:red|weight:2|' + start + '|' + end
     var link = "https://www.google.com/maps/dir/" + start + "/" + end;
     var title = "I rode " + horse.horse_name + " for " + hhmmss2(ride.ride_time) + " and covered " + ride.total_distance + " miles at an average speed of " + ride.average_speed;
 
