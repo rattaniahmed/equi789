@@ -219,6 +219,13 @@ app.controller('mainController', function ($scope, storageService) {
             $scope.user = null;
         else
             $scope.user = JSON.parse(obj);
+        if ($scope.user.Role == "Organisation")
+        {
+            $scope.title = "Organisation Panel";
+        }
+        else {
+            $scope.title = "Admin Panel";
+        }
 
         if ($scope.user == null) {
             window.location.href = "login.html";

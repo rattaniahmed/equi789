@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app" ng-controller="mainController">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-      <title>\\Equitrack// Admin Panel</title>
+      <title>\\Equitrack// {{title}}</title>
 
 
 
@@ -66,14 +66,14 @@
 
   </head>
 
-<body class="nav-md" ng-app="app" ng-controller="mainController" style="background:white">
+<body class="nav-md"  style="background:white">
     <div class="container body">
         <div class="main_container">
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view" style="background:#eed093">
                     <div class="navbar nav_title" style="border: 0;">
                         <a href="#/" class="site_title" style="background:#eed093;font-size:24px;">
-                            <img src="../images/logo.png">
+                            <img ng-scr="$scope.user.Url">
                             <span>   Equitrack!</span>
                         </a>
                     </div>
@@ -192,7 +192,7 @@
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <img src="images/img.jpg" alt="">{{user.DisplayName}}
-                                    <span class=" fa fa-angle-down"></span>
+                                    <span class="fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
                                     <!--<li><a href="javascript:;"> Profile</a></li>
@@ -323,7 +323,7 @@
             <!-- footer content -->
             <footer>
                 <div class="pull-right">
-                    Equitrack Admin Panel <a href="https://myequitrack.com/">https://myequitrack.com/</a>
+                    Equitrack {{title}} <a href="https://myequitrack.com/">https://myequitrack.com/</a>
                 </div>
                 <div class="clearfix"></div>
             </footer>

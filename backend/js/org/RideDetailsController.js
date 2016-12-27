@@ -1,7 +1,4 @@
-﻿
-
-   
-app.controller('RideDetailsController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams) {
+﻿app.controller('RideDetailsController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams) {
 
         console.log("rideDetailController jhghhjhgjhgjhgjhg");
 
@@ -9,7 +6,7 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
             startDate: moment().subtract(1, "days"),
             endDate: moment()
         };
-        
+      
 
         $scope.opts = {
             locale: {
@@ -271,6 +268,7 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
                                 $scope.rideIdsTOFetch.push(_.find($scope.Rides, function (num) { return num.$id == r; }));
                               
                             }
+
                             $scope.example14data.push({ id: dataArray[i].$id, label: dataArray[i].horse_name });
                             
                         }
@@ -327,8 +325,6 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
                
             $scope.SelectItem = function () {
                 try {
-                  
-
                     if ($scope.example14model.length > 0) {
                         LoadingState();
                         $scope.SearchData = [];
@@ -350,7 +346,39 @@ app.controller('RideDetailsController', function ($scope, storageService, fireba
 
 
                     }
+                    debugger;
+                    if (moment($scope.date.endDate._d).format('MM/DD/YYYY') != moment(new Date()).format('MM/DD/YYYY'))
+                    {
+                        var rides = [];
+                        for(var i in $scope.rideIdsTOFetch)
+                        {
+                            if (moment($scope.rideIdsTOFetch[i].start_time).format('MM/DD/YYYY') >= moment($scope.date.startDate._d).format('MM/DD/YYYY') && moment($scope.rideIdsTOFetch[i].end_time).format('MM/DD/YYYY') <= moment($scope.date.endDate._d).format('MM/DD/YYYY'))
+                            {
+                                rides.push($scope.rideIdsTOFetch[i]);
+                            }
+                        }
+                        $scope.gridOptions.data=rides;
+                        console.log($scope.gridOptions.data);
+                    }
 
+                    if($scope.example15model.length > 0)
+                    {
+                        LoadingState();
+                        $scope.SearchData = [];
+                        for (var i = 0; i < $scope.example15model.length; i++) {
+                            var user = _.findWhere($scope.Users, { $id: $scope.example15model[i].id })
+                            for (var ridekeys in user.horse_ids) {
+                                var data = _.findWhere($scope.Horses, { $id: ridekeys })
+                                    var evens = _.filter(data.associations, function (num) { return num.name == $scope.org.OrganisationName; });
+                                    if (evens.length > 0) {
+                                        $scope.SearchData.push(data);
+                                    }
+                                }
+                        }
+                        $scope.example15data = _.map($scope.SearchData, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
+                        UnLoadingState();
+                      
+                    }
                 }
                 catch (e) {
                     console.log(e);

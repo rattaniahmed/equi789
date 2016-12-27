@@ -2,7 +2,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h2>Equitrack <small> Horse Managerment </small></h2>
+                <h2>Equitrack <small> Rides Details </small></h2>
             </div>
          
             <input type="text" id="search" style="float:right;border:1px solid; width:250px; height:30px;border-radius:5px; padding:5px;" ng-keyup="Search()" placeholder="Search" />
@@ -18,10 +18,9 @@
 
             <div class="col-md-7">
                 <input date-range-picker id="daterange3" name="daterange3" class="form-control date-picker" type="text"
-                       ng-model="date" options="opts" required />
+                       ng-model="date" options="opts" required  style="width:50%"/>
                 </div>
 
-            
 
             <div class="col-md-2">
                 <div style="float:right" ng-dropdown-multiselect="" search-filter="customFilter" options="example15data" selected-model="example15model" extra-settings="example15settings" translation-texts="example15customTexts">
