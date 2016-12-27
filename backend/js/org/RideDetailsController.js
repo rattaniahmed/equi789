@@ -385,4 +385,21 @@
                 }
             }
 
+            $scope.Download=function()
+            {
+                var downloadData = [];
+                for (var i = 0; i < $scope.gridOptions.data.length; i++)
+                {
+                    delete $scope.gridOptions.data[i].horse_firebase_key;
+                    delete $scope.gridOptions.data[i].start_cord;
+                    delete $scope.gridOptions.data[i].$$hashKey;
+                    delete $scope.gridOptions.data[i].$priority;
+                    delete $scope.gridOptions.data[i].$id;
+                    delete $scope.gridOptions.data[i].end_cord;
+                    delete $scope.gridOptions.data[i].coords;
+                    downloadData.push($scope.gridOptions.data[i]);
+                }
+                JSONToCSVConvertor(downloadData, "Rides Deatils", true);
+            }
+           
 });
