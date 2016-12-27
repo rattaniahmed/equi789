@@ -4,11 +4,13 @@
             <div class="title_left">
                 <h2>Equitrack <small> Rides Details </small></h2>
             </div>
-         
-            <input type="text" id="search" style="float:right;border:1px solid; width:250px; height:30px;border-radius:5px; padding:5px;" ng-keyup="Search()" placeholder="Search" />
-            <button style="float:right;height:30px;" ng-click="Download()">Download</button>
-            <button style="float:right;height:30px;">Email</button>
-            <button style="float:right;height:30px;">Print</button>
+
+
+            <input type="text" id="search" style="float:right;border:1px solid; width:250px; height:34px;border-radius:5px; padding:5px;" ng-keyup="Search()" placeholder="Search" />
+            <button class="btn btn-danger addjust" ng-click="Download()"><i class="fa fa-download mr-5"></i> Download</button>
+            <button class="btn btn-primary addjust "><i class="fa fa-envelope mr-5"></i> Email</button>
+            <button class="btn btn-info addjust "><i class="fa fa-print mr-5"></i> Print</button>
+
 
         </div>
 
@@ -16,68 +18,68 @@
 
         <div class="row">
 
-            <div class="col-md-7">
+            <div class="col-md-6">
                 <input date-range-picker id="daterange3" name="daterange3" class="form-control date-picker" type="text"
-                       ng-model="date" options="opts" required  style="width:50%"/>
-                </div>
-
-
-            <div class="col-md-2">
-                <div style="float:right" ng-dropdown-multiselect="" search-filter="customFilter" options="example15data" selected-model="example15model" extra-settings="example15settings" translation-texts="example15customTexts">
-
-                </div>
-            </div>
-            <div class="col-md-2" >
-                <div style="float:right" ng-dropdown-multiselect="" class="" search-filter="customFilter" options="example14data" selected-model="example14model" extra-settings="example14settings" translation-texts="example14customTexts">
-
-                </div>
-                </div>
-
-            <div class="col-md-1">
-                <button type="button" class="btn btn-primary" ng-click="SelectItem()">Filter</button>
-            </div>
-                <!--<div class="col-md-3" style="text-align:center;">
-            <span>Horses</span>
-            <select size="5" name="lstHorses" multiple="multiple" id="lstHorses">
-                <option value="R1">Horse 1</option>
-                <option value="R2">Horse 2</option>
-                <option value="R3">Horse 3</option>
-                <option value="R4">Horse 4</option>
-                <option value="R5">Horse 5</option>
-            </select>
-        </div>-->
-                <!--<div class="col-md-2" style="text-align:center;">
-            <span>Group By</span>
-            <select name="lstHorses" id="lstHorsessdsad" style="padding:6px;">
-                <option value="R1">User</option>
-                <option value="R2">Horse</option>
-                <option value="R3">Year</option>
-                <option value="R4">Month</option>
-                <option value="R5">Day</option>
-            </select>
-        </div>-->
-
-
+                       ng-model="date" options="opts" required style="width:50%;" />
             </div>
 
-            <div class="row">
 
-                <div class="col-md-12 col-sm-12 col-xs-12">
-
-                    <div class="x_content">
+            <div class="col-md-6">
 
 
 
-                        <div ui-grid="gridOptions" ui-grid-pagination ></div>
+
+                <button type="button" class="btn btn-primary addjust mr-10" ng-click="SelectItem()">Filter</button>
+                <div class="addjust mr-10" ng-dropdown-multiselect="" search-filter="customFilter" options="example15data" selected-model="example15model" extra-settings="example15settings" translation-texts="example15customTexts">
+
+                </div>
+                <div ng-dropdown-multiselect="" class="addjust mr-10" search-filter="customFilter" options="example14data" selected-model="example14model" extra-settings="example14settings" translation-texts="example14customTexts">
+
+                </div>
+
+            </div>
+            <!--<div class="col-md-3" style="text-align:center;">
+                <span>Horses</span>
+                <select size="5" name="lstHorses" multiple="multiple" id="lstHorses">
+                    <option value="R1">Horse 1</option>
+                    <option value="R2">Horse 2</option>
+                    <option value="R3">Horse 3</option>
+                    <option value="R4">Horse 4</option>
+                    <option value="R5">Horse 5</option>
+                </select>
+            </div>-->
+            <!--<div class="col-md-2" style="text-align:center;">
+                <span>Group By</span>
+                <select name="lstHorses" id="lstHorsessdsad" style="padding:6px;">
+                    <option value="R1">User</option>
+                    <option value="R2">Horse</option>
+                    <option value="R3">Year</option>
+                    <option value="R4">Month</option>
+                    <option value="R5">Day</option>
+                </select>
+            </div>-->
+
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+
+                <div class="x_content">
 
 
 
-                    </div>
+                    <div ui-grid="gridOptions" ui-grid-pagination></div>
+
 
 
                 </div>
+
+
             </div>
         </div>
+    </div>
 </div>
 
 
