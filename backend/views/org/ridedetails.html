@@ -9,7 +9,7 @@
             <input type="text" id="search" style="float:right;border:1px solid; width:250px; height:34px;border-radius:5px; padding:5px;" ng-keyup="Search()" placeholder="Search" />
             <button class="btn btn-danger addjust" ng-click="Download()"><i class="fa fa-download mr-5"></i> Download</button>
             <button class="btn btn-primary addjust "><i class="fa fa-envelope mr-5"></i> Email</button>
-            <button class="btn btn-info addjust "><i class="fa fa-print mr-5"></i> Print</button>
+            <button class="btn btn-info addjust" ng-click="PrintDiv()"><i class="fa fa-print mr-5"></i> Print</button>
 
 
         </div>
@@ -70,7 +70,7 @@
 
 
 
-                    <div ui-grid="gridOptions" ui-grid-pagination></div>
+                    <div id="datagridID" ui-grid="gridOptions" ui-grid-pagination></div>
 
 
 
