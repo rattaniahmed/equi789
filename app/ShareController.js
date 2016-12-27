@@ -4,12 +4,14 @@
 
     $scope.ClosedShareModel = function () {
         $("#sharemodal").hide();
+
     }
 
     $scope.ShareWithFb = function () {
         if ($scope.IsDataExist()) {
             FB.ui($scope.ShareObject, function (response) {
                 console.log(response);
+                //window.location.reload();
             });
         }
     }
@@ -36,6 +38,7 @@
             });
 
             swal("", "The PDF report has been sent to your email address", "success");
+            //window.location.reload();
         }
     }
 });

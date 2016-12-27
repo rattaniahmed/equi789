@@ -26,9 +26,10 @@
     }
 
     $scope.IsDataExist = function () {
-        $("#sharemodal").hide();
-        $(".modal-backdrop").remove();
-        $('body').removeClass('modal-open');
+        $("#sharemodal").modal('hide');
+
+        // $(".modal-backdrop").remove();
+        //$('body').removeClass('modal-open');
 
 
         return true;
