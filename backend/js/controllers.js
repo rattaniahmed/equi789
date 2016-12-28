@@ -858,43 +858,68 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
 
     $scope.images = $firebaseArray(ref.child('Content').child('Reports'));
     $scope.Imgaes = [];
-    $scope.images.$loaded().then(function (dataArray) {
-        $scope.Imgaes = dataArray;
-        if ($routeParams.id == -1) { }
-        else {
+    
 
-            $scope.showSendContent = true;
-
-            $scope.Question = $scope.images.$getRecord($routeParams.id);
-            $("#name").val($scope.Question.Name);
-            $("#email").val($scope.Question.EmailId);
-            $("#expiry").val($scope.Question.Expiry);
-
-            $scope.SetCheckBoxValue("Associations1", $scope.Question.IsAssociations1);
-            $scope.SetCheckBoxValue("Associations2", $scope.Question.IsAssociations2);
-            $scope.SetCheckBoxValue("Associations3", $scope.Question.IsAssociations3);
-            $scope.SetCheckBoxValue("Associations4", $scope.Question.IsAssociations4);
-
-            $scope.SetCheckBoxValue("hours", $scope.Question.IsHours);
-            $scope.SetCheckBoxValue("distance", $scope.Question.IsDistance);
-            $scope.SetCheckBoxValue("cords", $scope.Question.IsCords);
-            $scope.SetCheckBoxValue("ridecount", $scope.Question.IsRideCount);
+    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+    $scope.organisation = $firebaseArray(ref.child('admin'));
+    $scope.organisation.$loaded().then(function (dataArray) {
+        $scope.association = _.filter(dataArray, function (num) { return num.Role == "Organisation"; });
+        $scope.SelectedOrganisation = $scope.association[0];
+        console.log(dataArray);
 
 
-            $scope.SetCheckBoxValue("topspeed", $scope.Question.IsTopSpeed);
-            $scope.SetCheckBoxValue("avgspeed", $scope.Question.IsAvgSpeed);
+        $scope.images.$loaded().then(function (dataArray) {
+            $scope.Imgaes = dataArray;
+            if ($routeParams.id == -1) { }
+            else {
 
-            $scope.SetCheckBoxValue("energy", $scope.Question.IsEnergy);
 
-            $scope.DownloadLink = $scope.url + $routeParams.id;
-            
-             
-        }
+
+
+                $scope.showSendContent = true;
+
+                $scope.Question = $scope.images.$getRecord($routeParams.id);
+
+                $("#name").val($scope.Question.Name);
+                $("#email").val($scope.Question.EmailId);
+                $("#expiry").val($scope.Question.Expiry);
+                //$scope.SelectedOrganisation = $scope.Question.AssociationsId;
+
+                $scope.SelectedOrganisation = $scope.association[2];
+
+                //$scope.SetCheckBoxValue("Associations1", $scope.Question.IsAssociations1);
+                //$scope.SetCheckBoxValue("Associations2", $scope.Question.IsAssociations2);
+                //$scope.SetCheckBoxValue("Associations3", $scope.Question.IsAssociations3);
+                //$scope.SetCheckBoxValue("Associations4", $scope.Question.IsAssociations4);
+
+                $scope.SetCheckBoxValue("hours", $scope.Question.IsHours);
+                $scope.SetCheckBoxValue("distance", $scope.Question.IsDistance);
+                $scope.SetCheckBoxValue("cords", $scope.Question.IsCords);
+                $scope.SetCheckBoxValue("ridecount", $scope.Question.IsRideCount);
+
+
+                $scope.SetCheckBoxValue("topspeed", $scope.Question.IsTopSpeed);
+                $scope.SetCheckBoxValue("avgspeed", $scope.Question.IsAvgSpeed);
+
+                $scope.SetCheckBoxValue("energy", $scope.Question.IsEnergy);
+
+                $scope.DownloadLink = $scope.url + $routeParams.id;
+
+
+            }
+        }).catch(function (error) {
+            console.log("Error in loading details");
+        });
+
     }).catch(function (error) {
-        console.log("Error in loading details");
+        console.log("Error in loading details" + error);
     });
 
-
+    $scope.OnOrganisaionChange = function (FinalOrg) {
+        console.log(FinalOrg);
+        $scope.FinalOrg = FinalOrg;
+        //$scope.orgnumber= item.OrganisationNumber
+    }
 
     $scope.Collopse = function (image) {
 
@@ -924,11 +949,12 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
         imageRef.EmailId = $("#email").val();
         imageRef.Expiry = $("#expiry").val();
 
-        imageRef.IsHorseName= 1;
-        imageRef.IsAssociations1 = $scope.GetCheckBoxValue("Associations1");
-        imageRef.IsAssociations2 = $scope.GetCheckBoxValue("Associations2");
-        imageRef.IsAssociations3 = $scope.GetCheckBoxValue("Associations3");
-        imageRef.IsAssociations4 = $scope.GetCheckBoxValue("Associations4");
+        imageRef.IsHorseName = 1;
+        imageRef.AssociationsId = $scope.FinalOrg.OrganisationNumber;
+        //imageRef.IsAssociations1 = $scope.GetCheckBoxValue("Associations1");
+        //imageRef.IsAssociations2 = $scope.GetCheckBoxValue("Associations2");
+        //imageRef.IsAssociations3 = $scope.GetCheckBoxValue("Associations3");
+        //imageRef.IsAssociations4 = $scope.GetCheckBoxValue("Associations4");
 
 
         imageRef.IsCords = $scope.GetCheckBoxValue("cords");
@@ -987,10 +1013,10 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
         imageRef.Expiry = $("#expiry").val();
 
         imageRef.IsHorseName = 1;
-        imageRef.IsAssociations1 = $scope.GetCheckBoxValue("Associations1");
-        imageRef.IsAssociations2 = $scope.GetCheckBoxValue("Associations2");
-        imageRef.IsAssociations3 = $scope.GetCheckBoxValue("Associations3");
-        imageRef.IsAssociations4 = $scope.GetCheckBoxValue("Associations4");
+        imageRef.AssociationsId = $scope.FinalOrg.OrganisationNumber;
+        //imageRef.IsAssociations2 = $scope.GetCheckBoxValue("Associations2");
+        //imageRef.IsAssociations3 = $scope.GetCheckBoxValue("Associations3");
+        //imageRef.IsAssociations4 = $scope.GetCheckBoxValue("Associations4");
 
         imageRef.IsCords = $scope.GetCheckBoxValue("cords");
         imageRef.IsDistance = $scope.GetCheckBoxValue("distance");
@@ -1045,6 +1071,9 @@ app.controller('reportController', function ($scope, storageService, firebaseSer
         console.log("Error in loading details");
     });
 
+
+   
+   
     $scope.Collopse = function (image) {
 
         console.log(image);
