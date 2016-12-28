@@ -4,11 +4,11 @@
             <div class="title_left">
                 <h2>Equitrack <small> Horse Managerment </small></h2>
             </div>
-         
+
             <input type="text" id="search" style="float:right;border:1px solid; width:250px; height:30px;border-radius:5px; padding:5px;" ng-keyup="Search()" placeholder="Search" />
-             <button class="btn btn-danger addjust" ng-click="Download()"><i class="fa fa-download mr-5"></i> Download</button>
+            <button class="btn btn-danger addjust" ng-click="Download()"><i class="fa fa-download mr-5"></i> Download</button>
             <button class="btn btn-primary addjust "><i class="fa fa-envelope mr-5"></i> Email</button>
-            <button class="btn btn-info addjust "><i class="fa fa-print mr-5"></i> Print</button>
+            <button class="btn btn-info addjust" ng-click="export('pdf')"><i class="fa fa-file-pdf-o"></i> PDF</button>
 
         </div>
 
@@ -39,7 +39,7 @@
 
 
 
-                        <div ui-grid="gridOptions" ui-grid-pagination ></div>
+                        <div class="grid" ui-grid="gridOptions" ui-grid-selection ui-grid-exporter ui-grid-move-columns ></div>
 
 
 

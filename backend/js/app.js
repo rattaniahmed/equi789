@@ -2,7 +2,7 @@
 /// <reference path="../views/directives/leftNav.html" />
 /// <reference path="../views/directives/leftNav.html" />
 // create the module and name it app
-var app = angular.module('app', ['ngRoute', 'firebase', '720kb.datepicker', 'ui.grid', 'ui.grid.pagination', 'angularjs-dropdown-multiselect', 'daterangepicker']);
+var app = angular.module('app', ['ngRoute', 'firebase', '720kb.datepicker', 'ui.grid', 'ui.grid.pagination', 'angularjs-dropdown-multiselect', 'daterangepicker', 'ui.grid.exporter', 'ui.grid.moveColumns']);
 
 // configure our routes
 app.config(function ($routeProvider, $locationProvider) {

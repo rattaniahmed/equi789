@@ -36,6 +36,7 @@
                 $scope.gridApi = gridApi;
                 $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
             },
+
             columnDefs: [
               { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue' },
               { name: 'total_time', headerCellClass: 'blue' },
@@ -48,7 +49,23 @@
               { name: 'energy', headerCellClass: 'blue' },
               { name: 'calories', headerCellClass: 'blue' }
           
-           ]
+            ],
+            exporterLinkLabel: 'get your csv here',
+            exporterPdfDefaultStyle: {fontSize: 9},
+            exporterPdfTableStyle: {margin: [5, 5, 5, 5]},
+            exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+            exporterPdfOrientation: 'landscape',
+            exporterPdfPageSize: 'LETTER',
+            exporterPdfMaxGridWidth: 500,
+            exporterPdfHeader: { text: "Hourse Rides Detail", style: 'headerStyle' },
+            exporterPdfFooter: function (currentPage, pageCount) {
+                return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
+            },
+            exporterPdfCustomFormatter: function (docDefinition) {
+                docDefinition.styles.headerStyle = { fontSize: 22, bold: true, margin: [300, 0, 60, 0] };
+                docDefinition.styles.footerStyle = { fontSize: 10, bold: true, margin: [300, 0, 60, 0] };
+                return docDefinition;
+            },
         };
         $scope.RemoveRide = function (row, col) {
             swal({
@@ -118,6 +135,14 @@
        
         }
 
+        $scope.export = function(type){
+            //if ($scope.export_format == type) {
+            //    var myElement = angular.element(document.querySelectorAll(".custom-csv-link-location"));
+            //    $scope.gridApi.exporter.csvExport( 'All', 'All', myElement );
+            //} else if ($scope.export_format == type) {
+            $scope.gridApi.exporter.pdfExport("all", "all");
+            //};
+        }
 
         $scope.filterValue = '';
         $scope.Search = function () {
