@@ -226,7 +226,7 @@
 
         var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
         $scope.rides = $firebaseArray(ref.child('rides'));
-
+        LoadingState();
         $scope.rides.$loaded().then(function (dataArray) {
        // $scope.gridOptions.data = dataArray;
         $scope.Rides = dataArray;
@@ -265,7 +265,7 @@
             $scope.horses = $firebaseArray(ref.child('horses'));
             $scope.rideIdsTOFetch = [];
             $scope.horses.$loaded().then(function (dataArray) {
-                LoadingState();
+              
           
                 $scope.Horses = dataArray;
                 for (var i = 0; i<=dataArray.length; i++)
