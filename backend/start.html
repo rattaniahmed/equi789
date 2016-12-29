@@ -74,7 +74,7 @@
                     <div class="navbar nav_title" style="border: 0;">
                         <a href="#/" class="site_title" style="background:#eed093;font-size:24px;">
                             <img src="../images/logo.png">
-                            <span>   Equitrack!</span>
+                            <span>Equitrack!</span>
                         </a>
                     </div>
 
@@ -192,7 +192,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img ng-src="{{user.Url}}" alt="">{{user.DisplayName}}
+                                    <img ng-src="{{user.Url}}" alt="" ng-show="user.Url!=undefined">{{user.DisplayName}}
                                     <span class="fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">

@@ -786,6 +786,15 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
 
     $scope.rows = [];
 
+    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+    $scope.organisation = $firebaseArray(ref.child('admin'));
+    $scope.organisation.$loaded().then(function (dataArray) {
+        $scope.association = _.filter(dataArray, function (num) { return num.Role == "Organisation"; });
+
+    }).catch(function (error) {
+        console.log("Error in loading details" + error);
+    });
+
 
     $scope.SetAssociationHeader = function (number, getHeader) {
         var n = "Asssociation " + number;
@@ -832,11 +841,25 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
             }
             
         } else {
-
+            $scope.Orghorses = [];
             $scope.horses = $firebaseArray(ref.child('horses'));
             $scope.horses.$loaded().then(function (dataArray) {
                 $scope.HorsesData = dataArray;
 
+                for(var i in dataArray)
+                {
+                    if( dataArray[i].associations != undefined)
+                    {
+                        var orgh=_.find(dataArray[i].associations, function (num) { return num.number == $scope.ReportConfig.AssociationsId; });
+                        if (orgh != undefined)
+                        {
+                            $scope.Orghorses.push(dataArray[i]);
+                        }
+                        
+                    }
+                   
+                }
+               
                 $scope.rides = $firebaseArray(ref.child('rides'));
                 $scope.rides.$loaded().then(function (rideArray) {
                     $scope.RidesData = rideArray;
@@ -850,7 +873,7 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                         $scope.rows = [];
                         $scope.getHeader = [];
                         $scope.isHeaderCreated = false;
-                        angular.forEach($scope.HorsesData, function (value, key) {
+                        angular.forEach($scope.Orghorses, function (value, key) {
 
                             var row = {}
 
@@ -859,30 +882,30 @@ app.controller('DownloadController', function ($scope, $location, $firebaseObjec
                                 $scope.getHeader.push("Horse Name");
                             row.HorseName = value.horse_name;
 
+                            
+                            //if($scope.ReportConfig.IsAssociations1 =="1"){
+                            //    if (!$scope.isHeaderCreated)
+                            //        $scope.SetAssociationHeader(1, $scope.getHeader);
+                            //    $scope.SetAssociationData(1, row, value.associations);
+                            //}
 
-                            if($scope.ReportConfig.IsAssociations1 =="1"){
-                                if (!$scope.isHeaderCreated)
-                                    $scope.SetAssociationHeader(1, $scope.getHeader);
-                                $scope.SetAssociationData(1, row, value.associations);
-                            }
+                            //if ($scope.ReportConfig.IsAssociations2 == "1") {
+                            //    if (!$scope.isHeaderCreated)
+                            //        $scope.SetAssociationHeader(2, $scope.getHeader);
+                            //    $scope.SetAssociationData(2, row, value.associations);
+                            //}
 
-                            if ($scope.ReportConfig.IsAssociations2 == "1") {
-                                if (!$scope.isHeaderCreated)
-                                    $scope.SetAssociationHeader(2, $scope.getHeader);
-                                $scope.SetAssociationData(2, row, value.associations);
-                            }
+                            //if ($scope.ReportConfig.IsAssociations3 == "1") {
+                            //    if (!$scope.isHeaderCreated)
+                            //        $scope.SetAssociationHeader(3, $scope.getHeader);
+                            //    $scope.SetAssociationData(3, row, value.associations);
+                            //}
 
-                            if ($scope.ReportConfig.IsAssociations3 == "1") {
-                                if (!$scope.isHeaderCreated)
-                                    $scope.SetAssociationHeader(3, $scope.getHeader);
-                                $scope.SetAssociationData(3, row, value.associations);
-                            }
-
-                            if ($scope.ReportConfig.IsAssociations4 == "1") {
-                                if (!$scope.isHeaderCreated)
-                                    $scope.SetAssociationHeader(4, $scope.getHeader);
-                                $scope.SetAssociationData(4, row, value.associations);
-                            }
+                            //if ($scope.ReportConfig.IsAssociations4 == "1") {
+                            //    if (!$scope.isHeaderCreated)
+                            //        $scope.SetAssociationHeader(4, $scope.getHeader);
+                            //    $scope.SetAssociationData(4, row, value.associations);
+                            //}
                             
                             var totalTopSspeed = [];
                             var averageSpeed = 0.0;

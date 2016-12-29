@@ -225,6 +225,7 @@ app.controller('mainController', function ($scope, storageService) {
         }
         else {
             $scope.title = "Admin Panel";
+            $scope.user.Url = "/images/logo.png";
         }
 
         if ($scope.user == null) {

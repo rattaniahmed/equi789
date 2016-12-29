@@ -780,8 +780,8 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
 
     console.log("editReportController" + $routeParams.id);
 
-    //$scope.url = "http://localhost:5000/download.html?id=";
-    $scope.url = "https://myequitrack.com/download.html?id=";
+    $scope.url = "http://localhost:5000/download.html?id=";
+  //  $scope.url = "https://myequitrack.com/download.html?id=";
 
 
     $scope.editId = $routeParams.id;
@@ -883,9 +883,10 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
                 $("#name").val($scope.Question.Name);
                 $("#email").val($scope.Question.EmailId);
                 $("#expiry").val($scope.Question.Expiry);
+                var index = _.findLastIndex($scope.association, { OrganisationNumber: $scope.Question.AssociationsId });
                 //$scope.SelectedOrganisation = $scope.Question.AssociationsId;
 
-                $scope.SelectedOrganisation = $scope.association[2];
+                $scope.SelectedOrganisation = $scope.association[index];
 
                 //$scope.SetCheckBoxValue("Associations1", $scope.Question.IsAssociations1);
                 //$scope.SetCheckBoxValue("Associations2", $scope.Question.IsAssociations2);
@@ -950,7 +951,7 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
         imageRef.Expiry = $("#expiry").val();
 
         imageRef.IsHorseName = 1;
-        imageRef.AssociationsId = $scope.FinalOrg.OrganisationNumber;
+        imageRef.AssociationsId = $scope.SelectedOrganisation.OrganisationNumber;
         //imageRef.IsAssociations1 = $scope.GetCheckBoxValue("Associations1");
         //imageRef.IsAssociations2 = $scope.GetCheckBoxValue("Associations2");
         //imageRef.IsAssociations3 = $scope.GetCheckBoxValue("Associations3");
@@ -1013,7 +1014,7 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
         imageRef.Expiry = $("#expiry").val();
 
         imageRef.IsHorseName = 1;
-        imageRef.AssociationsId = $scope.FinalOrg.OrganisationNumber;
+        imageRef.AssociationsId = $scope.SelectedOrganisation.OrganisationNumber;
         //imageRef.IsAssociations2 = $scope.GetCheckBoxValue("Associations2");
         //imageRef.IsAssociations3 = $scope.GetCheckBoxValue("Associations3");
         //imageRef.IsAssociations4 = $scope.GetCheckBoxValue("Associations4");
