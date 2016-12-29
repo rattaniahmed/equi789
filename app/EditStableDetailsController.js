@@ -49,21 +49,49 @@
 
             }
         }
-
-        for (var i = 0 ; i < $scope.stb.associations.length; i++) {
-            try {
-                if (!IsNull($scope.stb.associations[i].name)) {
-                    $scope.FinalOrganisations.push({
-                        Options: $scope.Org,
-                        SelectedOrganisation: $scope.Org[0]
-                    });
+        if ($scope.stb.associations != undefined) {
+            for (var i = 0 ; i < $scope.stb.associations.length; i++) {
+                try {
+                    if (!IsNull($scope.stb.associations[i].name)) {
+                        $scope.FinalOrganisations.push({
+                            Options: $scope.Org,
+                            SelectedOrganisation: $scope.Org[i]
+                        });
+                    }
+                    else {
+                        $scope.FinalOrganisations.push({
+                            Options: $scope.Org,
+                            SelectedOrganisation: "No Orgnisation Seleted"
+                        });
+                    }
                 }
+                catch (err) {
 
-            }
-            catch (err) {
-
+                }
             }
         }
+        else {
+           
+          
+            for (var i = 0; i < $scope.Org.length; i++)
+            {
+                $scope.Org[$scope.Org.length-i] = $scope.Org[$scope.Org.length - 1 - i];
+              
+            }
+            $scope.Org[0] = {
+                DisplayName: "No Orgnisation Seleted",
+                OrganisationName: "No Orgnisation Seleted",
+                OrganisationNumber: "Select"
+            }
+            $scope.stb.associations = [];
+            $scope.stb.associations.push($scope.Org[0])
+            $scope.FinalOrganisations.push({
+                Options: $scope.Org,
+                SelectedOrganisation: $scope.Org[0]
+            });
+
+        }
+      
 
         console.log(dataArray);
     }).catch(function (error) {
