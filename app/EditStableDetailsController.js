@@ -56,13 +56,14 @@
                         $scope.FinalOrganisations.push({
                             Options: $scope.Org,
                             SelectedOrganisation: $scope.Org[i],
-                            number: $scope.stb.associations[i].number
+                            UserId: $scope.stb.associations[i].number
                         });
                     }
                     else {
                         $scope.FinalOrganisations.push({
                             Options: $scope.Org,
-                            SelectedOrganisation: "No Orgnisation Seleted"
+                            SelectedOrganisation: "No Orgnisation Seleted",
+                            UserId:""
                         });
                     }
                 }
@@ -88,7 +89,8 @@
             $scope.stb.associations.push($scope.Org[0])
             $scope.FinalOrganisations.push({
                 Options: $scope.Org,
-                SelectedOrganisation: $scope.Org[0]
+                SelectedOrganisation: $scope.Org[0],
+                UserId:""
             });
 
         }
@@ -104,7 +106,8 @@
 
         $scope.FinalOrganisations.push({
             Options: $scope.Org,
-            SelectedOrganisation: $scope.Org[0]
+            SelectedOrganisation: $scope.Org[0],
+            UserId:""
         });
 
     }
@@ -190,11 +193,9 @@
             var org = {
                 filter: $scope.FinalOrganisations[i].SelectedOrganisation.OrganisationNumber,
                 name: $scope.FinalOrganisations[i].SelectedOrganisation.DisplayName,
-                number: $scope.FinalOrganisations[i].number
+                number: $scope.FinalOrganisations[i].UserId
             }
-            if (org.number == undefined) {
-                org.number="";
-            }
+            
             if (_.findLastIndex(assolistToAdd, { name: org.name }) == -1) {
                 assolistToAdd.push(org);
             } 

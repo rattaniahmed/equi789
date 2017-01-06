@@ -77,7 +77,7 @@
         $scope.FinalOrganisations.push({
             Options: $scope.Org,
             SelectedOrganisation: $scope.Org[0],
-            number:""
+            UserId: ""
         });
 
     }
@@ -147,9 +147,7 @@
                 number: $scope.FinalOrganisations[i].UserId
             }
             
-            if (org.number == undefined) {
-                org.number = "";
-            }
+            
             if (_.findLastIndex(assolistToAdd, { name: org.name }) == -1) {
                 assolistToAdd.push(org);
             }
