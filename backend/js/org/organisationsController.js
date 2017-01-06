@@ -133,20 +133,18 @@ app.controller('organisationsController', function ($scope, storageService, fire
 
                 }
 
-                
+                if (_.findLastIndex($scope.images, { DisplayName: toAdd.DisplayName }) == -1) {
+                    $scope.images.$add(toAdd).then(function (ref) {
+                        debugger;
+                        var id = ref.key();
+                        console.log("added record with id " + id);
+                      
 
-                $scope.images.$add(toAdd).then(function (ref) {
-                    debugger;
-                    var id = ref.key();
-                    console.log("added record with id " + id);
-                    $("#loadingModal").hide();
+                    });
+                 }
+                $("#loadingModal").hide();
 
-                    window.location.reload();
-
-                });
-
-
-
+                window.location.reload();
             }).catch(function (error) {
                 console.error('Upload failed:', error);
             });
