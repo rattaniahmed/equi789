@@ -146,6 +146,7 @@
                 name: $scope.FinalOrganisations[i].SelectedOrganisation.DisplayName,
                 number: $scope.FinalOrganisations[i].UserId
             }
+            
             if (org.number == undefined) {
                 org.number = "";
             }
