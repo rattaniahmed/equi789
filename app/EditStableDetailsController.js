@@ -55,7 +55,8 @@
                     if (!IsNull($scope.stb.associations[i].name)) {
                         $scope.FinalOrganisations.push({
                             Options: $scope.Org,
-                            SelectedOrganisation: $scope.Org[i]
+                            SelectedOrganisation: $scope.Org[i],
+                            number: $scope.stb.associations[i].number
                         });
                     }
                     else {
@@ -187,8 +188,9 @@
 
         for (var i = 0; i < $scope.FinalOrganisations.length; i++) {
             var org = {
+                filter: $scope.FinalOrganisations[i].SelectedOrganisation.OrganisationNumber,
                 name: $scope.FinalOrganisations[i].SelectedOrganisation.DisplayName,
-                number: $scope.FinalOrganisations[i].SelectedOrganisation.OrganisationNumber
+                number: $scope.FinalOrganisations[i].number
             }
             assolistToAdd.push(org);
         }

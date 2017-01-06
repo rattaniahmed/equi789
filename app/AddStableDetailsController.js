@@ -61,7 +61,8 @@
 
         $scope.FinalOrganisations.push({
             Options: $scope.Org,
-            SelectedOrganisation: $scope.Org[0]
+            SelectedOrganisation: $scope.Org[0],
+            UserId:""
         });
 
         //$scope.selectedOrg = $scope.Org[0];
@@ -75,7 +76,8 @@
 
         $scope.FinalOrganisations.push({
             Options: $scope.Org,
-            SelectedOrganisation: $scope.Org[0]
+            SelectedOrganisation: $scope.Org[0],
+            number:""
         });
 
     }
@@ -140,8 +142,9 @@
 
         for (var i = 0; i < $scope.FinalOrganisations.length; i++) {
             var org = {
+                filter:$scope.FinalOrganisations[i].SelectedOrganisation.OrganisationNumber,
                 name: $scope.FinalOrganisations[i].SelectedOrganisation.DisplayName,
-               number: $scope.FinalOrganisations[i].SelectedOrganisation.OrganisationNumber
+                number: $scope.FinalOrganisations[i].UserId
             }
             assolistToAdd.push(org);
         }

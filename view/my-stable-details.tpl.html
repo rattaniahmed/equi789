@@ -389,11 +389,14 @@
 
                                                             </div>
 
-                                                            <div class="grid-8">
+                                                            <div class="grid-4">
                                                                 <select class="form-control" id="org" ng-model="FinalOrg.SelectedOrganisation" ng-change="OnOrganisaionChange(FinalOrg)" ng-options="obj.DisplayName for obj in FinalOrg.Options"></select>
 
                                                             </div>
+                                                            <div class="grid-4">
+                                                                <input type="text" class="form-control" id="UserId" placeholder="User ID" ng-model="FinalOrg.number">
 
+                                                            </div>
                                                         </div>
 
                                                     </div>
@@ -643,11 +646,14 @@
 
                                                             </div>
 
-                                                            <div class="grid-8">
+                                                            <div class="grid-4">
                                                                 <select class="form-control" id="org" ng-model="FinalOrg.SelectedOrganisation" ng-change="OnOrganisaionChange(FinalOrg)" ng-options="obj.DisplayName for obj in FinalOrg.Options"></select>
 
                                                             </div>
+                                                            <div class="grid-4">
+                                                                <input type="text" class="form-control" ng-model="FinalOrg.UserId" id="UserId"  placeholder="User ID" >
 
+                                                            </div>
                                                         </div>
 
                                                     </div>
