@@ -192,8 +192,15 @@
                 name: $scope.FinalOrganisations[i].SelectedOrganisation.DisplayName,
                 number: $scope.FinalOrganisations[i].number
             }
-            assolistToAdd.push(org);
-        }
+            if (org.number == undefined) {
+                org.number="";
+            }
+            if (_.findLastIndex(assolistToAdd, { name: org.name }) == -1) {
+                assolistToAdd.push(org);
+            } 
+                 }
+        
+        
         horseRef.associations = assolistToAdd;
 
         horseRef.average_speed = ReplaceNull($scope.stb.average_speed);

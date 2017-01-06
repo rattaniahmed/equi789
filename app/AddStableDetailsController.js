@@ -146,7 +146,12 @@
                 name: $scope.FinalOrganisations[i].SelectedOrganisation.DisplayName,
                 number: $scope.FinalOrganisations[i].UserId
             }
-            assolistToAdd.push(org);
+            if (org.number == undefined) {
+                org.number = "";
+            }
+            if (_.findLastIndex(assolistToAdd, { name: org.name }) == -1) {
+                assolistToAdd.push(org);
+            }
         }
         $scope.stbadd.associations = assolistToAdd;
 
