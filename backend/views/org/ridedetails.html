@@ -8,7 +8,7 @@
 
             <input type="text" id="search" style="float:right;border:1px solid; width:250px; height:34px;border-radius:5px; padding:5px;" ng-keyup="Search()" placeholder="Search" />
             <button class="btn btn-danger addjust" ng-click="Download()"><i class="fa fa-download mr-5"></i> Download</button>
-            <button class="btn btn-primary addjust "><i class="fa fa-envelope mr-5"></i> Email</button>
+            <button class="btn btn-primary addjust" ng-click="EmailSend()"><i class="fa fa-envelope mr-5"></i> Email</button>
             <button class="btn btn-info addjust" ng-click="export('pdf')"><i class="fa fa-file-pdf-o"></i> PDF</button>
 
 
@@ -30,10 +30,11 @@
 
 
                 <button type="button" class="btn btn-primary addjust mr-10" ng-click="SelectItem()">Filter</button>
-                <div class="addjust mr-10" ng-dropdown-multiselect="" search-filter="customFilter" options="example15data" selected-model="example15model" extra-settings="example15settings" translation-texts="example15customTexts">
+                <div ng-dropdown-multiselect="" class="addjust mr-10" search-filter="customFilter" options="example14data" selected-model="example14model" extra-settings="example14settings" translation-texts="example14customTexts">
 
                 </div>
-                <div ng-dropdown-multiselect="" class="addjust mr-10" search-filter="customFilter" options="example14data" selected-model="example14model" extra-settings="example14settings" translation-texts="example14customTexts">
+            <div class="addjust mr-10" ng-dropdown-multiselect="" search-filter="customFilter" options="example15data" selected-model="example15model" extra-settings="example15settings" translation-texts="example15customTexts">
+
 
                 </div>
 

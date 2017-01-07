@@ -242,7 +242,7 @@
                     try {
                         if (dataArray[i].horse_name != undefined) {
                             $scope.org = JSON.parse(localStorage.getItem('adminObject'));
-                            var evens = _.filter(dataArray[i].associations, function (num) { return num.name == $scope.org.OrganisationName; });
+                            var evens = _.filter(dataArray[i].associations, function (num) { return num.filter == $scope.org.OrganisationNumber; });
                             if (evens.length>0) {
                                 $scope.AllHorses.push(dataArray[i]);
                             }
@@ -337,7 +337,11 @@
                     delete $scope.gridOptions.data[i].coords;
                     downloadData.push($scope.gridOptions.data[i]);
                 }
-                JSONToCSVConvertor(downloadData, "Rides Deatils", true);
+                JSONToCSVConvertor(downloadData, "Horses Data", true);
+            }
+
+            $scope.EmailSend = function () {
+                swal('Email functionlity in progess and will be deployed soon')
             }
 
 });

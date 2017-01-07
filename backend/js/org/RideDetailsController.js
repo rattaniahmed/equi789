@@ -274,7 +274,7 @@
                     if(dataArray[i].horse_name!=undefined)
                     {
                         $scope.org = JSON.parse(localStorage.getItem('adminObject'));
-                        var evens = _.filter(dataArray[i].associations, function (num) { return num.name == $scope.org.OrganisationName; });
+                        var evens = _.filter(dataArray[i].associations, function (num) { return num.filter == $scope.org.OrganisationNumber; });
                         if (evens.length > 0) {
                             $scope.AllHorses.push(dataArray[i]);
                            // var rideids = Object.keys($scope.Rides);
@@ -400,7 +400,7 @@
                                     }
                                 }
                         }
-                        $scope.example15data = _.map($scope.SearchData, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
+                        $scope.example14data = _.map($scope.SearchData, function (elem) { return { id: elem.$id, label: elem.horse_name } });
                         UnLoadingState();
                       
                     }
@@ -424,7 +424,7 @@
                     delete $scope.gridOptions.data[i].coords;
                     downloadData.push($scope.gridOptions.data[i]);
                 }
-                JSONToCSVConvertor(downloadData, "Rides Deatils", true);
+                JSONToCSVConvertor(downloadData, "Horse Rides Data", true);
             }
            
 
@@ -438,5 +438,11 @@
                 WinPrint.focus();
                 WinPrint.print();
                 WinPrint.close();
+            }
+
+
+            $scope.EmailSend=function()
+            {
+                swal('Email functionlity in progess and will be deployed soon')
             }
 });
