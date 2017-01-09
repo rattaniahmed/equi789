@@ -136,9 +136,9 @@
 
         console.log("getting ride id -" + $scope.rideId);
         if (IsNull(lastRide.ground_condition))
-            $("#gndcondition").val("Select");
+            $("#gndconditionaddride").val("Select");
         else
-            $("#gndcondition").val(lastRide.ground_condition);
+            $("#gndconditionaddride").val(lastRide.ground_condition);
         $scope.lastRide = lastRide;
         console.log($scope.lastRide);
 
@@ -165,7 +165,7 @@
 
         var rideRef = $scope.rides.$getRecord($scope.rideId);
         rideRef.notes = ReplaceNull($scope.lastRide.notes);
-        rideRef.ground_condition = $("#gndcondition").val();
+        rideRef.ground_condition = $("#gndconditionaddride").val();
 
         $scope.rides.$save(rideRef).then(function (res) {
             swal("", "Your notes details has been edited success fully", "success");
