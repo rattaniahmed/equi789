@@ -55,7 +55,7 @@
                     if (!IsNull($scope.stb.associations[i].name)) {
                         $scope.FinalOrganisations.push({
                             Options: $scope.Org,
-                            SelectedOrganisation: $scope.Org[i],
+                            SelectedOrganisation: _.findWhere($scope.Org, { DisplayName: $scope.stb.associations[i].name }),
                             UserId: $scope.stb.associations[i].number
                         });
                     }
