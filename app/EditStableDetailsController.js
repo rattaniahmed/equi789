@@ -137,6 +137,7 @@
     $scope.horses = $firebaseArray(ref.child('horses'));
 
     $scope.SaveMedicalStable = function () {
+        $("#medical").modal('hide');
         blockUI.start("Updating medical report details.....");
         var horseRef = $scope.horses.$getRecord($scope.stb.$id);
         horseRef.medical = ReplaceNull($scope.stb.medical);
@@ -150,6 +151,7 @@
             storageService.setObject("CS", horseRef);
             swal("", "Your stable details has been added edied success fully", "success");
             console.log(res);
+           // $("#medical").hide();
 
             window.location.reload();
 
@@ -157,6 +159,7 @@
     }
 
     $scope.SaveNotesStable = function () {
+        $("#notes").modal('hide');
         blockUI.start("Updating notes details.....");
 
         var horseRef = $scope.horses.$getRecord($scope.stb.$id);

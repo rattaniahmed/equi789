@@ -136,7 +136,7 @@
                    $scope.addride.calories = "0";
                    $scope.addride.energy = "0";
                    $scope.addride.ride_time = ttime;
-                   $scope.addride.top_speed = speed;
+                   $scope.addride.top_speed = "0";
                    $scope.addride.total_time = ttime;
                    $scope.addride.ismanualride = 1;
                    $scope.addride.id = getRandamNumber(); // generateUUID();
@@ -145,6 +145,7 @@
                    $scope.addride.hotwalk_time = "0";
                    $scope.addride.coords = false;
                    $scope.addride.notes = "";
+                   $scope.addride.ground_condition = document.getElementById("gndcondition").value;
 
                    console.log("adding ride object");
                    console.log($scope.addride);
