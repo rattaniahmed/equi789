@@ -117,7 +117,7 @@
       
     }
 
-    $scope.DeleteRide = function (id) {
+    $rootScope.DeleteRide = function (id) {
         debugger;
 
 
@@ -167,9 +167,7 @@
         }
 
         $scope.histories = $scope.histories.sort(function (a, b) {
-            //return new Date(b.ActualTime).getTime() - new Date(a.ActualTime).getTime()
-            return b.ActualTime.getTime() - a.ActualTime.getTime()
-            //return a > b;
+                      return b.ActualTime.getTime() - a.ActualTime.getTime()
         });
 
 
