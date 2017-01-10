@@ -149,7 +149,7 @@
 
             if (horseHistory != null) {
                 //var date = new Date(parseInt(time));
-                var date = new Date(horseHistory.start_time);
+                var date = new Date(horseHistory.start_time.replace('p.m.', 'PM'));
 
                 var month = monthNames[date.getMonth()];
                 var year = date.getFullYear();

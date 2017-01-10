@@ -37,7 +37,7 @@
             //var time = horseHistory.start_time; //$scope.stb.ride_ids[id];
 
             if (horseHistory != null) {
-                var date = new Date(horseHistory.start_time);// //new Date(parseInt(time));
+                var date = new Date(horseHistory.start_time.replace('p.m.', 'PM'));// //new Date(parseInt(time));
                 var monthInt = parseInt(date.getMonth());
                 var month = monthNames[monthInt];
                 var year = date.getFullYear();
