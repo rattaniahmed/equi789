@@ -47,8 +47,7 @@
     }
 
     $scope.test = function (id) {
-        console.log(id);
-        blockUI.start("Deleting Ride.....");
+      
         $rootScope.appHorseRides.$remove(id).then(function (ref) {
             debugger;
             var id = ref.key();
@@ -92,9 +91,7 @@
                 swal("", "Your Ride has been removed success fully", "success");
                 //$location.path('ride-history.html');
 
-               
-                window.location.reload();
-
+            
                 
             }).catch(function (errs) {
                 console.log(errs);
@@ -107,7 +104,7 @@
                 //$location.path('ride-history.html');
 
 
-                window.location.reload();
+                
 
             });;
 
