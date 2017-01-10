@@ -1,4 +1,4 @@
-﻿app.controller('AllHistoryController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
+﻿app.controller('AllHistoryController', function MyCtrl($scope,$rootScope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
 
 
     console.log("AllHistoryController");
@@ -49,7 +49,7 @@
     $scope.test = function (id) {
         console.log(id);
         blockUI.start("Deleting Ride.....");
-        $scope.history.$remove(id).then(function (ref) {
+        $rootScope.appHorseRides.$remove(id).then(function (ref) {
             debugger;
             var id = ref.key();
 
@@ -144,8 +144,8 @@
 
         for (var id in $scope.stb.ride_ids) {
 
-            var horseHistory = $scope.history.$getRecord(id);
-            //var time = $scope.stb.ride_ids[id];
+            var horseHistory = $rootScope.appHorseRides.$getRecord(id);
+          
 
             if (horseHistory != null) {
                 //var date = new Date(parseInt(time));
@@ -297,6 +297,18 @@
             storageService.setObject("CS", horseNew);
             $scope.Init();
         }
+    });
+
+
+    $scope.$on('ridesModified', function (event, args) {
+
+        $scope.Init();
+    });
+
+    $scope.$on('ridesLoaded', function (event, args) {
+
+        $scope.Init();
+
     });
 
 });
