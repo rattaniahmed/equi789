@@ -138,4 +138,7 @@
         }
     });
 
+    $scope.$on('ridesLoaded', function (event, args) {
+        $scope.Init();
+    });
 });
