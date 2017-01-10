@@ -87,7 +87,8 @@
 
                     $scope.IsRideExist = true;
 
-                    $scope.totalLength = $scope.totalLength + 1;
+                    //$scope.totalLength = $scope.totalLength + 1;
+                    $scope.totalLength = _.size( $scope.stb.ride_ids);
                     $scope.totalDistance = parseFloat($scope.totalDistance) + parseFloat(ride.total_distance);
                     $scope.totalDuration = parseInt($scope.totalDuration) + parseInt(ride.total_time);
                     $scope.totalEnergy = parseFloat($scope.totalEnergy) + parseFloat(ride.energy);
@@ -316,10 +317,10 @@
         }
     });
 
-    $scope.$on('ridesModified', function (event, args) {
+    //$scope.$on('ridesModified', function (event, args) {
     
-        $scope.Init();
+    //    $scope.Init();
      
-    });
+    //});
 
 });
