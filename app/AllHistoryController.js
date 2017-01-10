@@ -78,10 +78,10 @@
             //    created_at: ""
             //};
 
-            var currenthorseRef = $scope.horserepo.$getRecord($scope.stb.$id);
+            var currenthorseRef = $rootScope.appHorses.$getRecord($scope.stb.$id);
             delete currenthorseRef.ride_ids[id];
 
-            $scope.horserepo.$save(currenthorseRef).then(function (res) {
+            $rootScope.appHorses.$save(currenthorseRef).then(function (res) {
 
                 console.log(res);
 
