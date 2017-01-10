@@ -266,9 +266,20 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
 
     $rootScope.appHorses = $firebaseArray(ref.child('horses'));
     $rootScope.appHorses.$loaded().then(function (dataArray) {
+        $rootScope.$broadcast("horseLoaded", { data: event });
         $rootScope.appHorses.$watch(function (event) {
             console.log(event);
             $rootScope.$broadcast("horseModified", { data: event });
+        });
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+
+    $rootScope.appHorseRides = $firebaseArray(ref.child('rides'));
+    $rootScope.appHorseRides.$loaded().then(function (dataArray) {
+        $rootScope.appHorseRides.$watch(function (event) {
+            console.log(event);
+            $rootScope.$broadcast("ridesModified", { data: event });
         });
     }).catch(function (error) {
         console.log("Error in loading details");

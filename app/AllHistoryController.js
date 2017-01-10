@@ -1,23 +1,12 @@
 ﻿app.controller('AllHistoryController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
 
 
-    //$(function () {
-    //    $('#dp3').datepicker({
-    //        viewMode: 'years'
-    //    });
-
-    //});
-
     console.log("AllHistoryController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
-
     $scope.stb = storageService.getObject("CS");
-
     $scope.historyCache = storageService.getObject("CHIST");
-
-    console.log($scope.stb);
-
+    
     $scope.Logout = function () {
         storageService.setObject("CU", null);
         $location.path('/');
@@ -36,14 +25,7 @@
     }
 
     var ref = firebaseService.FIREBASEENDPOINT();
-    $scope.ridesrepo = $firebaseArray(ref.child('rides'));
-    $scope.horserepo = $firebaseArray(ref.child('horses'));
-
-    $scope.horserepo.$loaded().then(function (dataArray) {
-
-    }).catch(function (error) {
-        console.log("Error in loading details");
-    });
+  
 
     $scope.UpdateRide=function(obj)
     {
@@ -135,11 +117,6 @@
       
     }
 
-
-
-
-
-
     $scope.DeleteRide = function (id) {
         debugger;
 
@@ -159,10 +136,8 @@
     }
     $scope.histories = [];
 
-    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
-    $scope.history = $firebaseArray(ref.child('rides'));
-    $scope.history.$loaded().then(function (dataArray) {
-        
+    $scope.Init = function () {
+
         var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
         $scope.histories = [];
@@ -198,11 +173,9 @@
         });
 
 
-        //$scope.histories = horseHistory;
-    }).catch(function (err) {
+    }
 
-    });
-
+    $scope.Init();
 
     $scope.AddRideTODAtabase = function (currentRide) {
 
@@ -315,6 +288,18 @@
         //google.maps.event.trigger(map, 'resize', {});
 
     }
+
+
+    $scope.$on('horseModified', function (event, args) {
+        console.log("get the horse add event in stable page"); // 'Data to send'
+
+        var localHorse = storageService.getObject("CS");
+        if (localHorse.$id == args.data.key && args.data.event == "child_changed") {
+            var horseNew = $rootScope.appHorses.$getRecord(localHorse.$id);
+            storageService.setObject("CS", horseNew);
+            $scope.Init();
+        }
+    });
 
 });
 
