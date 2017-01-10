@@ -672,3 +672,28 @@ function b64toBlob(b64Data, contentType, sliceSize) {
     var blob = new Blob(byteArrays, { type: contentType });
     return blob;
 }
+
+
+function getLoggedInUserId() {
+    var user = null;
+
+    var obj = localStorage.getItem("CU");
+    if (obj == null || obj == '' || obj == "undefined")
+        user =  null;
+    else
+        user = JSON.parse(obj);
+    if (user)
+        return user.Auth.uid;
+    else
+        return -1;
+
+}
+
+function getLoggedInUser() {
+    var obj = localStorage.getItem("CU");
+    if (obj == null || obj == '' || obj == "undefined")
+        return null;
+    else
+        return JSON.parse(obj);
+
+}

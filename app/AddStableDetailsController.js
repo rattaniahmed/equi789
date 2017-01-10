@@ -1,4 +1,4 @@
-﻿app.controller('AddStableDetailsController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
+﻿app.controller('AddStableDetailsController', function MyCtrl($scope,$rootScope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
 
 
     console.log($("#addphotonewname"));
@@ -8,8 +8,7 @@
     $scope.user = storageService.getObject("CU");
 
     var ref = firebaseService.FIREBASEENDPOINT();
-    $scope.horses = $firebaseArray(ref.child('horses'));
-    $scope.users = $firebaseArray(ref.child('users'));
+
 
     $scope.Logout = function () {
         storageService.setObject("CU", null);
@@ -155,7 +154,7 @@
         $scope.stbadd.associations = assolistToAdd;
 
         blockUI.start("Adding horse details.....");
-        $scope.horses.$add($scope.stbadd).then(function (ref) {
+        $rootScope.appHorses.$add($scope.stbadd).then(function (ref) {
             var id = ref.key();
             console.log("added record with id " + id);
             swal("", "Your stable details has been added success fully", "success");
@@ -179,7 +178,7 @@
             //$scope.user.Details.horse_ids.push(id);
             storageService.setObject("CU", $scope.user);
 
-            var userRef = $scope.users.$getRecord($scope.user.Auth.uid);
+            var userRef = $rootScope.appUsers.$getRecord($scope.user.Auth.uid);
             if (IsNull(userRef.horse_ids)) {
                 userRef['horse_ids'] = {};;
             }
@@ -189,10 +188,11 @@
                 last_updated: time123,
                 sync: "1"
             };
+            $("#add_stable").modal('hide');
 
-            $scope.users.$save(userRef).then(function (res) {
+            $rootScope.appUsers.$save(userRef).then(function (res) {
 
-                window.location.reload();
+                //window.location.reload();
 
                 console.log(res);
                 //$scope.user.Details.profile = userRef.profile;

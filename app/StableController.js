@@ -1,45 +1,24 @@
 ﻿
-app.controller('StableController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
+app.controller('StableController', function MyCtrl($scope, $rootScope,$location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
 
 
     sessionService.CHECKSESSION();
 
-
-    $scope.user = storageService.getObject("CU");
-
     var ref = firebaseService.FIREBASEENDPOINT();
-    $scope.users = $firebaseArray(ref.child('users'));
-    $scope.users.$loaded().then(function (dataArray) {
-        var user = $scope.users.$getRecord($scope.user.Auth.uid);
-        user.profile = CleanProfileUrl(user.profile);
-        var obj = {
-            Auth: $scope.user.Auth,
-            Details: user
-        };
-        $scope.user = obj;
-        storageService.setObject("CU", obj);
-    }).catch(function (error) {
-        console.log("Error in loading details");
-    });
-
-    console.log($scope.user);
-
-    $scope.stables = [];
-
     $scope.loadingcord = true;
     $scope.ZeroStable = false;
 
-    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
-    //$scope.users = $firebaseArray(ref.child('users'));
-    $scope.horses = $firebaseArray(ref.child('horses'));
-    $scope.horses.$loaded().then(function (dataArray) {
+  
+    
+    $scope.Init = function () {
+
         $scope.loadingcord = false;
-
+        $scope.stables = [];
+        $scope.user = storageService.getObject("CU");
         angular.forEach($scope.user.Details.horse_ids, function (value, key) {
-            //console.log(value);
-
+            $scope.ZeroStable = false;
             console.log(key);
-            var horse = $scope.horses.$getRecord(key);
+            var horse = $rootScope.appHorses.$getRecord(key);
             if (horse != null) {
                 horse.photo = CleanHorseProfileUrl(horse.photo);
 
@@ -93,10 +72,10 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
             $scope.ZeroStable = true;
         }
 
-    }).catch(function (error) {
-        console.log("Error in loading details");
-    });
+    }
 
+
+    $scope.Init();
 
     $scope.selectedStable = null;
     $scope.rideDetail = function (stb) {
@@ -112,39 +91,36 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
             closeOnConfirm: false
         }, function () {
 
-            blockUI.start("Removing horse.....");
-            $scope.horses.$remove(stb).then(function (ref) {
+            
+            $rootScope.appHorses.$remove(stb).then(function (ref) {
                 var id = ref.key();
                 if (stb.$id == id) {
                     console.log("Deleted success fully");
                 }
-                //console.log("added record with id " + id);               
-                //$location.path('my-stable.html');
 
-                //$scope.user.Details.horse_ids[id] = {
-                //    created_at: ""
-                //};
-
-                delete $scope.user.Details.horse_ids[id];
-
-                //$scope.user.Details.horse_ids.push(id);
-                storageService.setObject("CU", $scope.user);
-
-                var userRef = $scope.users.$getRecord($scope.user.Auth.uid);
-                //userRef.horse_ids[id] = {
-                //    created_at: ""
-                //};
+                var userRef = $rootScope.appUsers.$getRecord(getLoggedInUserId()); // $scope.user.Auth.uid);
+                userRef.horse_ids[id] = {
+                    created_at: ""
+                };
 
                 delete userRef.horse_ids[id];
 
-                $scope.users.$save(userRef).then(function (res) {
-                    window.location.reload();
+                $rootScope.appUsers.$save(userRef).then(function (res) {
+                    var userToLocal = storageService.getObject("CU");
+                    var userNew = $rootScope.appUsers.$getRecord(getLoggedInUserId());
+                    userNew.profile = CleanProfileUrl(userNew.profile);
+                    var obj = {
+                        Auth: userToLocal.Auth,
+                        Details: userNew
+                    };
+                    storageService.setObject("CU", obj);
+
+
+                   // window.location.reload();
 
                     console.log(res);
                     //$scope.user.Details.profile = userRef.profile;
-                    $scope.$apply(function () {
-                        blockUI.stop();
-                    });
+                   
 
 
                 });
@@ -165,5 +141,10 @@ app.controller('StableController', function MyCtrl($scope, $location, $firebaseO
         $location.path('/');
     }
 
+
+    $scope.$on('userModified', function (event, data) {
+        console.log("get the horse add event in stable page"); // 'Data to send'
+        $scope.Init();
+    });
 
 });

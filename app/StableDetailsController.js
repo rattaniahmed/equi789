@@ -1,77 +1,63 @@
-﻿app.controller('StableDetailsController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI, $http) {
+﻿app.controller('StableDetailsController', function MyCtrl($scope,$rootScope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI, $http) {
 
     sessionService.CHECKSESSION();
-    $scope.user = storageService.getObject("CU");
 
-    $scope.stb = storageService.getObject("CS");
-    $scope.AgeToDisplay = ""; // 7 year old";
+    $scope.Init = function () {
+        $scope.user = storageService.getObject("CU");
+        $scope.stb = storageService.getObject("CS");
 
-    try {
+        $scope.AgeToDisplay = ""; // 7 year old";
 
-        var today = new Date();
-        var d = new Date($scope.stb.birthday);
+        try {
 
-        if (Object.prototype.toString.call(d) === "[object Date]") {
-            // it is a date
-            if (isNaN(d.getTime())) {  // d.valueOf() could also work
-                // date is not valid
+            var today = new Date();
+            var d = new Date($scope.stb.birthday);
+
+            if (Object.prototype.toString.call(d) === "[object Date]") {
+                // it is a date
+                if (isNaN(d.getTime())) {  // d.valueOf() could also work
+                    // date is not valid
+                }
+                else {
+
+                    var diff = today - d;
+                    var days = parseInt(diff / 1000 / 60 / 60 / 24);
+                    console.log(days);
+
+                    var year = parseInt(days / 365);
+
+
+                    if (year == 1)
+                        $scope.AgeToDisplay = "1 year, ";
+                    else
+                        $scope.AgeToDisplay = year + " years, ";
+
+                    var remainDay = parseInt(days % 365);
+
+                    var month = parseInt(remainDay / 30);
+
+                    if (month == 1)
+                        $scope.AgeToDisplay += "1 month ";
+                    else
+                        $scope.AgeToDisplay += month + " months ";
+
+                    //$scope.AgeToDisplay += "old";
+
+                }
             }
             else {
-
-                var diff = today - d;
-                var days = parseInt(diff / 1000 / 60 / 60 / 24);
-                console.log(days);
-
-                var year = parseInt(days / 365);
-
-
-                if (year == 1)
-                    $scope.AgeToDisplay = "1 year, ";
-                else
-                    $scope.AgeToDisplay = year + " years, ";
-
-                var remainDay = parseInt(days % 365);
-
-                var month = parseInt(remainDay / 30);
-
-                if (month == 1)
-                    $scope.AgeToDisplay += "1 month ";
-                else
-                    $scope.AgeToDisplay += month + " months ";
-
-                //$scope.AgeToDisplay += "old";
-
+                // not a date
             }
-        }
-        else {
-            // not a date
-        }
 
 
-    }
-    catch (err) {
+        }
+        catch (err) {
+
+        }
 
     }
 
-    //for (var i = 0 ; i < 4; i++) {
-    //    try {
-    //        if (IsNull($scope.stb.associations[i].name))
-    //            $scope.stb.associations[i].name = "";
-
-    //    }
-    //    catch (err) {
-    //        $scope.stb.associations[i].name = "";
-    //    }
-
-    //    try {
-    //        if (IsNull($scope.stb.associations[i].number))
-    //            $scope.stb.associations[i].number = "";
-
-    //    }
-    //    catch (err) {
-    //        $scope.stb.associations[i].number = "";
-    //    }
-    //}
+    $scope.Init();
 
     $scope.OpenAddRidePopup = function () {
         console.log("using this");
@@ -323,6 +309,15 @@
 
     $scope.initMap();
 
+    $scope.$on('horseModified', function (event, args) {
+        console.log("get the horse add event in stable page"); // 'Data to send'
 
+        var localHorse = storageService.getObject("CS");
+        if (localHorse.$id == args.data.key && args.data.event == "child_changed") {
+            var horseNew = $rootScope.appHorses.$getRecord(localHorse.$id);
+            storageService.setObject("CS", horseNew);
+            $scope.Init();
+        }
+    });
 
 });

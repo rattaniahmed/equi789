@@ -181,12 +181,12 @@ app.factory('sessionService', function (storageService, $location) {
 
 });
 
-app.run(function ($rootScope, $sce,firebaseService, $firebaseArray) { // instance-injector
+app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageService) { // instance-injector
 
-    firebase.database().ref('/users/41880a58-e099-422a-bc69-becbe974d3f0/').on('value', function (snapshot) {
-        console.log(snapshot);
-        console.log(snapshot.val())
-    })
+    //firebase.database().ref('/users/41880a58-e099-422a-bc69-becbe974d3f0/').on('value', function (snapshot) {
+    //    console.log(snapshot);
+    //    console.log(snapshot.val())
+    //})
 
     var ref = firebaseService.FIREBASEENDPOINT();
     $rootScope.homepage = $firebaseArray(ref.child('Content').child('Static').child('HomePage'));
@@ -266,15 +266,37 @@ app.run(function ($rootScope, $sce,firebaseService, $firebaseArray) { // instanc
 
     $rootScope.appHorses = $firebaseArray(ref.child('horses'));
     $rootScope.appHorses.$loaded().then(function (dataArray) {
-
+        $rootScope.appHorses.$watch(function (event) {
+            console.log(event);
+            $rootScope.$broadcast("horseModified", { data: event });
+        });
     }).catch(function (error) {
         console.log("Error in loading details");
     });
 
-    $rootScope.appHorses.$watch(function (event) {
-        console.log(event);
-        $rootScope.$broadcast("horseRefEvent", { data: event });
+    $rootScope.appUsers = $firebaseArray(ref.child('users'));
+    $rootScope.appUsers.$loaded().then(function (dataArray) {
+        $rootScope.appUsers.$watch(function (event) {
+            debugger;
+            console.log(event);
+            var userToLocal = storageService.getObject("CU");
+            if (event.key == userToLocal.Auth.uid)
+            {
+                var userNew = $rootScope.appUsers.$getRecord(userToLocal.Auth.uid);
+                userNew.profile = CleanProfileUrl(userNew.profile);
+                var obj = {
+                    Auth: userToLocal.Auth,
+                    Details: userNew
+                };
+                storageService.setObject("CU", obj);
+                $rootScope.$broadcast("userModified", { data: event });
+            }
+        });
+    }).catch(function (error) {
+        console.log("Error in loading details");
     });
+
+    
 
 });
 
