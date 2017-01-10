@@ -1,11 +1,29 @@
 ﻿app.controller('StableDetailsController', function MyCtrl($scope,$rootScope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI, $http) {
 
     sessionService.CHECKSESSION();
+    $scope.OpenAddRidePopup = function () {
+        console.log("using this");
+        $("#add_ride").modal();
+        $('#StartRide').datetimepicker();
+        $('#EndRide').datetimepicker();
+
+    }// = "#add_ride"
+    $scope.CloseAddRideModal = function () {
+        $("#add_ride").hide();
+    }
+
+    $scope.totalRidesDetails = [];
+    $scope.totalLength = 0;
+    $scope.totalDistance = 0.0;
+    $scope.totalDuration = 0;
+    $scope.totalEnergy = 0;
+    $scope.totalCalories = 0;
+    $scope.totalAverageSpeed = 0.0;
+    $scope.totalTopSspeed = 0;
 
     $scope.Init = function () {
         $scope.user = storageService.getObject("CU");
         $scope.stb = storageService.getObject("CS");
-
         $scope.AgeToDisplay = ""; // 7 year old";
 
         try {
@@ -55,31 +73,102 @@
 
         }
 
+       
+            // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
+
+
+            var totalTopSspeed = [];
+            var averageSpeed = 0.0;
+            for (var id in $scope.stb.ride_ids) {
+                var ride = $rootScope.appHorseRides.$getRecord(id);
+                //$scope.totalRidesDetails.push(ride);
+
+                if (ride != null) {
+
+                    $scope.IsRideExist = true;
+
+                    $scope.totalLength = $scope.totalLength + 1;
+                    $scope.totalDistance = parseFloat($scope.totalDistance) + parseFloat(ride.total_distance);
+                    $scope.totalDuration = parseInt($scope.totalDuration) + parseInt(ride.total_time);
+                    $scope.totalEnergy = parseFloat($scope.totalEnergy) + parseFloat(ride.energy);
+                    $scope.totalCalories = parseFloat($scope.totalCalories) + parseFloat(ride.calories);
+                    //$scope.totalAverageSpeed = $scope.totalAverageSpeed + ride.average_speed;
+                    //$scope.totalTopSspeed = $scope.totalTopSspeed + ride.top_speed;
+                    averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
+                    totalTopSspeed.push(parseFloat(ride.top_speed));
+
+
+
+                }
+            }
+
+            $scope.totalDistance = parseFloat(Math.round($scope.totalDistance * 100) / 100).toFixed(2);
+            $scope.totalEnergy = parseFloat(Math.round($scope.totalEnergy * 100) / 100).toFixed(2);
+            $scope.totalCalories = parseFloat(Math.round($scope.totalCalories * 100) / 100).toFixed(2);
+
+            $scope.totalAverageSpeed = averageSpeed / $scope.totalLength;
+
+            $scope.totalAverageSpeed = parseFloat(Math.round($scope.totalAverageSpeed * 100) / 100).toFixed(2);
+
+            $scope.totalDuration = hhmmss($scope.totalDuration);
+
+            $scope.totalTopSspeed = Math.max.apply(Math, totalTopSspeed);
+
+            $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
+
+
+            debugger;
+            var horse = $scope.stb;
+            var pic = $scope.stb.photo;
+            if ($scope.stb.photo.indexOf("horsePlaceHolder") >= 0) {
+                pic = "https://myequitrack.com/" + pic;
+
+                var obj = {
+                    method: 'feed',
+                    title: "I rode " + horse.horse_name + " for " + hhmmss2($scope.totalDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
+                    link: 'https://myequitrack.com/',
+                    caption: 'https://myequitrack.com/',
+                    picture: pic,
+                    description: "Find more details on www.myequitrack.com"
+                }
+
+                $scope.ShareObject = obj;
+
+            }
+            else {
+                pic = $scope.stb.photo.replace("data:image/jpeg;base64,", "");
+                var blob = b64toBlob(pic, "image/png");
+                var metadata = {
+                    'contentType': blob.type
+                };
+
+                var fname = Math.random().toString(36).substring(7) + ".jpg";// +file.name.substring(file.name.indexOf("."));
+                var storageRef = firebase.storage().ref();
+                storageRef.child('shares/' + fname).put(blob, metadata).then(function (snapshot) {
+                    debugger;
+                    var url = snapshot.metadata.downloadURLs[0];
+                    console.log(url)
+
+                    pic = url;
+
+                    var obj = {
+                        method: 'feed',
+                        title: "I rode " + horse.horse_name + " for " + hhmmss2($scope.totalDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
+                        link: 'https://myequitrack.com/',
+                        caption: 'https://myequitrack.com/',
+                        picture: pic,
+                        description: "Find more details on www.myequitrack.com"
+                    }
+
+                }).catch(function (error) {
+                    console.error('Upload failed:', error);
+                });
+
+            }
+
+
+
     }
-
-    $scope.Init();
-
-    $scope.OpenAddRidePopup = function () {
-        console.log("using this");
-        $("#add_ride").modal();
-        $('#StartRide').datetimepicker();
-        $('#EndRide').datetimepicker();
-
-    }// = "#add_ride"
-    $scope.CloseAddRideModal = function () {
-        $("#add_ride").hide();
-    }
-
-    $scope.totalRidesDetails = [];
-    $scope.totalLength = 0;
-    $scope.totalDistance = 0.0;
-    $scope.totalDuration = 0;
-    $scope.totalEnergy = 0;
-    $scope.totalCalories = 0;
-    $scope.totalAverageSpeed = 0.0;
-    $scope.totalTopSspeed = 0;
-
-
 
     $scope.ShareObject = null;
 
@@ -110,106 +199,7 @@
 
     $scope.IsRideExist = false;
 
-    var ref = firebaseService.FIREBASEENDPOINT();
-    $scope.rides = $firebaseArray(ref.child('rides'));
-    $scope.rides.$loaded().then(function (dataArray) {
-        // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
-
-
-        var totalTopSspeed = [];
-        var averageSpeed = 0.0;
-        for (var id in $scope.stb.ride_ids) {
-            var ride = $scope.rides.$getRecord(id);
-            //$scope.totalRidesDetails.push(ride);
-
-            if (ride != null) {
-
-                $scope.IsRideExist = true;
-
-                $scope.totalLength = $scope.totalLength + 1;
-                $scope.totalDistance = parseFloat($scope.totalDistance) + parseFloat(ride.total_distance);
-                $scope.totalDuration = parseInt($scope.totalDuration) + parseInt(ride.total_time);
-                $scope.totalEnergy = parseFloat($scope.totalEnergy) + parseFloat(ride.energy);
-                $scope.totalCalories = parseFloat($scope.totalCalories) + parseFloat(ride.calories);
-                //$scope.totalAverageSpeed = $scope.totalAverageSpeed + ride.average_speed;
-                //$scope.totalTopSspeed = $scope.totalTopSspeed + ride.top_speed;
-                averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
-                totalTopSspeed.push(parseFloat(ride.top_speed));
-
-
-
-            }
-        }
-
-        $scope.totalDistance = parseFloat(Math.round($scope.totalDistance * 100) / 100).toFixed(2);
-        $scope.totalEnergy = parseFloat(Math.round($scope.totalEnergy * 100) / 100).toFixed(2);
-        $scope.totalCalories = parseFloat(Math.round($scope.totalCalories * 100) / 100).toFixed(2);
-
-        $scope.totalAverageSpeed = averageSpeed / $scope.totalLength;
-
-        $scope.totalAverageSpeed = parseFloat(Math.round($scope.totalAverageSpeed * 100) / 100).toFixed(2);
-
-        $scope.totalDuration = hhmmss($scope.totalDuration);
-
-        $scope.totalTopSspeed = Math.max.apply(Math, totalTopSspeed);
-
-        $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
-
-
-        debugger;
-        var horse = $scope.stb;
-        var pic = $scope.stb.photo;
-        if ($scope.stb.photo.indexOf("horsePlaceHolder") >= 0) {
-            pic = "https://myequitrack.com/" + pic;
-
-            var obj = {
-                method: 'feed',
-                title: "I rode " + horse.horse_name + " for " + hhmmss2($scope.totalDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
-                link: 'https://myequitrack.com/',
-                caption: 'https://myequitrack.com/',
-                picture: pic,
-                description: "Find more details on www.myequitrack.com"
-            }
-
-            $scope.ShareObject = obj;
-
-        }
-        else {
-            pic = $scope.stb.photo.replace("data:image/jpeg;base64,", "");
-            var blob = b64toBlob(pic, "image/png");
-            var metadata = {
-                'contentType': blob.type
-            };
-
-            var fname = Math.random().toString(36).substring(7) + ".jpg";// +file.name.substring(file.name.indexOf("."));
-            var storageRef = firebase.storage().ref();
-            storageRef.child('shares/' + fname).put(blob, metadata).then(function (snapshot) {
-                debugger;
-                var url = snapshot.metadata.downloadURLs[0];
-                console.log(url)
-
-                pic = url;
-
-                var obj = {
-                    method: 'feed',
-                    title: "I rode " + horse.horse_name + " for " + hhmmss2($scope.totalDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
-                    link: 'https://myequitrack.com/',
-                    caption: 'https://myequitrack.com/',
-                    picture: pic,
-                    description: "Find more details on www.myequitrack.com"
-                }
-
-            }).catch(function (error) {
-                console.error('Upload failed:', error);
-            });
-
-        }
-
-
-
-    }).catch(function (err) {
-
-    });
+   
 
     $scope.Logout = function () {
         storageService.setObject("CU", null);
@@ -309,6 +299,12 @@
 
     $scope.initMap();
 
+    $scope.Init();
+    $scope.$on('ridesLoaded', function (event, args) {
+
+        $scope.Init();
+
+    });
     $scope.$on('horseModified', function (event, args) {
         console.log("get the horse add event in stable page"); // 'Data to send'
 
