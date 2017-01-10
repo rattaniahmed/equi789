@@ -83,6 +83,7 @@
                     $scope.ShareObject = GetShareObjectByRide($scope.stb, $scope.lastRide);
                 }
                 else {
+                    var ref = firebaseService.FIREBASEENDPOINT();
                     $scope.coords = $firebaseArray(ref.child('coords'));
                     $scope.coords.$loaded().then(function (dataArray) {
                         debugger;

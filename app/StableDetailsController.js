@@ -320,4 +320,10 @@
         }
     });
 
+    $scope.$on('ridesModified', function (event, args) {
+    
+        $scope.Init();
+     
+    });
+
 });

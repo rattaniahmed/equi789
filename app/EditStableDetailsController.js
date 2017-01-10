@@ -1,4 +1,4 @@
-﻿app.controller('EditStableDetailsController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
+﻿app.controller('EditStableDetailsController', function MyCtrl($scope, $location,$rootScope, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $("#photo").change(function () {
@@ -126,7 +126,7 @@
     }
    
 
-    console.log($scope.stb);
+ 
 
     $scope.Logout = function () {
         storageService.setObject("CU", null);
@@ -134,49 +134,30 @@
     }
 
    
-    $scope.horses = $firebaseArray(ref.child('horses'));
+    //$scope.horses = $firebaseArray(ref.child('horses'));
 
     $scope.SaveMedicalStable = function () {
         $("#medical").modal('hide');
-        blockUI.start("Updating medical report details.....");
-        var horseRef = $scope.horses.$getRecord($scope.stb.$id);
+    
+        var horseRef = $rootScope.appHorses.$getRecord($scope.stb.$id);
         horseRef.medical = ReplaceNull($scope.stb.medical);
 
-        $scope.horses.$save(horseRef).then(function (res) {
-
-            $scope.$apply(function () {
-                blockUI.stop();
-            });
-
+        $rootScope.appHorses.$save(horseRef).then(function (res) {
             storageService.setObject("CS", horseRef);
             swal("", "Your stable details has been added edied success fully", "success");
-            console.log(res);
-           // $("#medical").hide();
-
-            window.location.reload();
-
         });
     }
 
     $scope.SaveNotesStable = function () {
         $("#notes").modal('hide');
-        blockUI.start("Updating notes details.....");
+     
 
-        var horseRef = $scope.horses.$getRecord($scope.stb.$id);
+        var horseRef = $rootScope.appHorses.$getRecord($scope.stb.$id);
         horseRef.notes = ReplaceNull($scope.stb.notes);
 
-        $scope.horses.$save(horseRef).then(function (res) {
-
-            $scope.$apply(function () {
-                blockUI.stop();
-            });
-
+        $rootScope.appHorses.$save(horseRef).then(function (res) {
             storageService.setObject("CS", horseRef);
             swal("", "Your stable details has been added edied success fully", "success");
-            console.log(res);
-
-            window.location.reload();
-
         });
 
 
@@ -184,8 +165,8 @@
 
     $scope.SaveStable = function () {
 
-        blockUI.start("Editing horse details.....");
-        var horseRef = $scope.horses.$getRecord($scope.stb.$id);
+       
+        var horseRef = $rootScope.appHorses.$getRecord($scope.stb.$id);
 
         //horseRef.age = '';//ReplaceNull($scope.stb.age);
         //horseRef.associations = $scope.stb.associations;
@@ -225,22 +206,18 @@
         horseRef.medical = ReplaceNull($scope.stb.medical);
         horseRef.notes = ReplaceNull($scope.stb.notes);
 
-        $scope.horses.$save(horseRef).then(function (res) {
+        $rootScope.appHorses.$save(horseRef).then(function (res) {
 
 
 
             storageService.setObject("CS", horseRef);
             swal("", "Your stable details has been added edied success fully", "success");
-            console.log(res);
-
-            window.location.reload();
-
-            $scope.$apply(function () {
-                blockUI.stop();
-            });
 
         });
 
     }
+
+
+
 
 });

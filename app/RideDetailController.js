@@ -1,22 +1,8 @@
-﻿app.controller('RideDetailController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService, $http) {
+﻿app.controller('RideDetailController', function MyCtrl($scope,$rootScope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService, $http) {
 
     console.log("RideDetailController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
-
-    $scope.stb = storageService.getObject("CS");
-
-    console.log($scope.stb);
-
-
-
-    try {
-        console.log($scope.rideId)
-        $scope.rideId = storageService.getObject("RIDEDETAILID");
-    }
-    catch (err) {
-
-    }
 
 
     console.log($scope.stb);
@@ -118,69 +104,66 @@
 
 
     
+    $scope.Init = function () {
 
-   
-    $scope.currentRide = {};
-    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
-    $scope.rides = $firebaseArray(ref.child('rides'));
-    $scope.rides.$loaded().then(function (dataArray) {
+        $scope.stb = storageService.getObject("CS");
+        try {
+            console.log($scope.rideId)
+            $scope.rideId = storageService.getObject("RIDEDETAILID");
+        }
+        catch (err) {
+
+        }
+
+        $scope.currentRide = {};
+
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
         var id = $scope.rideId;
-        var lastRide = $scope.rides.$getRecord(id);
-        $scope.currentRide = lastRide;
-        $scope.ride_time_to_display = hhmmss(lastRide.ride_time);
-        $scope.total_time_to_display = hhmmss(lastRide.total_time);
+        var lastRide = $rootScope.appHorseRides.$getRecord(id);
+        if (lastRide) {
+            $scope.currentRide = lastRide;
+            $scope.ride_time_to_display = hhmmss(lastRide.ride_time);
+            $scope.total_time_to_display = hhmmss(lastRide.total_time);
 
-        $scope.freestyle_time_to_display = hhmmss(lastRide.freestyle_time);
-        $scope.hotwalk_time_to_display = hhmmss(lastRide.hotwalk_time);
+            $scope.freestyle_time_to_display = hhmmss(lastRide.freestyle_time);
+            $scope.hotwalk_time_to_display = hhmmss(lastRide.hotwalk_time);
 
-        console.log("getting ride id -" + $scope.rideId);
-        if (IsNull(lastRide.ground_condition))
-            $("#gndconditionaddride").val("Select");
-        else
-            $("#gndconditionaddride").val(lastRide.ground_condition);
-        $scope.lastRide = lastRide;
-        console.log($scope.lastRide);
+            console.log("getting ride id -" + $scope.rideId);
+            if (IsNull(lastRide.ground_condition))
+                $("#gndconditionaddride").val("Select");
+            else
+                $("#gndconditionaddride").val(lastRide.ground_condition);
+            $scope.lastRide = lastRide;
+            console.log($scope.lastRide);
 
-        if ($scope.lastRide.ismanualride == "1") {
-            $scope.ShareObject = GetShareObjectByRide($scope.stb, $scope.lastRide);
+            if ($scope.lastRide.ismanualride == "1") {
+                $scope.ShareObject = GetShareObjectByRide($scope.stb, $scope.lastRide);
+            }
+            else {
+                $scope.coords = $firebaseArray(ref.child('coords'));
+                $scope.coords.$loaded().then(function (dataArray) {
+                    debugger;
+                    var coord = $scope.coords.$getRecord(id);
+                    $scope.ShareObject = GetShareObjectByCoordinate($scope.stb, $scope.lastRide, coord);
+                });
+            }
+
         }
-        else {
-            $scope.coords = $firebaseArray(ref.child('coords'));
-            $scope.coords.$loaded().then(function (dataArray) {
-                debugger;
-                var coord = $scope.coords.$getRecord(id);
-                $scope.ShareObject = GetShareObjectByCoordinate($scope.stb, $scope.lastRide, coord);
-            });
-        }
+    }
 
 
-    }).catch(function (err) {
-
-    });
 
     $scope.UpdateNotes = function () {
 
-        blockUI.start("Updating notes details.....");
-
-        var rideRef = $scope.rides.$getRecord($scope.rideId);
+        var rideRef = $rootScope.appHorseRides.$getRecord($scope.rideId);
         rideRef.notes = ReplaceNull($scope.lastRide.notes);
         rideRef.ground_condition = $("#gndconditionaddride").val();
 
-        $scope.rides.$save(rideRef).then(function (res) {
+        $rootScope.appHorseRides.$save(rideRef).then(function (res) {
+
             swal("", "Your notes details has been edited success fully", "success");
-            $scope.$apply(function () {
-                blockUI.stop();
-            });
-
-            //storageService.setObject("CS", rideRef);
-            // swal("", "Your notes details has been edited success fully", "success");
-            console.log(res);
-
-            window.location.reload();
 
         });
-
     }
 
 
@@ -311,5 +294,16 @@
     }
 
     //$scope.Start();
+    $scope.Init();
+    $scope.$on('ridesModified', function (event, args) {
+
+        $scope.Init();
+    });
+
+    $scope.$on('ridesLoaded', function (event, args) {
+
+        $scope.Init();
+
+    });
 
 });
