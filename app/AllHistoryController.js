@@ -5,7 +5,7 @@
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
     $scope.stb = storageService.getObject("CS");
-    $scope.historyCache = storageService.getObject("CHIST");
+  
     
     $scope.Logout = function () {
         storageService.setObject("CU", null);
@@ -137,7 +137,7 @@
     $scope.histories = [];
 
     $scope.Init = function () {
-
+        $scope.historyCache = storageService.getObject("CHIST");
         var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
         $scope.histories = [];
@@ -301,8 +301,13 @@
 
 
     $scope.$on('ridesModified', function (event, args) {
-
-        $scope.Init();
+        $scope.historyCache = storageService.getObject("CHIST");
+   
+        var horseridesNew = $rootScope.appHorseRides.$getRecord(args.data.key);
+        $scope.historyCache.DataArray.push(horseridesNew);
+        storageService.setObject("CHIST", $scope.historyCache);
+            $scope.Init();
+      
     });
 
     $scope.$on('ridesLoaded', function (event, args) {
