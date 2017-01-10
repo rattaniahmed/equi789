@@ -137,6 +137,7 @@
     $scope.histories = [];
 
     $scope.Init = function () {
+        $scope.stb = storageService.getObject("CS");
         $scope.historyCache = storageService.getObject("CHIST");
         var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -300,17 +301,17 @@
     });
 
 
-    $scope.$on('ridesModified', function (event, args) {
-        $scope.historyCache = storageService.getObject("CHIST");
-        var localHorse = storageService.getObject("CS");
-        var horseridesNew = $rootScope.appHorseRides.$getRecord(args.data.key);
-        localHorse.ride_ids.push(args.data.key);
-        storageService.setObject("CS", localHorse);
-        $scope.historyCache.DataArray.push(horseridesNew);
-        storageService.setObject("CHIST", $scope.historyCache);
-            $scope.Init();
+    //$scope.$on('ridesModified', function (event, args) {
+    //    $scope.historyCache = storageService.getObject("CHIST");
+    //    var localHorse = storageService.getObject("CS");
+    //    var horseridesNew = $rootScope.appHorseRides.$getRecord(args.data.key);
+    //    localHorse.ride_ids.push(args.data.key);
+    //    storageService.setObject("CS", localHorse);
+    //    $scope.historyCache.DataArray.push(horseridesNew);
+    //    storageService.setObject("CHIST", $scope.historyCache);
+    //        $scope.Init();
       
-    });
+    //});
 
     $scope.$on('ridesLoaded', function (event, args) {
 
