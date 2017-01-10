@@ -302,8 +302,10 @@
 
     $scope.$on('ridesModified', function (event, args) {
         $scope.historyCache = storageService.getObject("CHIST");
-   
+        var localHorse = storageService.getObject("CS");
         var horseridesNew = $rootScope.appHorseRides.$getRecord(args.data.key);
+        localHorse.ride_ids.push(args.data.key);
+        storageService.setObject("CS", localHorse);
         $scope.historyCache.DataArray.push(horseridesNew);
         storageService.setObject("CHIST", $scope.historyCache);
             $scope.Init();
