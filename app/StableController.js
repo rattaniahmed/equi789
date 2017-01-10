@@ -146,5 +146,9 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
         console.log("get the horse add event in stable page"); // 'Data to send'
         $scope.Init();
     });
+    $scope.$on('horseLoaded', function (event, args) {
 
+        $scope.Init();
+
+    });
 });
