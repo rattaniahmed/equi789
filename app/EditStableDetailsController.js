@@ -164,8 +164,8 @@
     }
 
     $scope.SaveStable = function () {
-
-       
+        $("#edit_stable").modal('hide');
+       // $("#edit_stable").hide();
         var horseRef = $rootScope.appHorses.$getRecord($scope.stb.$id);
 
         //horseRef.age = '';//ReplaceNull($scope.stb.age);
