@@ -61,7 +61,7 @@
             var lastRide = $rootScope.appHorseRides.$getRecord(id);
             if (lastRide) {
                 $scope.ride_time_to_display = hhmmss(lastRide.ride_time);
-                $scope.total_time_to_display = hhmmss(lastRide.total_time);
+                $scope.total_time_to_display = ReplaceTime(hhmmss(lastRide.total_time));
 
 
                 $scope.freestyle_time_to_display = hhmmss(lastRide.freestyle_time);
