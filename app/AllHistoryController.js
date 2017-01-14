@@ -182,7 +182,7 @@
 
 
         //$scope.history.$set(currentRide).then(function (ref) {
-        $scope.history.$save(currentRide).then(function (ref) {
+        $rootScope.appHorseRides.$save(currentRide).then(function (ref) {
             debugger;
             //var id = ref.key();
             console.log("added record with id " + id);
@@ -225,7 +225,9 @@
 
             }).catch(function (err) {
                 console.log(err);
-
+                $scope.$apply(function () {
+                    blockUI.stop();
+                });
             });
 
 

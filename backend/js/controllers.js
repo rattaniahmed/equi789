@@ -780,8 +780,8 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
 
     console.log("editReportController" + $routeParams.id);
 
-    $scope.url = "http://localhost:5000/download.html?id=";
-  //  $scope.url = "https://myequitrack.com/download.html?id=";
+    //$scope.url = "http://localhost:5000/download.html?id=";
+    $scope.url = "https://myequitrack.com/download.html?id=";
 
 
     $scope.editId = $routeParams.id;

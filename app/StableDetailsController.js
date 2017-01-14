@@ -136,6 +136,21 @@
                 $scope.ShareObject = obj;
 
             }
+            else if ($scope.stb.photo.indexOf("placeholder") >= 0) {
+                pic = "https://myequitrack.com/images/horsePlaceHolder.png";
+
+                var obj = {
+                    method: 'feed',
+                    title: "I rode " + horse.horse_name + " for " + hhmmss2($scope.totalDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
+                    link: 'https://myequitrack.com/',
+                    caption: 'https://myequitrack.com/',
+                    picture: pic,
+                    description: "Find more details on www.myequitrack.com"
+                }
+
+                $scope.ShareObject = obj;
+
+            }
             else {
                 pic = $scope.stb.photo.replace("data:image/jpeg;base64,", "");
                 var blob = b64toBlob(pic, "image/png");
