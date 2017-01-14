@@ -70,7 +70,7 @@
                 if (IsNull(lastRide.ground_condition))
                     $("#gndcondition").val("Select");
                 else
-                    $("#gndcondition").val(lastRide.ground_condition);
+                    $("#gndconditionaddride").val(lastRide.ground_condition);
 
 
                 $scope.lastRide = lastRide;
@@ -101,7 +101,7 @@
 
         var rideRef = $rootScope.appHorseRides.$getRecord($scope.rideId);
         rideRef.notes = ReplaceNull($scope.lastRide.notes);
-        rideRef.ground_condition = $("#gndcondition").val();
+        rideRef.ground_condition = $("#gndconditionaddride").val();
 
         $rootScope.appHorseRides.$save(rideRef).then(function (res) {
 
