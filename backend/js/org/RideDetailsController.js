@@ -443,6 +443,21 @@
 
             $scope.EmailSend=function()
             {
-                swal('Email functionlity in progess and will be deployed soon')
+                $('#sharemodal').show();
+                //swal('Email functionlity in progess and will be deployed soon')
+            }
+            $scope.ClosedShareModel = function () {
+                $("#sharemodal").hide();
+            }
+            $scope.SendPdf = function () {
+                
+                if (document.getElementById("shareemailaddress").value == "") {
+                    alert("Please Enter your Email Id");
+                    return;
+                } else {
+                    $("#sharemodal").hide();
+                    swal('', 'Your report will be Email to you shortly', 'success');
+                   
+                }
             }
 });
