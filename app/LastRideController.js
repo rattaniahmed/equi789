@@ -55,9 +55,7 @@
             console.log($scope.rideId)
             storageService.setObject("RIFM", $scope.rideId);
         }
-        catch (err) {
-
-        }
+        catch (err) {}
             // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
             var id = $scope.rideId;
             var lastRide = $rootScope.appHorseRides.$getRecord(id);

@@ -141,7 +141,7 @@
         $scope.histories = [];
 
         for (var id in $scope.stb.ride_ids) {
-
+            debugger;
             var horseHistory = $rootScope.appHorseRides.$getRecord(id);
           
 
@@ -157,7 +157,7 @@
                 if ($scope.historyCache.Month == month && $scope.historyCache.Year == year) {
                     horseHistory.ActualTime = date;
                     horseHistory.TimeToDisplay = date.format("mmmm d, yyyy h:MM:ss TT");
-                    horseHistory.total_time = hhmmss(horseHistory.total_time);
+                    horseHistory.total_time = ReplaceTime(hhmmss(horseHistory.total_time));
                     $scope.histories.push(horseHistory);
                 }
             }

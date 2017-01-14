@@ -341,6 +341,8 @@
             }
 
             $scope.EmailSend = function () {
+               
+                $('#sharemodal').show();
                 swal('Email functionlity in progess and will be deployed soon')
             }
 

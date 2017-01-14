@@ -22,6 +22,7 @@
     $scope.totalTopSspeed = 0;
 
     $scope.Init = function () {
+      
         $scope.user = storageService.getObject("CU");
         $scope.stb = storageService.getObject("CS");
         $scope.AgeToDisplay = ""; // 7 year old";
@@ -112,11 +113,12 @@
             $scope.totalAverageSpeed = parseFloat(Math.round($scope.totalAverageSpeed * 100) / 100).toFixed(2);
 
             $scope.totalDuration = hhmmss($scope.totalDuration);
-
+            
             $scope.totalTopSspeed = Math.max.apply(Math, totalTopSspeed);
 
             $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
-
+          
+            
 
             debugger;
             var horse = $scope.stb;
@@ -182,7 +184,7 @@
 
             }
 
-
+          
 
     }
 
@@ -316,6 +318,9 @@
     $scope.initMap();
 
     $scope.Init();
+
+
+
     $scope.$on('ridesLoaded', function (event, args) {
 
         $scope.Init();

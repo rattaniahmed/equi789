@@ -20,7 +20,7 @@ app.config(function ($routeProvider, $locationProvider) {
         //    templateUrl: 'index.html',
         //    controller: 'mainController'
         //})
-    
+
         .when('/home', {
             templateUrl: 'views/home.html',
             controller: 'homeController'
@@ -39,7 +39,7 @@ app.config(function ($routeProvider, $locationProvider) {
       .when('/rides/:id', {
           templateUrl: 'views/RideDetail.html',
           controller: 'rideDetailController'
-       })
+      })
 
         .when('/horses/:id', {
             templateUrl: 'views/HorseDetail.html',
@@ -50,18 +50,18 @@ app.config(function ($routeProvider, $locationProvider) {
           templateUrl: 'views/images.html',
           controller: 'imagesController'
       })
-    
+
      .when('/pages', {
          templateUrl: 'views/pages.html',
          controller: 'pagesController'
      })
 
-        
+
      .when('/static', {
          templateUrl: 'views/static.html',
          controller: 'staticController'
      })
-             
+
 
         .when('/sponsers', {
             templateUrl: 'views/sponsers.html',
@@ -81,9 +81,9 @@ app.config(function ($routeProvider, $locationProvider) {
 
 
         .when('/faq', {
-         templateUrl: 'views/faq.html',
-         controller: 'faqController'
-     })
+            templateUrl: 'views/faq.html',
+            controller: 'faqController'
+        })
 
         .when('/faq/:id', {
             templateUrl: 'views/editfaq.html',
@@ -125,7 +125,6 @@ app.config(function ($routeProvider, $locationProvider) {
          templateUrl: 'views/addSpe.html',
          controller: 'addSpeController'
      })
-
     
 
     ;
