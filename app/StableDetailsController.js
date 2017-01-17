@@ -154,34 +154,39 @@
 
             }
             else {
-                pic = $scope.stb.photo.replace("data:image/jpeg;base64,", "");
-                var blob = b64toBlob(pic, "image/png");
-                var metadata = {
-                    'contentType': blob.type
-                };
+                try{
+                    pic = $scope.stb.photo.replace("data:image/jpeg;base64,", "");
+                    pic = pic.replace("data:image/png;base64,", "");
+                    var blob = b64toBlob(pic, "image/png");
+                    var metadata = {
+                        'contentType': blob.type
+                    };
 
-                var fname = Math.random().toString(36).substring(7) + ".jpg";// +file.name.substring(file.name.indexOf("."));
-                var storageRef = firebase.storage().ref();
-                storageRef.child('shares/' + fname).put(blob, metadata).then(function (snapshot) {
-                    debugger;
-                    var url = snapshot.metadata.downloadURLs[0];
-                    console.log(url)
+                    var fname = Math.random().toString(36).substring(7) + ".jpg";// +file.name.substring(file.name.indexOf("."));
+                    var storageRef = firebase.storage().ref();
+                    storageRef.child('shares/' + fname).put(blob, metadata).then(function (snapshot) {
+                        debugger;
+                        var url = snapshot.metadata.downloadURLs[0];
+                        console.log(url)
 
-                    pic = url;
+                        pic = url;
 
-                    var obj = {
-                        method: 'feed',
-                        title: "I rode " + horse.horse_name + " for " + hhmmss2($scope.totalDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
-                        link: 'https://myequitrack.com/',
-                        caption: 'https://myequitrack.com/',
-                        picture: pic,
-                        description: "Find more details on www.myequitrack.com"
-                    }
+                        var obj = {
+                            method: 'feed',
+                            title: "I rode " + horse.horse_name + " for " + hhmmss2($scope.totalDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
+                            link: 'https://myequitrack.com/',
+                            caption: 'https://myequitrack.com/',
+                            picture: pic,
+                            description: "Find more details on www.myequitrack.com"
+                        }
 
-                }).catch(function (error) {
-                    console.error('Upload failed:', error);
-                });
-
+                    }).catch(function (error) {
+                        console.error('Upload failed:', error);
+                    });
+                }
+                catch (errNext) {
+                    console.log("image convertion issue");
+                }
             }
 
           

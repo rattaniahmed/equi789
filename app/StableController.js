@@ -91,6 +91,8 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
             closeOnConfirm: false
         }, function () {
 
+            var ridesids = Object.keys(stb.ride_ids);
+            console.log(ridesids);
             
             $rootScope.appHorses.$remove(stb).then(function (ref) {
                 var id = ref.key();
@@ -118,6 +120,7 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
 
                    // window.location.reload();
 
+
                     console.log(res);
                     //$scope.user.Details.profile = userRef.profile;
                    
@@ -126,6 +129,20 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
                 });
 
 
+                //for (var rideindex in ridesids) {
+                for (var rideindex = 0; rideindex < ridesids.length; rideindex++) {
+                    try {
+                        console.log("Removing ride id " + rideindex);
+                        var ride = $rootScope.appHorseRides.$getRecord(ridesids[rideindex]);
+                        $rootScope.appHorseRides.$remove(ride).then(function (resdelete) {
+
+                        });
+
+                    }
+                    catch (errrrrr) {
+
+                    }
+                }
                 swal("", "Your horse has been removed success fully", "success");
 
 
