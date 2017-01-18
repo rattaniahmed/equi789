@@ -18,7 +18,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
 
     $scope.UpdateImage = function (image, index) {
         $scope.cntId = image.$id;
-        //$("#addphoto").click();
+       
         debugger;
 
         $("#nameedit").val(image.DisplayName);
@@ -42,44 +42,62 @@ app.controller('organisationsController', function ($scope, storageService, fire
         //var fname = new Date().getMilliseconds() + file.name.substring(file.name.indexOf("."));
        
             var file = document.getElementById('imagefileedit').files[0];
+            if (file != undefined) {
 
-            var metadata = {
-                'contentType': file.type
-            };
+                var metadata = {
+                    'contentType': file.type
+                };
 
-            var fname = new Date().getMilliseconds() + file.name.substring(file.name.indexOf("."));
-        
-        var storageRef = firebase.storage().ref();
-        storageRef.child('profile/' + fname).put(file, metadata).then(function (snapshot) {
+                var fname = new Date().getMilliseconds() + file.name.substring(file.name.indexOf("."));
 
-            debugger;
-            var url = snapshot.metadata.downloadURLs[0];
+                var storageRef = firebase.storage().ref();
 
-            $("#loadingModal").show();
+                storageRef.child('profile/' + fname).put(file, metadata).then(function (snapshot) {
 
-            var imageRef = $scope.images.$getRecord($scope.cntId);
-            imageRef.Url = url;
-            imageRef.DisplayName = $("#nameedit").val();
-            imageRef.OrganisationNumber = $("#numberedit").val();
-            imageRef.UserId = $("#useridedit").val();
-           
+                    debugger;
+                    var url = snapshot.metadata.downloadURLs[0];
+                    $("#loadingModal").show();
 
-
-            $scope.images.$save(imageRef).then(function (ref) {
-                debugger;
-                var id = ref.key();
-                console.log("added record with id " + id);
-                $("#loadingModal").hide();
-                window.location.reload();
-
-            });
+                    var imageRef = $scope.images.$getRecord($scope.cntId);
+                    imageRef.Url = url;
+                    imageRef.DisplayName = $("#nameedit").val();
+                    imageRef.OrganisationNumber = $("#numberedit").val();
+                    imageRef.UserId = $("#useridedit").val();
 
 
 
-        }).catch(function (error) {
-            console.error('Upload failed:', error);
-        });
+                    $scope.images.$save(imageRef).then(function (ref) {
+                        debugger;
+                        var id = ref.key();
+                        console.log("added record with id " + id);
+                        $("#loadingModal").hide();
+                        window.location.reload();
 
+                    });
+
+
+
+                }).catch(function (error) {
+                    console.error('Upload failed:', error);
+                });
+            } else {
+                var imageRef = $scope.images.$getRecord($scope.cntId);
+                imageRef.Url = $scope.photo;
+                imageRef.DisplayName = $("#nameedit").val();
+                imageRef.OrganisationNumber = $("#numberedit").val();
+                imageRef.UserId = $("#useridedit").val();
+
+
+
+                $scope.images.$save(imageRef).then(function (ref) {
+                    debugger;
+                    var id = ref.key();
+                    console.log("added record with id " + id);
+                    $("#loadingModal").hide();
+                    window.location.reload();
+
+                });
+            }
 
     }
 
