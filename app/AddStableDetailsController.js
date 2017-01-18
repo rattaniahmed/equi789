@@ -152,6 +152,7 @@
             }
         }
         $scope.stbadd.associations = assolistToAdd;
+        $scope.stbadd.id = generateUUID();
 
         blockUI.start("Adding horse details.....");
         $rootScope.appHorses.$add($scope.stbadd).then(function (ref) {
@@ -188,6 +189,25 @@
                 last_updated: time123,
                 sync: "1"
             };
+
+            $scope.stbadd = {
+                //associations: $scope.assolist,
+                average_speed: "0.0",
+                birthday: "",
+                calories: "0.0",
+                distance: "0.0",
+                duration: "00:00:00",
+                energy: "0.0",
+                horse_name: "",
+                id: generateUUID(),
+                notes: "",
+                photo: "images/horsePlaceHolder.png",
+                registration: "",
+                top_speed: "0.0",
+                total_rides: "",
+                weight: ""
+            }
+
             $("#add_stable").modal('hide');
 
             $rootScope.appUsers.$save(userRef).then(function (res) {
@@ -200,6 +220,7 @@
                     blockUI.stop();
                 });
 
+                
 
             });
 
