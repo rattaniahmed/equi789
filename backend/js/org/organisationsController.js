@@ -24,7 +24,6 @@ app.controller('organisationsController', function ($scope, storageService, fire
         $("#nameedit").val(image.DisplayName);
         $("#numberedit").val(image.OrganisationNumber);
         $("#useridedit").val(image.UserId);
-       // $("#imagefileedit").val(image.Url);
         $scope.photo = image.Url;
         $("#editmodal").show();
     }
@@ -34,12 +33,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
 
         $("#loadingModal").show();
         $("#editmodal").hide();
-        //var file = document.getElementById('imagefileedit').files[0];
-        //var metadata = {
-        //    'contentType': file.type
-        //};
-
-        //var fname = new Date().getMilliseconds() + file.name.substring(file.name.indexOf("."));
+        
        
             var file = document.getElementById('imagefileedit').files[0];
             if (file != undefined) {
