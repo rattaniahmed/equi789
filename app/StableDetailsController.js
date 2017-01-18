@@ -180,6 +180,8 @@
                             description: "Find more details on www.myequitrack.com"
                         }
 
+                        $scope.ShareObject = obj;
+
                     }).catch(function (error) {
                         console.error('Upload failed:', error);
                     });

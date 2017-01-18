@@ -91,63 +91,73 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
             closeOnConfirm: false
         }, function () {
 
-            var ridesids = Object.keys(stb.ride_ids);
-            console.log(ridesids);
-            
-            $rootScope.appHorses.$remove(stb).then(function (ref) {
-                var id = ref.key();
-                if (stb.$id == id) {
-                    console.log("Deleted success fully");
-                }
+            var ridesids = null;
+            if (stb.ride_ids) 
+                ridesids = Object.keys(stb.ride_ids);
 
-                var userRef = $rootScope.appUsers.$getRecord(getLoggedInUserId()); // $scope.user.Auth.uid);
-                userRef.horse_ids[id] = {
-                    created_at: ""
-                };
+            try {
 
-                delete userRef.horse_ids[id];
 
-                $rootScope.appUsers.$save(userRef).then(function (res) {
-                    var userToLocal = storageService.getObject("CU");
-                    var userNew = $rootScope.appUsers.$getRecord(getLoggedInUserId());
-                    userNew.profile = CleanProfileUrl(userNew.profile);
-                    var obj = {
-                        Auth: userToLocal.Auth,
-                        Details: userNew
+                $rootScope.appHorses.$remove(stb).then(function (ref) {
+                    var id = ref.key();
+                    if (stb.$id == id) {
+                        console.log("Deleted success fully");
+                    }
+
+                    var userRef = $rootScope.appUsers.$getRecord(getLoggedInUserId()); // $scope.user.Auth.uid);
+                    userRef.horse_ids[id] = {
+                        created_at: ""
                     };
-                    storageService.setObject("CU", obj);
+
+                    delete userRef.horse_ids[id];
+
+                    $rootScope.appUsers.$save(userRef).then(function (res) {
+                        var userToLocal = storageService.getObject("CU");
+                        var userNew = $rootScope.appUsers.$getRecord(getLoggedInUserId());
+                        userNew.profile = CleanProfileUrl(userNew.profile);
+                        var obj = {
+                            Auth: userToLocal.Auth,
+                            Details: userNew
+                        };
+                        storageService.setObject("CU", obj);
 
 
-                   // window.location.reload();
+                        // window.location.reload();
 
 
-                    console.log(res);
-                    //$scope.user.Details.profile = userRef.profile;
-                   
+                        console.log(res);
+                        //$scope.user.Details.profile = userRef.profile;
+
+
+
+                    });
+
+
+                    //for (var rideindex in ridesids) {
+                    if (ridesids) {
+                        for (var rideindex = 0; rideindex < ridesids.length; rideindex++) {
+                            try {
+                                console.log("Removing ride id " + rideindex);
+                                var ride = $rootScope.appHorseRides.$getRecord(ridesids[rideindex]);
+                                $rootScope.appHorseRides.$remove(ride).then(function (resdelete) {
+
+                                });
+
+                            }
+                            catch (errrrrr) {
+
+                            }
+                        }
+                    }
+                    swal("", "Your horse has been removed success fully", "success");
 
 
                 });
+            }
+            catch (errrDelete) {
 
-
-                //for (var rideindex in ridesids) {
-                for (var rideindex = 0; rideindex < ridesids.length; rideindex++) {
-                    try {
-                        console.log("Removing ride id " + rideindex);
-                        var ride = $rootScope.appHorseRides.$getRecord(ridesids[rideindex]);
-                        $rootScope.appHorseRides.$remove(ride).then(function (resdelete) {
-
-                        });
-
-                    }
-                    catch (errrrrr) {
-
-                    }
-                }
-                swal("", "Your horse has been removed success fully", "success");
-
-
-            });
-
+            }
+            
             //swal("Deleted!", "Your imaginary file has been deleted.", "success");
         });
 
