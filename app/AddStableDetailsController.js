@@ -60,7 +60,7 @@
 
         $scope.FinalOrganisations.push({
             Options: $scope.Org,
-            SelectedOrganisation: $scope.Org[0],
+            SelectedOrganisation: "",
             UserId:""
         });
 
@@ -75,7 +75,7 @@
 
         $scope.FinalOrganisations.push({
             Options: $scope.Org,
-            SelectedOrganisation: $scope.Org[0],
+            SelectedOrganisation: "",
             UserId: ""
         });
 
@@ -145,12 +145,13 @@
                 name: $scope.FinalOrganisations[i].SelectedOrganisation.DisplayName,
                 number: $scope.FinalOrganisations[i].UserId
             }
-            
-            
-            if (_.findLastIndex(assolistToAdd, { name: org.name }) == -1) {
-                assolistToAdd.push(org);
+            if (org.filter != undefined) {
+
+                if (_.findLastIndex(assolistToAdd, { name: org.name }) == -1) {
+                    assolistToAdd.push(org);
+                }
             }
-        }
+            }
         $scope.stbadd.associations = assolistToAdd;
         $scope.stbadd.id = generateUUID();
 

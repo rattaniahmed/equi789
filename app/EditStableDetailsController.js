@@ -62,7 +62,7 @@
                     else {
                         $scope.FinalOrganisations.push({
                             Options: $scope.Org,
-                            SelectedOrganisation: "No Orgnisation Seleted",
+                            SelectedOrganisation: "",
                             UserId:""
                         });
                     }
@@ -81,8 +81,8 @@
               
             }
             $scope.Org[0] = {
-                DisplayName: "No Orgnisation Seleted",
-                OrganisationName: "No Orgnisation Seleted",
+                DisplayName: "",
+                OrganisationName: "",
                 OrganisationNumber: "Select"
             }
             $scope.stb.associations = [];
@@ -179,10 +179,11 @@
                 name: $scope.FinalOrganisations[i].SelectedOrganisation.DisplayName,
                 number: $scope.FinalOrganisations[i].UserId
             }
-            
-            if (_.findLastIndex(assolistToAdd, { name: org.name }) == -1) {
-                assolistToAdd.push(org);
-            } 
+            if (org.name != "") {
+                if (_.findLastIndex(assolistToAdd, { name: org.name }) == -1) {
+                    assolistToAdd.push(org);
+                }
+            }
                  }
         
         
