@@ -50,6 +50,18 @@
             }
         });
 
+          try {
+              var cordToRemove = $scope.coords.$getRecord(row.entity.$id);
+              $scope.coords.$remove(cordToRemove).then(function (ref) {
+                  var id = ref.key();
+                  console.log("corods Deleted success fully");
+              });
+          }
+          catch (corddeleteerro) {
+
+          }
+
+
         delete $scope.horse.ride_ids[row.entity.$id];
 
         //$scope.horse.ride_ids.splice($scope.horse.ride_ids.indexOf(row.entity.$id), 1);
@@ -91,7 +103,7 @@
         }).catch(function (err) {
             console.log(err);
         });
-        swal("Deleted!", "Your imaginary file has been deleted.", "success");
+        swal("Deleted!", "Your rides has been deleted.", "success");
       });
        
     }
@@ -104,10 +116,8 @@
     }
 
     $scope.singleFilter = function (renderableRows) {
-        debugger;
         var matcher = new RegExp($scope.filterValue);
         renderableRows.forEach(function (row) {
-            debugger;
             var match = false;
             ['total_distance','total_time','top_speed','average_speed'].forEach(function (field) {
                 try{
@@ -157,6 +167,10 @@
 
     });
 
+    $scope.coords = $firebaseArray(ref.child('coords'));
+    $scope.coords.$loaded().then(function (dataArray) {
+        console.log("coords loaded ");
+    });
     
 
 

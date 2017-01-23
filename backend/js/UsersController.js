@@ -28,6 +28,9 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
         }        ]
     };
     
+
+    
+
     $scope.RemoveUser = function (row, col) {
 
         swal({
@@ -81,7 +84,7 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
         angular.forEach($scope.user.horse_ids, function (value, key) {
             var horse = $scope.horses.$getRecord(key);
 
-            angular.forEach(horse.horse_ids, function (value, key) {
+            angular.forEach(horse.ride_ids, function (value, key) {
                 var ride = $scope.rides.$getRecord(key);
 
                 $scope.rides.$remove(ride).then(function (ref) {
@@ -91,6 +94,19 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
                         console.log("Deleted success fully");
                     }
                 });
+
+                try {
+                    var cordToRemove = $scope.coords.$getRecord(key);
+                    $scope.coords.$remove(cordToRemove).then(function (ref) {
+                        var id = ref.key();
+                        console.log("corods Deleted success fully");
+                    });
+                }
+                catch (corddeleteerro) {
+
+                }
+
+
 
             });
             $scope.horses.$remove(horse).then(function (ref) {
@@ -190,6 +206,11 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
         // $scope.horses = dataArray;
     }).catch(function (error) {
         console.log("Error in loading details");
+    });
+
+    $scope.coords = $firebaseArray(ref.child('coords'));
+    $scope.coords.$loaded().then(function (dataArray) {
+        console.log("coords loaded ");
     });
    
     //$scope.highlightFilteredHeader = function (row, rowRenderIndex, col, colRenderIndex) {
