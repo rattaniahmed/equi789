@@ -401,6 +401,8 @@ function GetShareObjectByRide(horse , ride) {
     var link = "https://www.google.com/maps/dir/" + start + "/" + end;
     var title = "I rode " + horse.horse_name + " for " + hhmmss2(ride.ride_time) + " and covered " + ride.total_distance + " miles at an average speed of " + ride.average_speed;
 
+    link = 'https://myequitrack.com/';
+
     var obj = {
         method: 'feed',
         title: title, //"Ride taken on " + ride.start_time, //horseName,//'This is horse name with ride start and end time',
@@ -449,6 +451,8 @@ function GetShareObjectByCoordinate(horse, ride, cords) {
     var gurl = 'https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=600x400&maptype=roadmap&markers=color:green%7Clabel:G%7C' + start + '&markers=color:red%7Clabel:C%7C' + end + '&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0' //&path=color:red|weight:2|' + start + '|' + end
     var link = "https://www.google.com/maps/dir/" + start + "/" + end;
     var title = "I rode " + horse.horse_name + " for " + hhmmss2(ride.ride_time) + " and covered " + ride.total_distance + " miles at an average speed of " + ride.average_speed;
+
+    link = 'https://myequitrack.com/';
 
     var obj = {
         method: 'feed',

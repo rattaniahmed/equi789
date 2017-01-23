@@ -71,7 +71,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="caption">
+                                    <div class="caption" style="min-height: 130px;">
+                                        <p ng-show="img.ShowInEquiTrack == 1">Show in EquiTrack      :- yes</p>
+                                        <p ng-show="img.ShowInEquiTrack != 1">Show in EquiTrack      :- No</p>
+
                                         <p>Organization Name      : - {{img.DisplayName}}</p>
                                         <p>Organization Number    : - {{img.OrganisationNumber}}</p>
                                         <p>User Id : - {{img.UserId}} </p>
@@ -107,7 +110,14 @@
                     <div class="x_content">
                         <br>
                         <form class="form-horizontal form-label-left">
-
+                            <div class="form-group">
+                                <label class="">Show in EquiTrack</label>
+                                <div class="col-md-3 col-sm-9 col-xs-9">
+                                 
+                                    <input class="pull-right" type="checkbox" id="checkboxedit"  >
+                                   
+                                </div>
+                            </div> 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-3" >Name</label>
                                 <div class="col-md-9 col-sm-9 col-xs-9">
@@ -177,11 +187,21 @@
                             <div class="x_content">
                                 <br>
                                 <form class="form-horizontal form-label-left">
-
+                                    
+                                        
+                                       
+                                        <div class="form-group">
+                                            <label class="">Show in EquiTrack</label>
+                                            <div class="col-md-3 col-sm-9 col-xs-9">
+                                                <input class="pull-right" type="checkbox" id="checkboxadd">
+                                           
+                                            </div>
+                                        </div> 
+                            
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Name</label>
                                         <div class="col-md-9 col-sm-9 col-xs-9">
-                                            <input type="text" class="form-control" id="namenew">
+                                            <input type="text" class="form-control" id="namenew" ng-click="addcheckbox()">
                                             <!--<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>-->
                                         </div>
                                     </div>

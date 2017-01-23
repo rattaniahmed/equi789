@@ -50,7 +50,9 @@
         for (var i = 0; i <= dataArray.length; i++) {
             try {
                 if (dataArray[i].Role == "Organisation") {
-                    $scope.Org.push(dataArray[i]);
+                    if (dataArray[i].ShowInEquiTrack == "1") {
+                        $scope.Org.push(dataArray[i]);
+                    }
                 }
             }
             catch (e) {
