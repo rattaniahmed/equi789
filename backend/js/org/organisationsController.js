@@ -9,7 +9,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
-
+        debugger;
                 console.log(dataArray);
     }).catch(function (error) {
         console.log("Error in loading details");
@@ -19,21 +19,38 @@ app.controller('organisationsController', function ($scope, storageService, fire
     $scope.UpdateImage = function (image, index) {
         $scope.cntId = image.$id;
        
-        debugger;
-
+        
         $("#nameedit").val(image.DisplayName);
         $("#numberedit").val(image.OrganisationNumber);
         $("#useridedit").val(image.UserId);
+        if (image.ShowInEquiTrack)
+        {
+            if (image.ShowInEquiTrack == "1") {
+                $("#checkboxedit").prop('checked', true)
+            }
+            else{
+                $("#checkboxedit").prop('checked', false);
+            }
+
+        }
+        else
+            $("#checkboxedit").prop('checked', false);
+        
+
         $scope.photo = image.Url;
         $("#editmodal").show();
     }
-
+   
 
     $scope.UpdateImageData = function () {
 
         $("#loadingModal").show();
         $("#editmodal").hide();
-        
+        var ShowInEquiTrack = "0";
+        if ($('#checkboxedit').is(":checked")) {
+            ShowInEquiTrack = "1";
+        }
+
        
             var file = document.getElementById('imagefileedit').files[0];
             if (file != undefined) {
@@ -57,6 +74,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
                     imageRef.DisplayName = $("#nameedit").val();
                     imageRef.OrganisationNumber = $("#numberedit").val();
                     imageRef.UserId = $("#useridedit").val();
+                    imageRef.ShowInEquiTrack = ShowInEquiTrack;
 
 
 
@@ -80,6 +98,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
                 imageRef.DisplayName = $("#nameedit").val();
                 imageRef.OrganisationNumber = $("#numberedit").val();
                 imageRef.UserId = $("#useridedit").val();
+                imageRef.ShowInEquiTrack = ShowInEquiTrack;
 
 
 
@@ -109,9 +128,13 @@ app.controller('organisationsController', function ($scope, storageService, fire
         });
 
     }
-
+  
     $scope.AddSponser = function ()
     {
+        debugger;
+        console.log($scope.checkbox);
+
+       
         if (($("#namenew").val() == '') || ($("#numbernew").val() == '') || ($("#passwordnew").val() == '') || ($("#useridnew").val() == '') || ($("#filenew").val() == '')) {
             alert('Please Enter All Field Of Form ');
             return;
@@ -129,12 +152,19 @@ app.controller('organisationsController', function ($scope, storageService, fire
             var fname = new Date().getMilliseconds() + file.name.substring(file.name.indexOf("."));
             var storageRef = firebase.storage().ref();
             storageRef.child('profile/' + fname).put(file, metadata).then(function (snapshot) {
-
+              
                 debugger;
                 var url = snapshot.metadata.downloadURLs[0];
+                
+              
+                
+                var ShowInEquiTrack = "0";
+                if ($('#checkboxadd').is(":checked")) {
+                    ShowInEquiTrack = "1";
+                }
 
                 var toAdd = {
-
+                    ShowInEquiTrack: ShowInEquiTrack,
                     DisplayName: $("#namenew").val(),
                     OrganisationName: $("#namenew").val(),
                     OrganisationNumber: $("#numbernew").val(),

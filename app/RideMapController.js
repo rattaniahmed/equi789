@@ -50,7 +50,7 @@
             $scope.loadingcord = false;
             DrawManualRideOnMap(ride);
             try {
-                $scope.$apply();
+                //$scope.$apply();
             }
             catch (err) { }
             $scope.ShareObject = GetShareObjectByRide($scope.stb, ride);

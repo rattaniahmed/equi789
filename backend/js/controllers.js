@@ -1156,7 +1156,7 @@ app.controller('reportController', function ($scope, storageService, firebaseSer
 
 app.controller('HorseDetailController', function ($scope, $routeParams,storageService, firebaseService, $firebaseArray) {
 
-    console.log("HorseDetailController");
+   // console.log("HorseDetailController");
     $scope.editId = $routeParams.id;
 
     $scope.gridOptions = {
@@ -1185,6 +1185,7 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
         ]
     };
 
+     
 
     $scope.RemoveHorse = function (row, col) {
         swal({
@@ -1200,7 +1201,9 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
         function () {
     
         //get horse object
-        $scope.horse = $scope.horses.$getRecord(row.entity.$id);
+       $scope.horse = $scope.horses.$getRecord(row.entity.$id);
+
+        //$scope.horse = $scope.horses.$getRecord("-KaurS2-jFpbBXmXkwsy");
 
         //remve object from horse ref
         $scope.horses.$remove($scope.horse).then(function (ref) {
@@ -1225,6 +1228,18 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
                 if ($scope.ride.$id == id) {
                     console.log("Deleted success fully");
                 }
+            });
+
+        });
+            //CORDINATES
+        angular.forEach($scope.horse.ride_ids, function (value, key2) {
+            console.log(key2);
+            var coordToRemove = $scope.coords.$getRecord(key2);
+
+            $scope.coords.$remove(coordToRemove).then(function (ref) {
+
+                var id = ref.key();
+                console.log("Deleted success fully cord for " + id);
             });
 
         });
@@ -1362,10 +1377,19 @@ app.controller('HorseDetailController', function ($scope, $routeParams,storageSe
         });
 
     });
+
     $scope.rides = $firebaseArray(ref.child('rides'));
     $scope.rides.$loaded().then(function (dataArray) {
         // $scope.horses = dataArray;
     }).catch(function (error) {
         console.log("Error in loading details");
     });
+
+    $scope.coords = $firebaseArray(ref.child('rides'));
+    $scope.coords.$loaded().then(function (dataArray) {
+        // $scope.horses = dataArray;
+    }).catch(function (error) {
+        console.log("Error in loading details");
+    });
+
 });
