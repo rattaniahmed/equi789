@@ -48,7 +48,7 @@
         var ride = $scope.rides.$getRecord($scope.rideId);
         if (ride.ismanualride == "1") {
             $scope.loadingcord = false;
-            DrawManualRideOnMap(ride);
+            DrawManualRideOnMapNew(ride);
             try {
                 //$scope.$apply();
             }
@@ -62,7 +62,7 @@
                 // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
                 $scope.loadingcord = false;
                 var id = $scope.rideId;
-                DrawAutomatedRideOnMap($scope.coords.$getRecord(id));
+                DrawAutomatedRideOnMapNew($scope.coords.$getRecord(id));
                 console.log(coord);
                 try {
                     $scope.$apply();

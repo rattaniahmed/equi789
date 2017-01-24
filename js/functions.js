@@ -191,6 +191,132 @@ function DrawManualMap(flightPlanCoordinates) {
 }
 
 
+
+function DrawManualMapNew(flightPlanCoordinates) {
+
+    try {
+        delete flightPlanCoordinates.$id;
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+    try {
+        delete flightPlanCoordinates.$priority;
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+    if (flightPlanCoordinates == null || flightPlanCoordinates.length == 0) {
+
+        var map = new google.maps.Map(document.getElementById('mapNew'), {
+            //zoom: 14,
+            zoom: 4,
+            center: {
+                lat: 40.712784, lng: -74.005941
+            },
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.TOP_RIGHT
+            },
+            mapTypeId: 'terrain'
+        });
+
+    }
+    else if (flightPlanCoordinates[0] == null || flightPlanCoordinates[0] == '' || flightPlanCoordinates[0] == undefined) {
+        var map = new google.maps.Map(document.getElementById('mapNew'), {
+            zoom: 14,
+            center: {
+                lat: 40.712784, lng: -74.005941
+            },
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.TOP_RIGHT
+            },
+            mapTypeId: 'terrain'
+        });
+    }
+    else {
+        var lat = 0;
+        var lng = -180;
+
+        lat = flightPlanCoordinates[0].lat;
+        lng = flightPlanCoordinates[0].lng;
+
+
+
+        var map = new google.maps.Map(document.getElementById('mapNew'), {
+            zoom: 14,
+            center: { lat: lat, lng: lng },
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.TOP_RIGHT
+            },
+            mapTypeId: 'terrain'
+        });
+
+        //var directionsService = new google.maps.DirectionsService;
+        //var directionsDisplay = new google.maps.DirectionsRenderer;
+
+        //directionsDisplay.setMap(map);
+
+        //directionsService.route({
+        //    origin: flightPlanCoordinates[0],
+        //    destination: flightPlanCoordinates[flightPlanCoordinates.length - 1],
+        // }, function (response, status) {
+        //    if (status === 'OK') {
+        //        directionsDisplay.setDirections(response);
+        //    } else {
+        //        window.alert('Directions request failed due to ' + status);
+        //    }
+        //});
+
+        var polcors = [];
+        for (var i = 0 ; i < flightPlanCoordinates.length; i++) {
+            var co = flightPlanCoordinates[i];
+            try {
+                var newco = { lat: co.lat, lng: co.lng }
+                polcors.push(newco);
+            }
+            catch (err) {
+
+            }
+        }
+
+
+        var marker = new google.maps.Marker({
+            icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+            position: polcors[0],
+            map: map
+        });
+
+        var marker1 = new google.maps.Marker({
+            icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+            position: polcors[polcors.length - 1],
+            map: map
+        });
+
+        //marker.setMap(map);
+        //marker1.setMap(map);
+
+        //var flightPath = new google.maps.Polyline({
+        //    //path: flightPlanCoordinates,
+        //    path: polcors,
+        //    geodesic: true,
+        //    strokeColor: '#FF0000',
+        //    strokeOpacity: 1.0,
+        //    strokeWeight: 2
+        //});
+
+        //flightPath.setMap(map);
+
+        google.maps.event.trigger(map, 'resize', {});
+
+    }
+}
+
+
 function DrawMap(flightPlanCoordinates) {
 
     try{
@@ -315,6 +441,132 @@ function DrawMap(flightPlanCoordinates) {
     }
 }
 
+
+function DrawMapNew(flightPlanCoordinates) {
+
+    try {
+        delete flightPlanCoordinates.$id;
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+    try {
+        delete flightPlanCoordinates.$priority;
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+    if (flightPlanCoordinates == null || flightPlanCoordinates.length == 0) {
+
+        var map = new google.maps.Map(document.getElementById('mapNew'), {
+            //zoom: 14,
+            zoom: 4,
+            center: {
+                lat: 40.712784, lng: -74.005941
+            },
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.TOP_RIGHT
+            },
+            mapTypeId: 'terrain'
+        });
+
+    }
+    else if (flightPlanCoordinates[0] == null || flightPlanCoordinates[0] == '' || flightPlanCoordinates[0] == undefined) {
+        var map = new google.maps.Map(document.getElementById('mapNew'), {
+            zoom: 14,
+            center: {
+                lat: 40.712784, lng: -74.005941
+            },
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.TOP_RIGHT
+            },
+            mapTypeId: 'terrain'
+        });
+    }
+    else {
+        var lat = 0;
+        var lng = -180;
+
+        lat = flightPlanCoordinates[0].lat;
+        lng = flightPlanCoordinates[0].lng;
+
+
+
+        var map = new google.maps.Map(document.getElementById('mapNew'), {
+            zoom: 14,
+            center: { lat: lat, lng: lng },
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.TOP_RIGHT
+            },
+            mapTypeId: 'terrain'
+        });
+
+        //var directionsService = new google.maps.DirectionsService;
+        //var directionsDisplay = new google.maps.DirectionsRenderer;
+
+        //directionsDisplay.setMap(map);
+
+        //directionsService.route({
+        //    origin: flightPlanCoordinates[0],
+        //    destination: flightPlanCoordinates[flightPlanCoordinates.length - 1],
+        // }, function (response, status) {
+        //    if (status === 'OK') {
+        //        directionsDisplay.setDirections(response);
+        //    } else {
+        //        window.alert('Directions request failed due to ' + status);
+        //    }
+        //});
+
+        var polcors = [];
+        for (var i = 0 ; i < flightPlanCoordinates.length; i++) {
+            var co = flightPlanCoordinates[i];
+            try {
+                var newco = { lat: co.lat, lng: co.lng }
+                polcors.push(newco);
+            }
+            catch (err) {
+
+            }
+        }
+
+
+        var marker = new google.maps.Marker({
+            icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+            position: polcors[0],
+            map: map
+        });
+
+        var marker1 = new google.maps.Marker({
+            icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+            position: polcors[polcors.length - 1],
+            map: map
+        });
+
+        //marker.setMap(map);
+        //marker1.setMap(map);
+
+        var flightPath = new google.maps.Polyline({
+            //path: flightPlanCoordinates,
+            path: polcors,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+
+        flightPath.setMap(map);
+
+        google.maps.event.trigger(map, 'resize', {});
+
+    }
+}
+
+
 function DrawManualRideOnMap(ride) {
     var coord = [];
     if (ride.coords) {
@@ -324,10 +576,26 @@ function DrawManualRideOnMap(ride) {
     DrawManualMap(coord);
 }
 
+
+function DrawManualRideOnMapNew(ride) {
+    var coord = [];
+    if (ride.coords) {
+        coord.push(ride.start_cord);
+        coord.push(ride.end_cord);
+    }
+    DrawManualMapNew(coord);
+}
+
 function DrawAutomatedRideOnMap(coord) {
     if (coord == null)
         coord = [];
     DrawMap(coord);
+}
+
+function DrawAutomatedRideOnMapNew(coord) {
+    if (coord == null)
+        coord = [];
+    DrawMapNew(coord);
 }
 
 function GetSharingUrl(ride,baseUrl) {
@@ -546,7 +814,10 @@ function hhmmss(secs) {
     secs = secs % 60;
     var hours = Math.floor(minutes / 60)
     minutes = minutes % 60;
-    return pad(hours) + ":" + pad(minutes) + ":" + pad(secs);
+    if (hours > 99)
+        return hours + ":" + pad(minutes) + ":" + pad(secs);
+    else
+        return pad(hours) + ":" + pad(minutes) + ":" + pad(secs);
 }
 
 
@@ -555,8 +826,12 @@ function hhmmss2(secs) {
     secs = secs % 60;
     var hours = Math.floor(minutes / 60)
     minutes = minutes % 60;
-    if (hours > 0)
-        return pad(hours) + " hours " + pad(minutes) + " minutes " + pad(secs) + " seconds";
+    if (hours > 0) {
+        if (hours > 99)
+            return hours + " hours " + pad(minutes) + " minutes " + pad(secs) + " seconds";
+        else
+            return pad(hours) + " hours " + pad(minutes) + " minutes " + pad(secs) + " seconds";
+    }
     else if (minutes > 0)
         return pad(minutes) + " minutes " + pad(secs) + " seconds";
     else

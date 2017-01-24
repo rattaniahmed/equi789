@@ -104,6 +104,8 @@
                 }
             }
 
+            var tempDuration = $scope.totalDuration;
+
             $scope.totalDistance = parseFloat(Math.round($scope.totalDistance * 100) / 100).toFixed(2);
             $scope.totalEnergy = parseFloat(Math.round($scope.totalEnergy * 100) / 100).toFixed(2);
             $scope.totalCalories = parseFloat(Math.round($scope.totalCalories * 100) / 100).toFixed(2);
@@ -128,7 +130,7 @@
 
                 var obj = {
                     method: 'feed',
-                    title: "I rode " + horse.horse_name + " for " + hhmmss2($scope.totalDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
+                    title: "I rode " + horse.horse_name + " for " + hhmmss2(tempDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
                     link: 'https://myequitrack.com/',
                     caption: 'https://myequitrack.com/',
                     picture: pic,
@@ -143,7 +145,7 @@
 
                 var obj = {
                     method: 'feed',
-                    title: "I rode " + horse.horse_name + " for " + hhmmss2($scope.totalDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
+                    title: "I rode " + horse.horse_name + " for " + hhmmss2(tempDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
                     link: 'https://myequitrack.com/',
                     caption: 'https://myequitrack.com/',
                     picture: pic,
@@ -173,7 +175,7 @@
 
                         var obj = {
                             method: 'feed',
-                            title: "I rode " + horse.horse_name + " for " + hhmmss2($scope.totalDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
+                            title: "I rode " + horse.horse_name + " for " + hhmmss2(tempDuration) + " and covered " + $scope.totalDistance + " miles at an average speed of " + $scope.totalAverageSpeed,
                             link: 'https://myequitrack.com/',
                             caption: 'https://myequitrack.com/',
                             picture: pic,
