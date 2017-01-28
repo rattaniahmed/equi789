@@ -121,8 +121,10 @@
 
             var match = false;
             ['horse_name', 'registration', 'birthday'].forEach(function (field) {
-                if (row.entity[field].match(matcher)) {
-                    match = true;
+                if (row.entity[field]) {
+                    if (row.entity[field].match(matcher)) {
+                        match = true;
+                    }
                 }
             });
             if (!match) {

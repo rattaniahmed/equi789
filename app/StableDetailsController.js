@@ -110,13 +110,26 @@
             $scope.totalEnergy = parseFloat(Math.round($scope.totalEnergy * 100) / 100).toFixed(2);
             $scope.totalCalories = parseFloat(Math.round($scope.totalCalories * 100) / 100).toFixed(2);
 
-            $scope.totalAverageSpeed = averageSpeed / $scope.totalLength;
-
+            
+            if ($scope.totalLength > 0) {
+                $scope.totalAverageSpeed = averageSpeed / $scope.totalLength;
+            }
+            else
+                $scope.totalAverageSpeed = 0.0;
+            
+            
             $scope.totalAverageSpeed = parseFloat(Math.round($scope.totalAverageSpeed * 100) / 100).toFixed(2);
 
-            $scope.totalDuration = hhmmss($scope.totalDuration);
+            if ($scope.totalDuration == "00:00:00")
+                $scope.totalDuration = "00:00:00";
+            else
+                $scope.totalDuration = hhmmss($scope.totalDuration);
             
-            $scope.totalTopSspeed = Math.max.apply(Math, totalTopSspeed);
+            if (totalTopSspeed.length > 0) {
+                $scope.totalTopSspeed = Math.max.apply(Math, totalTopSspeed);
+            }
+            else
+                $scope.totalTopSspeed = 0.0;
 
             $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
           

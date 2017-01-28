@@ -134,8 +134,10 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
         renderableRows.forEach(function (row) {
             var match = false;
             ['email', 'first_name', 'last_name', 'display_name'].forEach(function (field) {
-                if (row.entity[field].match(matcher)) {
-                    match = true;
+                if (row.entity[field]) {
+                    if (row.entity[field].match(matcher)) {
+                        match = true;
+                    }
                 }
             });
             if (!match) {
