@@ -19,7 +19,7 @@
     $scope.totalEnergy = 0;
     $scope.totalCalories = 0;
     $scope.totalAverageSpeed = 0.0;
-    $scope.totalTopSspeed = 0;
+    $scope.totalTopSspeed = 0.0;
 
     $scope.Init = function () {
       
@@ -109,17 +109,17 @@
             $scope.totalDistance = parseFloat(Math.round($scope.totalDistance * 100) / 100).toFixed(2);
             $scope.totalEnergy = parseFloat(Math.round($scope.totalEnergy * 100) / 100).toFixed(2);
             $scope.totalCalories = parseFloat(Math.round($scope.totalCalories * 100) / 100).toFixed(2);
+            if (averageSpeed > 0) {
+                $scope.totalAverageSpeed = averageSpeed / $scope.totalLength;
 
-            $scope.totalAverageSpeed = averageSpeed / $scope.totalLength;
+                $scope.totalAverageSpeed = parseFloat(Math.round($scope.totalAverageSpeed * 100) / 100).toFixed(2);
+            }
+            $scope.totalDuration = ReplaceTime(hhmmss($scope.totalDuration)); 
+            if (totalTopSspeed.length > 0) {
+                $scope.totalTopSspeed = Math.max.apply(Math, totalTopSspeed);
 
-            $scope.totalAverageSpeed = parseFloat(Math.round($scope.totalAverageSpeed * 100) / 100).toFixed(2);
-
-            $scope.totalDuration = hhmmss($scope.totalDuration);
-            
-            $scope.totalTopSspeed = Math.max.apply(Math, totalTopSspeed);
-
-            $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
-          
+                $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
+            }
             
 
             debugger;

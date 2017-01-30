@@ -45,15 +45,17 @@
     $scope.rides.$loaded().then(function (dataArray) {
         console.log("hererrdfsdfdsfdsf");
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
-        var ride = $scope.rides.$getRecord($scope.rideId);
-        if (ride.ismanualride == "1") {
+        $scope.ride = $scope.rides.$getRecord($scope.rideId);
+        $scope.Start();
+        debugger;
+        if ($scope.ride.ismanualride == "1") {
             $scope.loadingcord = false;
-            DrawManualRideOnMapNew(ride);
+            DrawManualRideOnMapNew($scope.ride);
             try {
                 //$scope.$apply();
             }
             catch (err) { }
-            $scope.ShareObject = GetShareObjectByRide($scope.stb, ride);
+            $scope.ShareObject = GetShareObjectByRide($scope.stb, $scope.ride);
         }
         else {
 
@@ -68,7 +70,7 @@
                     $scope.$apply();
                 }
                 catch (err) { }
-                $scope.ShareObject = GetShareObjectByCoordinate($scope.stb, ride, coord);
+                $scope.ShareObject = GetShareObjectByCoordinate($scope.stb, $scope.ride, coord);
             }).catch(function (err) {
 
             });
@@ -96,13 +98,10 @@
 
 
 
+   
+
 
     $scope.graph1 = function () {
-
-        var container = $("#graph_1");
-
-        var maximum = container.outerWidth() / 2 || 300;
-        var data = [];
         function getRandomData() {
             if (data.length) { data = data.slice(1); }
             while (data.length < maximum) {
@@ -116,8 +115,16 @@
             }
             return res;
         }
+
+        var container = $("#graph_1");
+
+        var maximum = container.outerWidth() / 2 || 300;
+        var data = getRandomData();
+        
+        console.log(data);
+
         series = [{
-            data: getRandomData(),
+            data: data,
             lines: {
                 fill: true
             }
@@ -164,8 +171,8 @@
     $scope.graph2 = function () {
 
         var container = $("#graph_2");
-
-        var data = [["4:00", 10], ["4:30", 8], ["5:00", 4], ["5:30", 13], ["6:00", 17], ["6:30", 9], ["7:00", 5], ["7:30", 9], ["8:00", 7], ["8:30", 4]];
+        //var data = [["4:00", 10], ["4:30", 8], ["5:00", 4], ["5:30", 13], ["6:00", 17], ["6:30", 9], ["7:00", 5], ["7:30", 9], ["8:00", 7], ["8:30", 4]];
+        var data = _.pairs($scope.ride.altitude);
         $.plot(container, [data], {
             series: {
                 bars: {
@@ -191,8 +198,8 @@
     $scope.graph3 = function () {
         var container = $("#graph_3");
 
-        var data = [[0, 4.9], [1, 5], [2, 5.1], [3, 5], [4, 4.9], [5, 5], [6, 5.1], [7, 5], [8, 4.9], [9, 5], [10, 5.1], [11, 5], [12, 5], [13, 4.9], [14, 5]];
-
+       //var data = [[0, 4.9], [1, 5], [2, 5.1], [3, 5], [4, 4.9], [5, 5], [6, 5.1], [7, 5], [8, 4.9], [9, 5], [10, 5.1], [11, 5], [12, 5], [13, 4.9], [14, 5]];
+        var data = _.pairs($scope.ride.heratrate);
         $.plot(container, [data], {
             series: {
                 shadowSize: 1
@@ -221,6 +228,6 @@
 
     }
 
-    $scope.Start();
+   // $scope.Start();
 
 });
