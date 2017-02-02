@@ -42,73 +42,7 @@
             return docDefinition;
         },
     };
-    $scope.RemoveRide = function (row, col) {
-        swal({
-            title: "Are you sure?",
-            text: "You Want to Delete Ride!",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: "Yes, delete it!",
-            closeOnConfirm: false
-        },
-      function () {
-
-
-          $scope.ride = $scope.rides.$getRecord(row.entity.$id);
-          $scope.rides.$remove($scope.ride).then(function (ref) {
-              var id = ref.key();
-              if ($scope.ride.$id == id) {
-                  console.log("Deleted success fully");
-              }
-          });
-
-          delete $scope.horse.ride_ids[row.entity.$id];
-
-          //$scope.horse.ride_ids.splice($scope.horse.ride_ids.indexOf(row.entity.$id), 1);
-          $scope.stables = [];
-          angular.forEach($scope.horse.ride_ids, function (value, key) {
-              //console.log(value);
-              console.log(key);
-              var rides = $scope.rides.$getRecord(key);
-              if (rides != null) {
-
-                  $scope.stables.push(rides);
-              }
-              console.log($scope.stables);
-              $scope.gridOptions.data = $scope.stables;
-
-          });
-          var index = -1;
-          for (var i = 0 ; i < $scope.rides.length; i++) {//console.log(value);
-              if ($scope.rides[i].$id == row.entity.$id) {           //remove
-                  index = i;
-              }
-          }
-
-          $scope.rides.splice(index, 1);
-
-          $scope.stables = [];
-          angular.forEach($scope.users, function (value, key) {
-              //console.log(value);
-
-              $scope.stables.push(rides);
-              $scope.gridOptions.data = $scope.stables;
-
-          });
-
-          $scope.horses.$save($scope.horse).then(function (res) {
-              console.log(res);
-
-
-          }).catch(function (err) {
-              console.log(err);
-          });
-          swal("Deleted!", "Your imaginary file has been deleted.", "success");
-      });
-
-    }
+   
 
     $scope.export = function (type) {
         //if ($scope.export_format == type) {
@@ -201,23 +135,7 @@
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.rides = $firebaseArray(ref.child('rides'));
 
-    $scope.rides.$loaded().then(function (dataArray) {
-
-        angular.forEach(dataArray, function (value, key) {
-            //console.log(value);
-            console.log(key);
-            var rides = $scope.rides.$getRecord(key);
-            if (rides != null) {
-                $scope.stables.push(rides);
-            }
-
-        });
-        console.log($scope.stables);
-        // $scope.gridOptions.data = $scope.stables;
-    }).catch(function (error) {
-        console.log("Error in loading details");
-    });
-
+    
     $scope.example15model = [];
 
     $scope.example15customTexts = { buttonDefaultText: 'Select Users' };
@@ -238,59 +156,134 @@
 
     $scope.horses = $firebaseArray(ref.child('horses'));
 
-    $scope.horses.$loaded().then(function (dataArray) {
-        for (var i = 0; i <= dataArray.length; i++) {
-            try {
-                if (dataArray[i].horse_name != undefined) {
-                    $scope.org = JSON.parse(localStorage.getItem('adminObject'));
-                    var evens = _.filter(dataArray[i].associations, function (num) { return num.filter == $scope.org.OrganisationNumber; });
-                    if (evens.length > 0) {
-                        $scope.AllHorses.push(dataArray[i]);
-                    }
-                }
-            }
-            catch (e) {
-                console.log(e);
-            }
-        }
+    $scope.rides.$loaded().then(function (rideDataArray) {
 
-        
+        $scope.horses.$loaded().then(function (dataArray) {
 
 
-        $scope.Users = [];
-        var userhorsemap = [];
-        for (var counter = 0; counter < $scope.AllDBUsers.length; counter++) {
 
-            if ($scope.AllDBUsers[counter].horse_ids) {
 
-                var ids = Object.keys($scope.AllDBUsers[counter].horse_ids);
-                console.log(ids);
+            for (var i = 0; i <= dataArray.length; i++) {
+                try {
+                    if (dataArray[i]) {
+                        if (dataArray[i].horse_name != undefined) {
+                            $scope.org = JSON.parse(localStorage.getItem('adminObject'));
+                            var evens = _.filter(dataArray[i].associations, function (num) { return num.filter == $scope.org.OrganisationNumber; });
+                            if (evens.length > 0) {
+                                //$scope.AllHorses.push(dataArray[i]);
 
-                for (var i in $scope.AllHorses) {
-                    var evens = _.filter(ids, function (num) { return num == $scope.AllHorses[i].$id; });
-                    if (evens.length > 0) {
-                        if (!(_.contains($scope.Users, $scope.AllDBUsers[counter]))) {
-                            $scope.Users.push($scope.AllDBUsers[counter]);
+                                var horse = dataArray[i];
+
+
+                                var totalTopSspeed = [];
+                                var averageSpeed = 0.0;
+                                var totalLength = 0;
+
+                                $scope.totalDistance = 0.0;
+                                $scope.totalDuration = 0;
+                                $scope.totalEnergy = 0;
+                                $scope.totalCalories = 0;
+                                $scope.totalAverageSpeed = 0.0;
+                                $scope.totalTopSspeed = 0.0;
+
+                                for (var id in horse.ride_ids) {
+                                    var ride = $scope.rides.$getRecord(id);
+
+                                    if (ride != null) {
+
+
+                                        //$scope.totalLength = $scope.totalLength + 1;
+                                        totalLength = _.size(horse.ride_ids);
+                                        $scope.totalDistance = parseFloat($scope.totalDistance) + parseFloat(ride.total_distance);
+                                        $scope.totalDuration = parseInt($scope.totalDuration) + parseInt(ride.total_time);
+                                        $scope.totalEnergy = parseFloat($scope.totalEnergy) + parseFloat(ride.energy);
+                                        $scope.totalCalories = parseFloat($scope.totalCalories) + parseFloat(ride.calories);
+                                        //$scope.totalAverageSpeed = $scope.totalAverageSpeed + ride.average_speed;
+                                        //$scope.totalTopSspeed = $scope.totalTopSspeed + ride.top_speed;
+                                        averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
+                                        totalTopSspeed.push(parseFloat(ride.top_speed));
+
+
+
+                                    }
+                                }
+
+                                var tempDuration = $scope.totalDuration;
+
+                                $scope.totalDistance = parseFloat(Math.round($scope.totalDistance * 100) / 100).toFixed(2);
+                                $scope.totalEnergy = parseFloat(Math.round($scope.totalEnergy * 100) / 100).toFixed(2);
+                                $scope.totalCalories = parseFloat(Math.round($scope.totalCalories * 100) / 100).toFixed(2);
+                                if (averageSpeed > 0) {
+                                    $scope.totalAverageSpeed = averageSpeed / totalLength;
+
+                                    $scope.totalAverageSpeed = parseFloat(Math.round($scope.totalAverageSpeed * 100) / 100).toFixed(2);
+                                }
+                                $scope.totalDuration = ReplaceTime(hhmmss($scope.totalDuration));
+                                if (totalTopSspeed.length > 0) {
+                                    $scope.totalTopSspeed = Math.max.apply(Math, totalTopSspeed);
+
+                                    $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
+                                }
+
+
+
+
+                                horse.total_rides = totalLength;
+                                horse.top_speed = $scope.totalTopSspeed  + " mph";
+                                horse.energy = $scope.totalCalories + " cal";
+                                horse.miles = $scope.totalDistance+" miles";
+
+                                $scope.AllHorses.push(horse);
+
+                            }
                         }
-                        $scope.AllHorses[i].Member = $scope.AllDBUsers[counter].email;
+                    }
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            }
+
+
+
+
+            $scope.Users = [];
+            var userhorsemap = [];
+            for (var counter = 0; counter < $scope.AllDBUsers.length; counter++) {
+
+                if ($scope.AllDBUsers[counter].horse_ids) {
+
+                    var ids = Object.keys($scope.AllDBUsers[counter].horse_ids);
+                    console.log(ids);
+
+                    for (var i in $scope.AllHorses) {
+                        var evens = _.filter(ids, function (num) { return num == $scope.AllHorses[i].$id; });
+                        if (evens.length > 0) {
+                            if (!(_.contains($scope.Users, $scope.AllDBUsers[counter]))) {
+                                $scope.Users.push($scope.AllDBUsers[counter]);
+                            }
+                            $scope.AllHorses[i].Member = $scope.AllDBUsers[counter].email;
+                        }
                     }
                 }
             }
-        }
 
 
 
+            $scope.gridOptions.data = $scope.AllHorses;
 
-        $scope.gridOptions.data = $scope.AllHorses;
+            $scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
 
-        $scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
+            UnLoadingState();
 
-        UnLoadingState();
 
+
+        });
+
+
+    }).catch(function (error) {
+        console.log("Error in loading details");
     });
-
-
-
 
 
     $scope.SelectItem = function () {

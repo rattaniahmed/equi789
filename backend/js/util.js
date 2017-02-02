@@ -1097,3 +1097,11 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
     link.click();
     document.body.removeChild(link);
 }
+
+
+function ReplaceTime(time) {
+    try {
+        return time.replace("aN:aN:aN", "00:00:00");
+    } catch (err)
+    { }
+}
