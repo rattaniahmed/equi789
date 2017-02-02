@@ -17,10 +17,10 @@
               { name: 'birthday', headerCellClass: 'blue' },
               { name: 'registration', headerCellClass: 'blue' },
               { name: 'weight', headerCellClass: 'blue' },
-              { name: 'rides', headerCellClass: 'blue' },
-              { name: 'miles', headerCellClass: 'blue' },
-              { name: 'top speed', headerCellClass: 'blue' },
-              { name: 'energy', headerCellClass: 'blue' }
+              { name: 'total_rides', headerCellClass: 'blue', filed: 'Rides' },
+              { name: 'miles', headerCellClass: 'blue', filed: 'miles' },
+              { name: 'top_speed', headerCellClass: 'blue', filed: 'Top speed' },
+              { name: 'energy', headerCellClass: 'blue', filed: 'energy' }
               //{ name: 'energy', headerCellClass: 'blue' },
               //{ name: 'calories', headerCellClass: 'blue' },
           
