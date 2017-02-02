@@ -12,14 +12,15 @@
                 $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
             },
             columnDefs: [
+              { name: 'Member', headerCellClass: 'blue' },
               { name: 'horse_name', enableFiltering: false, headerCellClass: 'blue' },
               { name: 'birthday', headerCellClass: 'blue' },
               { name: 'registration', headerCellClass: 'blue' },
-              { name: 'weight', headerCellClass: 'blue' }
-              //{ name: '$id', headerCellClass: 'blue' },
-              //{ name: 'end_time', headerCellClass: 'blue' },
-              //{ name: 'location', headerCellClass: 'blue' },
-              //{ name: 'weather', headerCellClass: 'blue' },
+              { name: 'weight', headerCellClass: 'blue' },
+              { name: 'rides', headerCellClass: 'blue' },
+              { name: 'miles', headerCellClass: 'blue' },
+              { name: 'top speed', headerCellClass: 'blue' },
+              { name: 'energy', headerCellClass: 'blue' }
               //{ name: 'energy', headerCellClass: 'blue' },
               //{ name: 'calories', headerCellClass: 'blue' },
           

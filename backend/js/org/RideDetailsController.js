@@ -38,6 +38,8 @@
             },
 
             columnDefs: [
+               { name: 'Member', headerCellClass: 'blue' },
+               { name: 'Horse', headerCellClass: 'blue' },
               { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue' },
               { name: 'total_time', headerCellClass: 'blue' },
               { name: 'top_speed', headerCellClass: 'blue' },

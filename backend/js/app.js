@@ -78,7 +78,10 @@ app.config(function ($routeProvider, $locationProvider) {
          templateUrl: 'views/org/Horses.html',
          controller: 'HorsesController'
      })
-
+        .when('/Members', {
+            templateUrl: 'views/org/Members.html',
+            controller: 'MembersController'
+       })
 
         .when('/faq', {
             templateUrl: 'views/faq.html',

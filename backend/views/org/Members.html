@@ -1,0 +1,74 @@
+﻿<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h2>Equitrack <small> Member Managerment </small></h2>
+            </div>
+
+            <input type="text" id="search" style="float:right;border:1px solid; width:250px; height:34px;border-radius:5px; padding:5px;" ng-keyup="Search()" placeholder="Search" />
+            <button class="btn btn-danger addjust" ng-click="Download()"><i class="fa fa-download mr-5"></i> Download</button>
+            <button class="btn btn-primary addjust " ng-click="EmailSend()"><i class="fa fa-envelope mr-5"></i> Email</button>
+            <button class="btn btn-info addjust" ng-click="export('pdf')"><i class="fa fa-file-pdf-o"></i> PDF</button>
+
+        </div>
+
+        <div class="clearfix"></div>
+
+        <!--<div class="row" style="margin-top:10px;">
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-3">
+                <div style="float:right" ng-dropdown-multiselect="" search-filter="customFilter" options="example15data" selected-model="example15model" extra-settings="example15settings" translation-texts="example15customTexts">
+
+                </div>
+            </div>
+
+            <div class="col-md-1" style="text-align:center;">
+                <button type="button" class="btn btn-primary" ng-click="SelectItem()">Filter</button>
+            </div>
+
+
+
+        </div>-->
+
+        <div class="row">
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+
+                <div class="x_content">
+
+
+
+                    <div class="grid" ui-grid="gridOptions" ui-grid-selection ui-grid-exporter ui-grid-move-columns></div>
+
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="sharemodal" tabindex="-1" role="dialog" data-backdrop="false">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" style="width:350px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="ClosedShareModel()">&times;</button>
+                <h4 class="modal-title">Please Enter Your Email</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="margin:15px;">
+                    <input type="text" class="form-control" id="shareemailaddress" placeholder="Email Address">
+
+                </div>
+
+                <div class="row" style="margin:15px;">
+                    <button type="button" class="btn btn-primary addjust " style="width: 100%;    border-radius: 4px;" ng-click="SendPdf()">Send Email</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
