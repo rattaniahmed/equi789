@@ -9,10 +9,11 @@
             $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
         },
         columnDefs: [
+           { name: 'email', headerCellClass: 'blue', field: 'email' },
           { name: 'display_name', enableFiltering: false, headerCellClass: 'blue', filed : 'Display_Name'  },
           { name: 'first_name', headerCellClass: 'blue', filed: 'first_name' },
-          { name: 'last_name', headerCellClass: 'blue', filed: 'last_name' },
-          { name: 'email', headerCellClass: 'blue', field: 'email' }
+          { name: 'last_name', headerCellClass: 'blue', filed: 'last_name' }
+         
           //{ name: '$id', headerCellClass: 'blue' },
           //{ name: 'end_time', headerCellClass: 'blue' },
           //{ name: 'location', headerCellClass: 'blue' },
