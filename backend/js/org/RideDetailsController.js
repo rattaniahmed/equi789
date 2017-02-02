@@ -1,6 +1,6 @@
 ﻿app.controller('RideDetailsController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams) {
 
-        console.log("rideDetailController jhghhjhgjhgjhgjhg");
+        console.log("rideDetailController");
 
         $scope.date = {
             startDate: moment().subtract(1, "days"),
