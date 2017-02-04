@@ -116,6 +116,16 @@ app.config(function ($routeProvider, $locationProvider) {
              controller: 'nhController'
          })
 
+         .when('/messages', {
+             templateUrl: 'views/messages.html',
+             controller: 'messagesController'
+         })
+
+ .when('/messages/:id', {
+     templateUrl: 'views/editmessages.html',
+     controller: 'editmessagesController'
+ })
+
          .when('/report', {
              templateUrl: 'views/report.html',
              controller: 'reportController'
