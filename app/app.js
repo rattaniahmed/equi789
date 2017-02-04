@@ -137,7 +137,7 @@ app.factory('firebaseService', function () {
 
     return {
         FIREBASEENDPOINT: function () {
-            return new Firebase(endPoint);
+            return new Firebase(endPoint); //firebase.database().ref(); //new Firebase(endPoint);
         },       
         USERS: function () {
             return new Firebase(endPoint + "/users");
