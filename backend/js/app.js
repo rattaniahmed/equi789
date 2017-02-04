@@ -135,7 +135,7 @@ app.config(function ($routeProvider, $locationProvider) {
 
 app.factory('firebaseService', function () {
 
-    var endPoint = "https://myequitrack.firebaseio.com";
+    var endPoint = getFireBaseEndPoint();
 
     return {
         FIREBASEENDPOINT: function () {
@@ -163,7 +163,7 @@ app.factory('storageService', function () {
                 return JSON.parse(obj);
         },
         getNodeJSAppURL: function () {
-            return "https://myequitracknodejsemail.appspot.com/";
+            return getNodeJsEndPoint();
         }
     }
 
@@ -274,8 +274,6 @@ loginapp.controller('loginController', function ($scope, $firebaseArray) {
         var u = global.settings.getMultiServiceUrl();
 
         $.ajax({
-            //url: 'http://demo.ithours.com/passit/api/MultiPart',
-            //url:"http://localhost:51912/api/MultiPart",
             url: u,
             type: 'POST',
             data: formData,
@@ -331,7 +329,9 @@ loginapp.controller('loginController', function ($scope, $firebaseArray) {
         bootbox.alert("Invalid username and password.Please contact support");
     }
 
-    var ref = new Firebase("https://myequitrack.firebaseio.com");
+   
+
+    var ref = new Firebase(getFireBaseEndPoint());
 
     $scope.users = $firebaseArray(ref.child('admin'));
 

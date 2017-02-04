@@ -133,7 +133,7 @@ app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
 
 app.factory('firebaseService', function () {
 
-    var endPoint = "https://myequitrack.firebaseio.com";
+    var endPoint = getFireBaseEndPoint();
 
     return {
         FIREBASEENDPOINT: function () {
@@ -161,8 +161,7 @@ app.factory('storageService', function () {
                 return JSON.parse(obj);
         },
         getNodeJSAppURL: function () {
-            return "https://myequitracknodejsemail.appspot.com/";
-            //return "http://localhost:8080/"
+            return getNodeJsEndPoint();
         }
     }
 
@@ -375,33 +374,8 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
 
             var html = 'New contact message from the user " ' + ReplaceNull($scope.first_name) + ' '+ ReplaceNull($scope.last_name) + ' ( ' + ReplaceNull($scope.email) + ' ) "  and Message is - ' + ReplaceNull($scope.msg);
 
-            //html += "<tr>      <td>First Name :- </td>  <td> " + ReplaceNull($scope.first_name) + "</td>        </tr>";
-            //  html += "<tr>      <td>Last Name :- </td>  <td> " + ReplaceNull($scope.last_name) + "</td>        </tr>";
-            //  html += "<tr>      <td>Email :- </td>  <td> " + ReplaceNull($scope.email) + "</td>        </tr>";
-            //  html += "<tr>      <td>Mobile :- </td>  <td> " + ReplaceNull($scope.mobile) + "</td>        </tr>";
-            //  html += "<tr>      <td>Message :- </td>  <td> " + ReplaceNull($scope.msg) + "</td>        </tr>";
-
-           // html += "<br/><br/><br/>";
-          //  html += "<table>";
-          //  html += "<tr>      <td>First Name :- </td>  <td> " + ReplaceNull($scope.first_name) + "</td>        </tr>";
-          //  html += "<tr>      <td>Last Name :- </td>  <td> " + ReplaceNull($scope.last_name) + "</td>        </tr>";
-          //  html += "<tr>      <td>Email :- </td>  <td> " + ReplaceNull($scope.email) + "</td>        </tr>";
-          //  html += "<tr>      <td>Mobile :- </td>  <td> " + ReplaceNull($scope.mobile) + "</td>        </tr>";
-          //  html += "<tr>      <td>Message :- </td>  <td> " + ReplaceNull($scope.msg) + "</td>        </tr>";
-          //  html += "</table>";
-                    //    html += "<br/><br/><br/>";
-                    //    html += "Equitrack Team</br>";
-            
-
-            //var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
-                
-            //var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
-
+           
             var url = storageService.getNodeJSAppURL() + 'sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
-                        //var url = "http://localhost:8080/" + 'sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
-
-
-
 
             debugger;
             $http({
@@ -413,10 +387,6 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
                 console.log(response);
             });
             
-            //$scope.$apply(function () {
-            //    blockUI.stop();
-            //});
-
             $scope.first_name = "";
             $scope.last_name = "";
             $scope.email = "";

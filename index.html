@@ -7,7 +7,7 @@
 
     <meta name="description" content="We are at Myequitrack, your solution for public and private oriented products and services.">
 
-<title>\\Equitrack//</title>
+    <title>Equitrack - Your Competitive Advantage</title>
 
     <meta property="og:url" content="https://myequitrack.com/" />
     <meta property="og:type" content="website" />
@@ -119,6 +119,8 @@
 <div class="page-loader" ng-show="loadingView"></div>
 <div ng-view></div>
 
+    <script src="config.js"></script>
+
 
 <!-- AngularJS --> 
 <!--<script src="js/angular.js"></script>--> 
@@ -228,12 +230,24 @@
 
     <script>
         // Initialize Firebase
+
         var config = {
-            apiKey: "AIzaSyAjXnuTWIrwU9A-E7KBmoJNHu7SAd97gzo",
-            authDomain: "myequitrack.firebaseapp.com",
-            databaseURL: "https://myequitrack.firebaseio.com",
-            storageBucket: "myequitrack.appspot.com",
-        };
+            apiKey: "AIzaSyB8m7W3n2QF-JFkRu3RXTZ4N7pRC47TigA",
+            authDomain: "myequitrackdemo.firebaseapp.com",
+            databaseURL: "https://myequitrackdemo.firebaseio.com",
+            storageBucket: "myequitrackdemo.appspot.com",
+            messagingSenderId: "760761995772"
+        }
+
+        if (IsProduction()) {
+            config = {
+                apiKey: "AIzaSyAjXnuTWIrwU9A-E7KBmoJNHu7SAd97gzo",
+                authDomain: "myequitrack.firebaseapp.com",
+                databaseURL: "https://myequitrack.firebaseio.com",
+                storageBucket: "myequitrack.appspot.com",
+            };
+        }
+
         firebase.initializeApp(config);
     </script>
 
