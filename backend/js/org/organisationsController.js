@@ -35,6 +35,17 @@ app.controller('organisationsController', function ($scope, storageService, fire
         }
         else
             $("#checkboxedit").prop('checked', false);
+        if (image.AllowMessaging) {
+            if (image.AllowMessaging == "1") {
+                $("#checkboxeditMessage").prop('checked', true)
+            }
+            else {
+                $("#checkboxeditMessage").prop('checked', false);
+            }
+
+        }
+        else
+            $("#checkboxeditMessage").prop('checked', false);
         
 
         $scope.photo = image.Url;
@@ -50,7 +61,10 @@ app.controller('organisationsController', function ($scope, storageService, fire
         if ($('#checkboxedit').is(":checked")) {
             ShowInEquiTrack = "1";
         }
-
+        var AllowMessaging = "0";
+        if ($('#checkboxeditMessage').is(":checked")) {
+            AllowMessaging = "1";
+        }
        
             var file = document.getElementById('imagefileedit').files[0];
             if (file != undefined) {
@@ -75,6 +89,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
                     imageRef.OrganisationNumber = $("#numberedit").val();
                     imageRef.UserId = $("#useridedit").val();
                     imageRef.ShowInEquiTrack = ShowInEquiTrack;
+                    imageRef.AllowMessaging = AllowMessaging;
 
 
 
@@ -99,7 +114,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
                 imageRef.OrganisationNumber = $("#numberedit").val();
                 imageRef.UserId = $("#useridedit").val();
                 imageRef.ShowInEquiTrack = ShowInEquiTrack;
-
+                imageRef.AllowMessaging = AllowMessaging;
 
 
                 $scope.images.$save(imageRef).then(function (ref) {
@@ -163,7 +178,13 @@ app.controller('organisationsController', function ($scope, storageService, fire
                     ShowInEquiTrack = "1";
                 }
 
+                var AllowMessaging = "0";
+                if ($('#checkboxaddMessage').is(":checked")) {
+                    ShowInEquiTrack = "1";
+                }
+
                 var toAdd = {
+                    AllowMessaging: AllowMessaging,
                     ShowInEquiTrack: ShowInEquiTrack,
                     DisplayName: $("#namenew").val(),
                     OrganisationName: $("#namenew").val(),

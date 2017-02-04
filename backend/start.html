@@ -48,6 +48,8 @@
       <script src="js/org/organisationsController.js"></script>
       <script src="js/org/HorsesController.js"></script>
       <script src="js/org/MembersController.js"></script>
+
+      <script src="js/messagesController.js"></script>
       <!--<script src="../bower_components/ng-ckeditor/ckeditor.js"></script>
       <script src="../bower_components/ng-ckeditor/ng-ckeditor.js"></script>
       <link href="../bower_components/ng-ckeditor/ng-ckeditor.css" rel="stylesheet" />-->
@@ -155,7 +157,7 @@
                                     <a href="#/ridedetails"><img src="/images/runninghorse.png" style="width:30px;margin-right:10px;margin-bottom:10px;"><span style="font-size:17px;"> Rides</span> </a>
                                 </li>
                                 <li>
-                                    <a href="#/ridedetails"><i class="fa fa-envelope" style="font-size:20px;"></i> <span style="font-size:17px;">Message Center</span> </a>
+                                    <a href="#/messages" ng-show="user.AllowMessaging =='1'"><i class="fa fa-envelope" style="font-size:20px;"></i> <span style="font-size:17px;">Announcements</span> </a>
                                 </li>
                                
                                 

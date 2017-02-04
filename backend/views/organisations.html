@@ -74,6 +74,8 @@
                                     <div class="caption" style="min-height: 130px;">
                                         <p ng-show="img.ShowInEquiTrack == 1">Show in EquiTrack      :- yes</p>
                                         <p ng-show="img.ShowInEquiTrack != 1">Show in EquiTrack      :- No</p>
+                                        <p ng-show="img.AllowMessaging == 1">Allow Messaging        :- yes</p>
+                                        <p ng-show="img.AllowMessaging != 1">Allow Messaging        :- No</p>
 
                                         <p>Organization Name      : - {{img.DisplayName}}</p>
                                         <p>Organization Number    : - {{img.OrganisationNumber}}</p>
@@ -147,6 +149,14 @@
                                 <div class="col-md-3 col-sm-9 col-xs-9">
 
                                     <input class="form-control" type="checkbox" id="checkboxedit">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-3">Allow Messaging</label>
+                                <div class="col-md-3 col-sm-9 col-xs-9">
+
+                                    <input class="form-control" type="checkbox" id="checkboxeditMessage">
 
                                 </div>
                             </div>
@@ -241,6 +251,14 @@
 
                                         </div>
                                     </div> 
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Allow Messaging</label>
+                                        <div class="col-md-3 col-sm-9 col-xs-9">
+                                            <input class="form-control" type="checkbox" id="checkboxaddMessage">
+
+                                        </div>
+                                    </div>
+
                                 </form>
                             </div>
                         

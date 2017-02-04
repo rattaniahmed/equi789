@@ -102,31 +102,11 @@
 
                 $scope.Question = $scope.images.$getRecord($routeParams.id);
 
-                $("#name").val($scope.Question.Name);
-                $("#email").val($scope.Question.EmailId);
+                $("#name").val($scope.Question.MessageText);
                 $("#expiry").val($scope.Question.Expiry);
-                var index = _.findLastIndex($scope.association, { OrganisationNumber: $scope.Question.AssociationsId });
-                //$scope.SelectedOrganisation = $scope.Question.AssociationsId;
 
-                $scope.SelectedOrganisation = $scope.association[index];
-
-                //$scope.SetCheckBoxValue("Associations1", $scope.Question.IsAssociations1);
-                //$scope.SetCheckBoxValue("Associations2", $scope.Question.IsAssociations2);
-                //$scope.SetCheckBoxValue("Associations3", $scope.Question.IsAssociations3);
-                //$scope.SetCheckBoxValue("Associations4", $scope.Question.IsAssociations4);
-
-                $scope.SetCheckBoxValue("hours", $scope.Question.IsHours);
-                $scope.SetCheckBoxValue("distance", $scope.Question.IsDistance);
-                $scope.SetCheckBoxValue("cords", $scope.Question.IsCords);
-                $scope.SetCheckBoxValue("ridecount", $scope.Question.IsRideCount);
-
-
-                $scope.SetCheckBoxValue("topspeed", $scope.Question.IsTopSpeed);
-                $scope.SetCheckBoxValue("avgspeed", $scope.Question.IsAvgSpeed);
-
-                $scope.SetCheckBoxValue("energy", $scope.Question.IsEnergy);
-
-                $scope.DownloadLink = $scope.url + $routeParams.id;
+                
+               
 
 
             }
@@ -138,58 +118,39 @@
         console.log("Error in loading details" + error);
     });
 
-    $scope.OnOrganisaionChange = function (FinalOrg) {
-        console.log(FinalOrg);
-        $scope.FinalOrg = FinalOrg;
-        //$scope.orgnumber= item.OrganisationNumber
-    }
+    //$scope.OnOrganisaionChange = function (FinalOrg) {
+    //    console.log(FinalOrg);
+    //    $scope.FinalOrg = FinalOrg;
+    //    //$scope.orgnumber= item.OrganisationNumber
+    //}
 
-    $scope.Collopse = function (image) {
+    //$scope.Collopse = function (image) {
 
-        console.log(image);
+    //    console.log(image);
 
-        $("#link_" + image.$id).addClass("collapsed");
-        $("#div_" + image.$id).addClass("in");
+    //    $("#link_" + image.$id).addClass("collapsed");
+    //    $("#div_" + image.$id).addClass("in");
 
-    }
+    //}
 
-    $scope.EditQuestionModal = function (image) {
-        $scope.cntId = image.$id;
-        //$("#addphoto").click();
-        debugger;
+    //////$scope.EditQuestionModal = function (image) {
+    //////    $scope.cntId = image.$id;
+    //////    //$("#addphoto").click();
+    //////    debugger;
 
-        $("#titleedit").val(image.QuestionText);
-        $("#linkedit").val(image.AnswerText);
-        $("#editmodal").modal('show');
-    }
+    //////    $("#name").val(image.MessageText);
+    //////    $("#expiry").val(image.Expiry);
+    //////    $("#editmodal").modal('show');
+    //////}
 
     $scope.EditQuestion = function () {
-
-        $("#reportModal").show();
-
+        $("#loadingModal").show();
         var imageRef = $scope.images.$getRecord($routeParams.id);
-        imageRef.Name = $("#name").val();
-        imageRef.EmailId = $("#email").val();
-        imageRef.Expiry = $("#expiry").val();
+        imageRef.MessageText = $("#name").val();
+        imageRef.Expiry =  $("#expiry").val();
+        imageRef.OrganisationId = $scope.user.OrganisationNumber;
 
-        imageRef.IsHorseName = 1;
-        imageRef.AssociationsId = $scope.SelectedOrganisation.OrganisationNumber;
-        //imageRef.IsAssociations1 = $scope.GetCheckBoxValue("Associations1");
-        //imageRef.IsAssociations2 = $scope.GetCheckBoxValue("Associations2");
-        //imageRef.IsAssociations3 = $scope.GetCheckBoxValue("Associations3");
-        //imageRef.IsAssociations4 = $scope.GetCheckBoxValue("Associations4");
-
-
-        imageRef.IsCords = $scope.GetCheckBoxValue("cords");
-        imageRef.IsDistance = $scope.GetCheckBoxValue("distance");
-        imageRef.IsHours = $scope.GetCheckBoxValue("hours");
-        imageRef.IsRideCount = $scope.GetCheckBoxValue("ridecount");
-
-        imageRef.IsTopSpeed = $scope.GetCheckBoxValue("topspeed");
-        imageRef.IsAvgSpeed = $scope.GetCheckBoxValue("avgspeed");
-
-        imageRef.IsEnergy = $scope.GetCheckBoxValue("energy");
-
+        
 
         $scope.images.$save(imageRef).then(function (res) {
 
@@ -199,11 +160,11 @@
             $scope.showSendContent = true;
             $scope.DownloadLink = $scope.url + $routeParams.id;
 
+           
 
-
-        });
-
-
+       });
+        window.location.href = "#/messages/";
+        $("#loadingModal").hide();
 
 
     }
@@ -216,7 +177,7 @@
             var id = ref.key();
 
             $("#loadingModal").hide();
-            window.location.href = "#/report"
+            window.location.href = "#/messages"
 
         });
 
@@ -224,47 +185,28 @@
 
 
     $scope.Cancle = function () {
-        window.location.href = "#/report";
+        window.location.href = "#/messages";
     }
 
+
     $scope.AddQuestion = function () {
-        $("#reportModal").show();
-        var imageRef = {};
-
-        imageRef.Name = $("#name").val();
-        imageRef.EmailId = $("#email").val();
-        imageRef.Expiry = $("#expiry").val();
-
-        imageRef.IsHorseName = 1;
-        imageRef.AssociationsId = $scope.SelectedOrganisation.OrganisationNumber;
-        //imageRef.IsAssociations2 = $scope.GetCheckBoxValue("Associations2");
-        //imageRef.IsAssociations3 = $scope.GetCheckBoxValue("Associations3");
-        //imageRef.IsAssociations4 = $scope.GetCheckBoxValue("Associations4");
-
-        imageRef.IsCords = $scope.GetCheckBoxValue("cords");
-        imageRef.IsDistance = $scope.GetCheckBoxValue("distance");
-        imageRef.IsHours = $scope.GetCheckBoxValue("hours");
-        imageRef.IsRideCount = $scope.GetCheckBoxValue("ridecount");
-
-        imageRef.IsTopSpeed = $scope.GetCheckBoxValue("topspeed");
-        imageRef.IsAvgSpeed = $scope.GetCheckBoxValue("avgspeed");
-
-        imageRef.IsEnergy = $scope.GetCheckBoxValue("energy");
-
-        $scope.images.$add(imageRef).then(function (ref) {
-            debugger;
+        $("#loadingModal").show();
+        var toAdd = {
+            MessageText: $("#name").val(),
+            Expiry: $("#expiry").val(),
+            OrganisationId: $scope.user.OrganisationNumber
+        }
+        $scope.images.$add(toAdd).then(function (ref) {
+            
             var id = ref.key();
-
-            $scope.DownloadLink = $scope.url + id;
-
             console.log("added record with id " + id);
-            $("#reportModal").hide();
-            //window.location.href = "#/report"
 
-            $scope.showSendContent = true;
-
+            window.location.href = "#/messages/";
+            window.location.reload();
+           
         });
 
+        $("#loadingModal").hide();
     }
 
     $scope.Action = function () {
@@ -284,6 +226,10 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
     console.log("messagesController");
 
 
+
+   
+    $scope.user = JSON.parse(localStorage.getItem("adminObject"));
+
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.images = $firebaseArray(ref.child('Content').child('Messages'));
     $scope.Imgaes = [];
@@ -297,30 +243,31 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
 
 
 
-    $scope.Collopse = function (image) {
+    //$scope.Collopse = function (image) {
 
-        console.log(image);
+    //    console.log(image);
 
-        $("#link_" + image.$id).addClass("collapsed");
-        $("#div_" + image.$id).addClass("in");
+    //    $("#link_" + image.$id).addClass("collapsed");
+    //    $("#div_" + image.$id).addClass("in");
 
-    }
+    //}
 
-    $scope.EditQuestionModal = function (image) {
-        $scope.cntId = image.$id;
-        //$("#addphoto").click();
-        debugger;
+    //$scope.EditQuestionModal = function (image) {
+    //    $scope.cntId = image.$id;
+    //    //$("#addphoto").click();
+    //    debugger;
 
-        $("#titleedit").val(image.QuestionText);
-        $("#linkedit").val(image.AnswerText);
-        $("#editmodal").modal('show');
-    }
+    //    $("#titleedit").val(image.QuestionText);
+    //    $("#linkedit").val(image.AnswerText);
+    //    $("#editmodal").modal('show');
+    //}
 
     $scope.EditQuestion = function () {
 
         var imageRef = $scope.images.$getRecord($scope.cntId);
-        imageRef.QuestionText = $("#titleedit").val();
-        imageRef.AnswerText = $("#linkedit").val();
+        imageRef.MessageText = $("#name").val();
+        imageRef.Expiry =  $("#expiry").val();
+        imageRef.OrganisationId = $scope.user.OrganisationNumber;
 
         $scope.images.$save(imageRef).then(function (res) {
 
@@ -355,8 +302,9 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
     $scope.AddQuestion = function () {
 
         var toAdd = {
-            AnswerText: $("#linknew").val(),
-            QuestionText: $("#titlenew").val()
+            MessageText: $("#name").val(),
+            Expiry: $("#expiry").val(),
+            OrganisationId: $scope.user.OrganisationNumber
         }
 
         $scope.images.$add(toAdd).then(function (ref) {
@@ -372,6 +320,6 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
     }
 
     $scope.Redirect = function () {
-        window.location.href = "#/report/-1";
+        window.location.href = "#/messages/-1";
     }
 });
