@@ -27,10 +27,10 @@ app.config(function ($routeProvider, $locationProvider) {
         })
 
 
-         .when('/orghome', {
-             templateUrl: 'views/org/home.html',
-             controller: 'homeController'
-         })
+         //.when('/orghome', {
+         //    templateUrl: 'views/org/home.html',
+         //    controller: 'homeController'
+         //})
 
         .when('/users', {
             templateUrl: 'views/users.html',
