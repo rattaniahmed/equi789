@@ -25,6 +25,13 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: 'views/home.html',
             controller: 'homeController'
         })
+
+
+         .when('/orghome', {
+             templateUrl: 'views/org/home.html',
+             controller: 'homeController'
+         })
+
         .when('/users', {
             templateUrl: 'views/users.html',
             controller: 'UsersController'
