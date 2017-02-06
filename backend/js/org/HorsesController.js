@@ -14,10 +14,12 @@
         columnDefs: [
           { name: 'Member', headerCellClass: 'blue' },
           { name: 'horse_name', enableFiltering: false, headerCellClass: 'blue' },
+          { name: 'Organization Number', enableFiltering: false, headerCellClass: 'blue' },
           { name: 'birthday', headerCellClass: 'blue' },
           { name: 'registration', headerCellClass: 'blue' },
           { name: 'weight', headerCellClass: 'blue' },
-          { name: 'total_rides', headerCellClass: 'blue', filed: 'Rides' },
+          { name: 'Total_rides', headerCellClass: 'blue', filed: 'Rides' },
+           { name: 'Total time', headerCellClass: 'blue'},
           { name: 'miles', headerCellClass: 'blue', filed: 'miles' },
           { name: 'top_speed', headerCellClass: 'blue', filed: 'Top speed' },
           { name: 'energy', headerCellClass: 'blue', filed: 'energy' }

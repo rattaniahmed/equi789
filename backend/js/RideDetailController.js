@@ -13,6 +13,7 @@
             $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
         },
         columnDefs: [
+         
           { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue' },
           { name: 'total_time', headerCellClass: 'blue' },
           { name: 'top_speed', headerCellClass: 'blue' },

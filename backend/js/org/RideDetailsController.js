@@ -40,6 +40,7 @@
         columnDefs: [
            { name: 'Member', headerCellClass: 'blue' },
            { name: 'Horse', headerCellClass: 'blue', field: 'Horse' },
+          { name: 'Membership Number', headerCellClass: 'blue', field: '' },
           { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue' },
           { name: 'total_time', headerCellClass: 'blue' },
           { name: 'top_speed', headerCellClass: 'blue' },

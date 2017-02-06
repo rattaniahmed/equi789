@@ -12,7 +12,11 @@
            { name: 'email', headerCellClass: 'blue', field: 'email' },
           { name: 'display_name', enableFiltering: false, headerCellClass: 'blue', filed : 'Display_Name'  },
           { name: 'first_name', headerCellClass: 'blue', filed: 'first_name' },
-          { name: 'last_name', headerCellClass: 'blue', filed: 'last_name' }
+          { name: 'last_name', headerCellClass: 'blue', filed: 'last_name' },
+         { name: 'Total Rides', headerCellClass: 'blue', filed: 'Total Rides' },
+          { name: 'Total Horses', headerCellClass: 'blue', filed: 'Total Horses' },
+        { name: 'Total Time', headerCellClass: 'blue', filed: 'Total Time' },
+         { name: 'Total Distance', headerCellClass: 'blue', filed: 'Total Distance' }
          
           //{ name: '$id', headerCellClass: 'blue' },
           //{ name: 'end_time', headerCellClass: 'blue' },
