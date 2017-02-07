@@ -105,6 +105,9 @@
                 $("#name").val($scope.Question.MessageText);
                 $("#expiry").val($scope.Question.Expiry);
 
+                $("#title").val($scope.Question.AnnouncementTitle);
+                $("#link").val($scope.Question.Embeddedlink);
+
                 
                
 
@@ -146,10 +149,15 @@
     $scope.EditQuestion = function () {
         $("#loadingModal").show();
         var imageRef = $scope.images.$getRecord($routeParams.id);
+        imageRef.AnnouncementTitle= $("#title").val();
         imageRef.MessageText = $("#name").val();
-        imageRef.Expiry =  $("#expiry").val();
+        imageRef.Expiry = $("#expiry").val();
+        imageRef.Embeddedlink = $("#link").val();
         imageRef.OrganisationId = $scope.user.OrganisationNumber;
-
+       
+       
+        
+       
         
 
         $scope.images.$save(imageRef).then(function (res) {
@@ -192,8 +200,10 @@
     $scope.AddQuestion = function () {
         $("#loadingModal").show();
         var toAdd = {
+            AnnouncementTitle: $("#title").val(),
             MessageText: $("#name").val(),
             Expiry: $("#expiry").val(),
+            Embeddedlink: $("#link").val(),
             OrganisationId: $scope.user.OrganisationNumber
         }
         $scope.images.$add(toAdd).then(function (ref) {
@@ -266,7 +276,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
 
         var imageRef = $scope.images.$getRecord($scope.cntId);
         imageRef.MessageText = $("#name").val();
-        imageRef.Expiry =  $("#expiry").val();
+        imageRef.Expiry = $("#expiry").val();
         imageRef.OrganisationId = $scope.user.OrganisationNumber;
 
         $scope.images.$save(imageRef).then(function (res) {
@@ -304,6 +314,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
         var toAdd = {
             MessageText: $("#name").val(),
             Expiry: $("#expiry").val(),
+      
             OrganisationId: $scope.user.OrganisationNumber
         }
 
@@ -318,7 +329,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
         });
 
     }
-
+   
     $scope.Redirect = function () {
         window.location.href = "#/messages/-1";
     }

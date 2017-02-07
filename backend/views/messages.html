@@ -34,9 +34,10 @@
                                         <div class="panel" ng-repeat="img in Imgaes">
 
                                             <a class="panel-heading" role="tab" data-toggle="collapse" href="#/messages/{{img.$id}}" data-parent="#accordion" aria-expanded="true" aria-controls="div_{{img.$id}}">
-                                                <h6 class="panel-title">
-                                                    {{img.MessageText}} - Valid till ( {{img.Expiry}} )
-                                                </h6>
+                                               
+                                                   {{img.AnnouncementTitle}}<br> {{img.MessageText}}<br>
+                                                    {{img.Embeddedlink}} <br>-Valid till ( {{img.Expiry}} )
+                                                
                                             </a>
 
 
