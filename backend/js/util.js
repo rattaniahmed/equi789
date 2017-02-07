@@ -1105,3 +1105,14 @@ function ReplaceTime(time) {
     } catch (err)
     { }
 }
+
+function getAdminUser() {
+
+    var obj = localStorage.getItem("adminObject");
+    if (obj == null || obj == '' || obj == "undefined")
+        window.location.href = "login.html";
+    else
+        return JSON.parse(obj);
+
+        
+}
