@@ -56,7 +56,17 @@
 
     }
 
-
+    $scope.icons = [
+        { url: 'images/ingo_icon.png', id: 1 },
+          { url: 'images/query_icon.png', id: 2 },
+            { url: 'images/important_icon.png', id: 3 },
+              { url: 'images/news_icon.png', id: 4 },
+                { url: 'images/Horse_icon.png', id: 5 },
+                { url: 'images/happy_icon.png', id: 6 }
+    ]
+    $scope.imageSelect = function (id_icon) {
+        img = _.findWhere($scope.icons, { id: id_icon }).url;
+    }
     $scope.SetCheckBoxValue = function (id, value) {
         if (value == "1")
             $("#" + id).attr("checked", true);
@@ -153,6 +163,7 @@
         imageRef.MessageText = $("#name").val();
         imageRef.Expiry = $("#expiry").val();
         imageRef.Embeddedlink = $("#link").val();
+        imageRef.AnnouncementType= img,
         imageRef.OrganisationId = $scope.user.OrganisationNumber;
        
        
@@ -195,7 +206,8 @@
     $scope.Cancle = function () {
         window.location.href = "#/messages";
     }
-
+  
+    
 
     $scope.AddQuestion = function () {
         $("#loadingModal").show();
@@ -204,6 +216,7 @@
             MessageText: $("#name").val(),
             Expiry: $("#expiry").val(),
             Embeddedlink: $("#link").val(),
+            AnnouncementType: img,
             OrganisationId: $scope.user.OrganisationNumber
         }
         $scope.images.$add(toAdd).then(function (ref) {
