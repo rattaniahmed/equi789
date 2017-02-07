@@ -278,6 +278,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
+        $scope.gridOptions.data = dataArray;
         console.log(dataArray);
     }).catch(function (error) {
         console.log("Error in loading details");
