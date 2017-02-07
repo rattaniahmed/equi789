@@ -217,6 +217,7 @@
             Expiry: $("#expiry").val(),
             Embeddedlink: $("#link").val(),
             AnnouncementType: img,
+            read: 0,
             OrganisationId: $scope.user.OrganisationNumber
         }
         $scope.images.$add(toAdd).then(function (ref) {
@@ -261,8 +262,8 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
           { name: 'MessageText', enableFiltering: false, headerCellClass: 'blue', filed: 'Announcement' },
           { name: 'Expiry', enableFiltering: false, headerCellClass: 'blue', filed: 'Expiration Date' },
           { name: 'Status', headerCellClass: 'blue', filed: 'Status' },
-          { name: 'AnnouncementType', headerCellClass: 'blue', filed: 'Type' },
-            { name: 'Number of Read', headerCellClass: 'blue', filed: 'Number of Read' },
+          { name: 'AnnouncementType', cellTemplate: "<img width=\"25px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src>", filed: 'Type' },
+          { name: 'read', headerCellClass: 'blue', filed: 'Number of Read' },
          
           //{ name: 'energy', headerCellClass: 'blue' },
           //{ name: 'calories', headerCellClass: 'blue' },
@@ -277,8 +278,33 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
     $scope.images = $firebaseArray(ref.child('Content').child('Messages'));
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
-        $scope.Imgaes = dataArray;
-        $scope.gridOptions.data = dataArray;
+         
+        var anumber = getAdminUser().OrganisationNumber;
+        var dataToShow = [];
+        // var Date = new Date();
+        
+        var today = new Date();
+      
+        
+        for (cnt = 0; cnt < dataArray.length; cnt++) {
+
+            if (anumber == dataArray[cnt].OrganisationId) {
+                var obj = dataArray[cnt];
+                var d = Date.parse(dataArray[cnt].Expiry);
+                if (today < d) {
+                    obj.Status = "Active";
+                } else {
+                    obj.Status = "Deactive";
+                }
+               
+                //obj.ImageUrl = obj.AnnouncementType;
+                dataToShow.push(obj);
+            }
+
+        }
+
+        $scope.gridOptions.data = dataToShow;
+
         console.log(dataArray);
     }).catch(function (error) {
         console.log("Error in loading details");
