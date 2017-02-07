@@ -29,27 +29,38 @@
                                 </div>
                                 <div class="x_content">
 
-                                    <!-- start accordion -->
-                                    <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
-                                        <div class="panel" ng-repeat="img in Imgaes">
-
-                                            <a class="panel-heading" role="tab" data-toggle="collapse" href="#/messages/{{img.$id}}" data-parent="#accordion" aria-expanded="true" aria-controls="div_{{img.$id}}">
-                                               
-                                                   {{img.AnnouncementTitle}}<br> {{img.MessageText}}<br>
-                                                    {{img.Embeddedlink}} <br>-Valid till ( {{img.Expiry}} )
-                                                
-                                            </a>
 
 
+                                    <div ui-grid="gridOptions" ui-grid-pagination></div>
 
-                                        </div>
-                                    </div>
+
 
                                 </div>
-                                <!-- end of accordion -->
 
 
-                            </div>
+                                    <div class="x_content">
+
+                                        <!-- start accordion -->
+                                        <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div class="panel" ng-repeat="img in Imgaes">
+
+                                                <a class="panel-heading" role="tab" data-toggle="collapse" href="#/messages/{{img.$id}}" data-parent="#accordion" aria-expanded="true" aria-controls="div_{{img.$id}}">
+
+                                                    {{img.AnnouncementTitle}}<br> {{img.MessageText}}<br>
+                                                    {{img.Embeddedlink}} <br>-Valid till ( {{img.Expiry}} )
+
+                                                </a>
+
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- end of accordion -->
+
+
+                                </div>
                         </div>
                     </div>
 
