@@ -249,7 +249,27 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
     console.log("messagesController");
 
 
+    $scope.gridOptions = {
+        paginationPageSizes: [5, 10, 20],
+        paginationPageSize: 10,
+        enableFiltering: false,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+            $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
+        },
+        columnDefs: [
+          { name: 'MessageText', enableFiltering: false, headerCellClass: 'blue', filed: 'Announcement' },
+          { name: 'Expiry', enableFiltering: false, headerCellClass: 'blue', filed: 'Expiration Date' },
+          { name: 'Status', headerCellClass: 'blue', filed: 'Status' },
+          { name: 'AnnouncementType', headerCellClass: 'blue', filed: 'Type' },
+            { name: 'Number of Read', headerCellClass: 'blue', filed: 'Number of Read' },
+         
+          //{ name: 'energy', headerCellClass: 'blue' },
+          //{ name: 'calories', headerCellClass: 'blue' },
 
+        ],
+                 
+    };
    
     $scope.user = JSON.parse(localStorage.getItem("adminObject"));
 
