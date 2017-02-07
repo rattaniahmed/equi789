@@ -7,3 +7,10 @@
 .mr-10{
     margin-right:10px;
 }
+
+.selected:focus{
+  
+  border:1px solid red !important;
+   
+  
+}
