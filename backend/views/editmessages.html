@@ -83,18 +83,18 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Validity</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12 text-right">Validity</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <datepicker date-format="MM/dd/yyyy">
-                                        <input type="text" class="form-control" id="expiry" ng-model="stbadd.birthday" placeholder="MM/DD/YY" value="July, 16th, 2009">
+                                        <input type="text" class="form-control" id="expiry"  placeholder="MM/DD/YY" value="July, 16th, 2009">
                                     </datepicker>
 
                                 </div>
                             </div>
 
                                     <br />
-                                   <div class="form-group">
-                                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                   <div class="form-group" >
+                                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3 pt-10" >
                                         <button type="submit" class="btn btn-primary" ng-click="Cancle()">Cancel</button>
                                         <button type="submit" class="btn btn-success" ng-click="Action()">Submit</button>
                                         <button type="submit" class="btn btn-danger" ng-click="Delete()" ng-show="editId != -1">Delete</button>

@@ -67,19 +67,19 @@
     $scope.imageSelect = function (id_icon) {
         img = _.findWhere($scope.icons, { id: id_icon }).url;
     }
-    $scope.SetCheckBoxValue = function (id, value) {
-        if (value == "1")
-            $("#" + id).attr("checked", true);
-        else
-            $("#" + id).attr("checked", false);
-    }
+    //$scope.SetCheckBoxValue = function (id, value) {
+    //    if (value == "1")
+    //        $("#" + id).attr("checked", true);
+    //    else
+    //        $("#" + id).attr("checked", false);
+    //}
 
-    $scope.GetCheckBoxValue = function (id) {
-        if ($('#' + id).is(":checked"))
-            return "1";
-        else
-            return "0";
-    }
+    //$scope.GetCheckBoxValue = function (id) {
+    //    if ($('#' + id).is(":checked"))
+    //        return "1";
+    //    else
+    //        return "0";
+    //}
 
 
 
@@ -111,8 +111,10 @@
                 $scope.showSendContent = true;
 
                 $scope.Question = $scope.images.$getRecord($routeParams.id);
+               // $scope.exdt = $scope.Question.Expiry;
 
                 $("#name").val($scope.Question.MessageText);
+
                 $("#expiry").val($scope.Question.Expiry);
 
                 $("#title").val($scope.Question.AnnouncementTitle);
@@ -262,8 +264,13 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
           { name: 'MessageText', enableFiltering: false, headerCellClass: 'blue', filed: 'Announcement' },
           { name: 'Expiry', enableFiltering: false, headerCellClass: 'blue', filed: 'Expiration Date' },
           { name: 'Status', headerCellClass: 'blue', filed: 'Status' },
-          { name: 'AnnouncementType', cellTemplate: "<img width=\"25px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src>", filed: 'Type' },
+          { name: 'AnnouncementType', headerCellClass: 'blue', cellTemplate: "<img width=\"25px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src>", filed: 'Type' },
           { name: 'read', headerCellClass: 'blue', filed: 'Number of Read' },
+          {
+              name: " ", cellTemplate: '<div style="text-align:center;">' +
+                      '<a href="#/messages/{{row.entity.$id}}" >Edit</a>' +
+                      '</div>', enableFiltering: false
+          },
          
           //{ name: 'energy', headerCellClass: 'blue' },
           //{ name: 'calories', headerCellClass: 'blue' },
