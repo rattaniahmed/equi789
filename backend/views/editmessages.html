@@ -24,23 +24,48 @@
                     <div class="x_content">
                         <br />
                         <form class="form-horizontal form-label-left">
+                            <div class="form-group" >
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select option</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <!--<input type="text" id="name" style="width:100%;padding-left: 5px" />-->
+                                    <select id="optionType" class="form-control" style="width:50% !important;" ng-click="option()" ng-disabled="editId != -1">
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Announcement Title</label>
+                                        <option>Text</option>
+                                        <option>Image</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    
+                                    </div>
+                                </div>
+                            <div class="form-group" ng-show="selectoption=='Text'">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" >Announcement Title</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <!--<input type="text" id="name" style="width:100%;padding-left: 5px" />-->
                                     <input type="text" id="title" class="form-control" placeholder="Announcement Title">
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" ng-show="selectoption=='Text'">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Announcements</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <!--<input type="text" id="name" style="width:100%;padding-left: 5px" />-->
                                     <textarea class="form-control" rows="5" id="name"></textarea>
                                   </div>
                             </div>
-                            
+                            <div class="form-group" ng-show="selectoption=='Image'">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Uplode Image</label>
+
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <img ng-src="{{Question.MessageImage}}" style="width:400px; padding-bottom: 10px;">
+                                    <input type="file" id="trigger" onchange="angular.element(this).scope().setFile(this)">
+
+
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Embedded link</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -81,12 +106,13 @@
                                    
 
                                 </div>
+                            </form>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12 text-right">Validity</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <datepicker date-format="MM/dd/yyyy">
-                                        <input type="text" class="form-control" id="expiry"  placeholder="MM/DD/YY" value="July, 16th, 2009">
+                                        <input type="text" class="form-control" id="expiry"  placeholder="MM/DD/YY" >
                                     </datepicker>
 
                                 </div>

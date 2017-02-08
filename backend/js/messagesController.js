@@ -65,7 +65,7 @@
                 { url: 'images/happy_icon.png', id: 6 }
     ]
     $scope.imageSelect = function (id_icon) {
-        img = _.findWhere($scope.icons, { id: id_icon }).url;
+        $scope.img = _.findWhere($scope.icons, { id: id_icon }).url;
     }
     //$scope.SetCheckBoxValue = function (id, value) {
     //    if (value == "1")
@@ -80,7 +80,19 @@
     //    else
     //        return "0";
     //}
+    //$scope.image = '';
+    //$scope.setFile = function (element) {
+    //    $scope.currentFile = element.files[0];
+    //    var reader = new FileReader();
 
+    //    reader.onload = function (event) {
+    //        $scope.image_source = event.target.result
+    //        $scope.$apply()
+
+    //    }
+    //    // when the file is read it triggers the onload event above.
+    //    reader.readAsDataURL(element.files[0]);
+    //}
 
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
@@ -112,15 +124,24 @@
 
                 $scope.Question = $scope.images.$getRecord($routeParams.id);
                // $scope.exdt = $scope.Question.Expiry;
-
+                if ($scope.Question.MessageImage == "" || $scope.Question.MessageImage==undefined) {
+                    $scope.Question.selectoption = "Text";
+                   
+                } else {
+                    $scope.Question.selectoption = "Image";
+                    
+                   
+                }
                 $("#name").val($scope.Question.MessageText);
 
                 $("#expiry").val($scope.Question.Expiry);
 
                 $("#title").val($scope.Question.AnnouncementTitle);
                 $("#link").val($scope.Question.Embeddedlink);
+                $("#optionType").val($scope.Question.selectoption);
 
-                
+                $scope.option();
+
                
 
 
@@ -157,37 +178,115 @@
     //////    $("#expiry").val(image.Expiry);
     //////    $("#editmodal").modal('show');
     //////}
-
+   
+    
+    $scope.option = function () {
+        var e = document.getElementById("optionType");
+        $scope.selectoption = e.options[e.selectedIndex].text;
+    }
     $scope.EditQuestion = function () {
         $("#loadingModal").show();
-        var imageRef = $scope.images.$getRecord($routeParams.id);
-        imageRef.AnnouncementTitle= $("#title").val();
-        imageRef.MessageText = $("#name").val();
-        imageRef.Expiry = $("#expiry").val();
-        imageRef.Embeddedlink = $("#link").val();
-        imageRef.AnnouncementType= img,
-        imageRef.OrganisationId = $scope.user.OrganisationNumber;
-       
-       
-        
-       
-        
+        var file = document.getElementById('trigger').files[0];
+        if ($scope.selectoption == "Image") {
+            if (file) {
+                var metadata = {
+                    'contentType': file.type
+                };
 
-        $scope.images.$save(imageRef).then(function (res) {
+                var fname = new Date().getMilliseconds() + file.name.substring(file.name.indexOf("."));
 
-            $("#reportModal").hide();
-            console.log(res);
+                var storageRef = firebase.storage().ref();
+                storageRef.child('profile/' + fname).put(file, metadata).then(function (snapshot) {
 
-            $scope.showSendContent = true;
-            $scope.DownloadLink = $scope.url + $routeParams.id;
-
-           
-
-       });
-        window.location.href = "#/messages/";
-        $("#loadingModal").hide();
+                    debugger;
+                    var url = snapshot.metadata.downloadURLs[0];
 
 
+
+                    if ($scope.img == undefined) {
+                        $scope.img = $scope.Question.AnnouncementType;
+                    }
+
+                    console.log(url);
+                    var imageRef = $scope.images.$getRecord($routeParams.id);
+                    imageRef.AnnouncementTitle = $("#title").val();
+                    imageRef.MessageText = $("#name").val();
+                    imageRef.Expiry = $("#expiry").val();
+                    imageRef.Embeddedlink = $("#link").val();
+                    imageRef.AnnouncementType = $scope.img,
+                    imageRef.MessageImage = url,
+                    imageRef.OrganisationId = $scope.user.OrganisationNumber;
+
+                    $scope.images.$save(imageRef).then(function (res) {
+
+                        $("#reportModal").hide();
+                        console.log(res);
+
+                        $scope.showSendContent = true;
+                        $scope.DownloadLink = $scope.url + $routeParams.id;
+
+
+
+                    });
+                    window.location.href = "#/messages/";
+                    $("#loadingModal").hide();
+                });
+            } else {
+                if ($scope.img == undefined) {
+                    $scope.img = $scope.Question.AnnouncementType;
+                }
+
+                console.log(url);
+                var imageRef = $scope.images.$getRecord($routeParams.id);
+                imageRef.AnnouncementTitle = $("#title").val();
+                imageRef.MessageText = $("#name").val();
+                imageRef.Expiry = $("#expiry").val();
+                imageRef.Embeddedlink = $("#link").val();
+                imageRef.AnnouncementType = $scope.img,
+                imageRef.MessageImage = url,
+                imageRef.OrganisationId = $scope.user.OrganisationNumber;
+
+                $scope.images.$save(imageRef).then(function (res) {
+
+                    $("#reportModal").hide();
+                    console.log(res);
+
+                    $scope.showSendContent = true;
+                    $scope.DownloadLink = $scope.url + $routeParams.id;
+
+
+
+                });
+                window.location.href = "#/messages/";
+                $("#loadingModal").hide();
+            }
+        } else {
+            if ($scope.img == undefined) {
+                $scope.img = $scope.Question.AnnouncementType;
+            }
+            var imageRef = $scope.images.$getRecord($routeParams.id);
+            imageRef.AnnouncementTitle = $("#title").val();
+            imageRef.MessageText = $("#name").val();
+            imageRef.Expiry = $("#expiry").val();
+            imageRef.Embeddedlink = $("#link").val();
+            imageRef.AnnouncementType = $scope.img,
+            imageRef.MessageImage = url,
+            imageRef.OrganisationId = $scope.user.OrganisationNumber;
+
+            $scope.images.$save(imageRef).then(function (res) {
+
+                $("#reportModal").hide();
+                console.log(res);
+
+                $scope.showSendContent = true;
+                $scope.DownloadLink = $scope.url + $routeParams.id;
+
+
+
+            });
+            window.location.href = "#/messages/";
+            $("#loadingModal").hide();
+        }
     }
 
     $scope.Delete = function () {
@@ -213,26 +312,101 @@
 
     $scope.AddQuestion = function () {
         $("#loadingModal").show();
-        var toAdd = {
-            AnnouncementTitle: $("#title").val(),
-            MessageText: $("#name").val(),
-            Expiry: $("#expiry").val(),
-            Embeddedlink: $("#link").val(),
-            AnnouncementType: img,
-            read: 0,
-            OrganisationId: $scope.user.OrganisationNumber
+        if ($scope.selectoption == "Text") {
+            $scope.selectoption = "";
         }
-        $scope.images.$add(toAdd).then(function (ref) {
+       
+        var file = document.getElementById('trigger').files[0];
+
+        if ($scope.selectoption == "Image") {
+            if (file) {
+                var metadata = {
+                    'contentType': file.type
+                };
+
+                var fname = new Date().getMilliseconds() + file.name.substring(file.name.indexOf("."));
+                var storageRef = firebase.storage().ref();
+                storageRef.child('profile/' + fname).put(file, metadata).then(function (snapshot) {
+
+                    debugger;
+                    var url = snapshot.metadata.downloadURLs[0];
+
+                    console.log(url);
+                    if ($scope.img == undefined) {
+                        $scope.img = "";
+                    }
+                    var toAdd = {
+                        //AnnouncementTitle: $("#title").val(),
+                        //MessageText: $("#name").val(),
+                        Expiry: $("#expiry").val(),
+                        Embeddedlink: $("#link").val(),
+                        AnnouncementType: $scope.img,
+                        Read: 0,
+                        MessageImage: url,
+                        OrganisationId: $scope.user.OrganisationNumber
+                    }
+
+                    $scope.images.$add(toAdd).then(function (ref) {
+
+                        var id = ref.key();
+                        console.log("added record with id " + id);
+                        $("#loadingModal").hide();
+                        window.location.href = "#/messages/";
+                        window.location.reload();
+
+                    });
+                });
+            } else {
+                if ($scope.img == undefined) {
+                    $scope.img = "";
+                }
+                var toAdd = {
+                    //AnnouncementTitle: $("#title").val(),
+                    //MessageText: $("#name").val(),
+                    Expiry: $("#expiry").val(),
+                    Embeddedlink: $("#link").val(),
+                    AnnouncementType: $scope.img,
+                    Read: 0,
+                    MessageImage: url,
+                    OrganisationId: $scope.user.OrganisationNumber
+                }
+
+                $scope.images.$add(toAdd).then(function (ref) {
+
+                    var id = ref.key();
+                    console.log("added record with id " + id);
+                    $("#loadingModal").hide();
+                    window.location.href = "#/messages/";
+                    window.location.reload();
+
+                });
             
-            var id = ref.key();
-            console.log("added record with id " + id);
+            }
+        } else {
+            if ($scope.img == undefined) {
+                $scope.img = "";
+            }
+            var toAdd = {
+                AnnouncementTitle: $("#title").val(),
+                MessageText: $("#name").val(),
+                Expiry: $("#expiry").val(),
+                Embeddedlink: $("#link").val(),
+                AnnouncementType: $scope.img,
+                Read: 0,
+                //MessageImage: url,
+                OrganisationId: $scope.user.OrganisationNumber
+            }
 
-            window.location.href = "#/messages/";
-            window.location.reload();
-           
-        });
+            $scope.images.$add(toAdd).then(function (ref) {
 
-        $("#loadingModal").hide();
+                var id = ref.key();
+                console.log("added record with id " + id);
+                $("#loadingModal").hide();
+                window.location.href = "#/messages/";
+                window.location.reload();
+
+            });
+        }
     }
 
     $scope.Action = function () {
@@ -242,7 +416,7 @@
             $scope.EditQuestion();
     }
 
-
+    $scope.option();
 
 
 });
@@ -262,10 +436,11 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
         },
         columnDefs: [
           { name: 'MessageText', enableFiltering: false, headerCellClass: 'blue', filed: 'Announcement' },
+           { name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', filed: 'MessageImage', cellTemplate: "<img width=\"40px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src>", },
           { name: 'Expiry', enableFiltering: false, headerCellClass: 'blue', filed: 'Expiration Date' },
           { name: 'Status', headerCellClass: 'blue', filed: 'Status' },
           { name: 'AnnouncementType', headerCellClass: 'blue', cellTemplate: "<img width=\"25px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src>", filed: 'Type' },
-          { name: 'read', headerCellClass: 'blue', filed: 'Number of Read' },
+          { name: 'Read', headerCellClass: 'blue', filed: 'Number of Read' },
           {
               name: " ", cellTemplate: '<div style="text-align:center;">' +
                       '<a href="#/messages/{{row.entity.$id}}" >Edit</a>' +
@@ -303,7 +478,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
                 } else {
                     obj.Status = "Deactive";
                 }
-               
+                
                 //obj.ImageUrl = obj.AnnouncementType;
                 dataToShow.push(obj);
             }
