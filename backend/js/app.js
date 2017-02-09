@@ -240,7 +240,7 @@ app.controller('homeController', function ($scope, storageService) {
                 '7': '#a1a1a1'
             },
             barSpacing: 2,
-            barColor: '#26B99A'
+            barColor: '#eed093'
         });
 
         $(".sparkline_two").sparkline([2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 5, 6, 7, 5, 4, 3, 5, 6], {
@@ -248,9 +248,9 @@ app.controller('homeController', function ($scope, storageService) {
             width: '200',
             height: '40',
             lineColor: '#26B99A',
-            fillColor: 'rgba(223, 223, 223, 0.57)',
+            fillColor: 'red',
             lineWidth: 2,
-            spotColor: '#26B99A',
+            spotColor: '#eed093',
             minSpotColor: '#26B99A'
         });
 
@@ -302,13 +302,13 @@ app.controller('homeController', function ($scope, storageService) {
                 verticalLines: true,
                 hoverable: true,
                 clickable: true,
-                tickColor: "#d5d5d5",
+                tickColor: "#eed093",
                 borderWidth: 1,
                 color: '#fff'
             },
-            colors: ["rgba(38, 185, 154, 0.38)", "rgba(3, 88, 106, 0.38)"],
+            colors: ["rgba(238, 208, 147, 0.38)", "rgba(3, 88, 106, 0.38)"],
             xaxis: {
-                tickColor: "rgba(51, 51, 51, 0.06)",
+                tickColor: "rgba(238, 208, 147, 0.06)",
                 mode: "time",
                 tickSize: [1, "day"],
                 //tickLength: 10,
@@ -320,7 +320,7 @@ app.controller('homeController', function ($scope, storageService) {
             },
             yaxis: {
                 ticks: 8,
-                tickColor: "rgba(51, 51, 51, 0.06)",
+                tickColor: "rgba(238, 208, 147, 0.06)",
             },
             tooltip: false
         });
