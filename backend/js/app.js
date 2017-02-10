@@ -251,7 +251,7 @@ app.controller('homeController', function ($scope, storageService) {
             fillColor: 'red',
             lineWidth: 2,
             spotColor: '#eed093',
-            minSpotColor: '#26B99A'
+            minSpotColor: '#eed093'
         });
 
 
@@ -306,7 +306,7 @@ app.controller('homeController', function ($scope, storageService) {
                 borderWidth: 1,
                 color: '#fff'
             },
-            colors: ["rgba(238, 208, 147, 0.38)", "rgba(3, 88, 106, 0.38)"],
+            colors: ["rgba(238, 208, 147, 0.38)", "rgba(255, 148, 45, 0.38)"],
             xaxis: {
                 tickColor: "rgba(238, 208, 147, 0.06)",
                 mode: "time",
