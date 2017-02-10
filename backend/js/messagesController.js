@@ -133,7 +133,7 @@
                    
                 }
                 $("#name").val($scope.Question.MessageText);
-
+                $("#linktitle").val($scope.Question.LinkTitle),
                 $("#expiry").val($scope.Question.Expiry);
 
                 $("#title").val($scope.Question.AnnouncementTitle);
@@ -215,6 +215,7 @@
                     imageRef.Embeddedlink = $("#link").val();
                     imageRef.AnnouncementType = $scope.img,
                     imageRef.MessageImage = url,
+                    imageRef.LinkTitle= $("#linktitle").val(),
                     imageRef.OrganisationId = $scope.user.OrganisationNumber;
 
                     $scope.images.$save(imageRef).then(function (res) {
@@ -244,6 +245,7 @@
                 imageRef.Embeddedlink = $("#link").val();
                 imageRef.AnnouncementType = $scope.img,
                 imageRef.MessageImage = url,
+                 imageRef.LinkTitle = $("#linktitle").val(),
                 imageRef.OrganisationId = $scope.user.OrganisationNumber;
 
                 $scope.images.$save(imageRef).then(function (res) {
@@ -272,7 +274,7 @@
             imageRef.AnnouncementType = $scope.img,
             imageRef.MessageImage = url,
             imageRef.OrganisationId = $scope.user.OrganisationNumber;
-
+            imageRef.LinkTitle = $("#linktitle").val(),
             $scope.images.$save(imageRef).then(function (res) {
 
                 $("#reportModal").hide();
@@ -369,6 +371,7 @@
                     AnnouncementType: $scope.img,
                     Read: 0,
                     MessageImage: url,
+                    LinkTitle: $("#linktitle").val(),
                     OrganisationId: $scope.user.OrganisationNumber
                 }
 
@@ -394,6 +397,7 @@
                 Embeddedlink: $("#link").val(),
                 AnnouncementType: $scope.img,
                 Read: 0,
+                LinkTitle: $("#linktitle").val(),
                 //MessageImage: url,
                 OrganisationId: $scope.user.OrganisationNumber
             }
@@ -437,10 +441,10 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
         },
         columnDefs: [
           { name: 'MessageText', enableFiltering: false, headerCellClass: 'blue', filed: 'Announcement' },
-           { name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', filed: 'MessageImage', cellTemplate: "<img width=\"40px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src>", },
+           { name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', filed: 'MessageImage', cellTemplate: '<div style="text-align:center;">'+"<img width=\"40px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src></div>", },
           { name: 'Expiry', enableFiltering: false, headerCellClass: 'blue', filed: 'Expiration Date' },
           { name: 'Status', headerCellClass: 'blue', filed: 'Status' },
-          { name: 'AnnouncementType', headerCellClass: 'blue', cellTemplate: "<img width=\"25px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src>", filed: 'Type' },
+          { name: 'AnnouncementType', headerCellClass: 'blue', cellTemplate: '<div style="text-align:center;">'+"<img width=\"25px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src></div>", filed: 'Type' },
           { name: 'Read', headerCellClass: 'blue', filed: 'Number of Read' },
           {
               name: " ", cellTemplate: '<div style="text-align:center;">' +
