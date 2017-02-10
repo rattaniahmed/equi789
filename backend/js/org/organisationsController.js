@@ -180,7 +180,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
 
                 var AllowMessaging = "0";
                 if ($('#checkboxaddMessage').is(":checked")) {
-                    ShowInEquiTrack = "1";
+                    AllowMessaging = "1";
                 }
 
                 var toAdd = {
