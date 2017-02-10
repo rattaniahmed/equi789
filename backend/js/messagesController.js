@@ -81,18 +81,18 @@
     //        return "0";
     //}
     //$scope.image = '';
-    //$scope.setFile = function (element) {
-    //    $scope.currentFile = element.files[0];
-    //    var reader = new FileReader();
+    $scope.setFile = function (element) {
+        $scope.currentFile = element.files[0];
+        var reader = new FileReader();
 
-    //    reader.onload = function (event) {
-    //        $scope.image_source = event.target.result
-    //        $scope.$apply()
+        reader.onload = function (event) {
+            $scope.Question.MessageImage = event.target.result
+            $scope.$apply()
 
-    //    }
-    //    // when the file is read it triggers the onload event above.
-    //    reader.readAsDataURL(element.files[0]);
-    //}
+        }
+        // when the file is read it triggers the onload event above.
+        reader.readAsDataURL(element.files[0]);
+    }
 
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
@@ -343,6 +343,7 @@
                         AnnouncementType: $scope.img,
                         Read: 0,
                         MessageImage: url,
+                        LinkTitle: $("#linktitle").val(),
                         OrganisationId: $scope.user.OrganisationNumber
                     }
 
