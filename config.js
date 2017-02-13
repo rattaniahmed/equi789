@@ -1,5 +1,5 @@
 ﻿function IsProduction() {
-    return true;
+    return false;
 }
 
 
