@@ -8,29 +8,10 @@
         var TO = email;
         //TO = "vishal.kumar1145@gmail.com";
 
-        var Subject = "Welcome message from Equitrack.com";
-        var html = "Thanks for joining us. You can contibue login at Equitrack.com"
+       
 
-        //html += "<br/><br/><br/>";
-
-        //html += "<table>"
-        //html += "<tr>      <td>First Name :- </td>  <td> " + ReplaceNull($scope.first_name) + "</td>        </tr>"
-        //html += "<tr>      <td>Last Name :- </td>  <td> " + ReplaceNull($scope.last_name) + "</td>        </tr>"
-        //html += "<tr>      <td>Email :- </td>  <td> " + ReplaceNull($scope.email) + "</td>        </tr>"
-        //html += "<tr>      <td>Mobile :- </td>  <td> " + ReplaceNull($scope.mobile) + "</td>        </tr>"
-        //html += "<tr>      <td>Message :- </td>  <td> " + ReplaceNull($scope.msg) + "</td>        </tr>"
-        //html += "</table>"
-
-        //html += "<br/><br/><br/>";
-
-        //html += "Equitrack Team</br>"
-
-
-        //var inputData = PrepareRequestForMail("TEST", TO, "", "", Subject, html, "");
-
-
-        //var url = 'https://plucky-vision-140010.appspot.com/sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
-        var url = storageService.getNodeJSAppURL() + 'sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
+        //var url = storageService.getNodeJSAppURL() + 'sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
+        var url = storageService.getNodeJSAppURL() + 'welmail?To=' + TO;
 
         $http({
             method: 'GET',
