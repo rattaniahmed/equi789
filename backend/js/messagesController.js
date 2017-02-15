@@ -440,7 +440,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
             $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
         },
         columnDefs: [
-          { name: 'MessageText', enableFiltering: false, headerCellClass: 'blue', filed: 'Announcement' },
+          { name: 'AnnouncementTitle', enableFiltering: false, headerCellClass: 'blue', filed: 'Announcement' },
            { name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', filed: 'MessageImage', cellTemplate: '<div style="text-align:center;">'+"<img width=\"40px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src></div>", },
           { name: 'Expiry', enableFiltering: false, headerCellClass: 'blue', filed: 'Expiration Date' },
           { name: 'Status', headerCellClass: 'blue', filed: 'Status' },
