@@ -375,7 +375,7 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
             var html = 'New contact message from the user " ' + ReplaceNull($scope.first_name) + ' '+ ReplaceNull($scope.last_name) + ' ( ' + ReplaceNull($scope.email) + ' ) "  and Message is - ' + ReplaceNull($scope.msg);
 
            
-            var url = storageService.getNodeJSAppURL() + 'sendmail?To=' + TO + '&Subject=' + Subject + '&HTML=' + html;
+            var url = storageService.getNodeJSAppURL() + 'sendmailnew?TO=' + TO + '&Subject=' + Subject + '&HTML=' + html;
 
             debugger;
             $http({
