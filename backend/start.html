@@ -220,11 +220,11 @@
                           
                         <ul class="nav navbar-nav navbar-right">
                             <li class="pull-left" ng-show="user.Role != 'SuperAdmin'"><p class="navbar-brand" rel="home" href="#">
-    <img style="max-width:60px; margin-top: -7px;"
-         src="https://firebasestorage.googleapis.com/v0/b/myequitrack.appspot.com/o/profile%2F640.jpg?alt=media&amp;token=64fbbbfb-7d8d-4a06-8d60-5b3867eabaa6">
+    <img style="max-width:35px; max-height:35px; margin-top: -7px;"
+         ng-src="{{user.Url}}">
 
 </p></li>
-                           <li class="pull-left" ng-show="user.Role != 'SuperAdmin'"><h4 class="text-uppercase" style="margin-top:20px;"> AQHA - American Quarter Horse Association</h4></li>
+                           <li class="pull-left" ng-show="user.Role != 'SuperAdmin'"><h4 class="text-uppercase" style="margin-top:20px;"> {{user.DisplayName}}</h4></li>
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <img ng-src="{{user.Url}}" alt="" ng-show="user.Url!=undefined">{{user.DisplayName}}
