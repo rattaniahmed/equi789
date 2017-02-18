@@ -187,7 +187,8 @@
     $scope.EditQuestion = function () {
         $("#loadingModal").show();
         var file = document.getElementById('trigger').files[0];
-        if ($scope.selectoption == "Image") {
+        if ($scope.selectoption == "Image")
+        {
             if (file) {
                 var metadata = {
                     'contentType': file.type
@@ -272,7 +273,7 @@
             imageRef.Expiry = $("#expiry").val();
             imageRef.Embeddedlink = $("#link").val();
             imageRef.AnnouncementType = $scope.img,
-            imageRef.MessageImage = url,
+            //imageRef.MessageImage =url,
             imageRef.OrganisationId = $scope.user.OrganisationNumber;
             imageRef.LinkTitle = $("#linktitle").val(),
             $scope.images.$save(imageRef).then(function (res) {
@@ -320,18 +321,24 @@
        
         var file = document.getElementById('trigger').files[0];
 
-        if ($scope.selectoption == "Image") {
+        if ($scope.selectoption == "Image")
+        {
             if (file) {
                 var metadata = {
                     'contentType': file.type
                 };
 
                 var fname = new Date().getMilliseconds() + file.name.substring(file.name.indexOf("."));
+                var ext = fname.substr(fname.lastIndexOf('.') + 1);
+                console.log("extecion is" + ext);
+
+                if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'png' || ext == 'bmp') {
                 var storageRef = firebase.storage().ref();
                 storageRef.child('profile/' + fname).put(file, metadata).then(function (snapshot) {
 
                     debugger;
                     var url = snapshot.metadata.downloadURLs[0];
+                
 
                     console.log(url);
                     if ($scope.img == undefined) {
@@ -348,7 +355,11 @@
                         LinkTitle: $("#linktitle").val(),
                         OrganisationId: $scope.user.OrganisationNumber
                     }
-
+                    if (toAdd.Expiry == "") {
+                        alert("Please fill Expiry Date");
+                        $("#loadingModal").hide();
+                        return;
+                    }
                     $scope.images.$add(toAdd).then(function (ref) {
 
                         var id = ref.key();
@@ -359,31 +370,39 @@
 
                     });
                 });
-            } else {
-                if ($scope.img == undefined) {
-                    $scope.img = "";
+                } else {
+                    alert("Please Enter only .mp3 .mp4 or .webm Formats");
                 }
-                var toAdd = {
-                    //AnnouncementTitle: $("#title").val(),
-                    //MessageText: $("#name").val(),
-                    Expiry: $("#expiry").val(),
-                    Embeddedlink: $("#link").val(),
-                    AnnouncementType: $scope.img,
-                    Read: 0,
-                    MessageImage: url,
-                    LinkTitle: $("#linktitle").val(),
-                    OrganisationId: $scope.user.OrganisationNumber
-                }
+            }
+            else {
+                alert("Please Enter only .mp3 .mp4 or .webm Formats");
+                $("#loadingModal").hide();
+                return;
 
-                $scope.images.$add(toAdd).then(function (ref) {
+                //if ($scope.img == undefined) {
+                //    $scope.img = "";
+                //}
+                //var toAdd = {
+                //    //AnnouncementTitle: $("#title").val(),
+                //    //MessageText: $("#name").val(),
+                //    Expiry: $("#expiry").val(),
+                //    Embeddedlink: $("#link").val(),
+                //    AnnouncementType: $scope.img,
+                //    Read: 0,
+                //    MessageImage: url,
+                //    LinkTitle: $("#linktitle").val(),
+                //    OrganisationId: $scope.user.OrganisationNumber
+                //}
 
-                    var id = ref.key();
-                    console.log("added record with id " + id);
-                    $("#loadingModal").hide();
-                    window.location.href = "#/messages/";
-                    window.location.reload();
+                //$scope.images.$add(toAdd).then(function (ref) {
 
-                });
+                //    var id = ref.key();
+                //    console.log("added record with id " + id);
+                //    $("#loadingModal").hide();
+                //    window.location.href = "#/messages/";
+                //    window.location.reload();
+
+                //});
             
             }
         } else {
@@ -401,7 +420,21 @@
                 //MessageImage: url,
                 OrganisationId: $scope.user.OrganisationNumber
             }
-
+            if (toAdd.Expiry == "") {
+                alert("Please fill Expiry Date");
+                $("#loadingModal").hide();
+                return;
+            }
+            if (toAdd.AnnouncementTitle == "") {
+                alert("Please fill AnnouncementTitle");
+                $("#loadingModal").hide();
+                return;
+            }
+            if (toAdd.MessageText == "") {
+                alert("Please fill Announcement");
+                $("#loadingModal").hide();
+                return;
+            }
             $scope.images.$add(toAdd).then(function (ref) {
 
                 var id = ref.key();
