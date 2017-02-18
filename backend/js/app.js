@@ -225,111 +225,217 @@ app.directive('leftnav', function () {
 });
 
 
-app.controller('homeController', function ($scope, storageService) {
+app.controller('homeController', function ($scope, firebaseService,$firebaseArray, storageService) {
 
     // $scope.user = StorageService.getObject('user');
+    $scope.Totalhorsemap = [];
+    var ref = firebaseService.FIREBASEENDPOINT();
+
+    //$scope.horses.$loaded().then(function (dataArray) {
+     
+    //    $scope.Totalhorsemap = dataArray;
+    //    $scope.Init();
+    //}).catch(function (error) {
+    //    console.log("Error in loading details");
+    //});
+    //    $scope.rides = $firebaseArray(ref.child('rides'));
+    //$scope.rides.$loaded().then(function (dataArray) {
+     
+    //    $scope.TotalRidesmap = dataArray;
+    //    }).catch(function (error) {
+    //        console.log("Error in loading details");
+    //    });
+        //$scope.users = $firebaseArray(ref.child('users'));
+        //$scope.users.$loaded().then(function (dataArray) {
+        //    $scope.TotalMembermap = dataArray;
+    //});
+    $scope.AllHorses = [];
+    $scope.AllDBUsers = [];
+    
 
 
-    angular.element(document).ready(function () {
-
-        $(".sparkline_one").sparkline([2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 5, 6, 7, 5, 4, 3, 5, 6], {
-            type: 'bar',
-            height: '40',
-            barWidth: 9,
-            colorMap: {
-                '7': '#a1a1a1'
-            },
-            barSpacing: 2,
-            barColor: '#eed093'
-        });
-
-        $(".sparkline_two").sparkline([2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 5, 6, 7, 5, 4, 3, 5, 6], {
-            type: 'line',
-            width: '200',
-            height: '40',
-            lineColor: '#26B99A',
-            fillColor: 'red',
-            lineWidth: 2,
-            spotColor: '#eed093',
-            minSpotColor: '#eed093'
-        });
-
-
-    });
-
-    angular.element(document).ready(function () {
-
-        var data1 = [
-          [gd(2012, 1, 1), 17],
-          [gd(2012, 1, 2), 74],
-          [gd(2012, 1, 3), 6],
-          [gd(2012, 1, 4), 39],
-          [gd(2012, 1, 5), 20],
-          [gd(2012, 1, 6), 85],
-          [gd(2012, 1, 7), 7]
-        ];
-
-        var data2 = [
-          [gd(2012, 1, 1), 82],
-          [gd(2012, 1, 2), 23],
-          [gd(2012, 1, 3), 66],
-          [gd(2012, 1, 4), 9],
-          [gd(2012, 1, 5), 119],
-          [gd(2012, 1, 6), 6],
-          [gd(2012, 1, 7), 9]
-        ];
-        $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
-          data1, data2
-        ], {
-            series: {
-                lines: {
-                    show: false,
-                    fill: true
-                },
-                splines: {
-                    show: true,
-                    tension: 0.4,
-                    lineWidth: 1,
-                    fill: 0.4
-                },
-                points: {
-                    radius: 0,
-                    show: true
-                },
-                shadowSize: 2
-            },
-            grid: {
-                verticalLines: true,
-                hoverable: true,
-                clickable: true,
-                tickColor: "#eed093",
-                borderWidth: 1,
-                color: '#fff'
-            },
-            colors: ["rgba(238, 208, 147, 0.38)", "rgba(255, 148, 45, 0.38)"],
-            xaxis: {
-                tickColor: "rgba(238, 208, 147, 0.06)",
-                mode: "time",
-                tickSize: [1, "day"],
-                //tickLength: 10,
-                axisLabel: "Date",
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Verdana, Arial',
-                axisLabelPadding: 10
-            },
-            yaxis: {
-                ticks: 8,
-                tickColor: "rgba(238, 208, 147, 0.06)",
-            },
-            tooltip: false
-        });
-
-        function gd(year, month, day) {
-            return new Date(year, month - 1, day).getTime();
+    $scope.horses = $firebaseArray(ref.child('horses'));
+    $scope.horses.$loaded().then(function (dataArray) {
+        for (var i = 0; i <= dataArray.length; i++) {
+            try {
+                if (dataArray[i].horse_name != undefined) {
+                    $scope.org = JSON.parse(localStorage.getItem('adminObject'));
+                    var evens = _.filter(dataArray[i].associations, function (num) { return num.filter == $scope.org.OrganisationNumber; });
+                    if (evens.length > 0) {
+                        $scope.AllHorses.push(dataArray[i]);
+                    }
+                }
+            }
+            catch (e) {
+                console.log(e);
+            }
         }
 
+
+        $scope.horseCreate = [];
+        $scope.Users = [];
+        $scope.users = $firebaseArray(ref.child('users'));
+        $scope.users.$loaded().then(function (dataArray) {
+
+            $scope.AllDBUsers = dataArray;
+
+            for (var counter = 0; counter < $scope.AllDBUsers.length; counter++) {
+
+                if ($scope.AllDBUsers[counter].horse_ids) {
+
+                    var ids = Object.keys($scope.AllDBUsers[counter].horse_ids);
+                    console.log(ids);
+
+                    for (var i in $scope.AllHorses) {
+                        var evens = _.filter(ids, function (num) { return num == $scope.AllHorses[i].$id; });
+                        if (evens.length > 0) {
+                            if (!(_.contains($scope.Users, $scope.AllDBUsers[counter]))) {
+                                $scope.Users.push($scope.AllDBUsers[counter]);
+                                console.log($scope.Users);
+                                console.log(_.pluck($scope.Users, 'horse_ids'));
+                                $scope.horseCreate.push(_.pluck($scope.Users, 'horse_ids'));
+
+                            }
+
+                        }
+
+                    }
+                    
+                }
+            }
+            //$scope.example15data = _.map(dataArray, function (elem) { return { id: elem.$id, label: elem.first_name +" "+ elem.last_name } });
+            if ($scope.horseCreate)
+                $scope.Init();
+            console.log(dataArray);
+        });
+       
+
+        $scope.TotalMembermap = dataArray;
+       // UnLoadingState();
+
     });
+        $scope.Init=function(){
+            angular.element(document).ready(function () {
+            
+                var horse = [];
+                for(j=0;j<12;j++){
+                    count = 0;
+                    for (i = 0; i < $scope.horseCreate.length; i++) {
+                        
+                        for (var k = 0; k < (_.values($scope.horseCreate[i])).length; k++)
+                            for (var l = 0; l < _.values((_.values($scope.horseCreate[0]))[0]).length; l++) {
+
+                                if ((_.values((_.values($scope.horseCreate[0]))[0]))[0].created_at) {
+                                    if (new Date(parseInt((_.values((_.values($scope.horseCreate[0]))[0]))[0].created_at)).getMonth() == j) {
+                                        count++;
+                                    }
+                                }
+                            }
+                        horse[j] = count;
+                    }
+                   
+                }
+                //arr=[2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 5, 6, 7, 5, 4, 3, 5, 6];
+                $(".sparkline_one").sparkline(horse, {
+                    type: 'bar',
+                    height: '40',
+                    barWidth: 9,
+                    colorMap: {
+                        '7': '#a1a1a1'
+                    },
+                    barSpacing: 2,
+                    barColor: '#eed093'
+                });
+
+
+                $(".sparkline_two").sparkline([2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 5, 6, 7, 5, 4, 3, 5, 6], {
+                    type: 'line',
+                    width: '200',
+                    height: '40',
+                    lineColor: '#26B99A',
+                    fillColor: 'red',
+                    lineWidth: 2,
+                    spotColor: '#eed093',
+                    minSpotColor: '#eed093'
+                });
+
+
+            });
+
+            angular.element(document).ready(function () {
+
+                var data1 = [
+                  [gd(2012, 1, 1), 17],
+                  [gd(2012, 1, 2), 74],
+                  [gd(2012, 1, 3), 6],
+                  [gd(2012, 1, 4), 39],
+                  [gd(2012, 1, 5), 20],
+                  [gd(2012, 1, 6), 85],
+                  [gd(2012, 1, 7), 7]
+                ];
+
+                var data2 = [
+                  [gd(2012, 1, 1), 82],
+                  [gd(2012, 1, 2), 23],
+                  [gd(2012, 1, 3), 66],
+                  [gd(2012, 1, 4), 9],
+                  [gd(2012, 1, 5), 119],
+                  [gd(2012, 1, 6), 6],
+                  [gd(2012, 1, 7), 9]
+                ];
+                $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
+                  data1, data2
+                ], {
+                    series: {
+                        lines: {
+                            show: false,
+                            fill: true
+                        },
+                        splines: {
+                            show: true,
+                            tension: 0.4,
+                            lineWidth: 1,
+                            fill: 0.4
+                        },
+                        points: {
+                            radius: 0,
+                            show: true
+                        },
+                        shadowSize: 2
+                    },
+                    grid: {
+                        verticalLines: true,
+                        hoverable: true,
+                        clickable: true,
+                        tickColor: "#eed093",
+                        borderWidth: 1,
+                        color: '#fff'
+                    },
+                    colors: ["rgba(238, 208, 147, 0.38)", "rgba(255, 148, 45, 0.38)"],
+                    xaxis: {
+                        tickColor: "rgba(238, 208, 147, 0.06)",
+                        mode: "time",
+                        tickSize: [1, "day"],
+                        //tickLength: 10,
+                        axisLabel: "Date",
+                        axisLabelUseCanvas: true,
+                        axisLabelFontSizePixels: 12,
+                        axisLabelFontFamily: 'Verdana, Arial',
+                        axisLabelPadding: 10
+                    },
+                    yaxis: {
+                        ticks: 8,
+                        tickColor: "rgba(238, 208, 147, 0.06)",
+                    },
+                    tooltip: false
+                });
+
+                function gd(year, month, day) {
+                    return new Date(year, month - 1, day).getTime();
+                }
+
+            });
+        }
 
     $scope.renderCalender = function () {
 
@@ -403,7 +509,7 @@ app.controller('homeController', function ($scope, storageService) {
 
     // $scope.renderReport();
     // $scope.renderCalender();
-
+   
 });
 
 app.controller('mainController', function ($scope, storageService) {
