@@ -203,6 +203,98 @@ app.factory('sessionService', function (storageService, $location) {
 
 });
 
+app.run(function ($rootScope,firebaseService, $firebaseArray) {
+
+    $rootScope.isDataLoaded = false;
+    $rootScope.isUserLoaded = false;
+    $rootScope.isHorseLoaded = false;
+    $rootScope.isRidesLoaded = false;
+
+    var ref = firebaseService.FIREBASEENDPOINT();
+
+    $rootScope.getOrgHorses = function () {
+
+        var Organisation = JSON.parse(localStorage.getItem('adminObject'));
+
+        var AllHorses = [];
+        angular.forEach($rootScope.backendHorses, function (horse, key) {
+            try {
+                if (horse.horse_name) {
+                    var evens = _.filter(horse.associations, function (num) { return num.filter == Organisation.OrganisationNumber; });
+                    if (evens.length > 0) {
+                        AllHorses.push(horse);
+                    }
+                }
+            }
+            catch (e) {
+                console.log(e);
+            }
+        });
+        return AllHorses;
+    }
+
+
+    $rootScope.getOrgUsers = function (AllHorses) {
+
+        var AllUsers = [];
+      
+        var Organisation = JSON.parse(localStorage.getItem('adminObject'));
+
+        angular.forEach($rootScope.backendUsers, function (user, key) {
+            if (user.horse_ids) {
+                var ids = Object.keys(user.horse_ids);
+
+                for (var i in AllHorses) {
+                    var evens = _.filter(ids, function (num) { return num == AllHorses[i].$id; });
+                    if (evens.length > 0) {
+                        if (!(_.contains(AllUsers, user))) {
+                            AllUsers.push(user);
+                        }
+                    }
+                }
+            }
+        });
+        return AllUsers;
+    }
+
+
+
+    $rootScope.backendHorses = $firebaseArray(ref.child('horses'));
+    $rootScope.backendHorses.$loaded().then(function (dataArray) {
+        $rootScope.isUserLoaded = true;
+        if($rootScope.isUserLoaded  &&  $rootScope.isHorseLoaded &&  $rootScope.isRidesLoaded)
+        {
+            $rootScope.isDataLoaded = true;
+            $rootScope.$broadcast("DataLoaded", {});
+        }
+    }).catch(function (error) {
+        console.log("Error in loading users");
+    });
+
+    $rootScope.backendHorseRides = $firebaseArray(ref.child('rides'));
+    $rootScope.backendHorseRides.$loaded().then(function (dataArray) {
+        $rootScope.isHorseLoaded = true;
+        if ($rootScope.isUserLoaded && $rootScope.isHorseLoaded && $rootScope.isRidesLoaded) {
+            $rootScope.isDataLoaded = true;
+            $rootScope.$broadcast("DataLoaded", {});
+        }
+    }).catch(function (error) {
+        console.log("Error in loading horses");
+    });;
+
+    $rootScope.backendUsers = $firebaseArray(ref.child('users'));
+    $rootScope.backendUsers.$loaded().then(function (dataArray) {
+        $rootScope.isRidesLoaded = true;
+        if ($rootScope.isUserLoaded && $rootScope.isHorseLoaded && $rootScope.isRidesLoaded) {
+            $rootScope.isDataLoaded = true;
+            $rootScope.$broadcast("DataLoaded", {});
+        }
+    }).catch(function (error) {
+        console.log("Error in loading rides");
+    });
+
+})
+
 app.directive('leftnav', function () {
 
     var directive = {};

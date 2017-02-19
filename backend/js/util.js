@@ -1116,3 +1116,70 @@ function getAdminUser() {
 
         
 }
+
+function getRideIds(horseIds, horseRef) {
+    var ids = [];
+
+    angular.forEach(horseIds, function (horseId, key) {
+        var horse = horseRef.$getRecord(horseId);
+        for (var id in horse.ride_ids) {
+            ids.push(id);
+        }
+    });
+
+    return ids;
+}
+
+function getCommulativeData(ride_ids, rideRef) {
+
+
+    var commulativeData = {};
+
+    var totalTopSspeedArray = [];
+    var averageSpeed = 0.0;
+    var totalLength = 0;
+
+    var totalDistance = 0.0;
+    var totalDuration = 0;
+    var totalEnergy = 0;
+    var totalCalories = 0;
+    var totalAverageSpeed = 0.0;
+    var totalTopSspeed = 0.0;
+
+    for (var cnt = 0; cnt < ride_ids.length; cnt++) {
+
+        var ride = rideRef.$getRecord(ride_ids[cnt]);
+        if (ride != null) {
+            totalLength = _.size(ride_ids);
+            totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
+            totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
+            totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);
+            totalCalories = parseFloat(totalCalories) + parseFloat(ride.calories);
+            averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
+            totalTopSspeedArray.push(parseFloat(ride.top_speed));
+        }
+    }
+
+    var tempDuration = totalDuration;
+
+    totalDistance = parseFloat(Math.round(totalDistance * 100) / 100).toFixed(2);
+    totalEnergy = parseFloat(Math.round(totalEnergy * 100) / 100).toFixed(2);
+    totalCalories = parseFloat(Math.round(totalCalories * 100) / 100).toFixed(2);
+    if (averageSpeed > 0) {
+        totalAverageSpeed = averageSpeed / totalLength;
+        totalAverageSpeed = parseFloat(Math.round(totalAverageSpeed * 100) / 100).toFixed(2);
+    }
+    totalDuration = ReplaceTime(hhmmss(totalDuration));
+    if (totalTopSspeed.length > 0) {
+        totalTopSspeed = Math.max.apply(Math, totalTopSspeedArray);
+
+        totalTopSspeed = parseFloat(Math.round(totalTopSspeed * 100) / 100).toFixed(2);
+    }
+
+    commulativeData.total_rides = totalLength;
+    commulativeData.top_speed = totalTopSspeed + " mph";
+    commulativeData.energy = totalCalories + " cal";
+    commulativeData.miles = totalDistance + " miles";
+
+    return commulativeData;
+}
