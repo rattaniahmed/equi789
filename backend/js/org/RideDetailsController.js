@@ -42,7 +42,7 @@
            { name: 'Horse', headerCellClass: 'blue', field: 'Horse' },
           { name: 'Membership Number', headerCellClass: 'blue', field: '' },
           { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue' },
-          { name: 'total_time', headerCellClass: 'blue' },
+          { name: 'total_time', headerCellClass: 'blue', cellFilter: 'HH:MM:SS' },
           { name: 'top_speed', headerCellClass: 'blue' },
           { name: 'average_speed', headerCellClass: 'blue' },
           { name: 'start_time', headerCellClass: 'blue' },
@@ -267,7 +267,7 @@
     $scope.example14data = [];
     $scope.horses = $firebaseArray(ref.child('horses'));
     $scope.rideIdsTOFetch = [];
-
+    $scope.AllDBUsers = [];
     $scope.horses.$loaded().then(function (dataArray) {
 
         
@@ -336,12 +336,14 @@
         console.log($scope.AllHorses);
 
         for (var cnt = 0; cnt < $scope.rideIdsTOFetch.length; cnt++) {
+            console.log($scope.rideIdsTOFetch);
             debugger;
             var horse = _.find($scope.AllHorses, function (num) { return num.$id == $scope.rideIdsTOFetch[cnt].horse_firebase_key; });
             if (horse) {
                 console.log(horse);
                 $scope.rideIdsTOFetch[cnt].Member = horse.Member;
                 $scope.rideIdsTOFetch[cnt].Horse = horse.horse_name;
+                //$scope.rideIdsTOFetch[cnt].total_time = $scope.rideIdsTOFetch[cnt].total_time.Format("0:HH:mm:ss");
             }
         }
 

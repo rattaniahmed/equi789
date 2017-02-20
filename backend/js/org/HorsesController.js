@@ -30,13 +30,13 @@
         exporterLinkLabel: 'get your csv here',
         exporterPdfDefaultStyle: { fontSize: 9 },
         exporterPdfTableStyle: { margin: [5, 5, 5, 5] },
-        exporterPdfTableHeaderStyle: { fontSize: 10, bold: true, italics: true, color: 'red' },
-        exporterPdfOrientation: 'portrait',
+        exporterPdfTableHeaderStyle: { fontSize: 10, bold: true, italics: true, color: 'black' },
+        exporterPdfOrientation: 'landscap',
         exporterPdfPageSize: 'LETTER',
-        exporterPdfMaxGridWidth: 500,
+        exporterPdfMaxGridWidth: 600,
         exporterPdfHeader: { text: "Hourse Detail", style: 'headerStyle' },
         exporterPdfFooter: function (currentPage, pageCount) {
-            return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
+            return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: "background-color:green" };
         },
         exporterPdfCustomFormatter: function (docDefinition) {
             docDefinition.styles.headerStyle = { fontSize: 22, bold: true, margin: [260, 10, 100, 0] };
