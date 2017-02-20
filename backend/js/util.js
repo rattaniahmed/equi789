@@ -1117,18 +1117,7 @@ function getAdminUser() {
         
 }
 
-function getRideIds(horseIds, horseRef) {
-    var ids = [];
 
-    angular.forEach(horseIds, function (horseId, key) {
-        var horse = horseRef.$getRecord(horseId);
-        for (var id in horse.ride_ids) {
-            ids.push(id);
-        }
-    });
-
-    return ids;
-}
 
 function getCommulativeData(ride_ids, rideRef) {
 
@@ -1146,17 +1135,19 @@ function getCommulativeData(ride_ids, rideRef) {
     var totalAverageSpeed = 0.0;
     var totalTopSspeed = 0.0;
 
-    for (var cnt = 0; cnt < ride_ids.length; cnt++) {
+    if (ride_ids) {
+        for (var cnt = 0; cnt < ride_ids.length; cnt++) {
 
-        var ride = rideRef.$getRecord(ride_ids[cnt]);
-        if (ride != null) {
-            totalLength = _.size(ride_ids);
-            totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
-            totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
-            totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);
-            totalCalories = parseFloat(totalCalories) + parseFloat(ride.calories);
-            averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
-            totalTopSspeedArray.push(parseFloat(ride.top_speed));
+            var ride = rideRef.$getRecord(ride_ids[cnt]);
+            if (ride != null) {
+                totalLength = _.size(ride_ids);
+                totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
+                totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
+                totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);
+                totalCalories = parseFloat(totalCalories) + parseFloat(ride.calories);
+                averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
+                totalTopSspeedArray.push(parseFloat(ride.top_speed));
+            }
         }
     }
 
@@ -1180,6 +1171,23 @@ function getCommulativeData(ride_ids, rideRef) {
     commulativeData.top_speed = totalTopSspeed + " mph";
     commulativeData.energy = totalCalories + " cal";
     commulativeData.miles = totalDistance + " miles";
+    commulativeData.totalDuration = totalDuration;
 
     return commulativeData;
+}
+
+
+function getHorseUserMap(users) {
+    var maps = [];
+
+    angular.forEach(users, function (user, key) {
+        for (var id in user.horse_ids) {
+            maps.push({
+                HorseId: id,
+                Detail: user
+            })
+        }
+    });
+
+    return maps;
 }

@@ -139,31 +139,29 @@
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.Init = function () {
-
+        LoadingState();
         if ($rootScope.isDataLoaded) {
 
             $scope.AllHorses = $rootScope.getOrgHorses();
             $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
 
             for (var usrCounter = 0; usrCounter < $scope.Users.length; usrCounter++) {
-                var horseIds = Object.keys($scope.Users[usrCounter].horse_ids);
 
-                var rideIds = getRideIds(horseIds, $rootScope.backendHorses);
-
+                var horseIds = $rootScope.getHorseIds($scope.Users[usrCounter]);
+                var rideIds = $rootScope.getRideIds(horseIds);
                 var commulativeData = getCommulativeData(rideIds, $rootScope.backendHorseRides);
 
                 $scope.Users[usrCounter].TotalRides = commulativeData.total_rides;
-                $scope.Users[usrCounter].top_speed = commulativeData.top_speed;
-                $scope.Users[usrCounter].energy = commulativeData.energy;
-                $scope.Users[usrCounter].miles = commulativeData.miles;
+                $scope.Users[usrCounter].TotalHorses = horseIds.length;
+                $scope.Users[usrCounter].TotalTime = commulativeData.totalDuration;
+                $scope.Users[usrCounter].TotalDistance = commulativeData.miles;
             }
 
             $scope.gridOptions.data = $scope.Users;
 
             UnLoadingState();
 
-        } else
-            LoadingState();
+        }
     }
 
 
@@ -212,6 +210,11 @@
             delete $scope.gridOptions.data[i].coords;
             delete $scope.gridOptions.data[i].horse_ids;
             delete $scope.gridOptions.data[i].sync;
+            delete $scope.gridOptions.data[i].birthday;
+            delete $scope.gridOptions.data[i].isAdmin;
+            delete $scope.gridOptions.data[i].passion;
+            delete $scope.gridOptions.data[i].profile;
+
             downloadData.push($scope.gridOptions.data[i]);
         }
         JSONToCSVConvertor(downloadData, "Members Data", true);
