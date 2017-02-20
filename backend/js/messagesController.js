@@ -514,7 +514,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
                 if (today < d) {
                     obj.Status = "Active";
                 } else {
-                    obj.Status = "Deactive";
+                    obj.Status = "Expired";
                 }
                 
                 //obj.ImageUrl = obj.AnnouncementType;
