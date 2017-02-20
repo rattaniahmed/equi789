@@ -473,12 +473,12 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
             $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
         },
         columnDefs: [
-          { name: 'AnnouncementTitle', enableFiltering: false, headerCellClass: 'blue', filed: 'Announcement' },
-           { name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', filed: 'MessageImage', cellTemplate: '<div style="text-align:center;">'+"<img width=\"40px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src></div>", },
-          { name: 'Expiry', enableFiltering: false, headerCellClass: 'blue', filed: 'Expiration Date' },
-          { name: 'Status', headerCellClass: 'blue', filed: 'Status' },
-          { name: 'AnnouncementType', headerCellClass: 'blue', cellTemplate: '<div style="text-align:center;">'+"<img width=\"25px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src></div>", filed: 'Type' },
-          { name: 'Read', headerCellClass: 'blue', filed: 'Number of Read' },
+          { name: 'AnnouncementTitle', enableFiltering: false, headerCellClass: 'blue', field: 'Announcement' },
+           { name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', field: 'MessageImage', cellTemplate: '<div style="text-align:center;">' + "<img width=\"40px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src></div>", },
+          { name: 'Expiry', enableFiltering: false, headerCellClass: 'blue', field: 'Expiration Date' },
+          { name: 'Status', headerCellClass: 'blue', field: 'Status' },
+          { name: 'AnnouncementType', headerCellClass: 'blue', cellTemplate: '<div style="text-align:center;">' + "<img width=\"25px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src></div>", field: 'Type' },
+          { name: 'Read', headerCellClass: 'blue', field: 'Number of Read' },
           {
               name: " ", cellTemplate: '<div style="text-align:center;">' +
                       '<a href="#/messages/{{row.entity.$id}}" >Edit</a>' +

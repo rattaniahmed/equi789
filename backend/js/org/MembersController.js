@@ -11,20 +11,20 @@
         },
         columnDefs: [
            { name: 'email', headerCellClass: 'blue', field: 'email' },
-          { name: 'display_name', enableFiltering: false, headerCellClass: 'blue', filed: 'Display_Name' },
-          { name: 'first_name', headerCellClass: 'blue', filed: 'first_name' },
-          { name: 'last_name', headerCellClass: 'blue', filed: 'last_name' },
-         { name: 'TotalRides', headerCellClass: 'blue', filed: 'Total Rides' },
-          { name: 'TotalHorses', headerCellClass: 'blue', filed: 'Total Horses' },
-        { name: 'TotalTime', headerCellClass: 'blue', filed: 'Total Time' },
-         { name: 'TotalDistance', headerCellClass: 'blue', filed: 'Total Distance' }
+          { name: 'display_name', enableFiltering: false, headerCellClass: 'blue', field: 'Display_Name' },
+          { name: 'first_name', headerCellClass: 'blue', field: 'first_name' },
+          { name: 'last_name', headerCellClass: 'blue', field: 'last_name' },
+         { name: 'TotalRides', headerCellClass: 'blue', field: 'Total Rides' },
+          { name: 'TotalHorses', headerCellClass: 'blue', field: 'Total Horses' },
+        { name: 'TotalTime', headerCellClass: 'blue', field: 'Total Time' },
+         { name: 'TotalDistance', headerCellClass: 'blue', field: 'Total Distance' }
 
         ],
         exporterLinkLabel: 'get your csv here',
         exporterPdfDefaultStyle: { fontSize: 9 },
-        exporterPdfTableStyle: { margin: [5, 5, 5, 5] },
+        exporterPdfTableStyle: { margin: [5,5,5,5] },
         exporterPdfTableHeaderStyle: { fontSize: 10, bold: true, italics: true, color: 'red' },
-        exporterPdfOrientation: 'portrait',
+        exporterPdfOrientation: 'landscape',
         exporterPdfPageSize: 'LETTER',
         exporterPdfMaxGridWidth: 600,
         exporterPdfHeader: { text: "Members Detail", style: 'headerStyle' },
@@ -33,7 +33,7 @@
         },
         exporterPdfCustomFormatter: function (docDefinition) {
             docDefinition.styles.headerStyle = { fontSize: 22, bold: true, margin: [260, 10, 100, 0] };
-            docDefinition.styles.footerStyle = { fontSize: 10, bold: true, margin: [300, 0, 60, 60] };
+            docDefinition.styles.footerStyle = { fontSize: 10, bold: true, margin: [300, 0, 60, 0] };
             return docDefinition;
         },
     };
@@ -234,7 +234,7 @@
             return;
         } else {
             $("#sharemodal").hide();
-            swal('', 'Your report will be Email to you shortly', 'success');
+            swal('', 'Your report has been sent.', 'success');
         }
     }
 
