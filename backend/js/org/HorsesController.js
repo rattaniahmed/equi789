@@ -34,7 +34,7 @@
         exporterPdfOrientation: 'landscap',
         exporterPdfPageSize: 'LETTER',
         exporterPdfMaxGridWidth: 600,
-        exporterPdfHeader: { text: "Hourse Detail", style: 'headerStyle' },
+        exporterPdfHeader: { text: headertext, style: { fontSize: 15, bold: true, italics: true, color: 'red', fillColor: '#ffffff' } },
         exporterPdfFooter: function (currentPage, pageCount) {
             return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: "background-color:green" };
         },
@@ -45,7 +45,7 @@
         },
     };
    
-
+    $scope.headertext = ["Appaloosa Horse Club Horses Summary Report Report Range:  January 2017"];
     $scope.export = function (type) {
         //if ($scope.export_format == type) {
         //    var myElement = angular.element(document.querySelectorAll(".custom-csv-link-location"));
