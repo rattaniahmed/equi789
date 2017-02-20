@@ -26,14 +26,14 @@
         exporterPdfTableHeaderStyle: { fontSize: 10, bold: true, italics: true, color: 'red' },
         exporterPdfOrientation: 'portrait',
         exporterPdfPageSize: 'LETTER',
-        exporterPdfMaxGridWidth: 500,
+        exporterPdfMaxGridWidth: 600,
         exporterPdfHeader: { text: "Members Detail", style: 'headerStyle' },
         exporterPdfFooter: function (currentPage, pageCount) {
             return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
         },
         exporterPdfCustomFormatter: function (docDefinition) {
             docDefinition.styles.headerStyle = { fontSize: 22, bold: true, margin: [260, 10, 100, 0] };
-            docDefinition.styles.footerStyle = { fontSize: 10, bold: true, margin: [300, 0, 60, 0] };
+            docDefinition.styles.footerStyle = { fontSize: 10, bold: true, margin: [300, 0, 60, 60] };
             return docDefinition;
         },
     };
