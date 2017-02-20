@@ -30,7 +30,7 @@
         exporterLinkLabel: 'get your csv here',
         exporterPdfDefaultStyle: { fontSize: 9 },
         exporterPdfTableStyle: { margin: [5, 5, 5, 5] },
-        exporterPdfTableHeaderStyle: { fontSize: 10, bold: true, italics: true, color: 'black' },
+        exporterPdfTableHeaderStyle: { fontSize: 10, bold: true, italics: true, color: 'black', fillColor: '#dedede' },
         exporterPdfOrientation: 'landscap',
         exporterPdfPageSize: 'LETTER',
         exporterPdfMaxGridWidth: 600,
