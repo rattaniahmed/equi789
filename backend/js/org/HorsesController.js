@@ -1,7 +1,9 @@
 ﻿app.controller('HorsesController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams, $rootScope) {
 
     console.log("HorsesController jhghhjhgjhgjhgjhg");
-
+    var layout = {
+        "content": []
+    }
 
     $scope.gridOptions = {
         paginationPageSizes: [5, 10, 20],
@@ -34,7 +36,7 @@
         exporterPdfOrientation: 'landscap',
         exporterPdfPageSize: 'LETTER',
         exporterPdfMaxGridWidth: 600,
-        exporterPdfHeader: { text: headertext, style: { fontSize: 15, bold: true, italics: true, color: 'red', fillColor: '#ffffff' } },
+        exporterPdfHeader: { text: layout.content, style: "fontSize: 10, bold: true, italics: true, color: 'black', fillColor: '#dedede' " },
         exporterPdfFooter: function (currentPage, pageCount) {
             return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: "background-color:green" };
         },
@@ -44,8 +46,12 @@
             return docDefinition;
         },
     };
-   
-    $scope.headertext = ["Appaloosa Horse Club Horses Summary Report Report Range:  January 2017"];
+    layout.content.push({
+        "text": "Lorem ipsum dolor sit amet,consectetur adipiscing",
+        "fontSize": 15
+    });
+
+   // $scope.headertext = ["Appaloosa Horse Club Horses Summary Report Report Range:  January 2017"];
     $scope.export = function (type) {
         //if ($scope.export_format == type) {
         //    var myElement = angular.element(document.querySelectorAll(".custom-csv-link-location"));
