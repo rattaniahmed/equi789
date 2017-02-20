@@ -134,7 +134,7 @@
                 }
                 $("#name").val($scope.Question.MessageText);
                 $("#linktitle").val($scope.Question.LinkTitle),
-                $("#expiry").val($scope.Question.Expiry);
+                $("#expiry").val($scope.Question.ExpirationDate);
 
                 $("#title").val($scope.Question.AnnouncementTitle);
                 $("#link").val($scope.Question.Embeddedlink);
@@ -212,7 +212,7 @@
                     var imageRef = $scope.images.$getRecord($routeParams.id);
                     imageRef.AnnouncementTitle = $("#title").val();
                     imageRef.MessageText = $("#name").val();
-                    imageRef.Expiry = $("#expiry").val();
+                    imageRef.ExpirationDate = $("#expiry").val();
                     imageRef.Embeddedlink = $("#link").val();
                     imageRef.AnnouncementType = $scope.img,
                     imageRef.MessageImage = url,
@@ -242,7 +242,7 @@
                 var imageRef = $scope.images.$getRecord($routeParams.id);
                 imageRef.AnnouncementTitle = $("#title").val();
                 imageRef.MessageText = $("#name").val();
-                imageRef.Expiry = $("#expiry").val();
+                imageRef.ExpirationDate = $("#expiry").val();
                 imageRef.Embeddedlink = $("#link").val();
                 imageRef.AnnouncementType = $scope.img,
                 imageRef.MessageImage = url,
@@ -270,7 +270,7 @@
             var imageRef = $scope.images.$getRecord($routeParams.id);
             imageRef.AnnouncementTitle = $("#title").val();
             imageRef.MessageText = $("#name").val();
-            imageRef.Expiry = $("#expiry").val();
+            imageRef.ExpirationDate = $("#expiry").val();
             imageRef.Embeddedlink = $("#link").val();
             imageRef.AnnouncementType = $scope.img,
             //imageRef.MessageImage =url,
@@ -347,7 +347,7 @@
                     var toAdd = {
                         //AnnouncementTitle: $("#title").val(),
                         //MessageText: $("#name").val(),
-                        Expiry: $("#expiry").val(),
+                        ExpirationDate: $("#expiry").val(),
                         Embeddedlink: $("#link").val(),
                         AnnouncementType: $scope.img,
                         Read: 0,
@@ -355,8 +355,8 @@
                         LinkTitle: $("#linktitle").val(),
                         OrganisationId: $scope.user.OrganisationNumber
                     }
-                    if (toAdd.Expiry == "") {
-                        alert("Please fill Expiry Date");
+                    if (toAdd.ExpirationDate == "") {
+                        alert("Please fill Expiration Date");
                         $("#loadingModal").hide();
                         return;
                     }
@@ -412,7 +412,7 @@
             var toAdd = {
                 AnnouncementTitle: $("#title").val(),
                 MessageText: $("#name").val(),
-                Expiry: $("#expiry").val(),
+                ExpirationDate: $("#expiry").val(),
                 Embeddedlink: $("#link").val(),
                 AnnouncementType: $scope.img,
                 Read: 0,
@@ -420,21 +420,23 @@
                 //MessageImage: url,
                 OrganisationId: $scope.user.OrganisationNumber
             }
-            if (toAdd.Expiry == "") {
-                alert("Please fill Expiry Date");
+            if (toAdd.ExpirationDate == "") {
+                alert("Please fill Expiration Date");
                 $("#loadingModal").hide();
                 return;
             }
-            if (toAdd.AnnouncementTitle == "") {
+         
+            if (toAdd.AnnouncementTitle == "" || toAdd.AnnouncementTitle.length>36) {
                 alert("Please fill AnnouncementTitle");
                 $("#loadingModal").hide();
                 return;
             }
-            if (toAdd.MessageText == "") {
+            if (toAdd.MessageText == "" || toAdd.MessageText.length>200) {
                 alert("Please fill Announcement");
                 $("#loadingModal").hide();
                 return;
             }
+            
             $scope.images.$add(toAdd).then(function (ref) {
 
                 var id = ref.key();
@@ -470,18 +472,18 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
         enableFiltering: false,
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
-            $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
+            //$scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
         },
         columnDefs: [
-          { name: 'AnnouncementTitle', enableFiltering: false, headerCellClass: 'blue', field: 'Announcement' },
+          { name: 'AnnouncementTitle', enableFiltering: false, headerCellClass: 'blue', field: 'AnnouncementTitle' },
            { name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', field: 'MessageImage', cellTemplate: '<div style="text-align:center;">' + "<img width=\"40px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src></div>", },
-          { name: 'Expiry', enableFiltering: false, headerCellClass: 'blue', field: 'Expiration Date' },
+          { name: 'ExpirationDate', enableFiltering: false, headerCellClass: 'blue', field: 'ExpirationDate' },
           { name: 'Status', headerCellClass: 'blue', field: 'Status' },
-          { name: 'AnnouncementType', headerCellClass: 'blue', cellTemplate: '<div style="text-align:center;">' + "<img width=\"25px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src></div>", field: 'Type' },
-          { name: 'Read', headerCellClass: 'blue', field: 'Number of Read' },
+          { name: 'AnnouncementType', headerCellClass: 'blue', cellTemplate: '<div style="text-align:center;">' + "<img width=\"25px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src></div>", field: 'AnnouncementType' },
+          { name: 'Read', headerCellClass: 'blue', field: 'Read' },
           {
               name: " ", cellTemplate: '<div style="text-align:center;">' +
-                      '<a href="#/messages/{{row.entity.$id}}" >Edit</a>' +
+                      '<a href="#/messages/{{row.entity.$id}}">Edit</a>' +
                       '</div>', enableFiltering: false
           },
          
@@ -505,18 +507,18 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
         
         var today = new Date();
       
-        
+        debugger;
         for (cnt = 0; cnt < dataArray.length; cnt++) {
 
             if (anumber == dataArray[cnt].OrganisationId) {
                 var obj = dataArray[cnt];
-                var d = Date.parse(dataArray[cnt].Expiry);
+                var d = Date.parse(dataArray[cnt].ExpirationDate);
                 if (today < d) {
                     obj.Status = "Active";
                 } else {
                     obj.Status = "Expired";
                 }
-                
+                obj
                 //obj.ImageUrl = obj.AnnouncementType;
                 dataToShow.push(obj);
             }
@@ -556,7 +558,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
 
         var imageRef = $scope.images.$getRecord($scope.cntId);
         imageRef.MessageText = $("#name").val();
-        imageRef.Expiry = $("#expiry").val();
+        imageRef.ExpirationDate = $("#expiry").val();
         imageRef.OrganisationId = $scope.user.OrganisationNumber;
 
         $scope.images.$save(imageRef).then(function (res) {
@@ -593,7 +595,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
 
         var toAdd = {
             MessageText: $("#name").val(),
-            Expiry: $("#expiry").val(),
+            ExpirationDate: $("#expiry").val(),
       
             OrganisationId: $scope.user.OrganisationNumber
         }
