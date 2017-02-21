@@ -54,6 +54,11 @@
        
              "text": "Lorem ipsum dolor sit amet,consectetur adipiscing",
                "fontSize": 15
+            },{
+                "image": 'data:image/jpeg;base64,images/ingo_icon.png',
+                "width": 150,
+                "height": 150
+               // "fit": [ 523, 300 ]
             },
             {
                 "text": "Lorem ipsum dolor sit amet,consectetur adipiscing",
