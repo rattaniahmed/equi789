@@ -49,7 +49,13 @@
     layout.content.push({
         "text": "Lorem ipsum dolor sit amet,consectetur adipiscing",
         "fontSize": 15
-    });
+    },
+    {
+    
+        "image": "‪D://GitRepo//equi789//backend/images//Heart_Icon.png",
+    width: 150,
+    height: 150
+});
 
    // $scope.headertext = ["Appaloosa Horse Club Horses Summary Report Report Range:  January 2017"];
     $scope.export = function (type) {
