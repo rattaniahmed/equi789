@@ -101,7 +101,7 @@
               console.log(key);
               var rides = $scope.rides.$getRecord(key);
               if (rides != null) {
-                  rides.total_time=(new Date).clearTime().addSeconds(rides.total_time).toString('H:mm:ss');
+                  rides.total_time = hhmmss(rides.total_time) //(new Date).clearTime().addSeconds(rides.total_time).toString('H:mm:ss');
                   $scope.stables.push(rides);
               }
               console.log($scope.stables);

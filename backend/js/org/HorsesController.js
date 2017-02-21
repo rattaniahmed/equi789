@@ -36,7 +36,7 @@
         exporterPdfOrientation: 'landscap',
         exporterPdfPageSize: 'LETTER',
         exporterPdfMaxGridWidth: 600,
-        exporterPdfHeader: { text: layout.content, style: "fontSize: 10, bold: true, italics: true, color: 'black', fillColor: '#dedede' " },
+        exporterPdfHeader: { text: layout.content },
         exporterPdfFooter: function (currentPage, pageCount) {
             return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: "background-color:green" };
         },
@@ -46,16 +46,21 @@
             return docDefinition;
         },
     };
-    layout.content.push({
-        "text": "Lorem ipsum dolor sit amet,consectetur adipiscing",
-        "fontSize": 15
-    },
+    layout.content.push(
+      
     {
-    
-        "image": "‪D://GitRepo//equi789//backend/images//Heart_Icon.png",
-    width: 150,
-    height: 150
-});
+        
+
+       
+             "text": "Lorem ipsum dolor sit amet,consectetur adipiscing",
+               "fontSize": 15
+            },
+            {
+                "text": "Lorem ipsum dolor sit amet,consectetur adipiscing",
+                "fontSize": 15
+        
+    }
+    );
 
    // $scope.headertext = ["Appaloosa Horse Club Horses Summary Report Report Range:  January 2017"];
     $scope.export = function (type) {
@@ -66,6 +71,7 @@
         $scope.gridApi.exporter.pdfExport("all", "all");
         //};
     }
+    
     $scope.filterValue = '';
     $scope.Search = function () {
         $scope.filterValue = document.getElementById("search").value;
