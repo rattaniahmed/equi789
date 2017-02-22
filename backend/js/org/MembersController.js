@@ -22,13 +22,13 @@
         },
         columnDefs: [
            { name: 'email', headerCellClass: 'blue', field: 'email' },
-          { name: 'display_name', enableFiltering: false, headerCellClass: 'blue', field: 'Display_Name' },
+          { name: 'display_name', enableFiltering: false, headerCellClass: 'blue', field: 'display_name' },
           { name: 'first_name', headerCellClass: 'blue', field: 'first_name' },
           { name: 'last_name', headerCellClass: 'blue', field: 'last_name' },
-         { name: 'TotalRides', headerCellClass: 'blue', field: 'Total Rides' },
-          { name: 'TotalHorses', headerCellClass: 'blue', field: 'Total Horses' },
-        { name: 'TotalTime', headerCellClass: 'blue', field: 'Total Time' },
-         { name: 'TotalDistance', headerCellClass: 'blue', field: 'Total Distance' }
+         { name: 'TotalRides', headerCellClass: 'blue', field: 'TotalRides' },
+          { name: 'TotalHorses', headerCellClass: 'blue', field: 'TotalHorses' },
+        { name: 'TotalTime', headerCellClass: 'blue', field: 'TotalTime' },
+         { name: 'TotalDistance', headerCellClass: 'blue', field: 'TotalDistance' }
 
         ],
         exporterLinkLabel: 'get your csv here',

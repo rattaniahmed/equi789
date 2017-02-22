@@ -112,7 +112,7 @@
               console.log(key);
               var rides = $scope.rides.$getRecord(key);
               if (rides != null) {
-                  rides.total_time = hhmmss(rides.total_time) //(new Date).clearTime().addSeconds(rides.total_time).toString('H:mm:ss');
+                  //(new Date).clearTime().addSeconds(rides.total_time).toString('H:mm:ss');
                   $scope.stables.push(rides);
               }
               console.log($scope.stables);
@@ -354,6 +354,8 @@
                 console.log(horse);
                 $scope.rideIdsTOFetch[cnt].Member = horse.Member;
                 $scope.rideIdsTOFetch[cnt].Horse = horse.horse_name;
+               // rides.total_time = hhmmss(rides.total_time);
+                $scope.rideIdsTOFetch[cnt].total_time = hhmmss($scope.rideIdsTOFetch[cnt].total_time);
                // $scope.rideIdsTOFetch[cnt].total_time = $scope.rideIdsTOFetch[cnt].total_time.Format("0:HH:mm:ss");
                
             }

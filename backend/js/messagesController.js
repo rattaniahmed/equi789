@@ -272,10 +272,23 @@
             imageRef.MessageText = $("#name").val();
             imageRef.ExpirationDate = $("#expiry").val();
             imageRef.Embeddedlink = $("#link").val();
-            imageRef.AnnouncementType = $scope.img,
+            imageRef.AnnouncementType = $scope.img;
             //imageRef.MessageImage =url,
             imageRef.OrganisationId = $scope.user.OrganisationNumber;
-            imageRef.LinkTitle = $("#linktitle").val(),
+            imageRef.LinkTitle = $("#linktitle").val();
+            if (imageRef.AnnouncementTitle == "" || imageRef.AnnouncementTitle.length > 36) {
+                alert("Please fill AnnouncementTitle with limited character");
+
+                $("#loadingModal").hide();
+                $scope.option();
+                return;
+            }
+            if (imageRef.MessageText == "" || imageRef.MessageText.length > 200) {
+                alert("Please fill Announcement with limited character");
+                $("#loadingModal").hide();
+                $scope.option();
+                return;
+            }
             $scope.images.$save(imageRef).then(function (res) {
 
                 $("#reportModal").hide();
@@ -372,11 +385,14 @@
                 });
                 } else {
                     alert("Please Enter only .mp3 .mp4 or .webm Formats");
+                    $scope.option();
+                    return;
                 }
             }
             else {
                 alert("Please Enter only .mp3 .mp4 or .webm Formats");
                 $("#loadingModal").hide();
+                $scope.option();
                 return;
 
                 //if ($scope.img == undefined) {
@@ -423,17 +439,21 @@
             if (toAdd.ExpirationDate == "") {
                 alert("Please fill Expiration Date");
                 $("#loadingModal").hide();
+                $scope.option();
                 return;
             }
          
             if (toAdd.AnnouncementTitle == "" || toAdd.AnnouncementTitle.length>36) {
-                alert("Please fill AnnouncementTitle");
+                alert("Please fill AnnouncementTitle with limited character");
+
                 $("#loadingModal").hide();
+                $scope.option();
                 return;
             }
             if (toAdd.MessageText == "" || toAdd.MessageText.length>200) {
-                alert("Please fill Announcement");
+                alert("Please fill Announcement with limited character");
                 $("#loadingModal").hide();
+                $scope.option();
                 return;
             }
             
