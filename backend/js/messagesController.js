@@ -56,14 +56,25 @@
 
     }
 
-    $scope.icons = [
-        { url: 'images/ingo_icon.png', id: 1 },
-          { url: 'images/query_icon.png', id: 2 },
-            { url: 'images/important_icon.png', id: 3 },
-              { url: 'images/news_icon.png', id: 4 },
-                { url: 'images/Horse_icon.png', id: 5 },
-                { url: 'images/happy_icon.png', id: 6 }
-    ]
+    var icArray = ['ingo_icon.png', 'news_icon.png', 'Calendar_Icon.png', 'Camera_Icon1.png', 'Camera_Icon2.png', 'Clock_Icon.png', 'Coupon_Icon.png', 'Email_Icon1.png', 'Email_Icon2.png', 'File_Icon.png', 'Gift_Icon.png', 'Heart_Icon.png', 'Horse_Icon1.png', 'Horse_Icon2.png', 'Horse_Icon3.png', 'Important_Icon.png', 'Info_Icon.png', 'Map_Icon1.png', 'Map_Icon2.png', 'Money_Icon1.png', 'Money_Icon2.png', 'Movie_Icon.png', 'News_Icon.png', 'People_Icon.png', 'Picture_Icon.png', 'Question_Icon1.png', 'Question_Icon2.png', 'Rain_Icon.png', 'Rules_Icon.png', 'Smile_Icon.png', 'Star_Icon.png', 'Trophy_Icon.png'];
+
+    $scope.icons = [];
+    for (var iCounter = 0; iCounter < icArray.length; iCounter++) {
+        $scope.icons.push({
+            url: 'images/' + icArray[iCounter],
+            id: 1
+        });
+    }
+
+    //$scope.icons = [
+    //    { url: 'images/ingo_icon.png', id: 1 },
+    //      { url: 'images/query_icon.png', id: 2 },
+    //        { url: 'images/important_icon.png', id: 3 },
+    //          { url: 'images/news_icon.png', id: 4 },
+    //            { url: 'images/Horse_icon.png', id: 5 },
+    //            { url: 'images/happy_icon.png', id: 6 }
+    //]
+
     $scope.imageSelect = function (id_icon) {
         $scope.img = _.findWhere($scope.icons, { id: id_icon }).url;
     }

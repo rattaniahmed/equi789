@@ -115,7 +115,7 @@
         <div class="col-md-4 col-sm-3 col-xs-6 tile">
             <span>Total Members</span>
             <h2>{{UsersCount}}</h2>
-            <span class="sparkline_one" style="height: 160px;">
+            <span class="sparkline_totalmembers" style="height: 160px;">
             <canvas width="478" height="125" style="display: inline-block; width: 478px; height: 125px; vertical-align: top;">
                 </canvas>
             </span>
@@ -123,12 +123,12 @@
         <div class="col-md-4 col-sm-3 col-xs-6 tile">
             <span>Total Horses</span>
             <h2 class="">{{HorsesCount}}</h2>
-            <span class="sparkline_one" style="height: 160px;"><canvas width="478" height="125" style="display: inline-block; width: 478px; height: 125px; vertical-align: top;"></canvas></span>
+            <span class="sparkline_totalhourses" style="height: 160px;"><canvas width="478" height="125" style="display: inline-block; width: 478px; height: 125px; vertical-align: top;"></canvas></span>
         </div>
         <div class="col-md-4 col-sm-3 col-xs-6 tile">
             <span>Total Rides</span>
             <h2>{{RidesCount}}</h2>
-            <span class="sparkline_one" style="height: 160px;"><canvas width="200" height="40" style="display: inline-block; width: 200px; height: 40px; vertical-align: top;"></canvas></span>
+            <span class="sparkline_totalrides" style="height: 160px;"><canvas width="200" height="40" style="display: inline-block; width: 200px; height: 40px; vertical-align: top;"></canvas></span>
         </div>
         <!--<div class="col-md-3 col-sm-3 col-xs-6 tile">
             <span>Total Sessions</span>
@@ -161,19 +161,19 @@
                     <div class="col-md-4 col-sm-3 col-xs-6 tile">
                         <span>New Members</span>
                         <h2>{{FilterUsersCount}}</h2>
-                        <span class="sparkline_one" style="height: 160px;">
+                        <span class="sparkline_newmembers" style="height: 160px;">
                             <canvas width="478" height="125" style="display: inline-block; width: 478px; height: 125px; vertical-align: top;"></canvas>
                         </span>
                     </div>
                     <div class="col-md-4 col-sm-3 col-xs-6 tile">
                         <span>New Horses</span>
                         <h2 class="">{{FilterHorsesCount}}</h2>
-                        <span class="sparkline_one" style="height: 160px;"><canvas width="478" height="125" style="display: inline-block; width: 478px; height: 125px; vertical-align: top;"></canvas></span>
+                        <span class="sparkline_newhourses" style="height: 160px;"><canvas width="478" height="125" style="display: inline-block; width: 478px; height: 125px; vertical-align: top;"></canvas></span>
                     </div>
                     <div class="col-md-4 col-sm-3 col-xs-6 tile">
                         <span>New Rides</span>
                         <h2>{{FilterRidesCount }}</h2>
-                        <span class="sparkline_one" style="height: 160px;"><canvas width="200" height="40" style="display: inline-block; width: 200px; height: 40px; vertical-align: top;"></canvas></span>
+                        <span class="sparkline_newrides" style="height: 160px;"><canvas width="200" height="40" style="display: inline-block; width: 200px; height: 40px; vertical-align: top;"></canvas></span>
                     </div>
                     <!--<div class="col-md-3 col-sm-3 col-xs-6 tile">
             <span>Total Sessions</span>
@@ -191,11 +191,10 @@
                 </div>
 
                 <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
-                    <select class="form-control">
+                    <select class="form-control" style="margin-bottom:10px;" ng-model="keyfilter" ng-options="o for o in filterOption" ng-change="ChangeValues()">
                        
-                        <option>Top Horse by</option>
-                        <option>Top Member by</option>
-                        <option>Top Ride by</option>
+                        <!--<option>Top {{o}} by</option>-->
+                       
                         
                     </select>
                     
@@ -204,7 +203,7 @@
                             <p>Distance</p>
                             <div class="">
                                 <div class="progress progress_sm" style="width: 76%;">
-                                    <div class="progress-bar" role="progressbar" data-transitiongoal="80" aria-valuenow="79" style="width: 80%;background-color:#eed093"></div>
+                                    <div class="progress-bar" role="progressbar" data-transitiongoal="80" aria-valuenow="79" style="width: {{FilterData.Distance}}%;background-color:#eed093"></div>
                                 </div>
                             </div>
                         </div>
@@ -212,7 +211,7 @@
                             <p>Energy</p>
                             <div class="">
                                 <div class="progress progress_sm" style="width: 76%;">
-                                    <div class="progress-bar" role="progressbar" data-transitiongoal="60" aria-valuenow="59" style="width: 60%;background-color:#eed093"></div>
+                                    <div class="progress-bar" role="progressbar" data-transitiongoal="60" aria-valuenow="59" style="width: {{FilterData.Energy}}%;background-color:#eed093"></div>
                                 </div>
                             </div>
                         </div>
@@ -222,7 +221,7 @@
                             <p>Speed</p>
                             <div class="">
                                 <div class="progress progress_sm" style="width: 76%;">
-                                    <div class="progress-bar" role="progressbar" data-transitiongoal="40" aria-valuenow="39" style="width: 40%;background-color:#eed093"></div>
+                                    <div class="progress-bar" role="progressbar" data-transitiongoal="40" aria-valuenow="39" style="width: {{FilterData.Speed}}%;background-color:#eed093"></div>
                                 </div>
                             </div>
                         </div>
@@ -230,7 +229,7 @@
                             <p>Time</p>
                             <div class="">
                                 <div class="progress progress_sm" style="width: 76%;">
-                                    <div class="progress-bar " role="progressbar" data-transitiongoal="50" aria-valuenow="49" style="width: 50%;background-color:#eed093"></div>
+                                    <div class="progress-bar " role="progressbar" data-transitiongoal="50" aria-valuenow="49" style="width: {{FilterData.Time}}%;background-color:#eed093"></div>
                                 </div>
                             </div>
                         </div>
