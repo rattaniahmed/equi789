@@ -221,7 +221,10 @@
                     imageRef.MessageImage = url,
                     imageRef.LinkTitle = $("#linktitle").val(),
                     imageRef.OrganisationId = $scope.user.OrganisationNumber;
-
+                    if (imageRef.AnnouncementTitle == "" || imageRef.AnnouncementTitle.length > 36) {
+                        alert("Please fill AnnouncementTitle with limited character");
+                        return;
+                    }
                     $scope.images.$save(imageRef).then(function (res) {
 
                         console.log(res);
@@ -232,7 +235,7 @@
 
 
                     });
-                    window.location.href = "#/messages/";
+                    window.location.href = "#/messages";
                     $("#loadingModal").hide();
                 });
             } else {
@@ -250,7 +253,10 @@
                 imageRef.MessageImage = $scope.Question.MessageImage,
                  imageRef.LinkTitle = $("#linktitle").val(),
                 imageRef.OrganisationId = $scope.user.OrganisationNumber;
-
+                if (imageRef.AnnouncementTitle == "" || imageRef.AnnouncementTitle.length > 36) {
+                    alert("Please fill AnnouncementTitle with limited character");
+                    return;
+                }
                 $scope.images.$save(imageRef).then(function (res) {
 
                     $("#reportModal").hide();
@@ -262,7 +268,7 @@
 
 
                 });
-                window.location.href = "#/messages/";
+                window.location.href = "#/messages";
                 $("#loadingModal").hide();
             }
         } else {
@@ -298,7 +304,7 @@
 
 
             });
-            window.location.href = "#/messages/";
+            window.location.href = "#/messages";
             $("#loadingModal").hide();
         }
     }
@@ -376,8 +382,8 @@
                             var id = ref.key();
                             console.log("added record with id " + id);
                             $("#loadingModal").hide();
-                            window.location.href = "#/messages/";
-                            window.location.reload();
+                            window.location.href = "#/messages";
+                           
 
                         });
                     });
@@ -452,10 +458,11 @@
                 var id = ref.key();
                 console.log("added record with id " + id);
                 $("#loadingModal").hide();
+                window.location.href = "#/messages";
             }).catch(function (error) {
                 console.log(error);
             });
-            window.location.href = "#/messages";
+          
         }
     }
 
