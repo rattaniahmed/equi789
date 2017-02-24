@@ -28,10 +28,10 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Content Type</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <!--<input type="text" id="name" style="width:100%;padding-left: 5px" />-->
-                                    <select id="optionType" class="form-control" style="width:50% !important;" ng-click="option()" ng-disabled="editId != -1">
+                                    <select id="optionType" ng-model="selectoption" ng-options="o for o in filterOption" class="form-control" style="width:50% !important;" ng-click="option()" ng-disabled="editId != -1">
 
-                                        <option>Text</option>
-                                        <option>Image</option>
+                                        <!--<option>Text</option>
+                                        <option>Image</option>-->
 
                                     </select>
                                 </div>
@@ -87,7 +87,7 @@
                                    
                                        
                                             <!--<a class="icon-border" href="#">-->
-                                        <input type="image" style="cursor:pointer;margin-left:5px;" ng-repeat="icon in icons" class=""  ng-src="{{icon.url}}" width="30" ng-click="imageSelect($event,icon.id)">
+                                        <input type="image" style="cursor:pointer;margin-left:5px;" ng-repeat="icon in icons" class={{icon.useclass}}  id="img{{$index}}" ng-src="{{icon.url}}" width="30" ng-click="imageSelect($index,icon.id)">
                                         <!--</a>-->
                                    
                                         </div>
