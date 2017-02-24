@@ -221,8 +221,8 @@
 
                     console.log(url);
                     var imageRef = $scope.images.$getRecord($routeParams.id);
-                    imageRef.AnnouncementTitle = $("#title").val();
-                    imageRef.MessageText = $("#name").val();
+                    //imageRef.AnnouncementTitle = $("#title").val();
+                    //imageRef.MessageText = $("#name").val();
                     imageRef.ExpirationDate = $("#expiry").val();
                     imageRef.Embeddedlink = $("#link").val();
                     imageRef.AnnouncementType = $scope.img,
@@ -244,15 +244,16 @@
                     window.location.href = "#/messages/";
                     $("#loadingModal").hide();
                 });
-            } else {
+            } else
+            {\\\\\\\
                 if ($scope.img == undefined) {
                     $scope.img = $scope.Question.AnnouncementType;
                 }
 
                 console.log(url);
                 var imageRef = $scope.images.$getRecord($routeParams.id);
-                imageRef.AnnouncementTitle = $("#title").val();
-                imageRef.MessageText = $("#name").val();
+               // imageRef.AnnouncementTitle = $("#title").val();
+                //imageRef.MessageText = $("#name").val();
                 imageRef.ExpirationDate = $("#expiry").val();
                 imageRef.Embeddedlink = $("#link").val();
                 imageRef.AnnouncementType = $scope.img,
@@ -274,7 +275,8 @@
                 window.location.href = "#/messages/";
                 $("#loadingModal").hide();
             }
-        } else {
+        } else 
+        {
             if ($scope.img == undefined) {
                 $scope.img = $scope.Question.AnnouncementType;
             }
