@@ -75,9 +75,13 @@
     //            { url: 'images/happy_icon.png', id: 6 }
     //]
 
-    $scope.imageSelect = function (id_icon) {
+    $scope.imageSelect = function (e1,id_icon) {
         $scope.img = _.findWhere($scope.icons, { id: id_icon }).url;
+        e1.style.border = "1px solid blue";
+
     }
+
+
     //$scope.SetCheckBoxValue = function (id, value) {
     //    if (value == "1")
     //        $("#" + id).attr("checked", true);
@@ -221,7 +225,7 @@
 
                     console.log(url);
                     var imageRef = $scope.images.$getRecord($routeParams.id);
-                    //imageRef.AnnouncementTitle = $("#title").val();
+                    imageRef.AnnouncementTitle = $("#title").val();
                     //imageRef.MessageText = $("#name").val();
                     imageRef.ExpirationDate = $("#expiry").val();
                     imageRef.Embeddedlink = $("#link").val();
@@ -245,19 +249,19 @@
                     $("#loadingModal").hide();
                 });
             } else
-            {\\\\\\\
+            {
                 if ($scope.img == undefined) {
                     $scope.img = $scope.Question.AnnouncementType;
                 }
 
-                console.log(url);
+               // console.log(url);
                 var imageRef = $scope.images.$getRecord($routeParams.id);
-               // imageRef.AnnouncementTitle = $("#title").val();
+                imageRef.AnnouncementTitle = $("#title").val();
                 //imageRef.MessageText = $("#name").val();
                 imageRef.ExpirationDate = $("#expiry").val();
                 imageRef.Embeddedlink = $("#link").val();
                 imageRef.AnnouncementType = $scope.img,
-                imageRef.MessageImage = url,
+                imageRef.MessageImage = $scope.Question.MessageImage,
                  imageRef.LinkTitle = $("#linktitle").val(),
                 imageRef.OrganisationId = $scope.user.OrganisationNumber;
 
@@ -371,7 +375,7 @@
                         $scope.img = "";
                     }
                     var toAdd = {
-                        //AnnouncementTitle: $("#title").val(),
+                        AnnouncementTitle: $("#title").val(),
                         //MessageText: $("#name").val(),
                         ExpirationDate: $("#expiry").val(),
                         Embeddedlink: $("#link").val(),
@@ -383,6 +387,12 @@
                     }
                     if (toAdd.ExpirationDate == "") {
                         alert("Please fill Expiration Date");
+                        $("#loadingModal").hide();
+                        return;
+                    }
+                    if (toAdd.AnnouncementTitle == "" || toAdd.AnnouncementTitle.length > 36) {
+                        alert("Please fill AnnouncementTitle with limited character");
+
                         $("#loadingModal").hide();
                         return;
                     }

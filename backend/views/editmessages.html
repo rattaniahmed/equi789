@@ -41,7 +41,7 @@
                                     
                                     </div>
                                 </div>
-                            <div class="form-group" ng-show="selectoption=='Text'">
+                            <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" >Announcement Title</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <!--<input type="text" id="name" style="width:100%;padding-left: 5px" />-->
@@ -86,7 +86,9 @@
                                     <div class="row">
                                    
                                        
-                                            <img style="cursor:pointer;margin-left:5px;" ng-repeat="icon in icons" class="selected" ng-src="{{icon.url}}" width="30" ng-click="imageSelect(icon.id)">
+                                            <!--<a class="icon-border" href="#">-->
+                                        <input type="image" style="cursor:pointer;margin-left:5px;" ng-repeat="icon in icons" class=""  ng-src="{{icon.url}}" width="30" ng-click="imageSelect($event,icon.id)">
+                                        <!--</a>-->
                                    
                                         </div>
                                        

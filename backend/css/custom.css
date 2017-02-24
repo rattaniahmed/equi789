@@ -4715,3 +4715,15 @@ ul.notifications {
     position: relative;
 }
 
+.icon-border
+{
+   
+  
+}
+
+.icon-border:focus {
+     
+     outline-width:1px;
+     outline:1px solid green;  
+
+    }
