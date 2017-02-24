@@ -56,7 +56,7 @@
 
     }
 
-    var icArray = ['ingo_icon.png', 'news_icon.png', 'Calendar_Icon.png', 'Camera_Icon1.png', 'Camera_Icon2.png', 'Clock_Icon.png', 'Coupon_Icon.png', 'Email_Icon1.png', 'Email_Icon2.png', 'File_Icon.png', 'Gift_Icon.png', 'Heart_Icon.png', 'Horse_Icon1.png', 'Horse_Icon2.png', 'Horse_Icon3.png', 'import_icon -.png', 'Info_Icon.png', 'Map_Icon1.png', 'Map_Icon2.png', 'Money_Icon1.png', 'Money_Icon2.png', 'Movie_Icon.png', 'News_Icon.png', 'People_Icon.png', 'Picture_Icon.png', 'Question_Icon1.png', 'Question_Icon2.png', 'Rain_Icon.png', 'Rules_Icon.png', 'Smile_Icon.png', 'Star_Icon.png', 'Trophy_Icon.png'];
+    var icArray = ['ingo_icon.png', 'news_icon.png', 'Calendar_Icon.png', 'Camera_Icon1.png', 'Camera_Icon2.png', 'Clock_Icon.png', 'Coupon_Icon.png', 'Email_Icon1.png', 'Email_Icon2.png', 'File_Icon.png', 'Gift_Icon.png', 'Heart_Icon.png', 'Horse_Icon1.png', 'Horse_Icon2.png', 'Horse_Icon3.png', 'Info_Icon.png', 'Map_Icon1.png', 'Map_Icon2.png', 'Money_Icon1.png', 'Money_Icon2.png', 'Movie_Icon.png', 'News_Icon.png', 'People_Icon.png', 'Picture_Icon.png', 'Question_Icon1.png', 'Question_Icon2.png', 'Rain_Icon.png', 'Rules_Icon.png', 'Smile_Icon.png', 'Star_Icon.png', 'Trophy_Icon.png'];
 
     $scope.icons = [];
     for (var iCounter = 0; iCounter < icArray.length; iCounter++) {
