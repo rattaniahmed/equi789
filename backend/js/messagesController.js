@@ -14,7 +14,8 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
         },
         columnDefs: [
           { name: 'AnnouncementTitle', enableFiltering: false, headerCellClass: 'blue', field: 'AnnouncementTitle' },
-           { name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', field: 'MessageImage', cellTemplate: '<div style="text-align:center;">' + "<img width=\"40px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src></div>", },
+           //{ name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', field: 'MessageImage', cellTemplate: '<div style="text-align:center;">' + "<img width=\"40px\" ng-src=\"{{grid.getCellValue(row, col)}}\"></div>", },
+           { name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', field: 'MessageImage', cellTemplate: '<div style="text-align:center;">' + "<img ng-show=\"row.entity.ImageExist\" width=\"40px\" src=\"{{row.entity.MessageImage}}\"></div>", },
           { name: 'ExpirationDate', enableFiltering: false, headerCellClass: 'blue', field: 'ExpirationDate' },
           { name: 'Status', headerCellClass: 'blue', field: 'Status' },
           { name: 'AnnouncementType', headerCellClass: 'blue', cellTemplate: '<div style="text-align:center;">' + "<img width=\"25px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src></div>", field: 'AnnouncementType' },
@@ -58,6 +59,15 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
                 }
                 obj
                 //obj.ImageUrl = obj.AnnouncementType;
+                if (obj.MessageImage) {
+                    
+                }
+                else
+                    obj.MessageImage = "";
+
+                obj.ImageExist  = false;
+                if (obj.MessageImage != "")
+                    obj.ImageExist = true;
                 dataToShow.push(obj);
             }
 

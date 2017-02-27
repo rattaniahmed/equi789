@@ -86,23 +86,7 @@
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         };
 
-
-        var minimum = moment().subtract(5, 'year').format('MM/DD/YYYY');
-        var maximum = moment(new Date()).format('MM/DD/YYYY');
-
-        var optionSet1 = {
-            startDate: moment().subtract(29, 'days'),
-            endDate: moment(),
-            minDate: minimum,
-            maxDate: maximum,
-            dateLimit: {
-                days: 60
-            },
-            showDropdowns: true,
-            showWeekNumbers: true,
-            timePicker: false,
-            timePickerIncrement: 1,
-            timePicker12Hour: true,
+        var optionSet1 = {                     
             ranges: {
                 'Today': [moment(), moment()],
                 'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -432,12 +416,7 @@
 
     }
 
-    $scope.Init = function () {
-        
-        //angular.element(document).ready(function () {
-        //    $scope.renderCalender();
-        //});
-
+    $scope.Init = function () {        
         LoadingState();
         if ($rootScope.isDataLoaded) {
             $scope.AllHorses = $rootScope.getOrgHorses();
@@ -456,7 +435,12 @@
     }
 
 
-    $scope.Init();
+    //$scope.Init();
+    angular.element(document).ready(function () {
+        $scope.renderCalender();
+    });
+
+    
     $scope.$on('DataLoaded', function (event, data) {
         $scope.Init();
     });

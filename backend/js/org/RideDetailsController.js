@@ -1,4 +1,4 @@
-﻿app.controller('RideDetailsController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams) {
+﻿app.controller('RideDetailsController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams, $rootScope) {
 
     console.log("rideDetailController");
 
@@ -39,10 +39,35 @@
         }
     };
 
+    var srirachaSauce = 1;
+    var myAwesomeSortFn = function (a1, b1, rowA, rowB, direction) {
+
+        //a = moment(a1, 'M/D/YYYY HH:MM:SS A')
+        //b = moment(b1, 'M/D/YYYY HH:MM:SS A')
+
+        //if (rowA.entity.CreateTime == rowB.entity.CreateTime) return 0;
+        //if (rowA.entity.CreateTime < rowB.entity.CreateTime) return -1;
+
+        //var a2 = parseInt(rowA.entity.CreateTime);
+        //var b2 = parseInt(rowB.entity.CreateTime);
+
+        //var a = new Date(a2);
+        //var b = new Date(b2);
+
+        var a = Date.parse(a1);
+        var b = Date.parse(b1);
+
+        if (a == b) return 0;
+        if (a > b) return -1;
+
+        return srirachaSauce;
+    };
+
     $scope.gridOptions = {
         paginationPageSizes: [5, 10, 20],
         paginationPageSize: 10,
         enableFiltering: false,
+        enableColumnResizing:true,
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
             $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
@@ -56,8 +81,8 @@
           { name: 'total_time', headerCellClass: 'blue' },
           { name: 'top_speed', headerCellClass: 'blue' },
           { name: 'average_speed', headerCellClass: 'blue' },
-          { name: 'start_time', headerCellClass: 'blue' },
-          { name: 'end_time', headerCellClass: 'blue' },
+          { name: 'start_time', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFn },
+          { name: 'end_time', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFn },
           { name: 'location', headerCellClass: 'blue' },
           { name: 'weather', headerCellClass: 'blue' },
           { name: 'energy', headerCellClass: 'blue' },
@@ -173,8 +198,12 @@
             // Object.keys(row.entity).
             ['total_distance', 'total_time', 'top_speed', 'average_speed', 'high_heart_rate', 'weather'].forEach(function (field) {
                 try {
-                    if (row.entity[field].match(matcher)) {
-                        match = true;
+                    if (row && row.entity) {
+                        if (row.entity[field]) {
+                            if (row.entity[field].match(matcher)) {
+                                match = true;
+                            }
+                        }
                     }
                 }
                 catch (e) {
@@ -239,137 +268,70 @@
     $scope.stables = [];
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
-    $scope.rides = $firebaseArray(ref.child('rides'));
-    LoadingState();
-    $scope.rides.$loaded().then(function (dataArray) {
-        // $scope.gridOptions.data = dataArray;
-        $scope.Rides = dataArray;
-        //angular.forEach(dataArray, function (value, key) {
-        //    //console.log(value);
-        //    console.log(key);
-        //    var rides = $scope.rides.$getRecord(key);
-        //    if (rides != null) {
-        //        $scope.stables.push(rides);
-        //    }
-
-        //});
-        //console.log($scope.stables);
-        // $scope.gridOptions.data = $scope.stables;
-    }).catch(function (error) {
-        console.log("Error in loading details");
-    });
-
     $scope.example15model = [];
     $scope.example14model = [];
     $scope.example15customTexts = { buttonDefaultText: 'Select Users' };
     $scope.example14customTexts = { buttonDefaultText: 'Select Horse' };
-    $scope.users = $firebaseArray(ref.child('users'));
-    $scope.users.$loaded().then(function (dataArray) {
-
-        $scope.AllDBUsers = dataArray;
-        //$scope.example15data = _.map(dataArray, function (elem) { return { id: elem.$id, label: elem.first_name +" "+ elem.last_name } });
-        console.log(dataArray);
-    });
     $scope.example15settings = { enableSearch: true, buttonDefaultText: 'Select Riders' };
     $scope.customFilter = '';
 
     $scope.AllRides = [];
     $scope.AllHorses = [];
     $scope.example14data = [];
-    $scope.horses = $firebaseArray(ref.child('horses'));
-    $scope.rideIdsTOFetch = [];
-    $scope.AllDBUsers = [];
-    $scope.horses.$loaded().then(function (dataArray) {
 
+    $scope.Init = function () {
+        LoadingState();
         
-        $scope.Horses = dataArray;
-        for (var i = 0; i <= dataArray.length; i++) {
-            try {
-                if (dataArray[i].horse_name != undefined) {
-                    $scope.org = JSON.parse(localStorage.getItem('adminObject'));
-                    var evens = _.filter(dataArray[i].associations, function (num) { return num.filter == $scope.org.OrganisationNumber; });
-                    if (evens.length > 0) {
-                        $scope.AllHorses.push(dataArray[i]);
-                        // var rideids = Object.keys($scope.Rides);
+        if ($rootScope.isDataLoaded) {
+            
+            $scope.org = JSON.parse(localStorage.getItem('adminObject'));
+            $scope.AllHorses = $rootScope.getOrgHorses();
+            $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
+            var maps = getHorseUserMap($scope.Users);
+            var Organisation = JSON.parse(localStorage.getItem('adminObject'));
+            var rideIdsTOFetch = [];
 
+            for (var counter = 0; counter < $scope.AllHorses.length; counter++) {
+                var horse = $scope.AllHorses[counter];
+                if (horse && horse.ride_ids) {
+                    for (var rideid in horse.ride_ids) {
+                        var rideDetails = $rootScope.backendHorseRides.$getRecord(rideid);
+                        if (rideDetails) {
+                            //rideDetails.CreateTime = horse.ride_ids[rideid];
+                            //$scope.AllHorses[counter].OrganizationNumber = "";
+                            //if ($scope.AllHorses[counter].associations) {
+                            //    var og = _.find($scope.AllHorses[counter].associations, function (oginner) { return oginner.filter == Organisation.OrganisationNumber });
+                            //    if (og)
+                            //        $scope.AllHorses[counter].OrganizationNumber = og.number;
+                            //}
+                            rideDetails.Member = "";
+                            var member = _.find(maps, function (singlemap) { return singlemap.HorseId == horse.$id });
+                            if (member) {
+                                rideDetails.Member = member.Detail.email;
+                                rideDetails.MemberId = member.Detail.$id;
+                            }
 
-                        //for (var cnt = 0 ; cnt < $scope.AllHorses.length; cnt++) {
-                        //    if ($scope.AllHorses.ride_ids) {
+                            rideDetails.Horse = horse.horse_name;
+                            // rides.total_time = hhmmss(rides.total_time);
+                            rideDetails.total_time = hhmmss(rideDetails.total_time);
 
-                        //        for(var  )
-                        //        $scope.rideIdsTOFetch.push();
-                        //    }
-                        //}
-
-                        for (var r in dataArray[i].ride_ids) {
-                            $scope.rideIdsTOFetch.push(_.find($scope.Rides, function (num) { return num.$id == r; }));
-
+                            rideIdsTOFetch.push(rideDetails);
                         }
-
-                        $scope.example14data.push({ id: dataArray[i].$id, label: dataArray[i].horse_name });
-
                     }
-
                 }
             }
-            catch (e) {
-                console.log(e);
-            }
+
+            $scope.gridOptions.data = rideIdsTOFetch;
+            $scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
+            UnLoadingState();
         }
-        
-        //console.log(dataArray);
-        $scope.Users = [];
+    }
 
-        for (var counter = 0; counter < $scope.AllDBUsers.length; counter++) {
-
-            if ($scope.AllDBUsers[counter].horse_ids) {
-
-                var ids = Object.keys($scope.AllDBUsers[counter].horse_ids);
-                console.log(ids);
-
-                for (var i in $scope.AllHorses) {
-                    var evens = _.filter(ids, function (num) { return num == $scope.AllHorses[i].$id; });
-
-                    if (evens.length > 0) {
-                        if (!(_.contains($scope.Users, $scope.AllDBUsers[counter]))) {
-                            $scope.Users.push($scope.AllDBUsers[counter]);
-                        }
-                        $scope.AllHorses[i].Member = $scope.AllDBUsers[counter].email;
-
-                    }
-
-                }
-
-            }
-        }
-
-        console.log("printing horses");
-        console.log($scope.AllHorses);
-
-        for (var cnt = 0; cnt < $scope.rideIdsTOFetch.length; cnt++) {
-            console.log($scope.rideIdsTOFetch);
-            debugger;
-            var horse = _.find($scope.AllHorses, function (num) { return num.$id == $scope.rideIdsTOFetch[cnt].horse_firebase_key; });
-            if (horse) {
-                console.log(horse);
-                $scope.rideIdsTOFetch[cnt].Member = horse.Member;
-                $scope.rideIdsTOFetch[cnt].Horse = horse.horse_name;
-               // rides.total_time = hhmmss(rides.total_time);
-                $scope.rideIdsTOFetch[cnt].total_time = hhmmss($scope.rideIdsTOFetch[cnt].total_time);
-               // $scope.rideIdsTOFetch[cnt].total_time = $scope.rideIdsTOFetch[cnt].total_time.Format("0:HH:mm:ss");
-               
-            }
-        }
-
-        $scope.gridOptions.data = $scope.rideIdsTOFetch;
-
-
-        console.log($scope.Users);
-
-        $scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
-        UnLoadingState();
-
+    $scope.Init();
+    $scope.$on('DataLoaded', function (event, data) {
+        $scope.Init();
     });
+
 
     $scope.example14settings = { enableSearch: true, dynamicTitle: false, buttonDefaultText: 'Select Horse' };
 
@@ -402,7 +364,6 @@
 
 
             }
-            debugger;
             if (moment($scope.date.endDate._d).format('MM/DD/YYYY') != moment(new Date()).format('MM/DD/YYYY')) {
                 var rides = [];
                 for (var i in $scope.rideIdsTOFetch) {
