@@ -212,21 +212,14 @@
     $scope.Download = function () {
         var downloadData = [];
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-            delete $scope.gridOptions.data[i].horse_firebase_key;
-            delete $scope.gridOptions.data[i].start_cord;
-            delete $scope.gridOptions.data[i].$$hashKey;
-            delete $scope.gridOptions.data[i].$priority;
-            delete $scope.gridOptions.data[i].$id;
-            delete $scope.gridOptions.data[i].end_cord;
-            delete $scope.gridOptions.data[i].coords;
-            delete $scope.gridOptions.data[i].horse_ids;
-            delete $scope.gridOptions.data[i].sync;
-            delete $scope.gridOptions.data[i].birthday;
-            delete $scope.gridOptions.data[i].isAdmin;
-            delete $scope.gridOptions.data[i].passion;
-            delete $scope.gridOptions.data[i].profile;
 
-            downloadData.push($scope.gridOptions.data[i]);
+            var colArray = ["display_name", "email", "first_name", "last_name", "TotalRides", "TotalHorses", "TotalTime", "TotalDistance"]
+            var row = {};
+            for (var counter = 0; counter < colArray.length; counter++) {
+                row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
+            }
+
+            downloadData.push(row);
         }
         JSONToCSVConvertor(downloadData, "Members Data", true);
     }

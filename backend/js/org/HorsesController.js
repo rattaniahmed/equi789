@@ -258,18 +258,27 @@
         var downloadData = [];
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
 
-            delete $scope.gridOptions.data[i].horse_firebase_key;
-            delete $scope.gridOptions.data[i].start_cord;
-            delete $scope.gridOptions.data[i].$$hashKey;
-            delete $scope.gridOptions.data[i].$priority;
-            delete $scope.gridOptions.data[i].$id;
-            delete $scope.gridOptions.data[i].end_cord;
-            delete $scope.gridOptions.data[i].coords;
-            delete $scope.gridOptions.data[i].MemberId;
-            delete $scope.gridOptions.data[i].notes;
-            delete $scope.gridOptions.data[i].photo;
+            
 
-            downloadData.push($scope.gridOptions.data[i]);
+            var colArray = ["Member", "horse_name", "OrganizationNumber", "birthday", "registration", "weight", "TotalRides", "TotalTime", "TotalDistance", "TopSpeed", "TotalEnergy"]
+            var row = {};
+            for (var counter = 0; counter < colArray.length; counter++) {
+                row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
+            }
+
+            //delete $scope.gridOptions.data[i].horse_firebase_key;
+            //delete $scope.gridOptions.data[i].start_cord;
+            //delete $scope.gridOptions.data[i].$$hashKey;
+            //delete $scope.gridOptions.data[i].$priority;
+            //delete $scope.gridOptions.data[i].$id;
+            //delete $scope.gridOptions.data[i].end_cord;
+            //delete $scope.gridOptions.data[i].coords;
+            //delete $scope.gridOptions.data[i].MemberId;
+            //delete $scope.gridOptions.data[i].notes;
+            //delete $scope.gridOptions.data[i].photo;
+
+            //downloadData.push($scope.gridOptions.data[i]);
+            downloadData.push(row);
         }
         JSONToCSVConvertor(downloadData, "Horses Data", true);
     }

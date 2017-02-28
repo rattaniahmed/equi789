@@ -76,9 +76,9 @@
         columnDefs: [
            { name: 'Member', headerCellClass: 'blue' },
            { name: 'Horse', headerCellClass: 'blue', field: 'Horse' },
-          { name: 'Membership Number', headerCellClass: 'blue', field: '' },
+          { name: 'MembershipNumber', headerCellClass: 'blue', field: 'MembershipNumber' },
           { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue' },
-          { name: 'total_time', headerCellClass: 'blue' },
+          { name: 'total_times', headerCellClass: 'blue' },
           { name: 'top_speed', headerCellClass: 'blue' },
           { name: 'average_speed', headerCellClass: 'blue' },
           { name: 'start_time', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFn },
@@ -298,12 +298,15 @@
                         var rideDetails = $rootScope.backendHorseRides.$getRecord(rideid);
                         if (rideDetails) {
                             //rideDetails.CreateTime = horse.ride_ids[rideid];
-                            //$scope.AllHorses[counter].OrganizationNumber = "";
-                            //if ($scope.AllHorses[counter].associations) {
-                            //    var og = _.find($scope.AllHorses[counter].associations, function (oginner) { return oginner.filter == Organisation.OrganisationNumber });
-                            //    if (og)
-                            //        $scope.AllHorses[counter].OrganizationNumber = og.number;
-                            //}
+
+                            rideDetails.MembershipNumber = "";
+                           
+                            if (horse.associations) {
+                                var og = _.find(horse.associations, function (oginner) { return oginner.filter == Organisation.OrganisationNumber });
+                                if (og)
+                                    rideDetails.MembershipNumber = og.number;
+                            }
+                            
                             rideDetails.Member = "";
                             var member = _.find(maps, function (singlemap) { return singlemap.HorseId == horse.$id });
                             if (member) {
@@ -313,7 +316,7 @@
 
                             rideDetails.Horse = horse.horse_name;
                             // rides.total_time = hhmmss(rides.total_time);
-                            rideDetails.total_time = hhmmss(rideDetails.total_time);
+                            rideDetails.total_times = hhmmss(rideDetails.total_time);
 
                             rideIdsTOFetch.push(rideDetails);
                         }
@@ -347,7 +350,7 @@
                 LoadingState();
                 $scope.SearchData = [];
                 for (var i = 0; i < $scope.example14model.length; i++) {
-                    var data = _.findWhere($scope.Horses, { $id: $scope.example14model[i].id })
+                    var data = _.findWhere($scope.AllHorses, { $id: $scope.example14model[i].id })
                     if (data.ride_ids != undefined) {
                         for (var id in data.ride_ids) {
                             // tempHorseArray.push(id)
@@ -357,6 +360,8 @@
 
                     }
                 }
+
+                
                 UnLoadingState();
                 $scope.gridOptions.data = $scope.SearchData;
 
@@ -382,7 +387,7 @@
                 for (var i = 0; i < $scope.example15model.length; i++) {
                     var user = _.findWhere($scope.Users, { $id: $scope.example15model[i].id })
                     for (var ridekeys in user.horse_ids) {
-                        var data = _.findWhere($scope.Horses, { $id: ridekeys })
+                        var data = _.findWhere($scope.AllHorses, { $id: ridekeys })
                         var evens = _.filter(data.associations, function (num) { return num.name == $scope.org.OrganisationName; });
                         if (evens.length > 0) {
                             $scope.SearchData.push(data);
@@ -402,15 +407,24 @@
     $scope.Download = function () {
         var downloadData = [];
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-            delete $scope.gridOptions.data[i].horse_firebase_key;
-            delete $scope.gridOptions.data[i].start_cord;
-            delete $scope.gridOptions.data[i].$$hashKey;
-            delete $scope.gridOptions.data[i].$priority;
-            delete $scope.gridOptions.data[i].$id;
-            delete $scope.gridOptions.data[i].end_cord;
-            delete $scope.gridOptions.data[i].coords;
-            downloadData.push($scope.gridOptions.data[i]);
+
+            var colArray = ["Member", "Horse", "MembershipNumber", "total_distance", "total_time", "top_speed", "average_speed", "start_time", "end_time", "location", "weather", "energy", "calories"]
+            var row = {};
+            for (var counter = 0; counter < colArray.length; counter++) {
+                row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
+            }
+            downloadData.push(row);
         }
+        //for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+        //    delete $scope.gridOptions.data[i].horse_firebase_key;
+        //    delete $scope.gridOptions.data[i].start_cord;
+        //    delete $scope.gridOptions.data[i].$$hashKey;
+        //    delete $scope.gridOptions.data[i].$priority;
+        //    delete $scope.gridOptions.data[i].$id;
+        //    delete $scope.gridOptions.data[i].end_cord;
+        //    delete $scope.gridOptions.data[i].coords;
+        //    downloadData.push($scope.gridOptions.data[i]);
+        //}
         JSONToCSVConvertor(downloadData, "Horse Rides Data", true);
     }
 
