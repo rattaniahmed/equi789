@@ -408,7 +408,7 @@
         var downloadData = [];
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
 
-            var colArray = ["Member", "Horse", "MembershipNumber", "total_distance", "total_time", "top_speed", "average_speed", "start_time", "end_time", "location", "weather", "energy", "calories"]
+            var colArray = ["Member", "Horse", "MembershipNumber", "total_distance", "total_times", "top_speed", "average_speed", "start_time", "end_time", "location", "weather", "energy", "calories"]
             var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {
                 row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
