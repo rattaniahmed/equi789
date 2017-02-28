@@ -254,32 +254,11 @@
         }
     }
 
+
+    
+
     $scope.Download = function () {
-        var downloadData = [];
-        for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-
-            
-
-            var colArray = ["Member", "horse_name", "OrganizationNumber", "birthday", "registration", "weight", "TotalRides", "TotalTime", "TotalDistance", "TopSpeed", "TotalEnergy"]
-            var row = {};
-            for (var counter = 0; counter < colArray.length; counter++) {
-                row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
-            }
-
-            //delete $scope.gridOptions.data[i].horse_firebase_key;
-            //delete $scope.gridOptions.data[i].start_cord;
-            //delete $scope.gridOptions.data[i].$$hashKey;
-            //delete $scope.gridOptions.data[i].$priority;
-            //delete $scope.gridOptions.data[i].$id;
-            //delete $scope.gridOptions.data[i].end_cord;
-            //delete $scope.gridOptions.data[i].coords;
-            //delete $scope.gridOptions.data[i].MemberId;
-            //delete $scope.gridOptions.data[i].notes;
-            //delete $scope.gridOptions.data[i].photo;
-
-            //downloadData.push($scope.gridOptions.data[i]);
-            downloadData.push(row);
-        }
+        var downloadData = $scope.getCurrentGridData();
         JSONToCSVConvertor(downloadData, "Horses Data", true);
     }
     $scope.EmailSend = function () {
@@ -290,13 +269,50 @@
     $scope.ClosedShareModel = function () {
         $("#sharemodal").hide();
     }
-    $scope.SendPdf = function () {
 
+    $scope.getCurrentGridData = function () {
+        var downloadData = [];
+        for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+            var colArray = ["Member", "horse_name", "OrganizationNumber", "birthday", "registration", "weight", "TotalRides", "TotalTime", "TotalDistance", "TopSpeed", "TotalEnergy"]
+            var row = {};
+            for (var counter = 0; counter < colArray.length; counter++) {
+                row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
+            }
+            downloadData.push(row);
+        }
+        return downloadData;
+    }
+
+    $scope.SendPdf = function () {
         if (document.getElementById("shareemailaddress").value == "") {
             alert("Please Enter your Email Id");
             return;
         } else {
             $("#sharemodal").hide();
+            debugger;
+            
+            var downloadData = $scope.getCurrentGridData();
+            var csv = GetCSVFromArrayObject(downloadData, true);
+            var datatosend={
+                email: document.getElementById("shareemailaddress").value,
+                csv: csv
+            }
+            var url = storageService.getNodeJSAppURL() + 'sendcsvreport';
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                data: datatosend,
+                async: true,
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (reposnse) {
+                    console.log("Unknown error occured");
+                }
+            });
+           // SendDataTONOdeJSBAckend(datatosend)
             swal('', 'Your report will be Email to you shortly', 'success');
         }
     }

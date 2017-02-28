@@ -405,27 +405,9 @@
     }
 
     $scope.Download = function () {
-        var downloadData = [];
-        for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-
-            var colArray = ["Member", "Horse", "MembershipNumber", "total_distance", "total_times", "top_speed", "average_speed", "start_time", "end_time", "location", "weather", "energy", "calories"]
-            var row = {};
-            for (var counter = 0; counter < colArray.length; counter++) {
-                row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
-            }
-            downloadData.push(row);
-        }
-        //for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-        //    delete $scope.gridOptions.data[i].horse_firebase_key;
-        //    delete $scope.gridOptions.data[i].start_cord;
-        //    delete $scope.gridOptions.data[i].$$hashKey;
-        //    delete $scope.gridOptions.data[i].$priority;
-        //    delete $scope.gridOptions.data[i].$id;
-        //    delete $scope.gridOptions.data[i].end_cord;
-        //    delete $scope.gridOptions.data[i].coords;
-        //    downloadData.push($scope.gridOptions.data[i]);
-        //}
+        var downloadData = $scope.getCurrentGridData();
         JSONToCSVConvertor(downloadData, "Horse Rides Data", true);
+        
     }
 
 
@@ -448,15 +430,63 @@
     $scope.ClosedShareModel = function () {
         $("#sharemodal").hide();
     }
-    $scope.SendPdf = function () {
+    //$scope.SendPdf = function () {
 
+    //    if (document.getElementById("shareemailaddress").value == "") {
+    //        alert("Please Enter your Email Id");
+    //        return;
+    //    } else {
+    //        $("#sharemodal").hide();
+    //        swal('', 'Your report will be Email to you shortly', 'success');
+
+    //    }
+    //}
+
+    $scope.getCurrentGridData = function () {
+        var downloadData = [];
+        for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+            var colArray = ["Member", "Horse", "MembershipNumber", "total_distance", "total_times", "top_speed", "average_speed", "start_time", "end_time", "location", "weather", "energy", "calories"]
+            var row = {};
+            for (var counter = 0; counter < colArray.length; counter++) {
+                row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
+            }
+            downloadData.push(row);
+        }
+        return downloadData;
+    }
+
+    $scope.SendPdf = function () {
         if (document.getElementById("shareemailaddress").value == "") {
             alert("Please Enter your Email Id");
             return;
         } else {
             $("#sharemodal").hide();
-            swal('', 'Your report will be Email to you shortly', 'success');
+            debugger;
 
+            var downloadData = $scope.getCurrentGridData();
+            var csv = GetCSVFromArrayObject(downloadData, true);
+            var datatosend = {
+                email: document.getElementById("shareemailaddress").value,
+                csv: csv
+            }
+            var url = storageService.getNodeJSAppURL() + 'sendcsvreport';
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                data: datatosend,
+                async: true,
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (reposnse) {
+                    console.log("Unknown error occured");
+                }
+            });
+            // SendDataTONOdeJSBAckend(datatosend)
+            swal('', 'Your report will be Email to you shortly', 'success');
         }
     }
+
 });

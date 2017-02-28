@@ -4,7 +4,7 @@
 
 
 function IsLocalNodeJsRunning() {
-    return false;
+    return true;
 }
 
 
