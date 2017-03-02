@@ -290,7 +290,7 @@
                 }
             });
             // SendDataTONOdeJSBAckend(datatosend)
-            swal('', 'Your report will be Email to you shortly', 'success');
+            swal('', 'our report will be send to your Email', 'success');
         }
     }
 });
