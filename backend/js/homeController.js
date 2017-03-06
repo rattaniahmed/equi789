@@ -125,6 +125,7 @@
             $scope.endDateForFilter = picker.endDate;
             $scope.startDateForFilter = picker.startDate;
             $scope.FilterGraphs($scope.startDateForFilter, $scope.endDateForFilter);
+            $scope.MainGraph($scope.startDateForFilter, $scope.endDateForFilter);
             $scope.$apply();
         });
         $('#reportrange').on('cancel.daterangepicker', function (ev, picker) {
@@ -150,6 +151,160 @@
         return date.getFullYear().toString() + date.getMonth().toString() + date.getDate().toString();
     }
 
+    function gd(year, month, day) {
+        return new Date(year, month - 1, day).getTime();
+    }
+
+    $scope.GetMainGraphDataSet1 = function (dateFilterStart, dateFilterEnd) {
+
+        var dates = [];
+        for (var counter = 0; counter < $scope.Users.length; counter++) {
+            var user = $scope.Users[counter];
+            if (user.horse_ids) {
+                for (var horseId in user.horse_ids) {
+                    var horseDetailObject = user.horse_ids[horseId];
+                    if (horseDetailObject) {
+                        if (horseDetailObject.created_at) {
+
+                            var time = moment(new Date(parseInt(horseDetailObject.created_at)));
+                            if (dateFilterStart && dateFilterEnd) {
+                                if (time > dateFilterStart && time < dateFilterEnd) {
+                                    var dateString = $scope.getDateForEquitrack(horseDetailObject.created_at);
+                                    var isExist = false;
+                                    for (var dateCounter = 0; dateCounter < dates.length; dateCounter++) {
+                                        if (dates[dateCounter].dateString == dateString) {
+                                            isExist = true;
+                                            dates[dateCounter].counterValue = dates[dateCounter].counterValue + 1;
+                                        }
+                                    }
+                                    if (!isExist) {
+                                        dates.push({
+                                            dateToApply: horseDetailObject.created_at,
+                                            dateString: dateString,
+                                            counterValue: 1
+                                        })
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+
+        dates.sort(function compare(a, b) {
+            if (a.dateToApply < b.dateToApply)
+                return -1;
+            if (a.dateToApply > b.dateToApply)
+                return 1;
+            return 0;
+        });
+
+
+        
+        var toShow =[];
+        for (var finalCounter = 0; finalCounter < dates.length; finalCounter++) {
+            var date = new Date(parseInt(dates[finalCounter].dateToApply));
+            var year = date.getFullYear();
+            var month = date.getMonth();
+            var day = date.getDate();
+            var array = [gd(year, month, day), dates[finalCounter].counterValue];
+            //data.push(array);
+            toShow.push(dates[finalCounter].counterValue)
+        }
+
+        var data = {
+            name: 'Horses',
+            data:toShow
+        }
+
+        //{
+        //    name: 'Horses',
+        //    data: [null, null, null, null, null, 6, 11, 32, 110, 235, 369, 640,
+        //        1005, 1436, 2063, 3057, 4618, 6444, 9822, 15468, 20434, 24126,
+        //        27387, 29459, 31056, 31982, 32040, 31233, 29224, 27342, 26662,
+        //        26956, 27912, 28999, 28965, 27826, 25579, 25722, 24826, 24605,
+        //        24304, 23464, 23708, 24099, 24357, 24237, 24401, 24344, 23586,
+        //        22380, 21004, 17287, 14747, 13076, 12555, 12144, 11009, 10950,
+        //        10871, 10824, 10577, 10527, 10475, 10421, 10358, 10295, 10104]
+        //}
+
+        
+
+        return data;
+
+    }
+
+    $scope.GetMainGraphDataSet2 = function (dateFilterStart, dateFilterEnd) {
+
+        var dates = [];
+        for (var counter = 0; counter < $scope.AllHorses.length; counter++) {
+            var horseObject = $scope.AllHorses[counter];
+            if (horseObject.ride_ids) {
+                for (var rideId in horseObject.ride_ids) {
+                    var time = moment(new Date(parseInt(horseObject.ride_ids[rideId])));
+                    if (dateFilterStart && dateFilterEnd) {
+                        if (time > dateFilterStart && time < dateFilterEnd) {
+                            var dateString = $scope.getDateForEquitrack(horseObject.ride_ids[rideId]);
+                            var isExist = false;
+                            for (var dateCounter = 0; dateCounter < dates.length; dateCounter++) {
+                                if (dates[dateCounter].dateString == dateString) {
+                                    isExist = true;
+                                    dates[dateCounter].counterValue = dates[dateCounter].counterValue + 1;
+                                }
+                            }
+                            if (!isExist) {
+                                dates.push({
+                                    dateToApply: horseObject.ride_ids[rideId],
+                                    dateString: dateString,
+                                    counterValue: 1
+                                })
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        dates.sort(function compare(a, b) {
+            if (a.dateToApply < b.dateToApply)
+                return -1;
+            if (a.dateToApply > b.dateToApply)
+                return 1;
+            return 0;
+        });
+
+        var toShow = [];
+        for (var finalCounter = 0; finalCounter < dates.length; finalCounter++) {
+            var date = new Date(parseInt(dates[finalCounter].dateToApply));
+            var year = date.getFullYear();
+            var month = date.getMonth();
+            var day = date.getDate();
+            var array = [gd(year, month, day), dates[finalCounter].counterValue];
+            //data.push(array);
+            toShow.push(dates[finalCounter].counterValue)
+        }
+
+
+       //var data=  {
+       //     name: 'USSR/Russia',
+       //     data: [null, null, null, null, null, null, null, null, null, null,
+       //         5, 25, 50, 120, 150, 200, 426, 660, 869, 1060, 1605, 2471, 3322,
+       //         4238, 5221, 6129, 7089, 8339, 9399, 10538, 11643, 13092, 14478,
+       //         15915, 17385, 19055, 21205, 23044, 25393, 27935, 30062, 32049,
+       //         33952, 35804, 37431, 39197, 45000, 43000, 41000, 39000, 37000,
+       //         35000, 33000, 31000, 29000, 27000, 25000, 24000, 23000, 22000,
+       //         21000, 20000, 19000, 18000, 18000, 17000, 16000]
+       // }
+
+        var data = {
+            name: 'Rides',
+            data: toShow
+        }
+
+        return data;
+    }
 
     $scope.getDataToShow = function (dateFilterStart, dateFilterEnd) {
 
@@ -338,30 +493,33 @@
     }
 
 
-    $scope.MainGraph = function () {
+    $scope.MainGraphOld = function (startDate, endDate) {
 
-        var data1 = [
-                 [gd(2012, 1, 1), 17],
-                 [gd(2012, 1, 2), 74],
-                 [gd(2012, 1, 3), 6],
-                 [gd(2012, 1, 4), 39],
-                 [gd(2012, 1, 5), 20],
-                 [gd(2012, 1, 6), 85],
-                 [gd(2012, 1, 7), 7]
-        ];
+        //var data1 = [
+        //         [gd(2012, 1, 1), 17],
+        //         [gd(2012, 1, 2), 74],
+        //         [gd(2012, 1, 3), 6],
+        //         [gd(2012, 1, 4), 39],
+        //         [gd(2012, 1, 5), 20],
+        //         [gd(2012, 1, 6), 85],
+        //         [gd(2012, 1, 7), 7]
+        //];
 
-        var data2 = [
-          [gd(2012, 1, 1), 82],
-          [gd(2012, 1, 2), 23],
-          [gd(2012, 1, 3), 66],
-          [gd(2012, 1, 4), 9],
-          [gd(2012, 1, 5), 119],
-          [gd(2012, 1, 6), 6],
-          [gd(2012, 1, 7), 9]
-        ];
+        //var data2 = [
+        //  [gd(2012, 1, 1), 82],
+        //  [gd(2012, 1, 2), 23],
+        //  [gd(2012, 1, 3), 66],
+        //  [gd(2012, 1, 4), 9],
+        //  [gd(2012, 1, 5), 119],
+        //  [gd(2012, 1, 6), 6],
+        //  [gd(2012, 1, 7), 9]
+        //];
 
-        //var data1 = [];
-        //var data2 = [];
+        var data1 = $scope.GetMainGraphDataSet1(startDate, endDate);
+        var data2 = $scope.GetMainGraphDataSet2(startDate, endDate);
+
+        console.log(data1);
+        console.log(data2);
 
         $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
           data1, data2
@@ -410,11 +568,75 @@
             tooltip: false
         });
 
-        function gd(year, month, day) {
-            return new Date(year, month - 1, day).getTime();
-        }
+        
 
     }
+
+
+    $scope.MainGraph = function (startDate, endDate) {
+
+        try{
+            var data1 = $scope.GetMainGraphDataSet1(startDate, endDate);
+            var data2 = $scope.GetMainGraphDataSet2(startDate, endDate);
+
+            var dataArray = [ data1, data2];
+
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'area'
+                },
+                colors: ['#eed093', '#f1cc82'],
+                title: {
+                    text: 'Horses and rides over the time'
+                },
+                subtitle: {
+                    text: 'Source: <a target="_blank" href="https://myequitrack.com/">' +
+                        'EquiTrack - Your Competitive Advantage'
+                },
+                xAxis: {
+                    allowDecimals: false,
+                    labels: {
+                        formatter: function () {
+                            return this.value; // clean, unformatted number for year
+                        }
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Horse-Ride Details'
+                    },
+                    labels: {
+                        formatter: function () {
+                            return this.value;
+                        }
+                    }
+                },
+                tooltip: {
+                    pointFormat: '<b>{point.y:,.0f}</b> {series.name} registered'// {point.x}'
+                },
+                plotOptions: {
+                    area: {
+                        pointStart: 0,
+                        marker: {
+                            enabled: false,
+                            symbol: 'circle',
+                            radius: 2,
+                            states: {
+                                hover: {
+                                    enabled: true
+                                }
+                            }
+                        }
+                    }
+                },
+                series: dataArray
+            });
+        }
+        catch (err) {
+            console.log("unable to make highchats")
+        }
+    }
+
 
     $scope.Init = function () {        
         LoadingState();
@@ -423,10 +645,10 @@
             $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
 
             angular.element(document).ready(function () {
+                $scope.renderCalender();
                 $scope.TotalGraphs();
                 $scope.FilterGraphs($scope.startDateForFilter, $scope.endDateForFilter);
-                $scope.MainGraph();
-                $scope.renderCalender();
+                $scope.MainGraph($scope.startDateForFilter, $scope.endDateForFilter);
                 $scope.$apply();
                 UnLoadingState();
             });
@@ -435,12 +657,7 @@
     }
 
 
-    //$scope.Init();
-    angular.element(document).ready(function () {
-        $scope.renderCalender();
-    });
-
-    
+    $scope.Init();
     $scope.$on('DataLoaded', function (event, data) {
         $scope.Init();
     });

@@ -18,14 +18,10 @@
 
         <div class="row" style="margin-top:10px;">
 
-            <div class="col-md-6">
-                <input date-range-picker id="daterange3" name="daterange3" class="form-control date-picker" type="text"
-                       ng-model="date" options="opts" required style="width:50%;" />
-            </div>
+          
 
 
-            <div class="col-md-6">
-
+           
 
 
 
@@ -38,7 +34,16 @@
 
                 </div>
 
-            </div>
+
+            <div id="reportrangeride" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;margin-right: 10px;    height: 34px;">
+                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                <span>January 6, 2017 - February 4, 2017</span> <b class="caret"></b>
+            </div>  
+
+
+                <!--<input date-range-picker id="daterange3" name="daterange3" class="form-control date-picker" type="text"
+                       ng-model="date" options="opts" required style="width: 25%;    float: right;    margin-right: 10px;" />-->
+
             <!--<div class="col-md-3" style="text-align:center;">
                 <span>Horses</span>
                 <select size="5" name="lstHorses" multiple="multiple" id="lstHorses">
@@ -87,7 +92,7 @@
         <div class="modal-content" style="width:350px;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="ClosedShareModel()">&times;</button>
-                <h4 class="modal-title">Please Choose Any Of The Action</h4>
+                <h4 class="modal-title">Please Enter Your Email</h4>
             </div>
             <div class="modal-body">
                 <div class="row" style="margin:15px;">

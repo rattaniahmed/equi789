@@ -25,7 +25,7 @@
             applyLabel: "Use",
             fromLabel: "From",
             toLabel: "To",
-            cancelLabel: 'Cancle',
+            cancelLabel: 'Cancel',
             customRangeLabel: 'Custom range',
             daysOfWeek: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             firstDay: 1,
@@ -183,6 +183,76 @@
         //};
     }
 
+
+    $scope.renderCalender = function () {
+
+        var cb = function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+            $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        };
+
+        var optionSet1 = {
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            opens: 'left',
+            buttonClasses: ['btn btn-default'],
+            applyClass: 'btn-small btn-primary',
+            cancelClass: 'btn-small',
+            format: 'MM/DD/YYYY',
+            separator: ' to ',
+            locale: {
+                applyLabel: 'Submit',
+                cancelLabel: 'Clear',
+                fromLabel: 'From',
+                toLabel: 'To',
+                customRangeLabel: 'Custom',
+                daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                firstDay: 1
+            }
+        };
+        $('#reportrangeride span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+        $('#reportrangeride').daterangepicker(optionSet1, cb);
+        $('#reportrangeride').on('show.daterangepicker', function () {
+            console.log("show event fired");
+        });
+        $('#reportrangeride').on('hide.daterangepicker', function () {
+            console.log("hide event fired");
+        });
+        $('#reportrangeride').on('apply.daterangepicker', function (ev, picker) {
+            console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
+            $scope.endDateForFilter = picker.endDate;
+            $scope.startDateForFilter = picker.startDate;
+            //$scope.FilterGraphs($scope.startDateForFilter, $scope.endDateForFilter);
+            $scope.date = {
+                startDate: picker.startDate,
+                endDate: picker.endDate
+            };
+            console.log("applying date");
+            $scope.$apply();
+        });
+        $('#reportrangeride').on('cancel.daterangepicker', function (ev, picker) {
+            console.log("cancel event fired");
+        });
+        $('#options1').click(function () {
+            $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
+        });
+        $('#options2').click(function () {
+            $('#reportrange').data('daterangepicker').setOptions(optionSet2, cb);
+        });
+        $('#destroy').click(function () {
+            $('#reportrangeride').data('daterangepicker').remove();
+        });
+    }
+
+    
+
     $scope.filterValue = '';
     $scope.Search = function () {
         $scope.filterValue = document.getElementById("search").value;
@@ -283,7 +353,7 @@
         LoadingState();
         
         if ($rootScope.isDataLoaded) {
-            
+            $scope.renderCalender();
             $scope.org = JSON.parse(localStorage.getItem('adminObject'));
             $scope.AllHorses = $rootScope.getOrgHorses();
             $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
