@@ -202,17 +202,32 @@
         });
 
 
+
         
-        var toShow =[];
-        for (var finalCounter = 0; finalCounter < dates.length; finalCounter++) {
-            var date = new Date(parseInt(dates[finalCounter].dateToApply));
-            var year = date.getFullYear();
-            var month = date.getMonth();
-            var day = date.getDate();
-            var array = [gd(year, month, day), dates[finalCounter].counterValue];
-            //data.push(array);
-            toShow.push(dates[finalCounter].counterValue)
+        var toShow = [];
+        var days= moment(dateFilterEnd).diff(moment(dateFilterStart), 'days');
+        var startCounter = 0;
+        while (startCounter < days) {
+            var graphvalue = 0;
+            var mv = moment(dateFilterStart).add(startCounter,'days');
+            //var datestringtocompare = mv.year().toString() + mv.month().toString() + mv.date().toString();
+            var monthvalue = parseInt(mv.format('M'))
+            if (monthvalue > 0)
+                monthvalue = monthvalue - 1;
+
+            var datestringtocompare = mv.year().toString() + monthvalue.toString() + mv.date().toString();
+            for (var finalCounter = 0; finalCounter < dates.length; finalCounter++) {
+                if (datestringtocompare == dates[finalCounter].dateString) {
+                    graphvalue = dates[finalCounter].counterValue;
+                }
+            }
+            toShow.push(graphvalue);
+            startCounter++;
         }
+
+        console.log("befre to show");
+        console.log(toShow);
+
 
         var data = {
             name: 'Horses',
@@ -275,28 +290,28 @@
             return 0;
         });
 
+
         var toShow = [];
-        for (var finalCounter = 0; finalCounter < dates.length; finalCounter++) {
-            var date = new Date(parseInt(dates[finalCounter].dateToApply));
-            var year = date.getFullYear();
-            var month = date.getMonth();
-            var day = date.getDate();
-            var array = [gd(year, month, day), dates[finalCounter].counterValue];
-            //data.push(array);
-            toShow.push(dates[finalCounter].counterValue)
+        var days = moment(dateFilterEnd).diff(moment(dateFilterStart), 'days');
+        var startCounter = 0;
+        while (startCounter < days) {
+            var graphvalue = 0;
+            var mv = moment(dateFilterStart).add(startCounter, 'days');
+
+            var monthvalue = parseInt(mv.format('M'))
+            if (monthvalue > 0)
+                monthvalue = monthvalue - 1;
+
+            var datestringtocompare = mv.year().toString() + monthvalue.toString() + mv.date().toString();
+            for (var finalCounter = 0; finalCounter < dates.length; finalCounter++) {
+                if (datestringtocompare == dates[finalCounter].dateString) {
+                    graphvalue = dates[finalCounter].counterValue;
+                }
+            }
+            toShow.push(graphvalue);
+            startCounter++;
         }
 
-
-       //var data=  {
-       //     name: 'USSR/Russia',
-       //     data: [null, null, null, null, null, null, null, null, null, null,
-       //         5, 25, 50, 120, 150, 200, 426, 660, 869, 1060, 1605, 2471, 3322,
-       //         4238, 5221, 6129, 7089, 8339, 9399, 10538, 11643, 13092, 14478,
-       //         15915, 17385, 19055, 21205, 23044, 25393, 27935, 30062, 32049,
-       //         33952, 35804, 37431, 39197, 45000, 43000, 41000, 39000, 37000,
-       //         35000, 33000, 31000, 29000, 27000, 25000, 24000, 23000, 22000,
-       //         21000, 20000, 19000, 18000, 18000, 17000, 16000]
-       // }
 
         var data = {
             name: 'Rides',
@@ -308,49 +323,76 @@
 
     $scope.getDataToShow = function (dateFilterStart, dateFilterEnd) {
 
+        var usersDataArray = [];
         var horseDataArray = [];
         var rideDataArray = [];
 
 
-        var UsersCount = 1;
+        var UsersCount = 0;
         var HorseCount = 0;
         var RidesCount = 0;
+
 
         for (var userCounter = 0 ; userCounter < $scope.Users.length; userCounter++) {
             var user = $scope.Users[userCounter];
             console.log(user.horse_ids);
-            if (user.horse_ids) {
-                for (var horseId in user.horse_ids) {
-                    var horseDetailObject = user.horse_ids[horseId];
-                    if (horseDetailObject) {
-                        if (horseDetailObject.created_at) {
-                            var time = moment(new Date(parseInt(horseDetailObject.created_at)));
-                            if (dateFilterStart && dateFilterEnd) {
-                                if (time > dateFilterStart && time < dateFilterEnd) {
+
+            if (user) {
+                try{
+                    if (user.createtime) {
+                        var time = moment(new Date(parseInt(user.createtime)));
+                        if (dateFilterStart && dateFilterEnd) {
+                            if (time > dateFilterStart && time < dateFilterEnd) {
+                                usersDataArray.push($scope.getDateForEquitrack(user.createtime));
+                                UsersCount++;
+                            }
+                        } else {
+                            usersDataArray.push($scope.getDateForEquitrack(user.createtime));
+                            UsersCount++;
+                        }
+                    }
+                    else {
+                        usersDataArray.push($scope.getDateForEquitrack(new Date().getTime()));
+                        UsersCount++;
+                    }
+                }
+                catch (error) {
+
+                }
+
+                if (user.horse_ids) {
+                    for (var horseId in user.horse_ids) {
+                        var horseDetailObject = user.horse_ids[horseId];
+                        if (horseDetailObject) {
+                            if (horseDetailObject.created_at) {
+                                var time = moment(new Date(parseInt(horseDetailObject.created_at)));
+                                if (dateFilterStart && dateFilterEnd) {
+                                    if (time > dateFilterStart && time < dateFilterEnd) {
+                                        horseDataArray.push($scope.getDateForEquitrack(horseDetailObject.created_at));
+                                        HorseCount++;
+                                    }
+                                } else {
                                     horseDataArray.push($scope.getDateForEquitrack(horseDetailObject.created_at));
                                     HorseCount++;
                                 }
-                            } else {
-                                horseDataArray.push($scope.getDateForEquitrack(horseDetailObject.created_at));
-                                HorseCount++;
                             }
                         }
-                    }
 
 
-                    var horseObject = $rootScope.backendHorses.$getRecord(horseId);
-                    if (horseObject.ride_ids) {
-                        for (var rideId in horseObject.ride_ids) {
-                            var timeValue = horseObject.ride_ids[rideId];
-                            var ridetime = moment(new Date(parseInt(timeValue)));
-                            if (dateFilterStart && dateFilterEnd) {
-                                if (ridetime > dateFilterStart && ridetime < dateFilterEnd) {
+                        var horseObject = $rootScope.backendHorses.$getRecord(horseId);
+                        if (horseObject.ride_ids) {
+                            for (var rideId in horseObject.ride_ids) {
+                                var timeValue = horseObject.ride_ids[rideId];
+                                var ridetime = moment(new Date(parseInt(timeValue)));
+                                if (dateFilterStart && dateFilterEnd) {
+                                    if (ridetime > dateFilterStart && ridetime < dateFilterEnd) {
+                                        rideDataArray.push($scope.getDateForEquitrack(timeValue));
+                                        RidesCount++;
+                                    }
+                                } else {
                                     rideDataArray.push($scope.getDateForEquitrack(timeValue));
                                     RidesCount++;
                                 }
-                            } else {
-                                rideDataArray.push($scope.getDateForEquitrack(timeValue));
-                                RidesCount++;
                             }
                         }
                     }
@@ -359,13 +401,17 @@
         }
 
 
+        var usergroups = _.groupBy(usersDataArray, function (num) { return Math.floor(num); });
+        var usersDataToReturn = [];
+        for (var usergroupkey in usergroups) {
+            usersDataToReturn.push(usergroups[usergroupkey].length);
+        }
+
         var groups = _.groupBy(horseDataArray, function (num) { return Math.floor(num); });
         var horseDataToReturn = [];
         for (var groupkey in groups) {
             horseDataToReturn.push(groups[groupkey].length);
         }
-
-        //horseDataToReturn.push(3);
 
         var ridegroups = _.groupBy(rideDataArray, function (num) { return Math.floor(num); });
         var rideDataToReturn = [];
@@ -374,7 +420,7 @@
         }
 
         return {
-            UsersData: [1],
+            UsersData: usersDataToReturn,
             HorseData: horseDataToReturn,
             RideData: rideDataToReturn,
             UsersCount: UsersCount,
@@ -587,7 +633,7 @@
                 },
                 colors: ['#eed093', '#f1cc82'],
                 title: {
-                    text: 'Horses and rides over the time'
+                    text: 'Horses and Rides Over Time'
                 },
                 subtitle: {
                     text: 'Source: <a target="_blank" href="https://myequitrack.com/">' +
@@ -603,7 +649,7 @@
                 },
                 yAxis: {
                     title: {
-                        text: 'Horse-Ride Details'
+                        text: 'Horse-Ride'
                     },
                     labels: {
                         formatter: function () {

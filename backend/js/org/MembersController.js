@@ -22,6 +22,7 @@
         },
         columnDefs: [
            { name: 'email', headerCellClass: 'blue', field: 'email' },
+            { name: 'membership_number', headerCellClass: 'blue', field: 'membership_number' },
           { name: 'display_name', enableFiltering: false, headerCellClass: 'blue', field: 'display_name' },
           { name: 'first_name', headerCellClass: 'blue', field: 'first_name' },
           { name: 'last_name', headerCellClass: 'blue', field: 'last_name' },

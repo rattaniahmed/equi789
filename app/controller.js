@@ -148,7 +148,8 @@
                         last_name: user.last_name,
                         email: user.email,
                         display_name: user.display_name,
-                        profile: user.profile
+                        profile: user.profile,
+                        createtime :new Date().getTime()
                     });
 
                     $scope.SendMail($scope.email);

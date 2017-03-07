@@ -46,7 +46,8 @@
         columnDefs: [
           { name: 'Member', headerCellClass: 'blue' },
           { name: 'horse_name', enableFiltering: false, headerCellClass: 'blue' },
-          { name: 'OrganizationNumber', enableFiltering: false, headerCellClass: 'blue' },
+          { name: 'MembershipNumber', enableFiltering: false, headerCellClass: 'blue' },
+          { name: 'RidingProgram', enableFiltering: false, headerCellClass: 'blue' },
           { name: 'birthday', headerCellClass: 'blue' },
           { name: 'registration', headerCellClass: 'blue' },
           { name: 'weight', headerCellClass: 'blue' },
@@ -191,11 +192,11 @@
 
             for (var counter = 0; counter < $scope.AllHorses.length; counter++) {
 
-                $scope.AllHorses[counter].OrganizationNumber = "";
+                $scope.AllHorses[counter].MembershipNumber = "";
                 if ($scope.AllHorses[counter].associations) {
                     var og = _.find($scope.AllHorses[counter].associations, function (oginner) { return oginner.filter == Organisation.OrganisationNumber });
                     if (og)
-                        $scope.AllHorses[counter].OrganizationNumber = og.number;
+                        $scope.AllHorses[counter].MembershipNumber = og.number;
                 }
 
                 $scope.AllHorses[counter].Member = "";
@@ -273,7 +274,7 @@
     $scope.getCurrentGridData = function () {
         var downloadData = [];
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-            var colArray = ["Member", "horse_name", "OrganizationNumber", "birthday", "registration", "weight", "TotalRides", "TotalTime", "TotalDistance", "TopSpeed", "TotalEnergy"]
+            var colArray = ["Member", "horse_name", "MembershipNumber", "birthday", "registration", "weight", "TotalRides", "TotalTime", "TotalDistance", "TopSpeed", "TotalEnergy"]
             var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {
                 row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
