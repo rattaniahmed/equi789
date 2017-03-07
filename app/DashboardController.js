@@ -192,6 +192,7 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
 
                     });
                 }
+               
             }
             else {
                 $scope.RideExist = false;
@@ -199,7 +200,9 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
                 DrawMap([]);
             }
 
-
+            $scope.graph1(ride);
+            $scope.graph2(ride);
+            $scope.graph3(ride);
 
             $.unblockUI();
         }).catch(function (err) {
@@ -213,28 +216,38 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
 
 
 
+    $scope.showDummy = true;
+    $scope.graph1 = function (rideObject) {
 
-    $scope.graph1 = function () {
+        var container = $("#graph_3");
+        var res = [];
+        if ($scope.showDummy) {
+            if (rideObject.heartrate) {
 
-        var container = $("#graph_1");
-
-        var maximum = container.outerWidth() / 2 || 300;
-        var data = [];
-        function getRandomData() {
-            if (data.length) { data = data.slice(1); }
-            while (data.length < maximum) {
-                var previous = data.length ? data[data.length - 1] : 50;
-                var y = previous + Math.random() * 10 - 5;
-                data.push(y < 0 ? 0 : y > 100 ? 70 : y);
+                for (var i = 0; i < rideObject.heartrate.length; i++) {
+                    res.push([rideObject.heartrate[i].Time, rideObject.heartrate[i].Value])
+                }
             }
-            var res = [];
-            for (var i = 0; i < data.length; ++i) {
-                res.push([i, data[i]])
+        } else {
+            var maximum = container.outerWidth() / 2 || 300;
+            var data = [];
+            function getRandomData() {
+                if (data.length) { data = data.slice(1); }
+                while (data.length < maximum) {
+                    var previous = data.length ? data[data.length - 1] : 50;
+                    var y = previous + Math.random() * 10 - 5;
+                    data.push(y < 0 ? 0 : y > 100 ? 70 : y);
+                }
+                var res = [];
+                for (var i = 0; i < data.length; ++i) {
+                    res.push([i, data[i]])
+                }
+                console.log(res); thryuru
+                return res;
             }
-            return res;
         }
         series = [{
-            data: getRandomData(),
+            data: res,
             lines: {
                 fill: true
             }
@@ -278,11 +291,22 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
 
     }
 
-    $scope.graph2 = function () {
+   
+
+    $scope.graph2 = function (rideObjectg) {
 
         var container = $("#graph_2");
+        var data = [];
+        if ($scope.showDummy) {
+            if (rideObjectg.altitude) {
 
-        var data = [["4:00", 10], ["4:30", 8], ["5:00", 4], ["5:30", 13], ["6:00", 17], ["6:30", 9], ["7:00", 5], ["7:30", 9], ["8:00", 7], ["8:30", 4]];
+                for (var i = 0; i < rideObjectg.altitude.length; i++) {
+                    data.push([rideObjectg.altitude[i].Time, rideObjectg.altitude[i].Value])
+                }
+            }
+        } else {
+            var data = [["4:00", 10], ["4:30", 8], ["5:00", 4], ["5:30", 13], ["6:00", 17], ["6:30", 9], ["7:00", 5], ["7:30", 9], ["8:00", 7], ["8:30", 4]];
+        }
         $.plot(container, [data], {
             series: {
                 bars: {
@@ -305,11 +329,19 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
 
     }
 
-    $scope.graph3 = function () {
-        var container = $("#graph_3");
+    $scope.graph3 = function (rideObjecth) {
+        var container = $("#graph_1");
+        var data = [];
+        if ($scope.showDummy) {
+            if (rideObjecth.avgspeed) {
 
-        var data = [[0, 4.9], [1, 5], [2, 5.1], [3, 5], [4, 4.9], [5, 5], [6, 5.1], [7, 5], [8, 4.9], [9, 5], [10, 5.1], [11, 5], [12, 5], [13, 4.9], [14, 5]];
-
+                for (var i = 0; i < rideObjecth.avgspeed.length; i++) {
+                    data.push([rideObjecth.avgspeed[i].Time, rideObjecth.avgspeed[i].Value])
+                }
+            }
+        } else {
+            var data = [[0, 4.9], [1, 5], [2, 5.1], [3, 5], [4, 4.9], [5, 5], [6, 5.1], [7, 5], [8, 4.9], [9, 5], [10, 5.1], [11, 5], [12, 5], [13, 4.9], [14, 5]];
+        }
         $.plot(container, [data], {
             series: {
                 shadowSize: 1
@@ -331,12 +363,11 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
     }
 
     $scope.Start = function () {
-
         $scope.graph1();
         $scope.graph2();
         $scope.graph3();
 
     }
 
-    $scope.Start();
+    //$scope.Start();
 });
