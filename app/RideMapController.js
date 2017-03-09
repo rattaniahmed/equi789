@@ -229,12 +229,12 @@
         });
     }
 
-    $scope.Start = function () {
-        $scope.graph1();
-        $scope.graph2();
-        $scope.graph3();
+    //$scope.Start = function () {
+    //    $scope.graph1();
+    //    $scope.graph2();
+    //    $scope.graph3();
 
-    }
+    //}
 
    // $scope.Start();
 

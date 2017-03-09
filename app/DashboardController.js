@@ -318,7 +318,7 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
 
                 for (var i = 0; i < rideObjecth.avgspeed.length; i++) {
                     //data.push([rideObjecth.avgspeed[i].time, rideObjecth.avgspeed[i].avgspeed])
-                    data.push(i, rideObjecth.avgspeed[i].avgspeed])
+                    data.push([i, rideObjecth.avgspeed[i].avgspeed])
                 }
             }
         
@@ -342,12 +342,12 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
         });
     }
 
-    $scope.Start = function () {
-        $scope.graph1();
-        $scope.graph2();
-        $scope.graph3();
+    //$scope.Start = function () {
+    //    $scope.graph1();
+    //    $scope.graph2();
+    //    $scope.graph3();
 
-    }
+    //}
 
     //$scope.Start();
 });
