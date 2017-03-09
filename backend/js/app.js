@@ -232,14 +232,18 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
     $rootScope.getOrgHorses = function () {
 
         var Organisation = JSON.parse(localStorage.getItem('adminObject'));
-
+    
         var AllHorses = [];
         angular.forEach($rootScope.backendHorses, function (horse, key) {
             try {
-                if (horse.horse_name) {
-                    var evens = _.filter(horse.associations, function (num) { return num.filter == Organisation.OrganisationNumber; });
-                    if (evens.length > 0) {
-                        AllHorses.push(horse);
+                if (Organisation.ShowAllData) {
+                    AllHorses.push(horse);
+                } else {
+                    if (horse.horse_name) {
+                        var evens = _.filter(horse.associations, function (num) { return num.filter == Organisation.OrganisationNumber; });
+                        if (evens.length > 0) {
+                            AllHorses.push(horse);
+                        }
                     }
                 }
             }

@@ -664,11 +664,11 @@
                 },
                 plotOptions: {
                     area: {
-                        pointStart: 1,
+                        pointStart: 0,
                         marker: {
                             enabled: false,
                             symbol: 'circle',
-                            radius: 2,
+                            radius: 1,
                             states: {
                                 hover: {
                                     enabled: true
