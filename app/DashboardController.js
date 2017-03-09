@@ -225,7 +225,8 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
         if (rideObject.heartrate) {
 
             for (var i = 0; i < rideObject.heartrate.length; i++) {
-                res.push([rideObject.heartrate[i].time, rideObject.heartrate[i].heartrate])
+                //res.push([rideObject.heartrate[i].time, rideObject.heartrate[i].heartrate])
+                res.push([i, rideObject.heartrate[i].heartrate])
             }
         }
       
@@ -274,8 +275,6 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
 
     }
 
-   
-
     $scope.graph2 = function (rideObjectg) {
 
         var container = $("#graph_2");
@@ -284,7 +283,8 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
             if (rideObjectg.altitude) {
 
                 for (var i = 0; i < rideObjectg.altitude.length; i++) {
-                    data.push([rideObjectg.altitude[i].time, rideObjectg.altitude[i].altitude])
+                    //data.push([rideObjectg.altitude[i].time, rideObjectg.altitude[i].altitude])
+                    data.push([i, rideObjectg.altitude[i].altitude]);
                 }
             }
        
@@ -317,7 +317,8 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
             if (rideObjecth.avgspeed) {
 
                 for (var i = 0; i < rideObjecth.avgspeed.length; i++) {
-                    data.push([rideObjecth.avgspeed[i].time, rideObjecth.avgspeed[i].avgspeed])
+                    //data.push([rideObjecth.avgspeed[i].time, rideObjecth.avgspeed[i].avgspeed])
+                    data.push(i, rideObjecth.avgspeed[i].avgspeed])
                 }
             }
         
