@@ -46,7 +46,10 @@
         console.log("hererrdfsdfdsfdsf");
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
         $scope.ride = $scope.rides.$getRecord($scope.rideId);
-        $scope.Start();
+        $scope.graph1($scope.ride);
+        $scope.graph2($scope.ride);
+        $scope.graph3($scope.ride);
+
         debugger;
         if ($scope.ride.ismanualride == "1") {
             $scope.loadingcord = false;
@@ -78,9 +81,7 @@
 
         }
 
-        $scope.graph1(ride);
-        $scope.graph2(ride);
-        $scope.graph3(ride);
+       
 
     }).catch(function (err) {
         console.log(err);
@@ -205,7 +206,7 @@
 
             for (var i = 0; i < rideObjecth.avgspeed.length; i++) {
                 //data.push([rideObjecth.avgspeed[i].time, rideObjecth.avgspeed[i].avgspeed])
-                data.push(i, rideObjecth.avgspeed[i].avgspeed])
+                data.push([i, rideObjecth.avgspeed[i].avgspeed]);
             }
         }
         
@@ -229,13 +230,6 @@
         });
     }
 
-    //$scope.Start = function () {
-    //    $scope.graph1();
-    //    $scope.graph2();
-    //    $scope.graph3();
-
-    //}
-
-   // $scope.Start();
+   
 
 });

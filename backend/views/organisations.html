@@ -76,6 +76,8 @@
                                         <p ng-show="img.ShowInEquiTrack != 1">Show in EquiTrack      :- No</p>
                                         <p ng-show="img.AllowMessaging == 1">Allow Messaging        :- yes</p>
                                         <p ng-show="img.AllowMessaging != 1">Allow Messaging        :- No</p>
+                                        <p ng-show="img.ShowAllData == 1">Show All Data        :- yes</p>
+                                        <p ng-show="img.ShowAllData != 1">Show All Data        :- No</p>
 
                                         <p>Organization Name      : - {{img.DisplayName}}</p>
                                         <p>Organization Number    : - {{img.OrganisationNumber}}</p>
@@ -160,7 +162,14 @@
 
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-3">Show All Data</label>
+                                <div class="col-md-3 col-sm-9 col-xs-9">
 
+                                    <input class="form-control" type="checkbox" id="checkboxeditData">
+
+                                </div>
+                            </div>
                         </form>
                     </div>
 
@@ -255,6 +264,13 @@
                                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Allow Messaging</label>
                                         <div class="col-md-3 col-sm-9 col-xs-9">
                                             <input class="form-control" type="checkbox" id="checkboxaddMessage">
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Show All Data</label>
+                                        <div class="col-md-3 col-sm-9 col-xs-9">
+                                            <input class="form-control" type="checkbox" id="checkboxaddData">
 
                                         </div>
                                     </div>

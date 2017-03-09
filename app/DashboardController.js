@@ -192,7 +192,9 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
 
                     });
                 }
-               
+                $scope.graph1(ride);
+                $scope.graph2(ride);
+                $scope.graph3(ride);
             }
             else {
                 $scope.RideExist = false;
@@ -200,9 +202,7 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
                 DrawMap([]);
             }
 
-            $scope.graph1(ride);
-            $scope.graph2(ride);
-            $scope.graph3(ride);
+           
 
             $.unblockUI();
         }).catch(function (err) {
@@ -342,12 +342,5 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
         });
     }
 
-    //$scope.Start = function () {
-    //    $scope.graph1();
-    //    $scope.graph2();
-    //    $scope.graph3();
-
-    //}
-
-    //$scope.Start();
+    
 });
