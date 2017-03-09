@@ -168,7 +168,7 @@
 
                             var time = moment(new Date(parseInt(horseDetailObject.created_at)));
                             if (dateFilterStart && dateFilterEnd) {
-                                if (time > dateFilterStart && time < dateFilterEnd) {
+                                if (time >= dateFilterStart && time <= dateFilterEnd) {
                                     var dateString = $scope.getDateForEquitrack(horseDetailObject.created_at);
                                     var isExist = false;
                                     for (var dateCounter = 0; dateCounter < dates.length; dateCounter++) {
@@ -205,7 +205,7 @@
 
         
         var toShow = [];
-        var days= moment(dateFilterEnd).diff(moment(dateFilterStart), 'days');
+        var days= moment(dateFilterEnd).diff(moment(dateFilterStart-1), 'days');
         var startCounter = 0;
         while (startCounter < days) {
             var graphvalue = 0;
@@ -260,7 +260,7 @@
                 for (var rideId in horseObject.ride_ids) {
                     var time = moment(new Date(parseInt(horseObject.ride_ids[rideId])));
                     if (dateFilterStart && dateFilterEnd) {
-                        if (time > dateFilterStart && time < dateFilterEnd) {
+                        if (time >= dateFilterStart && time <= dateFilterEnd) {
                             var dateString = $scope.getDateForEquitrack(horseObject.ride_ids[rideId]);
                             var isExist = false;
                             for (var dateCounter = 0; dateCounter < dates.length; dateCounter++) {
@@ -292,7 +292,7 @@
 
 
         var toShow = [];
-        var days = moment(dateFilterEnd).diff(moment(dateFilterStart), 'days');
+        var days = moment(dateFilterEnd).diff(moment(dateFilterStart-1), 'days');
         var startCounter = 0;
         while (startCounter < days) {
             var graphvalue = 0;
@@ -643,7 +643,9 @@
                     allowDecimals: false,
                     labels: {
                         formatter: function () {
-                            return this.value; // clean, unformatted number for year
+                            var mv = moment(startDate).add(this.value, 'days');
+                            //return this.value; // clean, unformatted number for year
+                            return mv.format('MMM D')
                         }
                     }
                 },
@@ -662,7 +664,7 @@
                 },
                 plotOptions: {
                     area: {
-                        pointStart: 0,
+                        pointStart: 1,
                         marker: {
                             enabled: false,
                             symbol: 'circle',
