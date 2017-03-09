@@ -136,7 +136,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
                     var id = ref.key();
                     console.log("added record with id " + id);
                     $("#loadingModal").hide();
-                    window.location.reload();
+                    //window.location.reload();
 
                 });
             }
@@ -222,10 +222,11 @@ app.controller('organisationsController', function ($scope, storageService, fire
                       
 
                     });
-                 }
+                }
+                window.location.reload();
                 $("#loadingModal").hide();
 
-                window.location.reload();
+                
             }).catch(function (error) {
                 console.error('Upload failed:', error);
             });
