@@ -357,6 +357,7 @@
             $scope.org = JSON.parse(localStorage.getItem('adminObject'));
             $scope.AllHorses = $rootScope.getOrgHorses();
             $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
+           // $scope.Rides = $rootScope.getOrgRides($scope.AllHorses);
             var maps = getHorseUserMap($scope.Users);
             var Organisation = JSON.parse(localStorage.getItem('adminObject'));
             var rideIdsTOFetch = [];

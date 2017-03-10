@@ -238,7 +238,8 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
         var AllHorses = [];
         angular.forEach($rootScope.backendHorses, function (horse, key) {
             try {
-                if (Organisation.ShowAllData) {
+                if (Organisation.ShowAllData && Organisation.ShowAllData==1) {
+
                     AllHorses.push(horse);
                 } else {
                     if (horse.horse_name) {
@@ -278,7 +279,32 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
         });
         return AllUsers;
     }
+    $rootScope.getOrgRides = function (AllHorses) {
 
+        var AllRides = [];
+
+        var Organisation = JSON.parse(localStorage.getItem('adminObject'));
+
+        angular.forEach($rootScope.backendHorseRides, function (Ride, key) {
+           
+                var ids = Object.keys(Ride);
+
+                for (var i in AllHorses) {
+                    if (i.ride_ids) {
+                        for (var j in i.ride_ids) {
+                            var evens = _.filter(ids, function (num) { return num == Object.keys(j) });
+                            if (evens.length > 0) {
+                                if (!(_.contains(AllRides, user))) {
+                                    AllRides.push(user);
+                                }
+                            }
+                        }
+                    }
+                
+            }
+        });
+        return AllRides;
+    }
     $rootScope.backendHorses = $firebaseArray(ref.child('horses'));
     $rootScope.backendHorses.$loaded().then(function (dataArray) {
         $rootScope.isUserLoaded = true;

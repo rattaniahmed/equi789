@@ -189,8 +189,7 @@
                 borderWidth: 0
             },
             xaxis: {
-                mode: "categories",
-                tickLength: 0
+                show: !1
             },
             colors: ["#3FF3AC"],
         });
@@ -225,6 +224,9 @@
                 backgroundColor: {
                     colors: ["#FF5F5F", "#FF5F5F"]
                 }
+            },
+            xaxis: {
+                show: !1
             },
             colors: ["#fff"]
         });

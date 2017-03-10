@@ -336,6 +336,8 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
                 backgroundColor: {
                     colors: ["#FF5F5F", "#FF5F5F"]
                 }
+            }, xaxis: {
+                show: !1
             },
             colors: ["#fff"]
         });
