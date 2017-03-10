@@ -300,10 +300,9 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
                 tickColor: "#eee",
                 borderWidth: 0
             },
-            xaxis: {
-                mode: "categories",
-                tickLength: 0
-            },
+           xaxis: {
+            show: !1
+        },
             colors: ["#3FF3AC"],
         });
 
