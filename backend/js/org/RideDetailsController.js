@@ -266,7 +266,7 @@
 
             var match = false;
             // Object.keys(row.entity).
-            ['total_distance', 'total_time', 'top_speed', 'average_speed', 'high_heart_rate', 'weather'].forEach(function (field) {
+            ['total_distance', 'total_time', 'top_speed', 'average_speed', 'high_heart_rate', 'weather', 'Member', 'MembershipNumber', 'Horse'].forEach(function (field) {
                 try {
                     if (row && row.entity) {
                         if (row.entity[field]) {

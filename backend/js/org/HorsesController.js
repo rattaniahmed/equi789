@@ -103,11 +103,13 @@
 
             var match = false;
             // Object.keys(row.entity).
-            ['horse_name', 'birthday', 'registration', 'weight'].forEach(function (field) {
+            ['horse_name', 'birthday', 'registration', 'weight', 'Member', 'MembershipNumber', 'RidingProgram'].forEach(function (field) {
                 try {
-                    if (row.entity[field]) {
-                        if (row.entity[field].match(matcher)) {
-                            match = true;
+                    if (row && row.entity) {
+                        if (row.entity[field]) {
+                            if (row.entity[field].match(matcher)) {
+                                match = true;
+                            }
                         }
                     }
                 }

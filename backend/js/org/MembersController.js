@@ -73,9 +73,11 @@
             // Object.keys(row.entity).
             ['first_name', 'last_name', 'display_name', 'email'].forEach(function (field) {
                 try {
-                    if (row.entity[field]) {
-                        if (row.entity[field].match(matcher)) {
-                            match = true;
+                    if (row && row.entity) {
+                        if (row.entity[field]) {
+                            if (row.entity[field].match(matcher)) {
+                                match = true;
+                            }
                         }
                     }
                 }
