@@ -380,18 +380,21 @@
 
 
                         var horseObject = $rootScope.backendHorses.$getRecord(horseId);
-                        if (horseObject.ride_ids) {
-                            for (var rideId in horseObject.ride_ids) {
-                                var timeValue = horseObject.ride_ids[rideId];
-                                var ridetime = moment(new Date(parseInt(timeValue)));
-                                if (dateFilterStart && dateFilterEnd) {
-                                    if (ridetime > dateFilterStart && ridetime < dateFilterEnd) {
+                        console.log(horseObject);
+                        if (horseObject) {
+                            if (horseObject.ride_ids) {
+                                for (var rideId in horseObject.ride_ids) {
+                                    var timeValue = horseObject.ride_ids[rideId];
+                                    var ridetime = moment(new Date(parseInt(timeValue)));
+                                    if (dateFilterStart && dateFilterEnd) {
+                                        if (ridetime > dateFilterStart && ridetime < dateFilterEnd) {
+                                            rideDataArray.push($scope.getDateForEquitrack(timeValue));
+                                            RidesCount++;
+                                        }
+                                    } else {
                                         rideDataArray.push($scope.getDateForEquitrack(timeValue));
                                         RidesCount++;
                                     }
-                                } else {
-                                    rideDataArray.push($scope.getDateForEquitrack(timeValue));
-                                    RidesCount++;
                                 }
                             }
                         }

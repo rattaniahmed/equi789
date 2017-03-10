@@ -221,8 +221,10 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
 
         angular.forEach(horseIds, function (horseId, key) {
             var horse = $rootScope.backendHorses.$getRecord(horseId);
-            for (var id in horse.ride_ids) {
-                ids.push(id);
+            if (horse) {
+                for (var id in horse.ride_ids) {
+                    ids.push(id);
+                }
             }
         });
 
