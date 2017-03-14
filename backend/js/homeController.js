@@ -662,8 +662,25 @@
                         }
                     }
                 },
+                //tooltip: {
+                //    pointFormat: '<b>{point.y:,.0f}</b> {series.name} registered'// {point.x}'
+                //},
                 tooltip: {
-                    pointFormat: '<b>{point.y:,.0f}</b> {series.name} registered'// {point.x}'
+                    formatter: function () {
+                        var mv = moment(startDate).add(this.value, 'days');
+                        //return this.value; // clean, unformatted number for year
+                        var dateString =  mv.format('MMM D')
+                        var s = '<b> As Of - ' + dateString + '</b>';
+
+                        $.each(this.points, function () {
+                            s += '<br/><b>' + this.y + ' </b> ' + this.series.name + ' registered';
+                            //' + this.series.name + ': ' +
+                            //this.y + 'm';
+                        });
+
+                        return s;
+                    },
+                    shared: true
                 },
                 plotOptions: {
                     area: {

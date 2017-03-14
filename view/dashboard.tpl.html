@@ -151,7 +151,8 @@
 
             	<div class="graph_box">
 
-                	<div class="text-center"><span class="grapgh_label">Avg. Speed(mph)</span></div>
+                    <div class="text-center"><span class="grapgh_label" ng-show="ride.avgspeed!=0">Speed (mph)</span></div>
+                    <div class="text-center"><span class="grapgh_label" ng-show="ride.avgspeed==0">No Data</span></div>
 
                     <div class="graph-container">
 
@@ -167,7 +168,9 @@
 
                  <div class="graph_box">
 
-                	<div class="text-center"><span class="grapgh_label">Altitude</span></div>
+                	
+                     <div class="text-center"><span class="grapgh_label" ng-show="ride.altitude!=undefined">Altitude</span></div>
+                     <div class="text-center"><span class="grapgh_label" ng-show="ride.altitude==undefined">No Data</span></div>
 
                     <div class="graph-container">
 
@@ -183,7 +186,9 @@
 
                 <div class="graph_box">
 
-                	<div class="text-center"><span class="grapgh_label">Heart Rate</span></div>
+                    <div class="text-center"><span class="grapgh_label" ng-show="ride.heratrate!=undefined">Heart Rate</span></div>
+                    <div class="text-center"><span class="grapgh_label" ng-show="ride.heratrate==undefined">No Data</span></div>
+
 
                     <div class="graph-container">
 

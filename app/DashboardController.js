@@ -258,7 +258,7 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
                 max: 100,
                 tickColor: "#eee",
                 tickFormatter: function (e) {
-                    return e + "%"
+                    return e;
                 }
             },
             xaxis: {
