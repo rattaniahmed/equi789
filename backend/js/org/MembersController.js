@@ -71,7 +71,7 @@
 
             var match = false;
             // Object.keys(row.entity).
-            ['first_name', 'last_name', 'display_name', 'email'].forEach(function (field) {
+            ['first_name', 'last_name', 'display_name', 'email','total_distance'].forEach(function (field) {
                 try {
                     if (row && row.entity) {
                         if (row.entity[field]) {

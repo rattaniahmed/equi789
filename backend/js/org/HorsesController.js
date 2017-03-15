@@ -103,7 +103,7 @@
 
             var match = false;
             // Object.keys(row.entity).
-            ['horse_name', 'birthday', 'registration', 'weight', 'Member', 'MembershipNumber', 'RidingProgram'].forEach(function (field) {
+            ['horse_name', 'birthday', 'registration', 'weight', 'Member', 'MembershipNumber', 'RidingProgram', 'total_distance'].forEach(function (field) {
                 try {
                     if (row && row.entity) {
                         if (row.entity[field]) {
