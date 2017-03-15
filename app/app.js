@@ -122,7 +122,10 @@ app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
         controller: 'StaticContentController',
     });
     
-
+    $routeProvider.when('/Messages.html', {
+        templateUrl: 'view/myMessage.html',
+        
+    });
     $routeProvider.otherwise({
         // redirectTo: '/'
     });
