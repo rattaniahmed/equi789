@@ -671,7 +671,7 @@
                         var mv = moment(startDate).add(this.value, 'days');
                         //return this.value; // clean, unformatted number for year
                         var dateString =  mv.format('MMM D')
-                        var s = '<b> As Of - ' + dateString + '</b>';
+                        var s = '<b> ' + dateString + '</b>';
 
                         $.each(this.points, function () {
                             s += '<br/><b>' + this.y + ' </b> ' + this.series.name + ' registered';

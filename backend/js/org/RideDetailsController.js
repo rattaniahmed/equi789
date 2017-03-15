@@ -53,14 +53,17 @@
 
         //var a = new Date(a2);
         //var b = new Date(b2);
+        try{
+            var a = Date.parse(a1);
+            var b = Date.parse(b1);
 
-        var a = Date.parse(a1);
-        var b = Date.parse(b1);
+            if (a == b) return 0;
+            if (a > b) return -1;
 
-        if (a == b) return 0;
-        if (a > b) return -1;
-
-        return srirachaSauce;
+            return srirachaSauce;
+        }catch(err){
+            return -1;
+        }
     };
 
     $scope.gridOptions = {
@@ -77,16 +80,16 @@
            { name: 'Member', headerCellClass: 'blue' },
            { name: 'Horse', headerCellClass: 'blue', field: 'Horse' },
           { name: 'MembershipNumber', headerCellClass: 'blue', field: 'MembershipNumber' },
-          { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue' },
+          { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFn },
           { name: 'total_times', headerCellClass: 'blue' },
-          { name: 'top_speed', headerCellClass: 'blue' },
-          { name: 'average_speed', headerCellClass: 'blue' },
+          { name: 'top_speed', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFn },
+          { name: 'average_speed', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFn },
           { name: 'start_time', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFn },
           { name: 'end_time', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFn },
           { name: 'location', headerCellClass: 'blue' },
           { name: 'weather', headerCellClass: 'blue' },
-          { name: 'energy', headerCellClass: 'blue' },
-          { name: 'calories', headerCellClass: 'blue' }
+          { name: 'energy', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFn },
+          { name: 'calories', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFn }
 
         ],
         exporterLinkLabel: 'get your csv here',

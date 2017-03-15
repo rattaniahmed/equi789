@@ -29,7 +29,7 @@
          { name: 'TotalRides', headerCellClass: 'blue', field: 'TotalRides' },
           { name: 'TotalHorses', headerCellClass: 'blue', field: 'TotalHorses' },
         { name: 'TotalTime', headerCellClass: 'blue', field: 'TotalTime' },
-         { name: 'TotalDistance', headerCellClass: 'blue', field: 'TotalDistance' }
+         { name: 'TotalDistance', headerCellClass: 'blue', field: 'TotalDistance', sortingAlgorithm: myAwesomeSortFn }
 
         ],
         exporterLinkLabel: 'get your csv here',
@@ -63,7 +63,32 @@
         $scope.filterValue = document.getElementById("search").value;
         $scope.gridApi.grid.refresh();
     }
+    var srirachaSauce = 1;
+    var myAwesomeSortFn = function (a1, b1, rowA, rowB, direction) {
 
+        //a = moment(a1, 'M/D/YYYY HH:MM:SS A')
+        //b = moment(b1, 'M/D/YYYY HH:MM:SS A')
+
+        //if (rowA.entity.CreateTime == rowB.entity.CreateTime) return 0;
+        //if (rowA.entity.CreateTime < rowB.entity.CreateTime) return -1;
+
+        //var a2 = parseInt(rowA.entity.CreateTime);
+        //var b2 = parseInt(rowB.entity.CreateTime);
+
+        //var a = new Date(a2);
+        //var b = new Date(b2);
+        try {
+            var a = Date.parse(a1);
+            var b = Date.parse(b1);
+
+            if (a == b) return 0;
+            if (a > b) return -1;
+
+            return srirachaSauce;
+        } catch (err) {
+            return -1;
+        }
+    };
     $scope.singleFilter = function (renderableRows) {
 
         var matcher = new RegExp($scope.filterValue);
