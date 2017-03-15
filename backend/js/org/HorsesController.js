@@ -1,6 +1,6 @@
 ﻿app.controller('HorsesController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams, $rootScope) {
     var srirachaSauce = 1;
-    var myAwesomeSortFn = function (a1, b1, rowA, rowB, direction) {
+    var myAwesomeSortFnForInt = function (a1, b1, rowA, rowB, direction) {
 
         //a = moment(a1, 'M/D/YYYY HH:MM:SS A')
         //b = moment(b1, 'M/D/YYYY HH:MM:SS A')
@@ -14,8 +14,8 @@
         //var a = new Date(a2);
         //var b = new Date(b2);
         try {
-            var a = Date.parse(a1);
-            var b = Date.parse(b1);
+            var a = parseInt(a1).replace(" miles","");
+            var b = parseInt(b1).replace(" miles","");
 
             if (a == b) return 0;
             if (a > b) return -1;
@@ -79,7 +79,7 @@
           { name: 'weight', headerCellClass: 'blue' },
           { name: 'TotalRides', headerCellClass: 'blue', field: 'TotalRides' },
            { name: 'TotalTime', headerCellClass: 'blue', field: 'TotalTime' },
-          { name: 'TotalDistance', headerCellClass: 'blue', field: 'TotalDistance', sortingAlgorithm: myAwesomeSortFn },
+          { name: 'TotalDistance', headerCellClass: 'blue', field: 'TotalDistance', sortingAlgorithm: myAwesomeSortFnForInt },
           { name: 'TopSpeed', headerCellClass: 'blue', field: 'TopSpeed' },
           { name: 'TotalEnergy', headerCellClass: 'blue', field: 'TotalEnergy' }
           //{ name: 'energy', headerCellClass: 'blue' },

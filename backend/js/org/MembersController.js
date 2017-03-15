@@ -1,7 +1,7 @@
 ﻿app.controller('MembersController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams, $rootScope) {
     var Organisation = JSON.parse(localStorage.getItem('adminObject'));
     var srirachaSauce = 1;
-    var myAwesomeSortFn = function (a1, b1, rowA, rowB, direction) {
+    var myAwesomeSortFnForInt = function (a1, b1, rowA, rowB, direction) {
 
         //a = moment(a1, 'M/D/YYYY HH:MM:SS A')
         //b = moment(b1, 'M/D/YYYY HH:MM:SS A')
@@ -15,14 +15,15 @@
         //var a = new Date(a2);
         //var b = new Date(b2);
         try {
-            var a = Date.parse(a1);
-            var b = Date.parse(b1);
+            var a = parseInt(a1).replace(" miles","");;
+            var b = parseInt(b1).replace(" miles","");;
 
             if (a == b) return 0;
             if (a > b) return -1;
 
             return srirachaSauce;
         } catch (err) {
+            
             return -1;
         }
     };
@@ -55,7 +56,7 @@
          { name: 'TotalRides', headerCellClass: 'blue', field: 'TotalRides' },
           { name: 'TotalHorses', headerCellClass: 'blue', field: 'TotalHorses' },
         { name: 'TotalTime', headerCellClass: 'blue', field: 'TotalTime' },
-         { name: 'TotalDistance', headerCellClass: 'blue', field: 'TotalDistance', sortingAlgorithm: myAwesomeSortFn }
+         { name: 'TotalDistance', headerCellClass: 'blue', field: 'TotalDistance', sortingAlgorithm: myAwesomeSortFnForInt }
 
         ],
         exporterLinkLabel: 'get your csv here',
