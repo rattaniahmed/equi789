@@ -213,7 +213,14 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
     var ref = firebaseService.FIREBASEENDPOINT();
 
     $rootScope.getHorseIds = function (user) {
-        return Object.keys(user.horse_ids);
+        if (!user.horse_ids)
+        {
+            return [];
+        }
+        else {
+            return Object.keys(user.horse_ids);
+        }
+       
     }
 
     $rootScope.getRideIds = function (horseIds) {
@@ -264,18 +271,24 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
         var Organisation = JSON.parse(localStorage.getItem('adminObject'));
 
         angular.forEach($rootScope.backendUsers, function (user, key) {
-            if (user.horse_ids) {
-                var ids = Object.keys(user.horse_ids);
 
-                for (var i in AllHorses) {
-                    var evens = _.filter(ids, function (num) { return num == AllHorses[i].$id; });
-                    if (evens.length > 0) {
-                        if (!(_.contains(AllUsers, user))) {
-                            AllUsers.push(user);
+            if (Organisation.ShowAllData && Organisation.ShowAllData == 1) {
+                AllUsers.push(user);
+            } else {
+                if (user.horse_ids) {
+                    var ids = Object.keys(user.horse_ids);
+
+                    for (var i in AllHorses) {
+                        var evens = _.filter(ids, function (num) { return num == AllHorses[i].$id; });
+                        if (evens.length > 0) {
+                            if (!(_.contains(AllUsers, user))) {
+                                AllUsers.push(user);
+                            }
                         }
                     }
                 }
             }
+
         });
         return AllUsers;
     }

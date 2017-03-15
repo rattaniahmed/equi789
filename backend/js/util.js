@@ -1161,10 +1161,13 @@ function getCommulativeData(ride_ids, rideRef) {
         totalAverageSpeed = parseFloat(Math.round(totalAverageSpeed * 100) / 100).toFixed(2);
     }
     totalDuration = ReplaceTime(hhmmss(totalDuration));
-    if (totalTopSspeed.length > 0) {
+    if (totalTopSspeedArray.length > 0) {
         totalTopSspeed = Math.max.apply(Math, totalTopSspeedArray);
 
         totalTopSspeed = parseFloat(Math.round(totalTopSspeed * 100) / 100).toFixed(2);
+        if (totalTopSspeed == "NaN") {
+            totalTopSspeed = '0';
+        }
     }
 
     commulativeData.total_rides = totalLength;
