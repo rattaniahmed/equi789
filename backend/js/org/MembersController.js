@@ -15,8 +15,8 @@
         //var a = new Date(a2);
         //var b = new Date(b2);
         try {
-            var a = parseInt(a1).replace(" miles","");;
-            var b = parseInt(b1).replace(" miles","");;
+            var a = parseFloat(a1.replace(" miles", ""));
+            var b = parseFloat(b1.replace(" miles", ""));
 
             if (a == b) return 0;
             if (a > b) return -1;

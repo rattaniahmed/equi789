@@ -80,8 +80,8 @@
         //var a = new Date(a2);
         //var b = new Date(b2);
         try {
-            var a = parseInt(a1);
-            var b = parseInt(b1);
+            var a = parseFloat(a1);
+            var b = parseFloat(b1);
 
             if (a == b) return 0;
             if (a > b) return -1;
