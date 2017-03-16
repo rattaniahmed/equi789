@@ -2,17 +2,7 @@
     var srirachaSauce = 1;
     var myAwesomeSortFnForInt = function (a1, b1, rowA, rowB, direction) {
 
-        //a = moment(a1, 'M/D/YYYY HH:MM:SS A')
-        //b = moment(b1, 'M/D/YYYY HH:MM:SS A')
-
-        //if (rowA.entity.CreateTime == rowB.entity.CreateTime) return 0;
-        //if (rowA.entity.CreateTime < rowB.entity.CreateTime) return -1;
-
-        //var a2 = parseInt(rowA.entity.CreateTime);
-        //var b2 = parseInt(rowB.entity.CreateTime);
-
-        //var a = new Date(a2);
-        //var b = new Date(b2);
+      
         try {
             var a = parseFloat(a1.replace(" miles", ""));
             var b = parseFloat(b1.replace(" miles", ""));
@@ -25,6 +15,37 @@
             return -1;
         }
     };
+    var myAwesomeSortFnForEnergyInt = function (a1, b1, rowA, rowB, direction) {
+
+
+        try {
+            var a = parseFloat(a1.replace(" col", ""));
+            var b = parseFloat(b1.replace(" col", ""));
+
+            if (a == b) return 0;
+            if (a > b) return -1;
+
+            return srirachaSauce;
+        } catch (err) {
+            return -1;
+        }
+    };
+    var myAwesomeSortFnForTopSpeedInt = function (a1, b1, rowA, rowB, direction) {
+
+
+        try {
+            var a = parseFloat(a1.replace(" mph", ""));
+            var b = parseFloat(b1.replace(" mph", ""));
+
+            if (a == b) return 0;
+            if (a > b) return -1;
+
+            return srirachaSauce;
+        } catch (err) {
+            return -1;
+        }
+    };
+    
     console.log("HorsesController jhghhjhgjhgjhgjhg");
     var layout = {
         "content": []
@@ -63,6 +84,7 @@
 
     $scope.gridOptions = {
         paginationPageSizes: [5, 10, 20],
+        enableSorting: true,
         paginationPageSize: 10,
         enableFiltering: false,
         onRegisterApi: function (gridApi) {
@@ -77,11 +99,11 @@
           { name: 'birthday', headerCellClass: 'blue' },
           { name: 'registration', headerCellClass: 'blue' },
           { name: 'weight', headerCellClass: 'blue' },
-          { name: 'TotalRides', headerCellClass: 'blue', field: 'TotalRides' },
+          { name: 'TotalRides', headerCellClass: 'blue', field: 'TotalRides', type:'number' },
            { name: 'TotalTime', headerCellClass: 'blue', field: 'TotalTime' },
           { name: 'TotalDistance', headerCellClass: 'blue', field: 'TotalDistance', sortingAlgorithm: myAwesomeSortFnForInt },
-          { name: 'TopSpeed', headerCellClass: 'blue', field: 'TopSpeed' },
-          { name: 'TotalEnergy', headerCellClass: 'blue', field: 'TotalEnergy' }
+          { name: 'TopSpeed', headerCellClass: 'blue', field: 'TopSpeed', sortingAlgorithm: myAwesomeSortFnForTopSpeedInt },
+          { name: 'TotalEnergy', headerCellClass: 'blue', field: 'TotalEnergy' , sortingAlgorithm: myAwesomeSortFnForEnergyInt }
           //{ name: 'energy', headerCellClass: 'blue' },
           //{ name: 'calories', headerCellClass: 'blue' },
 
