@@ -124,6 +124,7 @@ app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
     
     $routeProvider.when('/Messages.html', {
         templateUrl: 'view/myMessage.html',
+        controller: 'MessageController',
         
     });
     $routeProvider.otherwise({

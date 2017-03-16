@@ -43,7 +43,15 @@
 
     //}
 
-
+    $scope.login2 = function () {
+        firebase.auth().signInWithEmailAndPassword($scope.email, $scope.password).catch(function (error) {
+            // Handle Errors here.
+            console.log(error);
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ...
+        });
+    }
 
     $scope.login = function () {
 
