@@ -668,7 +668,7 @@
                 //},
                 tooltip: {
                     formatter: function () {
-                        var mv = moment(startDate).add(this.value, 'days');
+                        var mv = moment(startDate).add(this.x, 'days');
                         //return this.value; // clean, unformatted number for year
                         var dateString =  mv.format('MMM D')
                         var s = '<b> ' + dateString + '</b>';

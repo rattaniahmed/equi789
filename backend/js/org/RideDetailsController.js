@@ -488,9 +488,11 @@
                     var user = _.findWhere($scope.Users, { $id: $scope.example15model[i].id })
                     for (var ridekeys in user.horse_ids) {
                         var data = _.findWhere($scope.AllHorses, { $id: ridekeys })
-                        var evens = _.filter(data.associations, function (num) { return num.name == $scope.org.OrganisationName; });
-                        if (evens.length > 0) {
-                            $scope.SearchData.push(data);
+                        if ((data != undefined)) {
+                            var evens = _.filter(data.associations, function (num) { return num.name == $scope.org.OrganisationName; });
+                            if (evens.length > 0) {
+                                $scope.SearchData.push(data);
+                            }
                         }
                     }
                 }
