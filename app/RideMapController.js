@@ -201,11 +201,11 @@
         var container = $("#graph_1");
         var data = [];
       
-        if (rideObjecth.avgspeed) {
+        if (rideObjecth.speed) {
 
-            for (var i = 0; i < rideObjecth.avgspeed.length; i++) {
+            for (var i = 0; i < rideObjecth.speed.length; i++) {
                 //data.push([rideObjecth.avgspeed[i].time, rideObjecth.avgspeed[i].avgspeed])
-                data.push([i, rideObjecth.avgspeed[i].avgspeed]);
+                data.push([i, rideObjecth.speed[i].speed]);
             }
         }
         
