@@ -1116,10 +1116,49 @@ function getAdminUser() {
 
         
 }
+var dates = {
+    convert: function (d) {
+        
+        return (
+            d.constructor === Date ? d :
+            d.constructor === Array ? new Date(d[0], d[1], d[2]) :
+            d.constructor === Number ? new Date(d) :
+            d.constructor === String ? new Date(d) :
+            typeof d === "object" ? new Date(d.year, d.month, d.date) :
+            NaN
+        );
+    },
+    compare: function (a, b) {
+       
+        return (
+            isFinite(a = this.convert(a).valueOf()) &&
+            isFinite(b = this.convert(b).valueOf()) ?
+            (a > b) - (a < b) :
+            NaN
+        );
+    },
+    inRange: function (d, start, end) {
+        
+        return (
+             isFinite(d = this.convert(d).valueOf()) &&
+             isFinite(start = this.convert(start).valueOf()) &&
+             isFinite(end = this.convert(end).valueOf()) ?
+             start <= d && d <= end :
+             false
+         );
+    }
+}
+function InDefinedTimeRang(ride, timePeriod) {
+    //put date compare logic based on ride time
+   
+   // var timeValue = horseObject.ride_ids[rideId];
+   // var ridetime = moment(ride.start_time);
 
+    return dates.inRange(ride.start_time, moment(timePeriod.startDate).format('l'), moment(timePeriod.endDate).format('l'));
+   
+}
 
-
-function getCommulativeData(ride_ids, rideRef) {
+function getCommulativeData(ride_ids, rideRef, timePeriod) {
 
 
     var commulativeData = {};
@@ -1140,13 +1179,21 @@ function getCommulativeData(ride_ids, rideRef) {
 
             var ride = rideRef.$getRecord(ride_ids[cnt]);
             if (ride != null) {
-                totalLength = _.size(ride_ids);
-                totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
-                totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
-                totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);
-                totalCalories = parseFloat(totalCalories) + parseFloat(ride.calories);
-                averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
-                totalTopSspeedArray.push(parseFloat(ride.top_speed));
+                try {
+                    var inRange = true;
+                    if (timePeriod) {
+                        inRange = InDefinedTimeRang(ride, timePeriod);
+                    }
+                } catch (err) { }
+                if (inRange) {
+                    totalLength = _.size(ride_ids);
+                    totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
+                    totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
+                    totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);
+                    totalCalories = parseFloat(totalCalories) + parseFloat(ride.calories);
+                    averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
+                    totalTopSspeedArray.push(parseFloat(ride.top_speed));
+                }
             }
         }
     }
