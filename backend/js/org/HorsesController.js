@@ -356,7 +356,7 @@
         $scope.Init();
     });
     $scope.date = {
-        startDate: moment().subtract(1, "days"),
+        startDate: moment().subtract(30, "days"),
         endDate: moment()
     };
    

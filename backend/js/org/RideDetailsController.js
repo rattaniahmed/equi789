@@ -3,9 +3,10 @@
     console.log("rideDetailController");
 
     $scope.date = {
-        startDate: moment().subtract(1, "days"),
+        startDate: moment().subtract(30, "days"),
         endDate: moment()
     };
+
     var Organisation = JSON.parse(localStorage.getItem('adminObject'));
     $scope.custompdfheader = {
         columns: [
