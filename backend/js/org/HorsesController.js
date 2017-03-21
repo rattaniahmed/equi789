@@ -307,6 +307,7 @@
 
             Organisation = JSON.parse(localStorage.getItem('adminObject'));
             $scope.showhorse = [];
+            var addedCounter = 0;
             for (var counter = 0; counter < $scope.AllHorses.length; counter++) {
 
                 $scope.AllHorses[counter].MembershipNumber = "";
@@ -331,11 +332,12 @@
              
                 if (commulativeData.total_rides != 0) {
                     $scope.showhorse.push($scope.AllHorses[counter]);
-                    $scope.showhorse[counter].TotalRides = commulativeData.total_rides;
-                    $scope.showhorse[counter].TotalTime = commulativeData.totalDuration;
-                    $scope.showhorse[counter].TotalDistance = commulativeData.miles;
-                    $scope.showhorse[counter].TopSpeed = commulativeData.top_speed;
-                    $scope.showhorse[counter].TotalEnergy = commulativeData.energy;
+                    $scope.showhorse[addedCounter].TotalRides = commulativeData.total_rides;
+                    $scope.showhorse[addedCounter].TotalTime = commulativeData.totalDuration;
+                    $scope.showhorse[addedCounter].TotalDistance = commulativeData.miles;
+                    $scope.showhorse[addedCounter].TopSpeed = commulativeData.top_speed;
+                    $scope.showhorse[addedCounter].TotalEnergy = commulativeData.energy;
+                    addedCounter++;
                 }
             }
            
