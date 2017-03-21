@@ -143,7 +143,73 @@
         $scope.filterValue = document.getElementById("search").value;
         $scope.gridApi.grid.refresh();
     }
-    
+    $scope.renderCalender = function () {
+
+        var cb = function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+            $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        };
+
+        var optionSet1 = {
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            opens: 'left',
+            buttonClasses: ['btn btn-default'],
+            applyClass: 'btn-small btn-primary',
+            cancelClass: 'btn-small',
+            format: 'MM/DD/YYYY',
+            separator: ' to ',
+            locale: {
+                applyLabel: 'Submit',
+                cancelLabel: 'Clear',
+                fromLabel: 'From',
+                toLabel: 'To',
+                customRangeLabel: 'Custom',
+                daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                firstDay: 1
+            }
+        };
+        $('#reportrangeride span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+        $('#reportrangeride').daterangepicker(optionSet1, cb);
+        $('#reportrangeride').on('show.daterangepicker', function () {
+            console.log("show event fired");
+        });
+        $('#reportrangeride').on('hide.daterangepicker', function () {
+            console.log("hide event fired");
+        });
+        $('#reportrangeride').on('apply.daterangepicker', function (ev, picker) {
+            console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
+            $scope.endDateForFilter = picker.endDate;
+            $scope.startDateForFilter = picker.startDate;
+            //$scope.FilterGraphs($scope.startDateForFilter, $scope.endDateForFilter);
+            $scope.date = {
+                startDate: picker.startDate,
+                endDate: picker.endDate
+            };
+            $scope.Init();
+            console.log("applying date");
+            $scope.$apply();
+        });
+        $('#reportrangeride').on('cancel.daterangepicker', function (ev, picker) {
+            console.log("cancel event fired");
+        });
+        $('#options1').click(function () {
+            $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
+        });
+        $('#options2').click(function () {
+            $('#reportrange').data('daterangepicker').setOptions(optionSet2, cb);
+        });
+        $('#destroy').click(function () {
+            $('#reportrangeride').data('daterangepicker').remove();
+        });
+    }
     $scope.singleFilter = function (renderableRows) {
 
         var matcher = new RegExp($scope.filterValue);
@@ -233,13 +299,14 @@
         LoadingState();
 
         if ($rootScope.isDataLoaded) {
+          
             $scope.AllHorses = $rootScope.getOrgHorses();
             $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
 
             var maps = getHorseUserMap($scope.Users);
 
             Organisation = JSON.parse(localStorage.getItem('adminObject'));
-
+            $scope.showhorse = [];
             for (var counter = 0; counter < $scope.AllHorses.length; counter++) {
 
                 $scope.AllHorses[counter].MembershipNumber = "";
@@ -260,16 +327,20 @@
                 if ($scope.AllHorses[counter].ride_ids)
                     rideIds = Object.keys($scope.AllHorses[counter].ride_ids);
 
-                var commulativeData = getCommulativeData(rideIds, $rootScope.backendHorseRides);
-                $scope.AllHorses[counter].TotalRides = commulativeData.total_rides;
-                $scope.AllHorses[counter].TotalTime = commulativeData.totalDuration;
-                $scope.AllHorses[counter].TotalDistance = commulativeData.miles;
-                $scope.AllHorses[counter].TopSpeed = commulativeData.top_speed;
-                $scope.AllHorses[counter].TotalEnergy = commulativeData.energy;
-
+                var commulativeData = getCommulativeData(rideIds, $rootScope.backendHorseRides, $scope.date);
+             
+                if (commulativeData.total_rides != 0) {
+                    $scope.showhorse.push($scope.AllHorses[usrCounter]);
+                    $scope.showhorse[counter].TotalRides = commulativeData.total_rides;
+                    $scope.showhorse[counter].TotalTime = commulativeData.totalDuration;
+                    $scope.showhorse[counter].TotalDistance = commulativeData.miles;
+                    $scope.showhorse[counter].TopSpeed = commulativeData.top_speed;
+                    $scope.showhorse[counter].TotalEnergy = commulativeData.energy;
+                }
             }
-
-            $scope.gridOptions.data = $scope.AllHorses;
+           
+            $scope.gridOptions.data = $scope.showhorse;
+            //$scope.gridOptions.data = $scope.AllHorses;
 
             $scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
 
@@ -277,15 +348,18 @@
 
         }
     }
-
+    $scope.renderCalender();
     $scope.Init();
     $scope.$on('DataLoaded', function (event, data) {
         $scope.Init();
     });
-
-
+    $scope.date = {
+        startDate: moment().subtract(1, "days"),
+        endDate: moment()
+    };
+   
     $scope.SelectItem = function () {
-
+        $scope.Init();
         $scope.SearchData = []
         if ($scope.example15model.length > 0) {
             LoadingState();
@@ -297,12 +371,12 @@
                 for (var counter = 0; counter < rows.length; counter++) {
                     $scope.SearchData.push(rows[counter]);
                 }
-
-
             }
             UnLoadingState();
             $scope.gridOptions.data = $scope.SearchData;
         }
+        
+       
     }
 
 

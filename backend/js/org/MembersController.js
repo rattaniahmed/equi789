@@ -38,6 +38,10 @@
 
         ]
     };
+    $scope.date = {
+        startDate: moment().subtract(30, "days"),
+        endDate: moment()
+    };
     $scope.gridOptions = {
         paginationPageSizes: [5, 10, 20],
         paginationPageSize: 10,
@@ -177,35 +181,106 @@
     $scope.stables = [];
     $scope.example15model = [];
     $scope.AllHorses = [];
+    $scope.renderCalender = function () {
+
+        var cb = function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+            $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        };
+
+        var optionSet1 = {
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            opens: 'left',
+            buttonClasses: ['btn btn-default'],
+            applyClass: 'btn-small btn-primary',
+            cancelClass: 'btn-small',
+            format: 'MM/DD/YYYY',
+            separator: ' to ',
+            locale: {
+                applyLabel: 'Submit',
+                cancelLabel: 'Clear',
+                fromLabel: 'From',
+                toLabel: 'To',
+                customRangeLabel: 'Custom',
+                daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                firstDay: 1
+            }
+        };
+        $('#reportrangeride span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+        $('#reportrangeride').daterangepicker(optionSet1, cb);
+        $('#reportrangeride').on('show.daterangepicker', function () {
+            console.log("show event fired");
+        });
+        $('#reportrangeride').on('hide.daterangepicker', function () {
+            console.log("hide event fired");
+        });
+        $('#reportrangeride').on('apply.daterangepicker', function (ev, picker) {
+            console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
+            $scope.endDateForFilter = picker.endDate;
+            $scope.startDateForFilter = picker.startDate;
+            //$scope.FilterGraphs($scope.startDateForFilter, $scope.endDateForFilter);
+            $scope.date = {
+                startDate: picker.startDate,
+                endDate: picker.endDate
+            };
+            $scope.Init();
+            console.log("applying date");
+            $scope.$apply();
+        });
+        $('#reportrangeride').on('cancel.daterangepicker', function (ev, picker) {
+            console.log("cancel event fired");
+        });
+        $('#options1').click(function () {
+            $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
+        });
+        $('#options2').click(function () {
+            $('#reportrange').data('daterangepicker').setOptions(optionSet2, cb);
+        });
+        $('#destroy').click(function () {
+            $('#reportrangeride').data('daterangepicker').remove();
+        });
+    }
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.Init = function () {
         LoadingState();
         if ($rootScope.isDataLoaded) {
-
+            
             $scope.AllHorses = $rootScope.getOrgHorses();
             $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
-
+            $scope.showmember = [];
             for (var usrCounter = 0; usrCounter < $scope.Users.length; usrCounter++) {
 
                 var horseIds = $rootScope.getHorseIds($scope.Users[usrCounter]);
                 var rideIds = $rootScope.getRideIds(horseIds);
-                var commulativeData = getCommulativeData(rideIds, $rootScope.backendHorseRides);
-
-                $scope.Users[usrCounter].TotalRides = commulativeData.total_rides;
-                $scope.Users[usrCounter].TotalHorses = horseIds.length;
-                $scope.Users[usrCounter].TotalTime = commulativeData.totalDuration;
-                $scope.Users[usrCounter].TotalDistance = commulativeData.miles;
+                var commulativeData = getCommulativeData(rideIds, $rootScope.backendHorseRides, $scope.date);
+                 
+                if (commulativeData.total_rides != 0) {
+                    $scope.showmember.push($scope.Users[usrCounter]);
+                    $scope.showmember[usrCounter].TotalRides = commulativeData.total_rides;
+                    $scope.showmember[usrCounter].TotalHorses = horseIds.length;
+                    $scope.showmember[usrCounter].TotalTime = commulativeData.totalDuration;
+                    $scope.showmember[usrCounter].TotalDistance = commulativeData.miles;
+                } 
             }
-
-            $scope.gridOptions.data = $scope.Users;
+            $scope.gridOptions.data = $scope.showmember;
+           
+           
 
             UnLoadingState();
 
         }
     }
 
-
+    $scope.renderCalender();
     $scope.Init();
     $scope.$on('DataLoaded', function (event, data) {
         $scope.Init();
@@ -213,32 +288,9 @@
 
 
     $scope.SelectItem = function () {
-
-        $scope.SearchData = []
-        var tempHorseArray = [];
-        console.log($scope.example15model);
-        if ($scope.example15model.length > 0) {
-            LoadingState();
-            for (var i = 0; i < $scope.example15model.length; i++) {
-                var data = _.findWhere($scope.Users, { $id: $scope.example15model[i].id })
-                if (data.horse_ids != undefined) {
-
-                    for (var id in data.horse_ids) {
-                        // tempHorseArray.push(id)
-                        var horse = $scope.horses.$getRecord(id);
-                        var evens = _.filter(horse.associations, function (num) { return num.name == $scope.org.OrganisationName; });
-                        if (evens.length > 0) {
-                            $scope.SearchData.push(horse);
-                        }
-
-                    }
-
-                }
-            }
-            UnLoadingState();
-            $scope.gridOptions.data = $scope.SearchData;
-        }
+        $scope.Init();
     }
+
     $scope.Download = function () {
         var downloadData = $scope.getCurrentGridData();
         JSONToCSVConvertor(downloadData, "Members Data", true);
@@ -275,7 +327,7 @@
     //        swal('', 'Your report has been sent.', 'success');
     //    }
     //}
-
+   
 
     $scope.getCurrentGridData = function () {
         var downloadData = [];
