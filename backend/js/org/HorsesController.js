@@ -330,7 +330,7 @@
                 var commulativeData = getCommulativeData(rideIds, $rootScope.backendHorseRides, $scope.date);
              
                 if (commulativeData.total_rides != 0) {
-                    $scope.showhorse.push($scope.AllHorses[usrCounter]);
+                    $scope.showhorse.push($scope.AllHorses[counter]);
                     $scope.showhorse[counter].TotalRides = commulativeData.total_rides;
                     $scope.showhorse[counter].TotalTime = commulativeData.totalDuration;
                     $scope.showhorse[counter].TotalDistance = commulativeData.miles;
