@@ -252,6 +252,7 @@
                     imageRef.LinkTitle = $("#linktitle").val(),
                     imageRef.OrganisationId = $scope.user.OrganisationNumber;
                     imageRef.OrganisationName = $scope.user.OrganisationName;
+                    imageRef.AllowMessageToAll = $scope.user.AllowMessageToAll;
                    
                     if (imageRef.AnnouncementTitle == "" || imageRef.AnnouncementTitle.length > 36) {
                         alert("Please fill AnnouncementTitle with limited character");
@@ -286,6 +287,7 @@
                  imageRef.LinkTitle = $("#linktitle").val(),
                 imageRef.OrganisationId = $scope.user.OrganisationNumber;
                 imageRef.OrganisationName = $scope.user.OrganisationName;
+                imageRef.AllowMessageToAll = $scope.user.AllowMessageToAll;
                 if (imageRef.AnnouncementTitle == "" || imageRef.AnnouncementTitle.length > 36) {
                     alert("Please fill AnnouncementTitle with limited character");
                     return;
@@ -319,6 +321,7 @@
             //imageRef.MessageImage =url,
             imageRef.OrganisationId = $scope.user.OrganisationNumber;
             imageRef.OrganisationName = $scope.user.OrganisationName;
+            imageRef.AllowMessageToAll = $scope.user.AllowMessageToAll;
             imageRef.LinkTitle = $("#linktitle").val();
             if (imageRef.AnnouncementTitle == "" || imageRef.AnnouncementTitle.length > 36) {
                 alert("Please fill AnnouncementTitle with limited character");
@@ -399,7 +402,8 @@
                             MessageImage: url,
                             LinkTitle: $("#linktitle").val(),
                             OrganisationId: $scope.user.OrganisationNumber,
-                            OrganisationName: $scope.user.OrganisationName
+                            OrganisationName: $scope.user.OrganisationName,
+                            AllowMessageToAll: $scope.user.AllowMessageToAll
                         }
                         if (toAdd.ExpirationDate == "") {
                             alert("Please fill Expiration Date");
@@ -473,7 +477,8 @@
                 Read: 0,
                 LinkTitle: $("#linktitle").val(),
                 OrganisationId: $scope.user.OrganisationNumber,
-                OrganisationName: $scope.user.OrganisationName
+                OrganisationName: $scope.user.OrganisationName,
+                AllowMessageToAll: $scope.user.AllowMessageToAll
             }
             if (toAdd.ExpirationDate == "") {
                 alert("Please fill Expiration Date");

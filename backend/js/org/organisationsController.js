@@ -57,6 +57,17 @@ app.controller('organisationsController', function ($scope, storageService, fire
         }
         else
             $("#checkboxeditData").prop('checked', false);
+        if (image.AllowMessageToAll) {
+            if (image.AllowMessageToAll == "1") {
+                $("#checkboxeditMessageA").prop('checked', true)
+            }
+            else {
+                $("#checkboxeditMessageA").prop('checked', false);
+            }
+
+        }
+        else
+            $("#checkboxeditMessageA").prop('checked', false);
 
         $scope.photo = image.Url;
         $("#editmodal").show();
@@ -70,6 +81,10 @@ app.controller('organisationsController', function ($scope, storageService, fire
         var ShowInEquiTrack = "0";
         if ($('#checkboxedit').is(":checked")) {
             ShowInEquiTrack = "1";
+        }
+        var AllowMessageToAll = "0";
+        if ($('#checkboxeditMessage').is(":checked")) {
+            AllowMessageToAll = "1";
         }
         var AllowMessaging = "0";
         if ($('#checkboxeditMessage').is(":checked")) {
@@ -102,6 +117,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
                     imageRef.OrganisationNumber = $("#numberedit").val();
                     imageRef.UserId = $("#useridedit").val();
                     imageRef.ShowInEquiTrack = ShowInEquiTrack;
+                    imageRef.AllowMessageToAll = AllowMessageToAll;
                     imageRef.AllowMessaging = AllowMessaging;
                     imageRef.ShowAllData = ShowAllData;
 
@@ -127,6 +143,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
                 imageRef.OrganisationNumber = $("#numberedit").val();
                 imageRef.UserId = $("#useridedit").val();
                 imageRef.ShowInEquiTrack = ShowInEquiTrack;
+                imageRef.AllowMessageToAll = AllowMessageToAll;
                 imageRef.AllowMessaging = AllowMessaging;
                 imageRef.ShowAllData = ShowAllData;
 
@@ -191,7 +208,10 @@ app.controller('organisationsController', function ($scope, storageService, fire
                 if ($('#checkboxadd').is(":checked")) {
                     ShowInEquiTrack = "1";
                 }
-
+                var AllowMessageToAll = "0";
+                if ($('#checkboxMessage').is(":checked")) {
+                    AllowMessageToAll = "1";
+                }
                 var AllowMessaging = "0";
                 if ($('#checkboxaddMessage').is(":checked")) {
                     AllowMessaging = "1";
@@ -204,6 +224,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
                     ShowAllData:ShowAllData,
                     AllowMessaging: AllowMessaging,
                     ShowInEquiTrack: ShowInEquiTrack,
+                    AllowMessageToAll: AllowMessageToAll,
                     DisplayName: $("#namenew").val(),
                     OrganisationName: $("#namenew").val(),
                     OrganisationNumber: $("#numbernew").val(),

@@ -22,44 +22,47 @@
 
                 <div class="form_page clearfix ">
 
-                    <div class="page">
+                    <div class="page" ng-repeat="i in ShowMessages">
 
                         <div class="row">
                             <div class="col-md-12">
-                            <h4 class="text-left" style="color:black"><u>From - American Quarter Horse Association</u></h4>
-                                <img class="" style="width:100%;max-height:400px !important;" src="backend/images/735.jpg">
+                                <h4 class="text-left" style="color:black"><u>From -{{i.OrganisationName}}</u></h4>
+                                <img class="" style="width:100%;max-height:400px !important;" src="{{i.MessageImage}}" ng-show="{{i.MessageImage}}">
+                                <p style="font-size:20px;" ng-show="{{i.MessageText}}">
+                                    {{i.MessageText}}
+                                </p>
                                 <div class="row mt-10">
-                                    <div class="col-md-1">
-                                    <img class="mt-5 ml-10" style="width:25px;" src="backend/images/Rules_Icon.png">
-                                        </div>
-                                    <div class="col-md-11 pl-0">
-                                        <h4 style="color:black;">Membership on Location</h4>
-                                        </div>
-                                   
+                                    <div class="col-md-1" ng-show="i.AnnouncementType">
+                                        <img class="mt-5 ml-10" style="width:25px;" src="backend/{{i.AnnouncementType}}">
                                     </div>
+                                    <div class="col-md-11 pl-0">
+                                        <h4 style="color:black;">{{i.AnnouncementTitle}}</h4>
+                                    </div>
+
+                                </div>
                                 <div class="row">
                                     <div class="col-md-12 ml-15">
-                                        <h5>Expires : 2/28/17 | <span style="color:red;"><a href="#">Read more</a></span></h5>
-                                        </div>
+                                        <h5>Expires : {{i.ExpirationDate}}| <span style="color:red;"><a href="{{i.Embeddedlink}}">{{i.LinkTitle}}</a></span></h5>
                                     </div>
-                               
+                                </div>
+
                             </div>
 
-                        
 
-                    </div>
+
+                        </div>
                         <hr class="hr" style="background-color:#fb9c06;height:2px;">
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-md-12">
                                 <h4 class="text-left"style="color:black"><u>From - American Quarter Horse Association</u></h4>
-                                
-                               
-                                   <p style="max-width:;font-size:20px;"> AQHA’s Trail Ride Program allows people frome arround
+
+
+                                   <p style="font-size:20px;"> AQHA’s Trail Ride Program allows people frome arround
                                     the globe to come together and celebrate their love of
                                     horseback riding</p>
 
-                              
-                                <!--<img class="" style="width:100%;max-height:400px !important;" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Horseracing_Churchill_Downs.jpg">-->
+
+                                <img class="" style="width:100%;max-height:400px !important;" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Horseracing_Churchill_Downs.jpg">
                                 <div class="row mt-20">
                                     <div class="col-md-1">
                                         <img class="mt-5 ml-10" style="width:25px;" src="backend/images/star_Icon.png">
@@ -79,18 +82,18 @@
 
 
 
-                        </div>
+                        </div>-->
+                    </div>
+
+
+
+
+
                 </div>
-
-
-
-
 
             </div>
 
         </div>
-
-    </div>
 
 </section>
 

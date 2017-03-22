@@ -9,13 +9,21 @@
     }
     $scope.ShowMessages = [];
     $scope.RefreshMessages = function () {
-        for(var i=0;i< $scope.UserOrg.length;i++)
-        {
-            var even = _.find($scope.AllMessages, function (num) { return num.OrganisationId == $scope.UserOrg[i]; });
-            $scope.ShowMessages.push(even);
-            $scope.$apply();
-          
-        }
+        $scope.ShowMessages = [];
+        //for (var i = 0; i < $scope.UserOrg.length; i++) {
+        for (var mcounter in $scope.AllMessages) {
+           // for (var mcounter = 0; mcounter < $scope.AllMessages.length; mcounter++) {
+            if ($scope.AllMessages[mcounter].AllowMessageToAll) {
+                $scope.ShowMessages.push($scope.AllMessages[mcounter]);
+                } else {
+                    for (var i = 0; i < $scope.UserOrg.length; i++) {
+                        if ($scope.AllMessages[mcounter].OrganisationId == $scope.UserOrg[i])
+                            $scope.ShowMessages.push($scope.AllMessages[mcounter]);
+                    }
+                }
+            }
+        //}
+        $scope.$apply();
     }
     
     $scope.AllMessages = [];
@@ -23,44 +31,30 @@
 
     var ref = firebaseService.FIREBASEENDPOINT();   
     $scope.messages = $firebaseArray(ref.child('Content').child('Messages'));
-    $scope.messages.$loaded().then(function (dataArray) {
+   // $scope.messages.$loaded().then(function (dataArray) {
+    firebase.database().ref('/Content/Messages').on('value', function (msgsnapshot) {
 
-        console.log(dataArray);
-        $scope.AllMessages = dataArray;
+        console.log(msgsnapshot.val());
+        $scope.AllMessages = msgsnapshot.val();
         $scope.$apply();
-        
+        $scope.RefreshMessages();
         for (var i in $scope.user.Details.horse_ids) {
-            
-
             firebase.database().ref('/horses/' + i).on('value', function (snapshot) {
                 var horse = snapshot.val();
-                if (horse.associations)
-                {
-                    for (var i = 0; i < horse.associations.length; i++)
-                    {
-                        if (!_.contains($scope.UserOrg, horse.associations[i].filter))
-                        {
+                if (horse.associations) {
+                    for (var i = 0; i < horse.associations.length; i++) {
+                        if (!_.contains($scope.UserOrg, horse.associations[i].filter)) {
                             $scope.UserOrg.push(horse.associations[i].filter);
                         }
-                        
+
                     }
                     $scope.RefreshMessages();
 
                 }
-                
+
 
             })
-
         }
-        
-
-    }).catch(function (error) {
-        console.log("Error in loading details");
-    });
-
-
-
-
- 
+    })
 
 });

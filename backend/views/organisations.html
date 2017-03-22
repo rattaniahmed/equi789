@@ -78,6 +78,8 @@
                                         <p ng-show="img.AllowMessaging != 1">Allow Messaging        :- No</p>
                                         <p ng-show="img.ShowAllData == 1">Show All Data        :- yes</p>
                                         <p ng-show="img.ShowAllData != 1">Show All Data        :- No</p>
+                                        <p ng-show="img.AllowMessageToAll == 1">Allow Message To All   :- yes</p>
+                                        <p ng-show="img.AllowMessageToAll != 1">Allow Message To All   :- No</p>
 
                                         <p>Organization Name      : - {{img.DisplayName}}</p>
                                         <p>Organization Number    : - {{img.OrganisationNumber}}</p>
@@ -147,7 +149,7 @@
 
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-3">Show in EquiTrack</label>
+                                <label class="control-label col-md-4 col-sm-3 col-xs-3">Show in EquiTrack</label>
                                 <div class="col-md-3 col-sm-9 col-xs-9">
 
                                     <input class="form-control" type="checkbox" id="checkboxedit">
@@ -155,7 +157,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-3">Allow Messaging</label>
+                                <label class="control-label col-md-4 col-sm-3 col-xs-3">Allow Messaging</label>
                                 <div class="col-md-3 col-sm-9 col-xs-9">
 
                                     <input class="form-control" type="checkbox" id="checkboxeditMessage">
@@ -163,10 +165,18 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-3">Show All Data</label>
+                                <label class="control-label col-md-4 col-sm-3 col-xs-3">Show All Data</label>
                                 <div class="col-md-3 col-sm-9 col-xs-9">
 
                                     <input class="form-control" type="checkbox" id="checkboxeditData">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-3 col-xs-3">Allow Message To All</label>
+                                <div class="col-md-3 col-sm-9 col-xs-9">
+
+                                    <input class="form-control" type="checkbox" id="checkboxeditMessageA">
 
                                 </div>
                             </div>
@@ -254,23 +264,30 @@
                                     
 
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Show in EquiTrack</label>
+                                        <label class="control-label col-md-4 col-sm-3 col-xs-3">Show in EquiTrack</label>
                                         <div class="col-md-3 col-sm-9 col-xs-9">
                                             <input class="form-control" type="checkbox" id="checkboxadd">
 
                                         </div>
                                     </div> 
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Allow Messaging</label>
+                                        <label class="control-label col-md-4 col-sm-3 col-xs-3">Allow Messaging</label>
                                         <div class="col-md-3 col-sm-9 col-xs-9">
                                             <input class="form-control" type="checkbox" id="checkboxaddMessage">
 
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Show All Data</label>
+                                        <label class="control-label col-md-4 col-sm-3 col-xs-3">Show All Data</label>
                                         <div class="col-md-3 col-sm-9 col-xs-9">
                                             <input class="form-control" type="checkbox" id="checkboxaddData">
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4 col-sm-3 col-xs-3">Allow Message To All</label>
+                                        <div class="col-md-3 col-sm-9 col-xs-9">
+                                            <input class="form-control" type="checkbox" id="checkboxMessage">
 
                                         </div>
                                     </div>
