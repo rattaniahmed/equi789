@@ -6,7 +6,6 @@
         startDate: moment().subtract(30, "days"),
         endDate: moment()
     };
-
     var Organisation = JSON.parse(localStorage.getItem('adminObject'));
     $scope.custompdfheader = {
         columns: [
@@ -265,6 +264,7 @@
                 endDate: picker.endDate
             };
             console.log("applying date");
+            $scope.UpdateGridRecord();
             $scope.$apply();
         });
         $('#reportrangeride').on('cancel.daterangepicker', function (ev, picker) {
@@ -379,6 +379,41 @@
     $scope.AllHorses = [];
     $scope.example14data = [];
 
+    $scope.ORGDETAIL =  JSON.parse(localStorage.getItem('adminObject'));
+    $scope.getFormattedRideDetail = function (horse, rideid) {
+        var rideDetails = $rootScope.backendHorseRides.$getRecord(rideid);
+        if (rideDetails) {
+            //rideDetails.CreateTime = horse.ride_ids[rideid];
+
+            rideDetails.MembershipNumber = "";
+
+            if (horse) {
+                if (horse.associations) {
+                    var og = _.find(horse.associations,
+                        function (oginner) { return oginner.filter == $scope.ORGDETAIL.OrganisationNumber });
+                    if (og)
+                        rideDetails.MembershipNumber = og.number;
+                }
+            }
+            rideDetails.Member = "";
+
+            var member = _.find($scope.HorseUserMaps, function (singlemap) { return singlemap.HorseId == horse.$id });
+            if (member) {
+                rideDetails.Member = member.Detail.email;
+                rideDetails.MemberId = member.Detail.$id;
+            }
+
+            rideDetails.Horse = horse.horse_name;
+            // rides.total_time = hhmmss(rides.total_time);
+            rideDetails.total_times = hhmmss(rideDetails.total_time);
+
+            //rideIdsTOFetch.push(rideDetails);
+        }
+
+        return rideDetails;
+    }
+
+
     $scope.Init = function () {
         LoadingState();
         
@@ -387,45 +422,23 @@
             $scope.org = JSON.parse(localStorage.getItem('adminObject'));
             $scope.AllHorses = $rootScope.getOrgHorses();
             $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
-           // $scope.Rides = $rootScope.getOrgRides($scope.AllHorses);
-            var maps = getHorseUserMap($scope.Users);
+            // $scope.Rides = $rootScope.getOrgRides($scope.AllHorses);
+            $scope.HorseUserMaps = getHorseUserMap($scope.Users);
             var Organisation = JSON.parse(localStorage.getItem('adminObject'));
             var rideIdsTOFetch = [];
 
             for (var counter = 0; counter < $scope.AllHorses.length; counter++) {
                 var horse = $scope.AllHorses[counter];
                 if (horse && horse.ride_ids) {
-                    for (var rideid in horse.ride_ids) {
-                        var rideDetails = $rootScope.backendHorseRides.$getRecord(rideid);
-                        if (rideDetails) {
-                            //rideDetails.CreateTime = horse.ride_ids[rideid];
-
-                            rideDetails.MembershipNumber = "";
-                           
-                            if (horse.associations) {
-                                var og = _.find(horse.associations, function (oginner) { return oginner.filter == Organisation.OrganisationNumber });
-                                if (og)
-                                    rideDetails.MembershipNumber = og.number;
-                            }
-                            
-                            rideDetails.Member = "";
-                            var member = _.find(maps, function (singlemap) { return singlemap.HorseId == horse.$id });
-                            if (member) {
-                                rideDetails.Member = member.Detail.email;
-                                rideDetails.MemberId = member.Detail.$id;
-                            }
-
-                            rideDetails.Horse = horse.horse_name;
-                            // rides.total_time = hhmmss(rides.total_time);
-                            rideDetails.total_times = hhmmss(rideDetails.total_time);
-
-                            rideIdsTOFetch.push(rideDetails);
-                        }
+                    for (var rideid in horse.ride_ids) {                        
+                        var rideDetails = $scope.getFormattedRideDetail(horse, rideid);
+                        rideIdsTOFetch.push(rideDetails);
                     }
                 }
             }
 
             $scope.gridOptions.data = rideIdsTOFetch;
+            $scope.AllData = rideIdsTOFetch;
             $scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
             UnLoadingState();
         }
@@ -443,68 +456,102 @@
 
     }
 
+    $scope.SetHorseDropData = function () {
 
+    }
 
-    $scope.SelectItem = function () {
-        try {
-            if ($scope.example14model.length > 0) {
-                LoadingState();
-                $scope.SearchData = [];
-                for (var i = 0; i < $scope.example14model.length; i++) {
-                    var data = _.findWhere($scope.AllHorses, { $id: $scope.example14model[i].id })
-                    if (data.ride_ids != undefined) {
-                        for (var id in data.ride_ids) {
-                            // tempHorseArray.push(id)
-                            var rides = $scope.Rides.$getRecord(id);
-                            $scope.SearchData.push(rides);
+    $scope.$on('UpdateHorseDropDown', function (event, data) {
+        console.log("UpdateHorseDropDown event call"); // 'Data to send'
+
+        if ($scope.example15model.length > 0) {
+            $scope.SearchData = [];
+            for (var i = 0; i < $scope.example15model.length; i++) {
+                var user = _.findWhere($scope.Users, { $id: $scope.example15model[i].id })
+                for (var ridekeys in user.horse_ids) {
+                    var data = _.findWhere($scope.AllHorses, { $id: ridekeys })
+                    
+                    
+                    if ((data != undefined)) {
+                        if (Organisation.ShowAllData && Organisation.ShowAllData == 1) {
+                            $scope.SearchData.push(data);
                         }
-
-                    }
-                }
-
-                
-                UnLoadingState();
-                $scope.gridOptions.data = $scope.SearchData;
-
-
-
-
-            }
-            if (moment($scope.date.endDate._d).format('MM/DD/YYYY') != moment(new Date()).format('MM/DD/YYYY')) {
-                var rides = [];
-                for (var i in $scope.rideIdsTOFetch) {
-                    if (moment($scope.rideIdsTOFetch[i].start_time).format('MM/DD/YYYY') >= moment($scope.date.startDate._d).format('MM/DD/YYYY') && moment($scope.rideIdsTOFetch[i].end_time).format('MM/DD/YYYY') <= moment($scope.date.endDate._d).format('MM/DD/YYYY')) {
-                        rides.push($scope.rideIdsTOFetch[i]);
-                    }
-                  
-                }
-                $scope.gridOptions.data = rides;
-                console.log($scope.gridOptions.data);
-            }
-
-            if ($scope.example15model.length > 0) {
-                LoadingState();
-                $scope.SearchData = [];
-                for (var i = 0; i < $scope.example15model.length; i++) {
-                    var user = _.findWhere($scope.Users, { $id: $scope.example15model[i].id })
-                    for (var ridekeys in user.horse_ids) {
-                        var data = _.findWhere($scope.AllHorses, { $id: ridekeys })
-                        if ((data != undefined)) {
-                            var evens = _.filter(data.associations, function (num) { return num.name == $scope.org.OrganisationName; });
-                            if (evens.length > 0) {
-                                $scope.SearchData.push(data);
+                        else {
+                            if (data.associations) {
+                                var evens = _.filter(data.associations, function (num) { return num.name == $scope.org.OrganisationName; });
+                                if (evens.length > 0) {
+                                    $scope.SearchData.push(data);
+                                }
                             }
                         }
                     }
                 }
-                $scope.example14data = _.map($scope.SearchData, function (elem) { return { id: elem.$id, label: elem.horse_name } });
-                UnLoadingState();
+            }
+            $scope.example14data = _.map($scope.SearchData, function (elem) { return { id: elem.$id, label: elem.horse_name } });
+        }
+    });
+
+
+    $scope.UpdateGridRecord = function () {
+        var rides = [];
+        var rideIdsTOFetch = $scope.AllData;// $scope.gridOptions.data;
+        for (var i in rideIdsTOFetch) {
+            try{
+                if (moment(rideIdsTOFetch[i].start_time).format('MM/DD/YYYY') >=
+                    moment($scope.date.startDate._d).format('MM/DD/YYYY') &&
+                    moment(rideIdsTOFetch[i].end_time).format('MM/DD/YYYY') <=
+                    moment($scope.date.endDate._d).format('MM/DD/YYYY')) {
+                    rides.push(rideIdsTOFetch[i]);
+                }
+            }
+            catch (errorObject) {
 
             }
         }
-        catch (e) {
-            console.log(e);
+        $scope.gridOptions.data = rides;
+        console.log($scope.gridOptions.data);
+    }
+
+    $scope.SelectItem = function () {
+        var TempHorseIdData = [];
+        var SearchData = [];
+
+        for (var i = 0; i < $scope.example15model.length; i++) {
+            var filterUser = _.findWhere($scope.Users, { $id: $scope.example15model[i].id })
+            if (filterUser.horse_ids) {
+                var ids = Object.keys(filterUser.horse_ids);
+                for (var idcounter = 0 ; idcounter < ids.length; idcounter++) // coun id in ids) {
+                    TempHorseIdData.push(ids[idcounter]);
+            }
         }
+
+
+        //for (var i = 0; i < $scope.example14model.length; i++) {
+        //    var data = _.findWhere($scope.AllHorses, { $id: $scope.example14model[i].id })
+        //    if (data.ride_ids != undefined) {
+        //        for (var rideid in data.ride_ids) {
+        //            var rideDetails = $scope.getFormattedRideDetail(horse, rideid);
+        //            rideIdsTOFetch.push(rideDetails);
+        //            $scope.SearchData.push(rides);
+        //        }
+
+        //    }
+        //}
+
+        for (var hcounter = 0 ; hcounter < TempHorseIdData.length; hcounter++) {
+            var hoursid = TempHorseIdData[hcounter];
+            var horse = _.findWhere($scope.AllHorses, { $id: hoursid })
+            if (horse && horse.ride_ids) {
+                if (horse.ride_ids) {
+                    for (var rideid in horse.ride_ids) {
+                        var rideDetails = $scope.getFormattedRideDetail(horse, rideid);
+                        $scope.SearchData.push(rideDetails);
+                    }
+                }
+            }
+        }
+
+        $scope.gridOptions.data = $scope.SearchData;
+
     }
 
     $scope.Download = function () {
