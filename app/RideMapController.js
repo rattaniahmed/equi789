@@ -163,6 +163,8 @@
 
     }
 
+   
+
     $scope.graph2 = function (rideObjectg) {
 
         var container = $("#graph_2");
