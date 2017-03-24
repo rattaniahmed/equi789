@@ -1,6 +1,10 @@
 ﻿app.controller('MessageController', function MyCtrl($http, $scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, Socialshare) {
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.user = storageService.getObject("CU");
+    if (!($scope.user)) {
+        alert("Please Login for showing Messages");
+        return;
+    }
     console.log("MessageController");
 
     $scope.Logout = function () {
