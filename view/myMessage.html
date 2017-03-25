@@ -15,18 +15,18 @@
             <div class="page_heading">
 
                 <!--<h1>EquiTrack - <span class="small">Announcements</span></h1>-->
-                <h1>EquiTrack -<span class="small">Message Center</span></h1>
+                <h1>EquiTrack -<span class="small"> Message Center</span></h1>
 </div>
 
             <div class="contact">
 
                 <div class="form_page clearfix ">
 
-                    <div class="page" ng-repeat="i in ShowMessages">
+                    <div class="page" ng-repeat="i in ShowMessages | filter:i.ExpirationDate">
 
                         <div class="row">
                             <div class="col-md-12">
-                                <h4 class="text-left" style="color:black"><u>From -{{i.OrganisationName}}</u></h4>
+                                <h4 class="text-left" style="color:black"><u>From: {{i.OrganisationName}}</u></h4>
                                 <img class="" style="width:100%;max-height:400px !important;" src="{{i.MessageImage}}" ng-show="{{i.MessageImage}}">
                                 <p style="font-size:20px;" ng-show="{{i.MessageText}}">
                                     {{i.MessageText}}
@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 ml-15">
-                                        <h5>Expires : {{i.ExpirationDate}}| <span style="color:red;"><a href="{{i.Embeddedlink}}" target="_blank">{{i.LinkTitle}}</a></span></h5>
+                                        <h5>Expires : {{i.ExpirationDate}} | <span style="color:red;"><a href=" {{i.Embeddedlink}}" target="_blank">{{i.LinkTitle}}</a></span></h5>
                                     </div>
                                 </div>
 

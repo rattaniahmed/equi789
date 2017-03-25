@@ -83,7 +83,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
             ShowInEquiTrack = "1";
         }
         var AllowMessageToAll = "0";
-        if ($('#checkboxeditMessage').is(":checked")) {
+        if ($('#checkboxeditMessageA').is(":checked")) {
             AllowMessageToAll = "1";
         }
         var AllowMessaging = "0";

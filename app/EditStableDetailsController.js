@@ -55,11 +55,14 @@
             for (var i = 0 ; i < $scope.stb.associations.length; i++) {
                 try {
                     if (!IsNull($scope.stb.associations[i].name)) {
-                        $scope.FinalOrganisations.push({
-                            Options: $scope.Org,
-                            SelectedOrganisation: _.findWhere($scope.Org, { DisplayName: $scope.stb.associations[i].name }),
-                            UserId: $scope.stb.associations[i].number
-                        });
+                        var organizaton= _.findWhere($scope.Org, { DisplayName: $scope.stb.associations[i].name });
+                        if (organizaton) {
+                            $scope.FinalOrganisations.push({
+                                Options: $scope.Org,
+                                SelectedOrganisation: organizaton,
+                                UserId: $scope.stb.associations[i].number
+                            });
+                        }
                     }
                     else {
                         $scope.FinalOrganisations.push({
