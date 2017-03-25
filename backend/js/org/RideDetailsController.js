@@ -432,7 +432,9 @@
                 if (horse && horse.ride_ids) {
                     for (var rideid in horse.ride_ids) {                        
                         var rideDetails = $scope.getFormattedRideDetail(horse, rideid);
-                        rideIdsTOFetch.push(rideDetails);
+                        if (rideDetails) {
+                            rideIdsTOFetch.push(rideDetails);
+                        }
                     }
                 }
             }
