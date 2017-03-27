@@ -42,8 +42,8 @@
           // var uid = "sadsds";
            var msgObject = msgsnapshot.val();
            if (msgObject.ReadBy) {
-               var findid = _.findIndex(msgObject.ReadBy,$scope.user.Details.$id);
-               if (findid == -1) {
+               var findid = _.contains(msgObject.ReadBy, $scope.user.Details.$id);
+               if (!findid) {
                    msgObject.ReadBy.push($scope.user.Details.$id);
                    msgObject.Read = parseInt(msgObject.Read) + 1;
                }
