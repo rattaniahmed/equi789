@@ -252,7 +252,7 @@
                     imageRef.LinkTitle = $("#linktitle").val(),
                     imageRef.OrganisationId = $scope.user.OrganisationNumber;
                     imageRef.OrganisationName = $scope.user.OrganisationName;
-
+                    imageRef.ReadBy =$scope.Question.ReadBy;
                     if ($scope.user.AllowMessageToAll)
                         imageRef.AllowMessageToAll = $scope.user.AllowMessageToAll;
                    
@@ -291,7 +291,7 @@
                  imageRef.LinkTitle = $("#linktitle").val(),
                 imageRef.OrganisationId = $scope.user.OrganisationNumber;
                 imageRef.OrganisationName = $scope.user.OrganisationName;
-                
+                imageRef.ReadBy = $scope.Question.ReadBy;
                 if ($scope.user.AllowMessageToAll)
                     imageRef.AllowMessageToAll = $scope.user.AllowMessageToAll;
 
@@ -328,7 +328,7 @@
             //imageRef.MessageImage =url,
             imageRef.OrganisationId = $scope.user.OrganisationNumber;
             imageRef.OrganisationName = $scope.user.OrganisationName;
-
+            imageRef.ReadBy = $scope.Question.ReadBy;
             if ($scope.user.AllowMessageToAll)
                 imageRef.AllowMessageToAll = $scope.user.AllowMessageToAll;
 
@@ -414,6 +414,7 @@
                             LinkTitle: $("#linktitle").val(),
                             OrganisationId: $scope.user.OrganisationNumber,
                             OrganisationName: $scope.user.OrganisationName,
+                            ReadBy:[]
                             
                         }
                         if ($scope.user.AllowMessageToAll)
@@ -491,7 +492,8 @@
                 Read: 0,
                 LinkTitle: $("#linktitle").val(),
                 OrganisationId: $scope.user.OrganisationNumber,
-                OrganisationName: $scope.user.OrganisationName
+                OrganisationName: $scope.user.OrganisationName,
+                ReadBy: []
             }
 
             if ($scope.user.AllowMessageToAll)
