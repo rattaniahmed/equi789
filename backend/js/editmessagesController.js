@@ -252,7 +252,8 @@
                     imageRef.LinkTitle = $("#linktitle").val(),
                     imageRef.OrganisationId = $scope.user.OrganisationNumber;
                     imageRef.OrganisationName = $scope.user.OrganisationName;
-                    imageRef.ReadBy =$scope.Question.ReadBy;
+                    imageRef.ReadBy = $scope.Question.ReadBy;
+                    imageRef.Read = $scope.Question.Read;
                     if ($scope.user.AllowMessageToAll)
                         imageRef.AllowMessageToAll = $scope.user.AllowMessageToAll;
                    
@@ -292,6 +293,7 @@
                 imageRef.OrganisationId = $scope.user.OrganisationNumber;
                 imageRef.OrganisationName = $scope.user.OrganisationName;
                 imageRef.ReadBy = $scope.Question.ReadBy;
+                imageRef.Read = $scope.Question.Read;
                 if ($scope.user.AllowMessageToAll)
                     imageRef.AllowMessageToAll = $scope.user.AllowMessageToAll;
 
@@ -329,6 +331,7 @@
             imageRef.OrganisationId = $scope.user.OrganisationNumber;
             imageRef.OrganisationName = $scope.user.OrganisationName;
             imageRef.ReadBy = $scope.Question.ReadBy;
+            imageRef.Read = $scope.Question.Read;
             if ($scope.user.AllowMessageToAll)
                 imageRef.AllowMessageToAll = $scope.user.AllowMessageToAll;
 

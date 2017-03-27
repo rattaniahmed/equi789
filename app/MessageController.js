@@ -15,65 +15,62 @@
     $scope.RefreshMessages = function () {
         $scope.ShowMessages = [];
         //for (var i = 0; i < $scope.UserOrg.length; i++) {
+
         for (var mcounter in $scope.AllMessages) {
-            // for (var mcounter = 0; mcounter < $scope.AllMessages.length; mcounter++) {
+            var msgToAdd = $scope.AllMessages[mcounter];
+            msgToAdd.Id = mcounter;
+
             if ($scope.AllMessages[mcounter].AllowMessageToAll) {
-
-                var findid = _.findIndex($scope.AllMessages[mcounter].ReadBy, $scope.user.Details.id);
-                if (findid == -1) {
-                    if ($scope.AllMessages[mcounter].ReadBy) {
-                        $scope.AllMessages[mcounter].ReadBy.push($scope.user.Details.$id);
-                    } else {
-                        $scope.AllMessages[mcounter].ReadBy = [($scope.user.Details.$id)];
-                    }
-                    // $scope.UpdateMessages($scope.AllMessages[mcounter]);
-                    // break;
-                }
-                $scope.ShowMessages.push($scope.AllMessages[mcounter]);
-
+                $scope.ShowMessages.push(msgToAdd);
             } else {
                 for (var i = 0; i < $scope.UserOrg.length; i++) {
                     if ($scope.AllMessages[mcounter].OrganisationId == $scope.UserOrg[i]) {
-
-                        var findid = _.findIndex($scope.AllMessages[mcounter].ReadBy, $scope.user.Details.id);
-                        if (findid == -1) {
-                            if ($scope.AllMessages[mcounter].ReadBy) {
-                                $scope.AllMessages[mcounter].ReadBy.push($scope.user.Details.$id);
-                            } else {
-                                $scope.AllMessages[mcounter].ReadBy = [($scope.user.Details.$id)];
-                            }
-                            // $scope.UpdateMessages($scope.AllMessages[mcounter]);
-                            // break;
-                        }
-                        $scope.ShowMessages.push($scope.AllMessages[mcounter]);
+                        $scope.ShowMessages.push(msgToAdd);
                     }
                 }
             }
         }
-        //}
-        var a = "-Kg-1y74Z3CvTdA0aXvx";
-        var imageRef = $scope.messages.$getRecord(a);
-        $scope.messages.$save(imageRef).then(function (res) {
-            console.log(res);
-            //$scope.showSendContent = true;
-            // $scope.DownloadLink = $scope.url + $routeParams.id;
-        });
+       
         $scope.$apply();
 
     }
-    
+    $scope.openLink = function (msg) {
+       // window.location.href = url, '_blank';
+       
+        var a = msg.Id;
+        firebase.database().ref('/Content/Messages/' + a).once('value', function (msgsnapshot) {
+          // var uid = "sadsds";
+           var msgObject = msgsnapshot.val();
+           if (msgObject.ReadBy) {
+               var findid = _.findIndex(msgObject.ReadBy,$scope.user.Details.$id);
+               if (findid == -1) {
+                   msgObject.ReadBy.push($scope.user.Details.$id);
+                   msgObject.Read = parseInt(msgObject.Read) + 1;
+               }
+           }
+           else {
+               msgObject.ReadBy = [$scope.user.Details.$id];
+               msgObject.Read = 1;
+           }
+            //msgsnapshot.ref().update(msgObject);
+           firebase.database().ref('/Content/Messages/' + a).set(msgObject);
+            // firebase.database().ref().child('/Content/Messages/' + a).set(msgObject);
+        });
+        window.open(msg.Embeddedlink, '_blank');
+    }
     $scope.AllMessages = [];
-    $scope.UserOrg= [];
+    $scope.UserOrg= [];            
 
-    var ref = firebaseService.FIREBASEENDPOINT();   
+    //var ref = firebaseService.FIREBASEENDPOINT();   
     $scope.messages = $firebaseArray(ref.child('Content').child('Messages'));
-   // $scope.messages.$loaded().then(function (dataArray) {
+   //$scope.messages.$loaded().then(function (dataArray) {
     firebase.database().ref('/Content/Messages').on('value', function (msgsnapshot) {
 
 
         console.log(msgsnapshot.val());
         $scope.AllMessages = msgsnapshot.val();
-        $scope.$apply();
+        //$scope.messages = $scope.AllMessages;
+       // $scope.$apply();
         $scope.RefreshMessages();
         for (var i in $scope.user.Details.horse_ids) {
             firebase.database().ref('/horses/' + i).on('value', function (snapshot) {

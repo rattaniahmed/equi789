@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 ml-15">
-                                        <h5>Expires : {{i.ExpirationDate}} | <span style="color:red;"><a href=" {{i.Embeddedlink}}" target="_blank">{{i.LinkTitle}}</a></span></h5>
+                                        <h5>Expires : {{i.ExpirationDate}} | <span style="color:red;"ng-click="openLink(i)">{{i.LinkTitle}}</span></h5>
                                     </div>
                                 </div>
 
