@@ -2,7 +2,7 @@
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.user = storageService.getObject("CU");
     if (!($scope.user)) {
-        alert("Please Login for showing Messages");
+        alert("Please Login to view the Messages");
         return;
     }
     console.log("MessageController");

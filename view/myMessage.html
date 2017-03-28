@@ -42,7 +42,10 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 ml-15">
-                                        <h5>Expires : {{i.ExpirationDate}} | <span style="color:red;"ng-click="openLink(i)">{{i.LinkTitle}}</span></h5>
+                                        <h5>Expires : {{i.ExpirationDate}} 
+                                        <span ng-show="i.LinkTitle">|</span>
+                                        <span style="color:red;cursor:pointer"ng-click="openLink(i)" >
+                                             {{i.LinkTitle}}</span></h5>
                                     </div>
                                 </div>
 

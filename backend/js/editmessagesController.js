@@ -507,7 +507,12 @@
                 alert("Please fill Expiration Date");
                 return;
             }
-
+            //if (toAdd.ExpirationDate) {
+            //    if (compareDate()) {
+            //        alert("Please select currect Expiration Date");
+            //        return;
+            //    }
+            //}
             if (toAdd.AnnouncementTitle == "" || toAdd.AnnouncementTitle.length > 36) {
                 alert("Please fill AnnouncementTitle with limited character");
                 return;

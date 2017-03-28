@@ -1148,6 +1148,16 @@ var dates = {
          );
     }
 }
+
+//function compareDate(time) {
+//    //put date compare logic based on ride time
+
+//    // var timeValue = horseObject.ride_ids[rideId];
+//    // var ridetime = moment(ride.start_time);
+
+//    return dates.compare((time), moment(new Date).format('l'));
+
+//}
 function InDefinedTimeRang(ride, timePeriod) {
     //put date compare logic based on ride time
    
