@@ -19,8 +19,7 @@
         for (var mcounter in $scope.AllMessages) {
             var msgToAdd = $scope.AllMessages[mcounter];
             msgToAdd.Id = mcounter;
-
-            if ($scope.AllMessages[mcounter].AllowMessageToAll) {
+            if (parseInt($scope.AllMessages[mcounter].AllowMessageToAll)==1) {
                 $scope.ShowMessages.push(msgToAdd);
             } else {
                 for (var i = 0; i < $scope.UserOrg.length; i++) {
@@ -31,7 +30,7 @@
             }
         }
        
-        $scope.$apply();
+       // $scope.$apply();
 
     }
     $scope.openLink = function (msg) {

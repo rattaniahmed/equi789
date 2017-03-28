@@ -311,7 +311,26 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
         console.log("Error in loading details");
     });
 
+    firebase.database().ref('/Content/Messages').on('value', function (msgsnapshot) {
+        console.log(msgsnapshot.val());
+        //$scope.AllMessages = msgsnapshot.val();
+    });
+
+
+    $rootScope.appMessages = $firebaseArray(ref.child('Content').child('Messages'));
+    $rootScope.appMessages.$loaded().then(function (dataArray) {
+        //chek the unread count
+        $rootScope.$broadcast("messageLoad", {});
+        $rootScope.appMessages.$watch(function (event) {
+            console.log(event);
+            $rootScope.$broadcast("messageLoad", {});
+        });
+                   
     
+
+    }).catch(function (error) {
+        console.log("Error in loading messages");
+    });;
 
 });
 

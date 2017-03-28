@@ -1,4 +1,5 @@
-﻿app.controller('AccountController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, $http) {
+﻿app.controller('AccountController', function MyCtrl($scope, $location, $firebaseObject,
+    $firebaseArray, firebaseService, storageService, blockUI, $http, $rootScope) {
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.users = $firebaseArray(ref.child('users'));
@@ -79,7 +80,7 @@
                         Details: user
                     };
                     storageService.setObject("CU", obj);
-
+                    $rootScope.$broadcast("messageLoad", {});
                     swal("", "You have successfully logged in.  You are now being redirected to your dashboard.", "success");
                     $scope.$apply(function () {
                         $scope.$parent.UpdateLoggedStatus();
@@ -596,7 +597,7 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
 
 });
 
-app.controller('NavController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI) {
+app.controller('NavController', function MyCtrl($scope, $location,$rootScope, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI) {
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.users = $firebaseArray(ref.child('users'));
@@ -608,6 +609,42 @@ app.controller('NavController', function MyCtrl($scope, $location, $firebaseObje
         $location.path('/');
     }
 
+    $scope.IsUnreadMessageExist = function () {
+        var toReturn = false;
+        try{
+            $scope.user = storageService.getObject("CU");
+            if ($scope.user) {
+                for(var i=0;i<$rootScope.appMessages.length;i++) {
+                    if ($rootScope.appMessages[i].ReadBy) {
+                        var findid = _.contains($rootScope.appMessages[i].ReadBy, $scope.user.Details.$id);
+                        if (!findid) {
+                            //msgObject.ReadBy.push($scope.user.Details.$id);
+                            //msgObject.Read = parseInt(msgObject.Read) + 1;
+                            toReturn =true;
+                        }
+                    }
+                    else {
+                        toReturn =true;
+                        //msgObject.ReadBy = [$scope.user.Details.$id];
+                        //msgObject.Read = 1;
+                    }
+
+                }
+            }
+            else
+                toReturn = false;
+        }
+        catch (error) {
+            toReturn = false;
+        }
+        return toReturn;
+    }
+
+    $scope.showBedge = false;
+    $scope.$on('messageLoad', function (event, args) {
+        $scope.showBedge = $scope.IsUnreadMessageExist();
+        $scope.$apply();
+    });
 
 });
 

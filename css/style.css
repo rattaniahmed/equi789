@@ -1347,4 +1347,14 @@ textarea.form-control {height:auto;resize:none}
 	100%{
 		background-color:rgb(255,255,255);
 	}
+
+}
+
+.notification
+{
+        position: relative;
+    top: -13px;
+    left: -15px;
+    background: #f56464;
+    border-radius: 4px;
 }
