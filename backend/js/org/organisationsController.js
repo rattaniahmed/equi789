@@ -120,7 +120,9 @@ app.controller('organisationsController', function ($scope, storageService, fire
                     imageRef.AllowMessageToAll = AllowMessageToAll;
                     imageRef.AllowMessaging = AllowMessaging;
                     imageRef.ShowAllData = ShowAllData;
-
+                    if (imageRef.AllowMessageToAll == 0) {
+                        Removemessage(imageRef.OrganisationNumber);
+                    }
 
                     $scope.images.$save(imageRef).then(function (ref) {
                         debugger;
@@ -146,7 +148,9 @@ app.controller('organisationsController', function ($scope, storageService, fire
                 imageRef.AllowMessageToAll = AllowMessageToAll;
                 imageRef.AllowMessaging = AllowMessaging;
                 imageRef.ShowAllData = ShowAllData;
-
+                if (imageRef.AllowMessageToAll == 0) {
+                    Removemessage(imageRef.OrganisationNumber);
+                }
 
                 $scope.images.$save(imageRef).then(function (ref) {
                     debugger;
@@ -167,8 +171,10 @@ app.controller('organisationsController', function ($scope, storageService, fire
 
     $scope.RemoveSponser = function (image) {
         $("#loadingModal").show();
+        Removemessage(image.OrganisationNumber);
         $scope.images.$remove(image).then(function (ref) {
             debugger;
+           
             var id = ref.key();
             $("#loadingModal").hide();
         });

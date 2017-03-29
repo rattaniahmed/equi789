@@ -257,6 +257,22 @@ return false;
 }
 
 
+function Removemessage(obj) {
+
+    firebase.database().ref('/Content/Messages/').once('value', function (msgsnapshot) {
+        // var uid = "sadsds";
+        var msgObject = msgsnapshot.val();
+        var msgobjcopy = msgsnapshot.val();
+       // var msgObj = _.reject(_.values(msgObject), function (OrganisationId) { return OrganisationId.OrganisationId == obj });
+        for (var msg in msgobjcopy) {
+            if (msgobjcopy[msg].OrganisationId == obj) {
+                delete msgObject[msg];
+            } 
+        }
+        console.log(msgObject+"tyeyrtyretyretyrt");
+        firebase.database().ref('/Content/Messages/').set(msgObject);
+    });
+}
 function validateLogin() {
 
     var user = window.localStorage.getItem("userName");
@@ -272,7 +288,7 @@ function validateLogin() {
 function Display(modalToShow) {
 
     for (var cnt in modals) {
-        console.log(modals[cnt]);
+       
         if (modals[cnt] != modalToShow)
             $('#' + modals[cnt]).modal('hide');
     }
@@ -534,8 +550,9 @@ var rootUrl = global.settings.getServiceUrl();
             // $('#loadingModal').hide();
             if (response.Code == "P00001") {
                 if (showsuccessmessage !== undefined && showsuccessmessage)
-                    { //alert(response.Message);
-                    console.log(response.Message);}
+                    { 
+                    
+                }
                 if (success !== undefined)
                     success(response.Data);
             }
@@ -571,7 +588,7 @@ function ExecuteDataSetService(inputData, success, failure, showsuccessmessage, 
         success: function (response) {
             // $('#loadingModal').hide();
             if (response.Code == "P00001") {
-                if (showsuccessmessage !== undefined && showsuccessmessage) { //alert(response.Message);
+                if (showsuccessmessage !== undefined && showsuccessmessage) { 
                     console.log(response.Message);
                 }
                 if (success !== undefined)
