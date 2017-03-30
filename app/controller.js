@@ -46,11 +46,11 @@
 
     $scope.login2 = function () {
         firebase.auth().signInWithEmailAndPassword($scope.email, $scope.password).catch(function (error) {
-            // Handle Errors here.
+           
             console.log(error);
             var errorCode = error.code;
             var errorMessage = error.message;
-            // ...
+           
         });
     }
 
@@ -70,16 +70,20 @@
                 });
                 if (error) {
                     swal({ title: "", text: "Invalid user name and password. Please try again", imageUrl: "bower_components/sweetalert/example/images/wrong.png" });
-                    //console.log("Login Failed!", error);
+                   
                 } else {
 
                     var user = $scope.users.$getRecord(authData.uid);
-                    user.profile = CleanProfileUrl(user.profile);
-                    var obj = {
-                        Auth: authData,
-                        Details: user
-                    };
-                    storageService.setObject("CU", obj);
+                    if (user) {
+                        user.profile = CleanProfileUrl(user.profile);
+
+                        var obj = {
+                            Auth: authData,
+                            Details: user
+                        };
+
+                        storageService.setObject("CU", obj);
+                    }
                     $rootScope.$broadcast("messageLoad", {});
                     swal("", "You have successfully logged in.  You are now being redirected to your dashboard.", "success");
                     $scope.$apply(function () {
@@ -93,12 +97,9 @@
    
     $scope.reset = function () {
 
-        //if (!ValidateControl(['email']))
-        //    return;
-        //else {
+        
             blockUI.start("Sending password");
-            //$location.path('login.html');
-            //console.log($scope.users);
+           
 
             ref.resetPassword({
                 email: $scope.email
@@ -112,7 +113,7 @@
                         $location.path('login.html');
                     });
                 } else {
-                    console.log(error);
+                   
                     swal({ title: "", text: "Error sending password reset email:", imageUrl: "bower_components/sweetalert/example/images/wrong.png" });
                 }
             });
@@ -150,8 +151,8 @@
                         display_name: ReplaceNull($scope.display_name),
                         profile: CleanProfileUrl('')
                     }
-                    console.log(user);
-                    console.log(userData);
+                  
+                   
                     ref.child('users').child(userData.uid).set({
                         first_name: user.first_name,
                         last_name: user.last_name,
@@ -172,14 +173,13 @@
                             blockUI.stop();
                         });
                         if (error) {
-                            //swal({ title: "", text: "Invalid user name and password. Please try again", imageUrl: "bower_components/sweetalert/example/images/wrong.png" });
-                            //console.log("Login Failed!", error);
+                            
                             var obj = {
                                 Auth: userData,
                                 Details: user
                             };
                             storageService.setObject("CU", obj);
-                            //swal("", "You have success fully logged In, You being redirect to dashboard.", "success");
+                           
                             $scope.$apply(function () {
                                 $location.path('dashboard.html');
                             });
@@ -219,7 +219,7 @@ app.controller('SettingsController', function MyCtrl($scope, $location, $firebas
     if ($scope.user == null)
         $location.path('/');
 
-    console.log($scope.user);
+   
 
    
     $scope.UpdateMode = function (type) {
@@ -265,9 +265,9 @@ app.controller('SettingsController', function MyCtrl($scope, $location, $firebas
                         });
 
                     }).catch(function (error) {
-                        // [START onfailure]
+                      
                         console.error('Upload failed:', error);
-                        // [END onfailure]
+                       
 
                         $scope.$apply(function () {
                             blockUI.stop();
@@ -351,7 +351,7 @@ app.controller('SponsersController', function ($scope, $location, $firebaseObjec
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
-        console.log(dataArray);
+      
     }).catch(function (error) {
         console.log("Error in loading details");
     });
@@ -364,30 +364,15 @@ app.controller('SponsersController', function ($scope, $location, $firebaseObjec
 app.controller('FAQController', function ($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService) {
 
 
-
-
-    //var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
-    //$scope.images = $firebaseArray(ref.child('Content').child('FAQ'));
-    //$scope.Imgaes = [];
-    //$scope.images.$loaded().then(function (dataArray) {
-    //    $scope.Imgaes = dataArray;
-    //    console.log(dataArray);
-    //}).catch(function (error) {
-    //    console.log("Error in loading details");
-    //});
-
-
-
-
 });
 
 app.controller('NewsController', function ($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService, $sce) {
 
 
-    //console.log(newses);
+    
     var id = $location.search().id;
-    //alert(id);
-    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+    
+    var ref = firebaseService.FIREBASEENDPOINT(); 
     $scope.images = $firebaseArray(ref.child('Content').child('News'));
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
@@ -397,7 +382,7 @@ app.controller('NewsController', function ($scope, $location, $firebaseObject, $
         $scope.news.Content = $sce.trustAsHtml($scope.news.Content.toString());
         $scope.news.Title = $sce.trustAsHtml($scope.news.Title.toString());
 
-        console.log(dataArray);
+     
     }).catch(function (error) {
         console.log("Error in loading details");
     });
@@ -425,7 +410,6 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
     $scope.vm.isCellOpen = false;
     $scope.vm.viewChangeEnabled = true;
     $scope.vm.viewChangeClicked = function (date, nextView) {
-        console.log(date, nextView);
         return $scope.vm.viewChangeEnabled;
     };
 
@@ -441,7 +425,7 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
             //label: '<i class=\'glyphicon glyphicon-zoom-out\'></i>',
             label: 'View Details',
             onClick: function (args) {
-                console.log(args.calendarEvent.ride_id);
+             
 
                 storageService.setObject("RIDEDETAILID", args.calendarEvent.ride_id);
                 $location.path('ride-detail.html');
@@ -468,15 +452,15 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
         }
     }
 
-    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
-    //$scope.users = $firebaseArray(ref.child('users'));
+    var ref = firebaseService.FIREBASEENDPOINT();   
+  
     $scope.horses = $firebaseArray(ref.child('horses'));
     $scope.horses.$loaded().then(function (dataArray) {
         var ids = [];
 
         angular.forEach($scope.user.Details.horse_ids, function (value, key) {
-            //console.log(value);
-            console.log(key);
+          
+            
             var horse = $scope.horses.$getRecord(key);
 
             try {
@@ -488,13 +472,13 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
                 console.log(errloop);
             }
 
-            console.log(horse);
+            
         });
 
 
         $scope.history = $firebaseArray(ref.child('rides'));
         $scope.history.$loaded().then(function (dataArray) {
-            // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
+           
 
             var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -510,7 +494,7 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
                 var h = $scope.horses.$getRecord(horseHistory.horse_firebase_key);
 
                 $scope.actions = [{
-                    //label: '<i class=\'glyphicon glyphicon-zoom-out\'></i>',
+                    
                     label: h.horse_name,
                     onClick: function (args) {
                         console.log(args.calendarEvent.ride_id);
@@ -523,7 +507,7 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
 
 
                 var eve = {
-                    //title: moment(startDateTime).format('HH:MM:SS a') + ' - ' + moment(endDateTime).format('HH:MM:SS a'),
+                    
                     title: '',
                     color: $scope.colors[cnt % 3],
                     startsAt: new Date(horseHistory.start_time),
@@ -603,20 +587,76 @@ app.controller('NavController', function MyCtrl($scope, $location,$rootScope, $f
     $scope.users = $firebaseArray(ref.child('users'));
 
     $scope.user = storageService.getObject("CU");
-
+   
     $scope.Logout = function () {
         storageService.setObject("CU", null);
         $location.path('/');
     }
+    //showHide=function(bool) {
+    //    if (bool == false) {
+    //        $("message").hide();
+    //    }
+
+    //    if (bool == true) {
+    //        $("message").show();
+    //    }
+    //}
+    $scope.UserOrg = [];
+    $scope.RefreshMessagess = function () {
+        $scope.user = storageService.getObject("CU");
+        if ($scope.user) {
+            for (var i in $scope.user.Details.horse_ids) {
+
+                var horse = $rootScope.appHorses.$getRecord(i);
+
+                if (horse && horse.associations) {
+                    for (var i = 0; i < horse.associations.length; i++) {
+                        if (!_.contains($scope.UserOrg, horse.associations[i].filter)) {
+                            $scope.UserOrg.push(horse.associations[i].filter);
+                        }
+
+                    }
+                    // $scope.RefreshMessages();
+
+                }
+
+
+
+            }
+        }
+        var ShowMessages = [];
+        //for (var i = 0; i < $scope.UserOrg.length; i++) {
+
+        for (var mcounter in $rootScope.appMessages) {
+            var msgToAdd = $rootScope.appMessages[mcounter];
+            msgToAdd.Id = mcounter;
+            if (parseInt($rootScope.appMessages[mcounter].AllowMessageToAll) == 1) {
+                ShowMessages.push(msgToAdd);
+            } else {
+                if ($scope.UserOrg) {
+                    for (var i = 0; i < $scope.UserOrg.length; i++) {
+                        if ($rootScope.appMessages[mcounter].OrganisationId == $scope.UserOrg[i]) {
+                            ShowMessages.push(msgToAdd);
+                        }
+                    }
+                }
+            }
+        }
+
+        return ShowMessages;
+        // $scope.$apply();
+
+    }
 
     $scope.IsUnreadMessageExist = function () {
+        $scope.RefreshMessages = $scope.RefreshMessagess();
         var toReturn = false;
         try{
             $scope.user = storageService.getObject("CU");
             if ($scope.user) {
-                for(var i=0;i<$rootScope.appMessages.length;i++) {
-                    if ($rootScope.appMessages[i].ReadBy) {
-                        var findid = _.contains($rootScope.appMessages[i].ReadBy, $scope.user.Details.$id);
+                for (var i = 0; i < $scope.RefreshMessages.length; i++) {
+                    if ($scope.RefreshMessages[i].ReadBy) {
+                        var findid = _.contains($scope.RefreshMessages[i].ReadBy, $scope.user.Details.$id);
                         if (!findid) {
                             //msgObject.ReadBy.push($scope.user.Details.$id);
                             //msgObject.Read = parseInt(msgObject.Read) + 1;
@@ -641,19 +681,21 @@ app.controller('NavController', function MyCtrl($scope, $location,$rootScope, $f
     }
 
     $scope.showBedge = false;
+   // showHide($scope.showBedge);
     $scope.$on('messageLoad', function (event, args) {
         $scope.showBedge = $scope.IsUnreadMessageExist();
-        $scope.$apply();
+        //showHide($scope.showBedge);
+        //$scope.$apply();
     });
-
+   
 });
 
 
 app.controller('StaticContentController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI) {
 
-    var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+    var ref = firebaseService.FIREBASEENDPOINT();  
     
-    console.log("StaticContentController");
+  
 
     $scope.Logout = function () {
         storageService.setObject("CU", null);
