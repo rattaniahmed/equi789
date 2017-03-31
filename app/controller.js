@@ -592,15 +592,15 @@ app.controller('NavController', function MyCtrl($scope, $location,$rootScope, $f
         storageService.setObject("CU", null);
         $location.path('/');
     }
-    //showHide=function(bool) {
-    //    if (bool == false) {
-    //        $("message").hide();
-    //    }
+    showHide=function(bool) {
+        if (bool == false) {
+            $("#message").hide();
+        }
 
-    //    if (bool == true) {
-    //        $("message").show();
-    //    }
-    //}
+        if (bool == true) {
+            $("#message").show();
+        }
+    }
     $scope.UserOrg = [];
     $scope.RefreshMessagess = function () {
         $scope.user = storageService.getObject("CU");
@@ -681,10 +681,10 @@ app.controller('NavController', function MyCtrl($scope, $location,$rootScope, $f
     }
 
     $scope.showBedge = false;
-   // showHide($scope.showBedge);
+    //showHide($scope.showBedge);
     $scope.$on('messageLoad', function (event, args) {
         $scope.showBedge = $scope.IsUnreadMessageExist();
-        //showHide($scope.showBedge);
+        showHide($scope.showBedge);
         //$scope.$apply();
     });
    

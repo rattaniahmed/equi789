@@ -15,58 +15,60 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
         $scope.loadingcord = false;
         $scope.stables = [];
         $scope.user = storageService.getObject("CU");
-        angular.forEach($scope.user.Details.horse_ids, function (value, key) {
-            $scope.ZeroStable = false;
-            console.log(key);
-            var horse = $rootScope.appHorses.$getRecord(key);
-            if (horse != null) {
-                horse.photo = CleanHorseProfileUrl(horse.photo);
+        if ($scope.user){
+            angular.forEach($scope.user.Details.horse_ids, function (value, key) {
+                $scope.ZeroStable = false;
+                console.log(key);
+                var horse = $rootScope.appHorses.$getRecord(key);
+                if (horse != null) {
+                    horse.photo = CleanHorseProfileUrl(horse.photo);
 
 
-                try {
-                    var today = new Date();
-                    var d = new Date(horse.birthday);
-                    if (Object.prototype.toString.call(d) === "[object Date]") {
-                        // it is a date
-                        if (isNaN(d.getTime())) {  // d.valueOf() could also work
+                    try {
+                        var today = new Date();
+                        var d = new Date(horse.birthday);
+                        if (Object.prototype.toString.call(d) === "[object Date]") {
+                            // it is a date
+                            if (isNaN(d.getTime())) {  // d.valueOf() could also work
+                            }
+                            else {
+                                var diff = today - d;
+                                var days = parseInt(diff / 1000 / 60 / 60 / 24);
+                                console.log(days);
+
+                                var year = parseInt(days / 365);
+
+
+                                if (year == 1)
+                                    horse.AgeToDisplay = "1 year, ";
+                                else
+                                    horse.AgeToDisplay = year + " years, ";
+
+                                var remainDay = parseInt(days % 365);
+
+                                var month = parseInt(remainDay / 30);
+
+                                if (month == 1)
+                                    horse.AgeToDisplay += "1 month ";
+                                else
+                                    horse.AgeToDisplay += month + " months ";
+
+                                //horse.AgeToDisplay += "old";
+                            }
                         }
                         else {
-                            var diff = today - d;
-                            var days = parseInt(diff / 1000 / 60 / 60 / 24);
-                            console.log(days);
-
-                            var year = parseInt(days / 365);
-
-
-                            if (year == 1)
-                                horse.AgeToDisplay = "1 year, ";
-                            else
-                                horse.AgeToDisplay = year + " years, ";
-
-                            var remainDay = parseInt(days % 365);
-
-                            var month = parseInt(remainDay / 30);
-
-                            if (month == 1)
-                                horse.AgeToDisplay += "1 month ";
-                            else
-                                horse.AgeToDisplay += month + " months ";
-
-                            //horse.AgeToDisplay += "old";
+                            // not a date
                         }
                     }
-                    else {
-                        // not a date
-                    }
+                    catch (err) { }
+
+
+                    $scope.stables.push(horse);
                 }
-                catch (err) { }
 
-
-                $scope.stables.push(horse);
-            }
-
-            console.log(horse);
-        });
+                console.log(horse);
+            });
+    }
 
         if ($scope.stables.length == 0) {
             $scope.ZeroStable = true;
