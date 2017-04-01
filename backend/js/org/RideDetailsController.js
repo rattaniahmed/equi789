@@ -516,19 +516,27 @@
     $scope.SelectItem = function () {
         var TempHorseIdData = [];
         var SearchData = [];
+        var selecthorseid = [];
+        for (var i = 0; i < $scope.example14model.length; i++) {
+            selecthorseid.push($scope.example14model[i].id);
+        }
 
         for (var i = 0; i < $scope.example15model.length; i++) {
             var filterUser = _.findWhere($scope.Users, { $id: $scope.example15model[i].id })
             if (filterUser.horse_ids) {
                 var ids = Object.keys(filterUser.horse_ids);
                 for (var idcounter = 0 ; idcounter < ids.length; idcounter++) // coun id in ids) {
-                    TempHorseIdData.push(ids[idcounter]);
+                    if (_.contains(selecthorseid, ids[idcounter])) {
+                        TempHorseIdData.push(ids[idcounter]);
+                    } else if ($scope.example14model.length == 0) {
+                        TempHorseIdData.push(ids[idcounter]);
+                    }
             }
         }
 
 
         //for (var i = 0; i < $scope.example14model.length; i++) {
-        //    var data = _.findWhere($scope.AllHorses, { $id: $scope.example14model[i].id })
+         //  var data = _.findWhere($scope.AllHorses, { $id: $scope.example14model[i].id })
         //    if (data.ride_ids != undefined) {
         //        for (var rideid in data.ride_ids) {
         //            var rideDetails = $scope.getFormattedRideDetail(horse, rideid);
@@ -536,7 +544,7 @@
         //            $scope.SearchData.push(rides);
         //        }
 
-        //    }
+          //  }
         //}
 
         for (var hcounter = 0 ; hcounter < TempHorseIdData.length; hcounter++) {
@@ -546,13 +554,13 @@
                 if (horse.ride_ids) {
                     for (var rideid in horse.ride_ids) {
                         var rideDetails = $scope.getFormattedRideDetail(horse, rideid);
-                        $scope.SearchData.push(rideDetails);
+                        SearchData.push(rideDetails);
                     }
                 }
             }
         }
 
-        $scope.gridOptions.data = $scope.SearchData;
+        $scope.gridOptions.data = SearchData;
 
     }
 
