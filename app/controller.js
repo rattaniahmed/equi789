@@ -593,13 +593,14 @@ app.controller('NavController', function MyCtrl($scope, $location,$rootScope, $f
         $location.path('/');
     }
     showHide=function(bool) {
-        if (bool == false) {
+        if (bool) {
+            $("#message").show();
+        }
+        else {
             $("#message").hide();
         }
 
-        if (bool == true) {
-            $("#message").show();
-        }
+      
     }
     $scope.UserOrg = [];
     $scope.RefreshMessagess = function () {
