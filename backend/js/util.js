@@ -1166,6 +1166,16 @@ var dates = {
     }
 }
 
+
+
+function InDefinedTimeRangForHomePage(ride, startDate, endDate) {
+    if (ride)
+        return dates.inRange(ride.start_time, startDate.format('l'), endDate.format('l'));
+    else
+        return false;
+}
+
+
 //function compareDate(time) {
 //    //put date compare logic based on ride time
 
@@ -1184,6 +1194,9 @@ function InDefinedTimeRang(ride, timePeriod) {
     return dates.inRange(ride.start_time, moment(timePeriod.startDate).format('l'), moment(timePeriod.endDate).format('l'));
    
 }
+
+
+
 
 function getCommulativeData(ride_ids, rideRef, timePeriod) {
 
@@ -1213,7 +1226,8 @@ function getCommulativeData(ride_ids, rideRef, timePeriod) {
                     }
                 } catch (err) { }
                 if (inRange) {
-                    totalLength = _.size(ride_ids);
+                    //totalLength = _.size(ride_ids);
+                    totalLength++;
                     totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
                     totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
                     totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);

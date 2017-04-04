@@ -1,4 +1,7 @@
-﻿app.controller('homeController', function ($scope, firebaseService, $firebaseArray, storageService, $rootScope) {
+﻿//adding the text comment 
+
+
+app.controller('homeController', function ($scope, firebaseService, $firebaseArray, storageService, $rootScope) {
 
     // $scope.user = StorageService.getObject('user');
     $scope.Totalhorsemap = [];
@@ -388,7 +391,9 @@
                                     var timeValue = horseObject.ride_ids[rideId];
                                     var ridetime = moment(new Date(parseInt(timeValue)));
                                     if (dateFilterStart && dateFilterEnd) {
-                                        if (ridetime > dateFilterStart && ridetime < dateFilterEnd) {
+                                        //if (ridetime > dateFilterStart && ridetime < dateFilterEnd) {
+                                        var rideObj = $rootScope.backendHorseRides.$getRecord(rideId);
+                                        if (InDefinedTimeRangForHomePage(rideObj, dateFilterStart, dateFilterEnd)) {
                                             rideDataArray.push($scope.getDateForEquitrack(timeValue));
                                             RidesCount++;
                                         }
@@ -708,8 +713,8 @@
 
 
     $scope.Init = function () {        
-        LoadingState();
-        if ($rootScope.isDataLoaded) {
+         LoadingState();
+         if ($rootScope.isDataLoaded) {
             $scope.AllHorses = $rootScope.getOrgHorses();
             $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
 

@@ -44,13 +44,19 @@
                var findid = _.contains(msgObject.ReadBy, $scope.user.Details.$id);
                if (!findid) {
                    msgObject.ReadBy.push($scope.user.Details.$id);
-                   msgObject.Read = parseInt(msgObject.Read) + 1;
+                   //msgObject.Read = parseInt(msgObject.Read) + 1;
                }
            }
            else {
                msgObject.ReadBy = [$scope.user.Details.$id];
-               msgObject.Read = 1;
+               //msgObject.Read = 1;
            }
+
+           if (msgObject.ReadBy) {
+               msgObject.Read = parseInt(msgObject.Read) + 1;
+           } else
+               msgObject.ReadBy = 1;
+
             //msgsnapshot.ref().update(msgObject);
            firebase.database().ref('/Content/Messages/' + a).set(msgObject);
             // firebase.database().ref().child('/Content/Messages/' + a).set(msgObject);
@@ -74,7 +80,7 @@
         for (var i in $scope.user.Details.horse_ids) {
             firebase.database().ref('/horses/' + i).on('value', function (snapshot) {
                 var horse = snapshot.val();
-                if (horse.associations) {
+                if (horse && horse.associations) {
                     for (var i = 0; i < horse.associations.length; i++) {
                         if (!_.contains($scope.UserOrg, horse.associations[i].filter)) {
                             $scope.UserOrg.push(horse.associations[i].filter);
