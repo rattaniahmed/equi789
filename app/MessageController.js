@@ -17,6 +17,7 @@
         //for (var i = 0; i < $scope.UserOrg.length; i++) {
 
         for (var mcounter in $scope.AllMessages) {
+            if (moment(dateFormat(new Date(), 'mm/dd/yyyy')).isSame(moment($scope.AllMessages[mcounter].ExpirationDate)) == true || (moment($scope.AllMessages[mcounter].ExpirationDate).isBefore(moment(dateFormat(new Date(), 'mm/dd/yyyy')))) == false) {
             var msgToAdd = $scope.AllMessages[mcounter];
             msgToAdd.Id = mcounter;
             if (parseInt($scope.AllMessages[mcounter].AllowMessageToAll)==1) {
@@ -25,6 +26,7 @@
                 for (var i = 0; i < $scope.UserOrg.length; i++) {
                     if ($scope.AllMessages[mcounter].OrganisationId == $scope.UserOrg[i]) {
                         $scope.ShowMessages.push(msgToAdd);
+                        }
                     }
                 }
             }

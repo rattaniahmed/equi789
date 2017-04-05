@@ -632,12 +632,16 @@ app.controller('NavController', function MyCtrl($scope, $location,$rootScope, $f
             var msgToAdd = $rootScope.appMessages[mcounter];
             msgToAdd.Id = mcounter;
             if (parseInt($rootScope.appMessages[mcounter].AllowMessageToAll) == 1) {
-                ShowMessages.push(msgToAdd);
+                if (moment(dateFormat(new Date(), 'mm/dd/yyyy')).isSame(moment($rootScope.appMessages[mcounter].ExpirationDate)) == true || (moment($rootScope.appMessages[mcounter].ExpirationDate).isBefore(moment(dateFormat(new Date(), 'mm/dd/yyyy')))) == false) {
+                    ShowMessages.push(msgToAdd);
+                }
             } else {
                 if ($scope.UserOrg) {
                     for (var i = 0; i < $scope.UserOrg.length; i++) {
                         if ($rootScope.appMessages[mcounter].OrganisationId == $scope.UserOrg[i]) {
-                            ShowMessages.push(msgToAdd);
+                            if (moment(dateFormat(new Date(), 'mm/dd/yyyy')).isSame(moment($rootScope.appMessages[mcounter].ExpirationDate)) == true || (moment($rootScope.appMessages[mcounter].ExpirationDate).isBefore(moment(dateFormat(new Date(), 'mm/dd/yyyy')))) == false) {
+                                ShowMessages.push(msgToAdd);
+                            }
                         }
                     }
                 }
@@ -682,10 +686,12 @@ app.controller('NavController', function MyCtrl($scope, $location,$rootScope, $f
     }
 
     $scope.showBedge = false;
+
     //showHide($scope.showBedge);
     $scope.$on('messageLoad', function (event, args) {
-        $scope.showBedge = $scope.IsUnreadMessageExist();
-        showHide($scope.showBedge);
+        //$scope.showBedge = $scope.IsUnreadMessageExist();
+        $scope.showBedge = angular.copy($scope.IsUnreadMessageExist());
+        //showHide($scope.showBedge);
         //$scope.$apply();
     });
    
