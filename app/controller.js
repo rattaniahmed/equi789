@@ -685,12 +685,15 @@ app.controller('NavController', function MyCtrl($scope, $location,$rootScope, $f
         return toReturn;
     }
 
-    $scope.showBedge = false;
-
+    //$scope.showBedge = false;
+    $scope.showBedge1 = 1;
     //showHide($scope.showBedge);
     $scope.$on('messageLoad', function (event, args) {
-        //$scope.showBedge = $scope.IsUnreadMessageExist();
+       // $scope.showBedge = $scope.IsUnreadMessageExist();
         $scope.showBedge = angular.copy($scope.IsUnreadMessageExist());
+        if ($scope.showBedge)
+            $scope.showBedge1 = 0;
+       // $scope.showBedge = angular.copy($scope.IsUnreadMessageExist());
         //showHide($scope.showBedge);
         //$scope.$apply();
     });
