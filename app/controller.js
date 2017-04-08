@@ -55,7 +55,7 @@
     }
 
     $scope.login = function () {
-
+        debugger;
         if (!ValidateControl(['email', 'password']))
             return;
         else {

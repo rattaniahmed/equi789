@@ -191,14 +191,19 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
     //    console.log(snapshot.val())
     //})
 
-    var ref = firebaseService.FIREBASEENDPOINT();
-    $rootScope.homepage = $firebaseArray(ref.child('Content').child('Static').child('HomePage'));
-    $rootScope.homepage.$loaded().then(function (dataArray) {
-        $rootScope.DynamucContent = {};
-        angular.forEach(dataArray, function (value, key) {
-            //$scope.DynamucContent[value.Key] = value.Url;
-            var groupNode = $rootScope.homepage.$getRecord(value.$id);
+    
 
+    var ref = firebaseService.FIREBASEENDPOINT();
+
+    $rootScope.content = $firebaseArray(ref.child('Content'));
+    $rootScope.content.$loaded().then(function (dataArray) {
+
+
+        $rootScope.DynamucContent = {};
+        var StaticContent = $rootScope.content.$getRecord('Static');
+        var homePage = StaticContent.HomePage;
+        for (var homePageProp in homePage) {
+            var groupNode = homePage[homePageProp];
             for (var prop in groupNode) {
                 if (prop != "$id" && prop != "$priority") {
                     var toConvert = groupNode[prop].toString();
@@ -209,63 +214,161 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
                     $rootScope.DynamucContent[prop] = $sce.trustAsHtml(toConvert);
                 }
             }
+        }
 
-        });
-    }).catch(function (error) {
-        console.log("Error in loading details");
-    });
-
-
-
-    $rootScope.images = $firebaseArray(ref.child('Content').child('Images'));
-    $rootScope.images.$loaded().then(function (dataArray) {
         $rootScope.DynamucImages = {};
-        angular.forEach(dataArray, function (value, key) {
+        var images = $rootScope.content.$getRecord('Images');
+        angular.forEach(images, function (value, key) {
             $rootScope.DynamucImages[value.Key] = value.Url;
         });
+
+        $rootScope.DynamucPages = {};
+        var pages = $rootScope.content.$getRecord('Pages');
+        for (var pageProp in pages) {
+            if (pageProp != "$id" && pageProp != "$priority") {
+                var toConvertForPage = pages[pageProp].toString();
+                $rootScope.DynamucPages[pageProp] = $sce.trustAsHtml(toConvertForPage);
+            }
+        }
+
+        var newses = $rootScope.content.$getRecord('News');
+        $rootScope.newses = [];
+        for (var newsProp in newses) {
+            if (newsProp != "$id" && newsProp != "$priority") {
+                var n = newses[newsProp];
+                n.Content = $sce.trustAsHtml(n.Content.toString());
+                n.Title = $sce.trustAsHtml(n.Title.toString());
+                n.$id = newsProp;
+                $rootScope.newses.push(n);
+            }
+        }
+
+        var faqes = $rootScope.content.$getRecord('FAQ');
+        $rootScope.faqs = [];
+        for (var faqProp in faqes) {
+            if (faqProp != "$id" && faqProp != "$priority") {
+                var f = faqes[faqProp];
+                f.AnswerText = $sce.trustAsHtml(f.AnswerText.toString());
+                f.QuestionText = $sce.trustAsHtml(f.QuestionText.toString());
+                f.$id = faqProp
+                $rootScope.faqs.push(f);
+            }
+        }
+
+
+        
+
+
     }).catch(function (error) {
         console.log("Error in loading details");
     });
 
+    function oldImplementation() {
 
-    $rootScope.pages = $firebaseArray(ref.child('Content').child('Pages'));
-    $rootScope.pages.$loaded().then(function (dataArray) {
-        $rootScope.DynamucPages = {};
-        angular.forEach(dataArray, function (value, key) {
-            var toConvert = value.$value.toString();
-            $rootScope.DynamucPages[value.$id] = $sce.trustAsHtml(toConvert);
+        $rootScope.homepage = $firebaseArray(ref.child('Content').child('Static').child('HomePage'));
+        $rootScope.homepage.$loaded().then(function (dataArray) {
+            $rootScope.DynamucContent = {};
+            angular.forEach(dataArray, function (value, key) {
+                //$scope.DynamucContent[value.Key] = value.Url;
+                var groupNode = $rootScope.homepage.$getRecord(value.$id);
+
+                for (var prop in groupNode) {
+                    if (prop != "$id" && prop != "$priority") {
+                        var toConvert = groupNode[prop].toString();
+                        if (prop == "ConatctUsEmail") {
+                            //alert("here");
+                            toConvert = "E-mail: -" + toConvert;
+                        }
+                        $rootScope.DynamucContent[prop] = $sce.trustAsHtml(toConvert);
+                    }
+                }
+
+            });
+            console.log($rootScope.DynamucContent);
+        }).catch(function (error) {
+            console.log("Error in loading details");
+        });
+
+
+
+        $rootScope.images = $firebaseArray(ref.child('Content').child('Images'));
+        $rootScope.images.$loaded().then(function (dataArray) {
+            $rootScope.DynamucImages = {};
+            angular.forEach(dataArray, function (value, key) {
+                $rootScope.DynamucImages[value.Key] = value.Url;
+            });
+        }).catch(function (error) {
+            console.log("Error in loading details");
+        });
+
+
+
+        $rootScope.pages = $firebaseArray(ref.child('Content').child('Pages'));
+        $rootScope.pages.$loaded().then(function (dataArray) {
+            $rootScope.DynamucPages = {};
+            angular.forEach(dataArray, function (value, key) {
+                var toConvert = value.$value.toString();
+                $rootScope.DynamucPages[value.$id] = $sce.trustAsHtml(toConvert);
+            });
+        }).catch(function (error) {
+            console.log("Error in loading details");
+        });
+
+
+
+        $rootScope.news = $firebaseArray(ref.child('Content').child('News'));
+        $rootScope.news.$loaded().then(function (dataArray) {
+            $rootScope.newses = [];
+            for (var i = 0; i < dataArray.length; i++) {
+                var n = dataArray[i];
+                n.Content = $sce.trustAsHtml(n.Content.toString());
+                n.Title = $sce.trustAsHtml(n.Title.toString());
+                $rootScope.newses.push(n);
+            }
+        }).catch(function (error) {
+            console.log("Error in loading details");
+        });
+
+
+
+        $rootScope.faq = $firebaseArray(ref.child('Content').child('FAQ'));
+        $rootScope.faq.$loaded().then(function (dataArray) {
+            $rootScope.faqs = [];
+            for (var i = 0; i < dataArray.length; i++) {
+                var f = dataArray[i];
+                f.AnswerText = $sce.trustAsHtml(f.AnswerText.toString());
+                f.QuestionText = $sce.trustAsHtml(f.QuestionText.toString());
+                $rootScope.faqs.push(f);
+            }
+        }).catch(function (error) {
+            console.log("Error in loading details");
+        });
+
+        $rootScope.appMessages = $firebaseArray(ref.child('Content').child('Messages'));
+        $rootScope.appMessages.$loaded().then(function (dataArray) {
+            //chek the unread count
+            $rootScope.$broadcast("messageLoad", {});
+            $rootScope.appMessages.$watch(function (event) {
+                console.log(event);
+                $rootScope.$broadcast("messageLoad", {});
+            });
+        }).catch(function (error) {
+            console.log("Error in loading messages");
+        });
+
+    }
+
+    $rootScope.appMessages = $firebaseArray(ref.child('Content').child('Messages'));
+    $rootScope.appMessages.$loaded().then(function (dataArray) {
+        //chek the unread count
+        $rootScope.$broadcast("messageLoad", {});
+        $rootScope.appMessages.$watch(function (event) {
+            console.log(event);
+            $rootScope.$broadcast("messageLoad", {});
         });
     }).catch(function (error) {
-        console.log("Error in loading details");
+        console.log("Error in loading messages");
     });
-
-
-    $rootScope.news  = $firebaseArray(ref.child('Content').child('News'));
-    $rootScope.news.$loaded().then(function (dataArray) {
-        $rootScope.newses = [];
-        for (var i = 0; i < dataArray.length; i++) {
-            var n = dataArray[i];
-            n.Content = $sce.trustAsHtml(n.Content.toString());
-            n.Title = $sce.trustAsHtml(n.Title.toString());
-            $rootScope.newses.push(n);
-        }
-    }).catch(function (error) {
-        console.log("Error in loading details");
-    });
-
-    $rootScope.faq = $firebaseArray(ref.child('Content').child('FAQ'));
-    $rootScope.faq.$loaded().then(function (dataArray) {
-        $rootScope.faqs=[];
-        for (var i = 0; i < dataArray.length; i++) {
-            var f = dataArray[i];
-            f.AnswerText= $sce.trustAsHtml(f.AnswerText.toString());
-            f.QuestionText = $sce.trustAsHtml(f.QuestionText.toString());
-            $rootScope.faqs.push(f);
-        }
-    }).catch(function (error) {
-        console.log("Error in loading details");
-    });
-
 
     $rootScope.appHorses = $firebaseArray(ref.child('horses'));
     $rootScope.appHorses.$loaded().then(function (dataArray) {
@@ -292,7 +395,6 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
     $rootScope.appUsers = $firebaseArray(ref.child('users'));
     $rootScope.appUsers.$loaded().then(function (dataArray) {
         $rootScope.appUsers.$watch(function (event) {
-            debugger;
             console.log(event);
             var userToLocal = storageService.getObject("CU");
             if (event.key == userToLocal.Auth.uid)
@@ -311,30 +413,11 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
         console.log("Error in loading details");
     });
 
-    firebase.database().ref('/Content/Messages').on('value', function (msgsnapshot) {
-        console.log(msgsnapshot.val());
-        //$scope.AllMessages = msgsnapshot.val();
-    });
-
-
-    $rootScope.appMessages = $firebaseArray(ref.child('Content').child('Messages'));
-    $rootScope.appMessages.$loaded().then(function (dataArray) {
-        //chek the unread count
-        $rootScope.$broadcast("messageLoad", {});
-        $rootScope.appMessages.$watch(function (event) {
-            console.log(event);
-            $rootScope.$broadcast("messageLoad", {});
-        });
-                   
-    
-
-    }).catch(function (error) {
-        console.log("Error in loading messages");
-    });;
+   
 
 });
 
-app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, storageService, blockUI, $http, firebaseService) {
+app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, storageService, blockUI, $http, firebaseService, $rootScope) {
 
     $scope.isLogged = 0;
 
@@ -372,7 +455,6 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
         }
     }
 
-
     $scope.go = function (index) {
         $location.path('/view' + index);
     };
@@ -400,7 +482,6 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
            
             var url = storageService.getNodeJSAppURL() + 'sendmailnew?TO=' + TO + '&Subject=' + Subject + '&HTML=' + html;
 
-            debugger;
             $http({
                 method: 'GET',
                 url: url
@@ -428,11 +509,101 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
         }
 
     }
+
+    $scope.getUserOrganization = function () {
+        $scope.UserOrg = [];
+        $scope.user = storageService.getObject("CU");
+        for (var i in $scope.user.Details.horse_ids) {
+            var horse = $rootScope.appHorses.$getRecord(i);
+            if (horse && horse.associations) {
+                for (var i = 0; i < horse.associations.length; i++) {
+                    if (!_.contains($scope.UserOrg, horse.associations[i].filter)) {
+                        $scope.UserOrg.push(horse.associations[i].filter);
+                    }
+                }
+            }
+        }
+        return $scope.UserOrg;
+    }
+
+    $scope.getUserMessagess = function () {
+
+        var ShowMessages = [];
+        try{
+            if ($scope.user) {
+                var orgs = $scope.getUserOrganization();
+                for (var mcounter in $rootScope.appMessages) {
+                    var msgToAdd = $rootScope.appMessages[mcounter];
+                    msgToAdd.Id = mcounter;
+                    if (parseInt($rootScope.appMessages[mcounter].AllowMessageToAll) == 1) {
+                        if (moment(dateFormat(new Date(), 'mm/dd/yyyy')).isSame(moment($rootScope.appMessages[mcounter].ExpirationDate)) == true || (moment($rootScope.appMessages[mcounter].ExpirationDate).isBefore(moment(dateFormat(new Date(), 'mm/dd/yyyy')))) == false) {
+                            ShowMessages.push(msgToAdd);
+                        }
+                    } else {
+                        if ($scope.UserOrg) {
+                            for (var i = 0; i < $scope.UserOrg.length; i++) {
+                                if ($rootScope.appMessages[mcounter].OrganisationId == $scope.UserOrg[i]) {
+                                    if (moment(dateFormat(new Date(), 'mm/dd/yyyy')).isSame(moment($rootScope.appMessages[mcounter].ExpirationDate)) == true || (moment($rootScope.appMessages[mcounter].ExpirationDate).isBefore(moment(dateFormat(new Date(), 'mm/dd/yyyy')))) == false) {
+                                        ShowMessages.push(msgToAdd);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return ShowMessages;
+        }
+        catch (err) {
+            return ShowMessages;
+        }
+    }
+
+    $scope.IsUnreadMessageExist = function () {
+        
+        var toReturn = false;
+        try {
+            $scope.user = storageService.getObject("CU");
+            $scope.RefreshMessages = $scope.getUserMessagess();
+            if ($scope.user) {
+                for (var i = 0; i < $scope.RefreshMessages.length; i++) {
+                    if ($scope.RefreshMessages[i].ReadBy) {
+                        var findid = _.contains($scope.RefreshMessages[i].ReadBy, $scope.user.Details.$id);
+                        if (!findid) {
+                            toReturn = true;
+                        }
+                    }
+                    else {
+                        toReturn = true;
+                    }
+                }
+            }
+            else
+                toReturn = false;
+        }
+        catch (error) {
+            toReturn = false;
+        }
+        return toReturn;
+    }
+
+    $rootScope.IsUnreadMessageExistForUser = false;
+    $scope.$on('messageLoad', function (event, args) {
+        $rootScope.IsUnreadMessageExistForUser = $scope.IsUnreadMessageExist();
+        //var showBedge = $scope.IsUnreadMessageExist();
+        //if (showBedge) {
+        //    $("#message").show();
+        //}
+        //else {
+        //    $("#message").hide();
+        //}
+    });
+
+    $scope.$on('messageReadComplete', function (event, args) {
+        //$("#message").hide();
+        $scope.IsUnreadMessageExistForUser = false;
+        $scope.$apply();
+    });
     
-
-
-    
-
-
 
 });

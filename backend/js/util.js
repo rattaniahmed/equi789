@@ -1169,8 +1169,19 @@ var dates = {
 
 
 function InDefinedTimeRangForHomePage(ride, startDate, endDate) {
+
     if (ride)
-        return dates.inRange(ride.start_time, startDate.format('l'), endDate.format('l'));
+        try {
+            var dateToCompare = new Date(ride.start_time);
+            if (dateToCompare > startDate && dateToCompare < endDate)
+                return true;
+            else
+                return false;
+            //return dates.inRange(ride.start_time, startDate.format('l'), endDate.format('l'));
+        }
+        catch (err) {
+            console.log("error in converting date " + ride.start_time);
+        }
     else
         return false;
 }

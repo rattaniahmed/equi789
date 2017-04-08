@@ -69,6 +69,12 @@
     //    "fontSize": 15
 
     //});
+
+    $scope.date = {
+        startDate: moment().subtract(30, "days"),
+        endDate: moment()
+    };
+
     console.log(Organisation);
     $scope.custompdfheader = {
         columns: [
@@ -143,6 +149,12 @@
         $scope.filterValue = document.getElementById("search").value;
         $scope.gridApi.grid.refresh();
     }
+
+    $scope.setDateLable = function (start, end) {
+        //console.log(start.toISOString() = end.toISOString());
+        $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    };
+
     $scope.renderCalender = function () {
 
         var cb = function (start, end, label) {
@@ -346,6 +358,7 @@
 
             $scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
 
+            $scope.setDateLable($scope.date.startDate, $scope.date.endDate);
             UnLoadingState();
 
         }
@@ -355,10 +368,7 @@
     $scope.$on('DataLoaded', function (event, data) {
         $scope.Init();
     });
-    $scope.date = {
-        startDate: moment().subtract(30, "days"),
-        endDate: moment()
-    };
+   
    
     $scope.SelectItem = function () {
         $scope.Init();

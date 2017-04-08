@@ -424,8 +424,8 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
 
         var ridegroups = _.groupBy(rideDataArray, function (num) { return Math.floor(num); });
         var rideDataToReturn = [];
-        for (var rideGroupkey in groups) {
-            rideDataToReturn.push(groups[rideGroupkey].length);
+        for (var rideGroupkey in ridegroups) {
+            rideDataToReturn.push(ridegroups[rideGroupkey].length);
         }
 
         return {

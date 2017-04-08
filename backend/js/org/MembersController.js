@@ -249,6 +249,11 @@
         });
     }
 
+    $scope.setDateLable = function (start, end) {
+        //console.log(start.toISOString() = end.toISOString());
+        $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    };
+
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.Init = function () {
         LoadingState();
@@ -275,7 +280,7 @@
             }
             $scope.gridOptions.data = $scope.showmember;
            
-           
+            $scope.setDateLable($scope.date.startDate, $scope.date.endDate);
 
             UnLoadingState();
 

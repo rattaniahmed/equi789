@@ -413,6 +413,10 @@
         return rideDetails;
     }
 
+    $scope.setDateLable = function (start, end) {
+        //console.log(start.toISOString() = end.toISOString());
+        $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    };
 
     $scope.Init = function () {
         LoadingState();
@@ -442,6 +446,9 @@
             $scope.gridOptions.data = rideIdsTOFetch;
             $scope.AllData = rideIdsTOFetch;
             $scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
+
+            $scope.setDateLable($scope.date.startDate, $scope.date.endDate);
+
             UnLoadingState();
         }
     }
