@@ -38,17 +38,20 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.images = $firebaseArray(ref.child('Content').child('Messages'));
     $scope.Imgaes = [];
-    $scope.images.$loaded().then(function (dataArray) {
-         
+    //$scope.images.$loaded().then(function (dataArray) {
+    firebase.database().ref('/Content/Messages').once('value', function (snapshot) {
         var anumber = getAdminUser().OrganisationNumber;
         var dataToShow = [];
         // var Date = new Date();
-        
-        var today = new Date();
-      
-        debugger;
-        for (cnt = 0; cnt < dataArray.length; cnt++) {
 
+        var today = new Date();
+
+        var dataArray = snapshot.val();
+        debugger;
+
+        //for (cnt = 0; cnt < dataArray.length; cnt++) {
+        for (var cnt in dataArray) {
+            //var msObject = dataArray
             if (anumber == dataArray[cnt].OrganisationId) {
                 var obj = dataArray[cnt];
                 var d = Date.parse(dataArray[cnt].ExpirationDate);
@@ -57,28 +60,29 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
                 } else {
                     obj.Status = "Expired";
                 }
-                obj
                 //obj.ImageUrl = obj.AnnouncementType;
                 if (obj.MessageImage) {
-                    
+
                 }
                 else
                     obj.MessageImage = "";
 
-                obj.ImageExist  = false;
+                obj.ImageExist = false;
                 if (obj.MessageImage != "")
                     obj.ImageExist = true;
                 dataToShow.push(obj);
             }
-
         }
+        //}
 
         $scope.gridOptions.data = dataToShow;
 
         console.log(dataArray);
-    }).catch(function (error) {
-        console.log("Error in loading details");
-    });
+
+        $scope.$apply();
+    });//.catch(function (error) {
+        //console.log("Error in loading details");
+    //});
 
 
 

@@ -22,13 +22,13 @@
 
                 <div class="form_page clearfix ">
 
-                    <div class="page" ng-repeat="i in ShowMessages | orderBy:i.ExpirationDate:reverse">
+                    <div class="page" ng-repeat="i in ShowMessages">
 
                         <div class="row">
                             <div class="col-md-12">
                                 <h4 class="text-left" style="color:black"><u>From: {{i.OrganisationName}}</u></h4>
                                 <img class="" style="width:100%;max-height:400px !important;" src="{{i.MessageImage}}" ng-show="{{i.MessageImage}}">
-                                <p style="font-size:20px;" ng-show="{{i.MessageText}}">
+                                <p style="font-size:20px;" ng-show="{{i.ISMessageText}}">
                                     {{i.MessageText}}
                                 </p>
                                 <div class="row mt-10">

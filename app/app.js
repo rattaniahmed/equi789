@@ -343,32 +343,43 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
         }).catch(function (error) {
             console.log("Error in loading details");
         });
-
-        $rootScope.appMessages = $firebaseArray(ref.child('Content').child('Messages'));
-        $rootScope.appMessages.$loaded().then(function (dataArray) {
-            //chek the unread count
-            $rootScope.$broadcast("messageLoad", {});
-            $rootScope.appMessages.$watch(function (event) {
-                console.log(event);
-                $rootScope.$broadcast("messageLoad", {});
-            });
-        }).catch(function (error) {
-            console.log("Error in loading messages");
-        });
-
     }
 
-    $rootScope.appMessages = $firebaseArray(ref.child('Content').child('Messages'));
-    $rootScope.appMessages.$loaded().then(function (dataArray) {
-        //chek the unread count
-        $rootScope.$broadcast("messageLoad", {});
-        $rootScope.appMessages.$watch(function (event) {
-            console.log(event);
+
+    firebase.database().ref('/Content/Messages').once('value', function (snapshot) {
+        console.log("Message load complete");
+        firebase.database().ref('/Content/Messages').on('child_added', function (snapshot) {
+            console.log("new message added");
             $rootScope.$broadcast("messageLoad", {});
         });
-    }).catch(function (error) {
-        console.log("Error in loading messages");
-    });
+
+        firebase.database().ref('/Content/Messages').on('child_changed', function (snapshot) {
+            console.log("new message child_changed");
+            $rootScope.$broadcast("messageLoad", {});
+        });
+
+        firebase.database().ref('/Content/Messages').on('child_removed', function (snapshot) {
+            console.log("new message child_removed");
+            $rootScope.$broadcast("messageLoad", {});
+        });
+        
+
+        $rootScope.$broadcast("messageLoad", {});
+    })
+
+    
+
+    //$rootScope.appMessages = $firebaseArray(ref.child('Content').child('Messages'));
+    //$rootScope.appMessages.$loaded().then(function (dataArray) {
+    //    //chek the unread count
+    //    $rootScope.$broadcast("messageLoad", {});
+    //    $rootScope.appMessages.$watch(function (event) {
+    //        console.log(event);
+    //        $rootScope.$broadcast("messageLoad", {});
+    //    });
+    //}).catch(function (error) {
+    //    console.log("Error in loading messages");
+    //});
 
     $rootScope.appHorses = $firebaseArray(ref.child('horses'));
     $rootScope.appHorses.$loaded().then(function (dataArray) {

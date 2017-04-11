@@ -11,6 +11,7 @@
         $location.path('/');
     }
 
+     //| orderBy:i.ExpirationDate:reverse"
     $scope.markRead = function (msgId) {
 
         console.log("adding read by");
@@ -34,23 +35,47 @@
 
     $scope.ShowMessages = [];
     $scope.RefreshMessages = function () {
+
         $scope.ShowMessages = [];
         for (var mcounter in $scope.AllMessages) {
             if (moment(dateFormat(new Date(), 'mm/dd/yyyy')).isSame(moment($scope.AllMessages[mcounter].ExpirationDate)) == true || (moment($scope.AllMessages[mcounter].ExpirationDate).isBefore(moment(dateFormat(new Date(), 'mm/dd/yyyy')))) == false) {
-            var msgToAdd = $scope.AllMessages[mcounter];
-            msgToAdd.Id = mcounter;
-            if (parseInt($scope.AllMessages[mcounter].AllowMessageToAll)==1) {
-                $scope.ShowMessages.push(msgToAdd);
-            } else {
-                for (var i = 0; i < $scope.UserOrg.length; i++) {
-                    if ($scope.AllMessages[mcounter].OrganisationId == $scope.UserOrg[i]) {
-                        $scope.ShowMessages.push(msgToAdd);
+                var msgToAdd = $scope.AllMessages[mcounter];
+                msgToAdd.Id = mcounter;
+                if (parseInt($scope.AllMessages[mcounter].AllowMessageToAll) == 1) {
+                    if (msgToAdd.MessageText)
+                        msgToAdd.ISMessageText = true;
+                    else
+                        msgToAdd.ISMessageText = false;
+                    $scope.ShowMessages.push(msgToAdd);
+                } else {
+                    for (var i = 0; i < $scope.UserOrg.length; i++) {
+                        if ($scope.AllMessages[mcounter].OrganisationId == $scope.UserOrg[i]) {
+                            if (msgToAdd.MessageText)
+                                msgToAdd.ISMessageText = true;
+                            else
+                                msgToAdd.ISMessageText = false;
+                            $scope.ShowMessages.push(msgToAdd);
                         }
                     }
                 }
             }
         }
         $scope.reverse = true;
+
+        $scope.ShowMessages.sort(function (a, b) {
+            var ad = new Date(b.ExpirationDate);
+            var bd = new Date(a.ExpirationDate);
+
+            if (ad == bd)
+                return 1;
+            else if (ad > bd)
+                return 0;
+            else
+                return 1;
+
+            return parseFloat(a.price) - parseFloat(b.price);
+        });
+
         $scope.$apply();
     }
 
@@ -86,41 +111,47 @@
     $scope.AllMessages = [];
     $scope.UserOrg= [];            
 
-    
-    firebase.database().ref('/Content/Messages').once('value', function (msgsnapshot) {
-        $scope.AllMessages = msgsnapshot.val();
-        //$scope.RefreshMessages();
+    $scope.init = function () {
+        firebase.database().ref('/Content/Messages').once('value', function (msgsnapshot) {
+            $scope.AllMessages = msgsnapshot.val();
+            //$scope.RefreshMessages();
 
-        var hosCounter = 0;
-        var hosLength = 0;
-        try {
-            hosLength = Object.keys($scope.user.Details.horse_ids).length;
-        } catch (errrrr) {
-            hosLength = 0;
-        }
+            var hosCounter = 0;
+            var hosLength = 0;
+            try {
+                hosLength = Object.keys($scope.user.Details.horse_ids).length;
+            } catch (errrrr) {
+                hosLength = 0;
+            }
 
-        for (var i in $scope.user.Details.horse_ids) {
-            firebase.database().ref('/horses/' + i).on('value', function (snapshot) {
-                var horse = snapshot.val();
-                if (horse && horse.associations) {
-                    for (var i = 0; i < horse.associations.length; i++) {
-                        if (!_.contains($scope.UserOrg, horse.associations[i].filter)) {
-                            $scope.UserOrg.push(horse.associations[i].filter);                            
+            for (var i in $scope.user.Details.horse_ids) {
+                firebase.database().ref('/horses/' + i).on('value', function (snapshot) {
+                    var horse = snapshot.val();
+                    if (horse && horse.associations) {
+                        for (var i = 0; i < horse.associations.length; i++) {
+                            if (!_.contains($scope.UserOrg, horse.associations[i].filter)) {
+                                $scope.UserOrg.push(horse.associations[i].filter);
+                            }
                         }
                     }
-                }
-                hosCounter++;
-                if (hosCounter == hosLength) {
-                    $rootScope.IsUnreadMessageExistForUser = false;
-                    $scope.RefreshMessages();
-                    for (var msgCounter = 0; msgCounter < $scope.ShowMessages.length; msgCounter++) {
-                        $scope.markRead($scope.ShowMessages[msgCounter].Id);
+                    hosCounter++;
+                    if (hosCounter == hosLength) {
+                        $rootScope.IsUnreadMessageExistForUser = false;
+                        $scope.RefreshMessages();
+                        for (var msgCounter = 0; msgCounter < $scope.ShowMessages.length; msgCounter++) {
+                            $scope.markRead($scope.ShowMessages[msgCounter].Id);
+                        }
+                        //$rootScope.$broadcast("messageReadComplete", {});
+                        //console.log($scope.ShowMessages);
                     }
-                    //$rootScope.$broadcast("messageReadComplete", {});
-                    //console.log($scope.ShowMessages);
-                }
-            })
-        }
-    })
+                })
+            }
+        })
+    }
 
+    $scope.init();
+
+    $scope.$on('messageLoad', function (event, args) {
+        $scope.init();
+    });
 });

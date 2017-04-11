@@ -9,71 +9,75 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
     $scope.ZeroStable = false;
 
   
+    $scope.addHorseToStable = function (horse) {
+        if (horse != null) {
+            horse.photo = CleanHorseProfileUrl(horse.photo);
+            try {
+                var today = new Date();
+                var d = new Date(horse.birthday);
+                if (Object.prototype.toString.call(d) === "[object Date]") {
+                    // it is a date
+                    if (isNaN(d.getTime())) {  // d.valueOf() could also work
+                    }
+                    else {
+                        var diff = today - d;
+                        var days = parseInt(diff / 1000 / 60 / 60 / 24);
+                        console.log(days);
+
+                        var year = parseInt(days / 365);
+
+
+                        if (year == 1)
+                            horse.AgeToDisplay = "1 year, ";
+                        else
+                            horse.AgeToDisplay = year + " years, ";
+
+                        var remainDay = parseInt(days % 365);
+
+                        var month = parseInt(remainDay / 30);
+
+                        if (month == 1)
+                            horse.AgeToDisplay += "1 month ";
+                        else
+                            horse.AgeToDisplay += month + " months ";
+
+                        //horse.AgeToDisplay += "old";
+                    }
+                }
+                else {
+                    // not a date
+                }
+            }
+            catch (err) { }
+            $scope.stables.push(horse);
+        }
+    }
     
     $scope.Init = function () {
-
         $scope.loadingcord = false;
         $scope.stables = [];
         $scope.user = storageService.getObject("CU");
-        if ($scope.user){
-            angular.forEach($scope.user.Details.horse_ids, function (value, key) {
+        if ($scope.user && $scope.user.Details && $scope.user.Details.horse_ids) {
+            var horsKeys = Object.keys($scope.user.Details.horse_ids);
+            if (horsKeys.length > 0) {
                 $scope.ZeroStable = false;
-                console.log(key);
-                var horse = $rootScope.appHorses.$getRecord(key);
-                if (horse != null) {
-                    horse.photo = CleanHorseProfileUrl(horse.photo);
+                angular.forEach($scope.user.Details.horse_ids, function (value, key) {
+                    console.log(key);
+                    //var horse = $rootScope.appHorses.$getRecord(key);
 
+                    firebase.database().ref('/horses/' + key).on('value', function (snapshot) {
+                        var horse = snapshot.val();
+                        $scope.addHorseToStable(horse);
+                    });
 
-                    try {
-                        var today = new Date();
-                        var d = new Date(horse.birthday);
-                        if (Object.prototype.toString.call(d) === "[object Date]") {
-                            // it is a date
-                            if (isNaN(d.getTime())) {  // d.valueOf() could also work
-                            }
-                            else {
-                                var diff = today - d;
-                                var days = parseInt(diff / 1000 / 60 / 60 / 24);
-                                console.log(days);
-
-                                var year = parseInt(days / 365);
-
-
-                                if (year == 1)
-                                    horse.AgeToDisplay = "1 year, ";
-                                else
-                                    horse.AgeToDisplay = year + " years, ";
-
-                                var remainDay = parseInt(days % 365);
-
-                                var month = parseInt(remainDay / 30);
-
-                                if (month == 1)
-                                    horse.AgeToDisplay += "1 month ";
-                                else
-                                    horse.AgeToDisplay += month + " months ";
-
-                                //horse.AgeToDisplay += "old";
-                            }
-                        }
-                        else {
-                            // not a date
-                        }
-                    }
-                    catch (err) { }
-
-
-                    $scope.stables.push(horse);
-                }
-
-                console.log(horse);
-            });
-    }
-
-        if ($scope.stables.length == 0) {
+                   
+                });
+            }
+            else
+                $scope.ZeroStable = true;
+        } else {
             $scope.ZeroStable = true;
         }
-
     }
 
 
@@ -175,9 +179,8 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
         console.log("get the horse add event in stable page"); // 'Data to send'
         $scope.Init();
     });
+
     $scope.$on('horseLoaded', function (event, args) {
-
         $scope.Init();
-
     });
 });
