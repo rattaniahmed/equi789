@@ -345,6 +345,13 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
         });
     }
 
+    $rootScope.Admins = null;
+    $rootScope.admin = $firebaseArray(ref.child('admin'));
+    $rootScope.admin.$loaded().then(function (dataArray) {
+
+        $rootScope.Admins = dataArray;
+
+    });
 
     firebase.database().ref('/Content/Messages').once('value', function (snapshot) {
         console.log("Message load complete");

@@ -67,6 +67,7 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
 
                     firebase.database().ref('/horses/' + key).on('value', function (snapshot) {
                         var horse = snapshot.val();
+                        horse.$id = key;
                         $scope.addHorseToStable(horse);
                     });
 

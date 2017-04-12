@@ -37,84 +37,81 @@
     $scope.unisonOrg = [];
     $scope.originalOrganization = [];
     $scope.Org = [];
-    $scope.admin = $firebaseArray(ref.child('admin'));
     $scope.FinalOrganisations = [];
-    $scope.admin.$loaded().then(function (dataArray) {
 
-        $scope.originalOrganization = angular.copy(dataArray);
+    $scope.initAdmins = function () {
 
-        for (var i = 0; i <= dataArray.length; i++) {
-            try {
-                if (dataArray[i].Role == "Organisation") {
-                    if (dataArray[i].ShowInEquiTrack == "1") {
-                        $scope.Org.push(dataArray[i]);
+        var dataArray = $rootScope.Admins;
+        if (dataArray) {
+            $scope.originalOrganization = angular.copy(dataArray);
+
+            for (var i = 0; i <= dataArray.length; i++) {
+                try {
+                    if (dataArray[i].Role == "Organisation") {
+                        if (dataArray[i].ShowInEquiTrack == "1") {
+                            $scope.Org.push(dataArray[i]);
+                        }
                     }
                 }
+                catch (e) {
+
+                }
             }
-            catch (e) {
 
-            }
-        }
-
-         
-
-        debugger;
-
-        if ($scope.stb.associations != undefined) {
-            for (var i = 0 ; i < $scope.stb.associations.length; i++) {
-                try {
-                    if (!IsNull($scope.stb.associations[i].name)) {
-                        var organizaton = _.findWhere($scope.Org, { OrganisationNumber: $scope.stb.associations[i].filter });
-                        if (organizaton) {
+            if ($scope.stb.associations != undefined) {
+                for (var i = 0 ; i < $scope.stb.associations.length; i++) {
+                    try {
+                        if (!IsNull($scope.stb.associations[i].name)) {
+                            var organizaton = _.findWhere($scope.Org, { OrganisationNumber: $scope.stb.associations[i].filter });
+                            if (organizaton) {
+                                $scope.FinalOrganisations.push({
+                                    Options: $scope.Org,
+                                    SelectedOrganisation: organizaton,
+                                    UserId: $scope.stb.associations[i].number
+                                });
+                            }
+                        }
+                        else {
                             $scope.FinalOrganisations.push({
                                 Options: $scope.Org,
-                                SelectedOrganisation: organizaton,
-                                UserId: $scope.stb.associations[i].number
+                                SelectedOrganisation: "",
+                                UserId: ""
                             });
                         }
                     }
-                    else {
-                        $scope.FinalOrganisations.push({
-                            Options: $scope.Org,
-                            SelectedOrganisation: "",
-                            UserId:""
-                        });
+                    catch (err) {
+
                     }
                 }
-                catch (err) {
+            }
+
+            else {
+
+
+                for (var i = 0; i < $scope.Org.length; i++) {
+                    $scope.Org[$scope.Org.length - i] = $scope.Org[$scope.Org.length - 1 - i];
 
                 }
+                $scope.Org[0] = {
+                    DisplayName: "",
+                    OrganisationName: "",
+                    OrganisationNumber: "Select"
+                }
+                $scope.stb.associations = [];
+                $scope.stb.associations.push($scope.Org[0])
+                $scope.FinalOrganisations.push({
+                    Options: $scope.Org,
+                    SelectedOrganisation: $scope.Org[0],
+                    UserId: ""
+                });
+
             }
+
+            console.log(dataArray);
         }
-        else {
-           
-          
-            for (var i = 0; i < $scope.Org.length; i++)
-            {
-                $scope.Org[$scope.Org.length-i] = $scope.Org[$scope.Org.length - 1 - i];
-              
-            }
-            $scope.Org[0] = {
-                DisplayName: "",
-                OrganisationName: "",
-                OrganisationNumber: "Select"
-            }
-            $scope.stb.associations = [];
-            $scope.stb.associations.push($scope.Org[0])
-            $scope.FinalOrganisations.push({
-                Options: $scope.Org,
-                SelectedOrganisation: $scope.Org[0],
-                UserId:""
-            });
+    }
 
-        }
-      
-
-        console.log(dataArray);
-    }).catch(function (error) {
-        console.log("Error in loading details");
-    });
-
+    $scope.initAdmins();
 
     $scope.AddNewOrganisation = function () {
 
@@ -181,7 +178,9 @@
         debugger;
         $("#edit_stable").modal('hide');
        // $("#edit_stable").hide();
-        var horseRef = $rootScope.appHorses.$getRecord($scope.stb.$id);
+        //var horseRef = $rootScope.appHorses.$getRecord($scope.stb.$id);
+
+        var horseRef = $scope.stb;
 
         //horseRef.age = '';//ReplaceNull($scope.stb.age);
         //horseRef.associations = $scope.stb.associations;
