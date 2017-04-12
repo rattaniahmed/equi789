@@ -139,11 +139,11 @@
 
 
     $scope.SaveStable = function () {
-        var assolistToAdd = [];
 
+        var assolistToAdd = [];
         for (var i = 0; i < $scope.FinalOrganisations.length; i++) {
             var org = {
-                filter:$scope.FinalOrganisations[i].SelectedOrganisation.OrganisationNumber,
+                filter: $scope.FinalOrganisations[i].SelectedOrganisation.OrganisationNumber,
                 name: $scope.FinalOrganisations[i].SelectedOrganisation.DisplayName,
                 number: $scope.FinalOrganisations[i].UserId
             }
@@ -153,83 +153,54 @@
                     assolistToAdd.push(org);
                 }
             }
-            }
+        }
         $scope.stbadd.associations = assolistToAdd;
         $scope.stbadd.id = generateUUID();
 
         blockUI.start("Adding horse details.....");
-        $rootScope.appHorses.$add($scope.stbadd).then(function (ref) {
-            var id = ref.key();
-            console.log("added record with id " + id);
-            swal("", "Your stable details has been added success fully", "success");
-            //$location.path('my-stable.html');
 
-            if (IsNull($scope.user.Details.horse_ids)) {
-                $scope.user.Details['horse_ids'] = {};
-            }
+        var pushRef = firebase.database().ref('horses').push();
+        pushRef.set($scope.stbadd);
+        var id = pushRef.key;
+        swal("", "Your stable details has been added success fully", "success");
 
-            var dtd123 = new Date();
+        if (IsNull($scope.user.Details.horse_ids)) {
+            $scope.user.Details['horse_ids'] = {};
+        }
+        var dtd123 = new Date();
+        var time123 = dtd123.getTime();
+        $scope.user.Details.horse_ids[id] = {
+            created_at: time123,
+            last_updated: time123,
+            sync: "1"
+        };
+        storageService.setObject("CU", $scope.user);
 
-            var time123 = dtd123.getTime();
+        firebase.database().ref('/users/' + $scope.user.Auth.uid + '/horse_ids').set($scope.user.Details.horse_ids);
+        swal("", "Your stable details has been added success fully", "success");
+       
+        $scope.stbadd = {
+            //associations: $scope.assolist,
+            average_speed: "0.0",
+            birthday: "",
+            calories: "0.0",
+            distance: "0.0",
+            duration: "00:00:00",
+            energy: "0.0",
+            horse_name: "",
+            id: generateUUID(),
+            notes: "",
+            photo: "images/horsePlaceHolder.png",
+            registration: "",
+            top_speed: "0.0",
+            total_rides: "",
+            weight: ""
+        }
+        $("#add_stable").modal('hide');
 
-            $scope.user.Details.horse_ids[id] = {
-                created_at: time123,
-                last_updated: time123,
-                sync: "1"
-            };
-
-
-            //$scope.user.Details.horse_ids.push(id);
-            storageService.setObject("CU", $scope.user);
-
-            var userRef = $rootScope.appUsers.$getRecord($scope.user.Auth.uid);
-            if (IsNull(userRef.horse_ids)) {
-                userRef['horse_ids'] = {};;
-            }
-
-            userRef.horse_ids[id] = {
-                created_at: time123,
-                last_updated: time123,
-                sync: "1"
-            };
-
-            $scope.stbadd = {
-                //associations: $scope.assolist,
-                average_speed: "0.0",
-                birthday: "",
-                calories: "0.0",
-                distance: "0.0",
-                duration: "00:00:00",
-                energy: "0.0",
-                horse_name: "",
-                id: generateUUID(),
-                notes: "",
-                photo: "images/horsePlaceHolder.png",
-                registration: "",
-                top_speed: "0.0",
-                total_rides: "",
-                weight: ""
-            }
-
-            $("#add_stable").modal('hide');
-
-            $rootScope.appUsers.$save(userRef).then(function (res) {
-
-                //window.location.reload();
-
-                console.log(res);
-                //$scope.user.Details.profile = userRef.profile;
-                $scope.$apply(function () {
-                    blockUI.stop();
-                });
-
-                
-
-            });
-
-
+        window.location.reload();
+        $scope.$apply(function () {
+            blockUI.stop();
         });
-
     }
-
 });

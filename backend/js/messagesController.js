@@ -14,7 +14,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
         },
         columnDefs: [
           { name: 'AnnouncementTitle', enableFiltering: false, headerCellClass: 'blue', field: 'AnnouncementTitle' },
-           //{ name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', field: 'MessageImage', cellTemplate: '<div style="text-align:center;">' + "<img width=\"40px\" ng-src=\"{{grid.getCellValue(row, col)}}\"></div>", },
+          ////// //{ name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', field: 'MessageImage', cellTemplate: '<div style="text-align:center;">' + "<img width=\"40px\" ng-src=\"{{grid.getCellValue(row, col)}}\"></div>", },
            { name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', field: 'MessageImage', cellTemplate: '<div style="text-align:center;">' + "<img ng-show=\"row.entity.ImageExist\" width=\"40px\" src=\"{{row.entity.MessageImage}}\"></div>", },
           { name: 'ExpirationDate', enableFiltering: false, headerCellClass: 'blue', field: 'ExpirationDate' },
           { name: 'Status', headerCellClass: 'blue', field: 'Status' },
@@ -22,7 +22,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
           { name: 'Read', headerCellClass: 'blue', field: 'Read' },
           {
               name: " ", cellTemplate: '<div style="text-align:center;">' +
-                      '<a href="#/messages/{{row.entity.$id}}">Edit</a>' +
+                      '<a href="#/messages/{{row.entity.id}}">Edit</a>' +
                       '</div>', enableFiltering: false
           },
          
@@ -54,6 +54,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
             //var msObject = dataArray
             if (anumber == dataArray[cnt].OrganisationId) {
                 var obj = dataArray[cnt];
+                obj.id = cnt;
                 var d = Date.parse(dataArray[cnt].ExpirationDate);
                 if (today < d) {
                     obj.Status = "Active";

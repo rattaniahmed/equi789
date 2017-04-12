@@ -149,29 +149,16 @@
 
     $scope.SaveMedicalStable = function () {
         $("#medical").modal('hide');
-    
-        var horseRef = $rootScope.appHorses.$getRecord($scope.stb.$id);
-        horseRef.medical = ReplaceNull($scope.stb.medical);
-
-        $rootScope.appHorses.$save(horseRef).then(function (res) {
-            storageService.setObject("CS", horseRef);
-            swal("", "Your stable details has been added edied success fully", "success");
-        });
+        var medical = ReplaceNull($scope.stb.medical)
+        firebase.database().ref('/horses/' + $scope.stb.$id + '/medical').set(medical);
+        storageService.setObject("CS", $scope.stb);
     }
 
     $scope.SaveNotesStable = function () {
         $("#notes").modal('hide');
-     
-
-        var horseRef = $rootScope.appHorses.$getRecord($scope.stb.$id);
-        horseRef.notes = ReplaceNull($scope.stb.notes);
-
-        $rootScope.appHorses.$save(horseRef).then(function (res) {
-            storageService.setObject("CS", horseRef);
-            swal("", "Your stable details has been added edied success fully", "success");
-        });
-
-
+        var notes = ReplaceNull($scope.stb.notes);
+        firebase.database().ref('/horses/' + $scope.stb.$id + '/notes').set(notes);
+        storageService.setObject("CS", $scope.stb);
     }
 
     $scope.SaveStable = function () {
@@ -180,7 +167,7 @@
        // $("#edit_stable").hide();
         //var horseRef = $rootScope.appHorses.$getRecord($scope.stb.$id);
 
-        var horseRef = $scope.stb;
+        var horseRef = $scope.stb; //angular.copy($scope.stb);
 
         //horseRef.age = '';//ReplaceNull($scope.stb.age);
         //horseRef.associations = $scope.stb.associations;
@@ -215,7 +202,8 @@
                 }
             }
         }
-        
+
+        //if (assolistToAdd.length > 0)
         horseRef.associations = assolistToAdd;
 
         horseRef.average_speed = ReplaceNull($scope.stb.average_speed);
@@ -236,14 +224,27 @@
         horseRef.medical = ReplaceNull($scope.stb.medical);
         horseRef.notes = ReplaceNull($scope.stb.notes);
 
-        $rootScope.appHorses.$save(horseRef).then(function (res) {
+        var editid = horseRef.$id;
+        console.log(horseRef);
+
+        var horseRefToUpdate = angular.copy(horseRef);
+
+        delete horseRefToUpdate.$$hashKey;
+        delete horseRefToUpdate.$id;
+
+        firebase.database().ref('/horses/' + editid).set(horseRefToUpdate);
+        storageService.setObject("CS", horseRef);
+        swal("", "Your stable details has been added edied success fully", "success");
+        window.location.reload();
+
+        //$rootScope.appHorses.$save(horseRef).then(function (res) {
 
 
 
-            storageService.setObject("CS", horseRef);
-            swal("", "Your stable details has been added edied success fully", "success");
+        //    storageService.setObject("CS", horseRef);
+        //    swal("", "Your stable details has been added edied success fully", "success");
 
-        });
+        //});
 
     }
 

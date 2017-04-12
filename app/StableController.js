@@ -10,6 +10,7 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
 
   
     $scope.addHorseToStable = function (horse) {
+        $scope.hosCounter++;
         if (horse != null) {
             horse.photo = CleanHorseProfileUrl(horse.photo);
             try {
@@ -51,8 +52,15 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
             catch (err) { }
             $scope.stables.push(horse);
         }
+        if ($scope.hosCounter == $scope.hosLength) {
+            $scope.$apply();
+        }
+
     }
     
+
+    $scope.hosCounter = 0;
+    $scope.hosLength = 0;
     $scope.Init = function () {
         $scope.loadingcord = false;
         $scope.stables = [];
@@ -60,6 +68,7 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
         if ($scope.user && $scope.user.Details && $scope.user.Details.horse_ids) {
             var horsKeys = Object.keys($scope.user.Details.horse_ids);
             if (horsKeys.length > 0) {
+                $scope.hosLength = horsKeys.length;
                 $scope.ZeroStable = false;
                 angular.forEach($scope.user.Details.horse_ids, function (value, key) {
                     console.log(key);
@@ -67,8 +76,10 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
 
                     firebase.database().ref('/horses/' + key).on('value', function (snapshot) {
                         var horse = snapshot.val();
-                        horse.$id = key;
-                        $scope.addHorseToStable(horse);
+                        if (horse) {
+                            horse.$id = key;
+                            $scope.addHorseToStable(horse);
+                        }
                     });
 
                    
@@ -81,7 +92,6 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
         }
     }
 
-
     $scope.Init();
 
     $scope.selectedStable = null;
@@ -90,91 +100,42 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
     }
 
     $scope.DeleteHorse = function (stb) {
-
         swal({
             title: "Are you sure?", text: "This horse will be deleted from the web and all devices, do you wish to continue!",
             type: "warning", showCancelButton: true,
             confirmButtonColor: "#DD6B55", confirmButtonText: "Yes, delete it!",
             closeOnConfirm: false
         }, function () {
-
-            var ridesids = null;
-            if (stb.ride_ids) 
-                ridesids = Object.keys(stb.ride_ids);
-
             try {
+                var id = stb.$id;
+                firebase.database().ref('/horses/' + stb.$id).remove(function (error) {
+                    if (error) { }
+                    else {
+                        swal("", "Your horse has been removed success fully", "success");
+                        var localUser = storageService.getObject("CU");
+                        firebase.database().ref('/users/' + getLoggedInUserId() + '/horse_ids/' + id).remove(function (error) {
+                            delete localUser.Details.horse_ids[id];
+                            storageService.setObject("CU", localUser);
+                        });
 
-
-                $rootScope.appHorses.$remove(stb).then(function (ref) {
-                    var id = ref.key();
-                    if (stb.$id == id) {
-                        console.log("Deleted success fully");
-                    }
-
-                    var userRef = $rootScope.appUsers.$getRecord(getLoggedInUserId()); // $scope.user.Auth.uid);
-                    userRef.horse_ids[id] = {
-                        created_at: ""
-                    };
-
-                    delete userRef.horse_ids[id];
-
-                    $rootScope.appUsers.$save(userRef).then(function (res) {
-                        var userToLocal = storageService.getObject("CU");
-                        var userNew = $rootScope.appUsers.$getRecord(getLoggedInUserId());
-                        userNew.profile = CleanProfileUrl(userNew.profile);
-                        var obj = {
-                            Auth: userToLocal.Auth,
-                            Details: userNew
-                        };
-                        storageService.setObject("CU", obj);
-
-
-                        // window.location.reload();
-
-
-                        console.log(res);
-                        //$scope.user.Details.profile = userRef.profile;
-
-
-
-                    });
-
-
-                    //for (var rideindex in ridesids) {
-                    if (ridesids) {
-                        for (var rideindex = 0; rideindex < ridesids.length; rideindex++) {
-                            try {
-                                console.log("Removing ride id " + rideindex);
-                                var ride = $rootScope.appHorseRides.$getRecord(ridesids[rideindex]);
-                                $rootScope.appHorseRides.$remove(ride).then(function (resdelete) {
-
-                                });
-
-                            }
-                            catch (errrrrr) {
-
-                            }
+                        for (var rideIdToDelete in stb.ride_ids) {
+                            firebase.database().ref('/rides/' + rideIdToDelete).remove(function (error) {
+                                console.log("ride id deleted");
+                            });
                         }
                     }
-                    swal("", "Your horse has been removed success fully", "success");
-
-
                 });
             }
             catch (errrDelete) {
-
+                console.log(errrDelete);
             }
-            
-            //swal("Deleted!", "Your imaginary file has been deleted.", "success");
         });
-
     }
 
     $scope.Logout = function () {
         storageService.setObject("CU", null);
         $location.path('/');
     }
-
 
     $scope.$on('userModified', function (event, data) {
         console.log("get the horse add event in stable page"); // 'Data to send'

@@ -505,12 +505,14 @@
         var rideIdsTOFetch = $scope.AllData;// $scope.gridOptions.data;
         for (var i in rideIdsTOFetch) {
             try{
-                if (moment(rideIdsTOFetch[i].start_time).format('MM/DD/YYYY') >=
-                    moment($scope.date.startDate._d).format('MM/DD/YYYY') &&
-                    moment(rideIdsTOFetch[i].end_time).format('MM/DD/YYYY') <=
-                    moment($scope.date.endDate._d).format('MM/DD/YYYY')) {
+                //if (moment(rideIdsTOFetch[i].start_time).format('MM/DD/YYYY') >=
+                //    moment($scope.date.startDate._d).format('MM/DD/YYYY') &&
+                //    moment(rideIdsTOFetch[i].end_time).format('MM/DD/YYYY') <=
+                //    moment($scope.date.endDate._d).format('MM/DD/YYYY')) {
+                //    rides.push(rideIdsTOFetch[i]);
+                //}
+                if (InDefinedTimeRang(rideIdsTOFetch[i], $scope.date))
                     rides.push(rideIdsTOFetch[i]);
-                }
             }
             catch (errorObject) {
 
