@@ -1206,6 +1206,11 @@ function InDefinedTimeRang(ride, timePeriod) {
    
 }
 
+function InDefinedTimeRangForGraph(rideObj, dateToPass) {
+    return InDefinedTimeRang(rideObj, new Date(dateToPass.startDate._d), new Date(dateToPass.endDate._d));
+}
+
+
 
 
 

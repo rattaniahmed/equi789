@@ -264,7 +264,16 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
                 for (var rideId in horseObject.ride_ids) {
                     var time = moment(new Date(parseInt(horseObject.ride_ids[rideId])));
                     if (dateFilterStart && dateFilterEnd) {
-                        if (time >= dateFilterStart && time <= dateFilterEnd) {
+                        
+                        var rideObj = $rootScope.backendHorseRides.$getRecord(rideId);
+
+                        //if (time >= dateFilterStart && time <= dateFilterEnd) {
+                        var dateToPass = {
+                            startDate: new Date(dateFilterStart._d),
+                            endDate: new Date(dateFilterEnd._d)
+                        }
+                        
+                        if (InDefinedTimeRangForHomePage(rideObj, dateToPass.startDate, dateToPass.endDate)) {
                             var dateString = $scope.getDateForEquitrack(horseObject.ride_ids[rideId]);
                             var isExist = false;
                             for (var dateCounter = 0; dateCounter < dates.length; dateCounter++) {
@@ -281,6 +290,8 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
                                 })
                             }
                         }
+
+
                     }
                 }
             }
