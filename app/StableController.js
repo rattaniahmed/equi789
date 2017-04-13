@@ -69,10 +69,26 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
     $scope.hosCounter = 0;
     $scope.hosLength = 0;
     $scope.Init = function () {
+
+       
+
         $scope.loadingcord = false;
         $scope.stables = [];
         $scope.user = storageService.getObject("CU");
         if ($scope.user && $scope.user.Details && $scope.user.Details.horse_ids) {
+
+
+            debugger;
+            //firebase.database().ref('/horses').orderByChild("id").equalTo($scope.user.Details.$id).once('value', function (snapshot) {
+            //    debugger;
+            //    var horse = snapshot.val();
+            //    if (horse) {
+            //        horse.$id = key;
+            //        $scope.addHorseToStable(horse);
+            //    }
+            //});
+
+
             var horsKeys = Object.keys($scope.user.Details.horse_ids);
             if (horsKeys.length > 0) {
                 $scope.hosLength = horsKeys.length;
@@ -88,6 +104,7 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
                             $scope.addHorseToStable(horse);
                         }
                     });
+                    
 
                    
                 });
@@ -130,9 +147,13 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
                                 console.log("ride id deleted");
                             });
                         }
+
+                        $scope.stables = _.reject($scope.stables, function (num) { return num.$id == stb.$id; });
+                        $scope.$apply();
+
                     }
                 });
-                window.location.reload();
+                //window.location.reload();
             }
             catch (errrDelete) {
                 console.log(errrDelete);
