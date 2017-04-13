@@ -50,7 +50,14 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
                 }
             }
             catch (err) { }
-            $scope.stables.push(horse);
+            var find = _.findLastIndex($scope.stables, { $id: horse.$id });
+            if (find == -1) {
+                $scope.stables.push(horse);
+            } else {
+                $scope.stables= _.reject($scope.stables, function (num) { return num.$id == horse.$id; });
+                $scope.stables.push(horse);
+                $scope.$apply();
+            }
         }
         if ($scope.hosCounter == $scope.hosLength) {
             $scope.$apply();
@@ -125,6 +132,7 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
                         }
                     }
                 });
+                window.location.reload();
             }
             catch (errrDelete) {
                 console.log(errrDelete);
