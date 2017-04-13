@@ -149,16 +149,47 @@
 
     $scope.SaveMedicalStable = function () {
         $("#medical").modal('hide');
-        var medical = ReplaceNull($scope.stb.medical)
-        firebase.database().ref('/horses/' + $scope.stb.$id + '/medical').set(medical);
-        storageService.setObject("CS", $scope.stb);
+        var horseRef = $scope.stb;
+        horseRef.medical = ReplaceNull($scope.stb.medical)
+
+        var editid = horseRef.$id;
+        console.log(horseRef);
+
+        var horseRefToUpdate = angular.copy(horseRef);
+        delete horseRefToUpdate.$$hashKey;
+        delete horseRefToUpdate.$id;
+
+        firebase.database().ref('/horses/' + editid).set(horseRefToUpdate);
+
+        //firebase.database().ref('/horses/' + $scope.stb.$id + '/medical').set(medical);
+        //storageService.setObject("CS", $scope.stb);
+
+        storageService.setObject("CS", horseRef);
+        swal("", "Your stable details has been added edied success fully", "success");
+        //window.location.reload();
+
     }
 
     $scope.SaveNotesStable = function () {
         $("#notes").modal('hide');
-        var notes = ReplaceNull($scope.stb.notes);
-        firebase.database().ref('/horses/' + $scope.stb.$id + '/notes').set(notes);
-        storageService.setObject("CS", $scope.stb);
+
+        var horseRef = $scope.stb;
+        horseRefnotes = ReplaceNull($scope.stb.notes);
+
+        var editid = horseRef.$id;
+        console.log(horseRef);
+
+        var horseRefToUpdate = angular.copy(horseRef);
+        delete horseRefToUpdate.$$hashKey;
+        delete horseRefToUpdate.$id;
+
+        firebase.database().ref('/horses/' + editid).set(horseRefToUpdate);
+
+        storageService.setObject("CS", horseRef);
+        swal("", "Your stable details has been added edied success fully", "success");
+
+        //firebase.database().ref('/horses/' + $scope.stb.$id + '/notes').set(notes);
+        //storageService.setObject("CS", $scope.stb);
     }
 
     $scope.SaveStable = function () {

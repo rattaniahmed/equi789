@@ -353,22 +353,23 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
 
     });
 
-    firebase.database().ref('/Content/Messages').once('value', function (snapshot) {
+    firebase.database().ref('/Content/Messages').on('value', function (snapshot) {
         console.log("Message load complete");
-        firebase.database().ref('/Content/Messages').on('child_added', function (snapshot) {
-            console.log("new message added");
-            $rootScope.$broadcast("messageLoad", {});
-        });
 
-        firebase.database().ref('/Content/Messages').on('child_changed', function (snapshot) {
-            console.log("new message child_changed");
-            $rootScope.$broadcast("messageLoad", {});
-        });
+        //firebase.database().ref('/Content/Messages').on('child_added', function (snapshot) {
+        //    console.log("new message added");
+        //    $rootScope.$broadcast("messageLoad", {});
+        //});
 
-        firebase.database().ref('/Content/Messages').on('child_removed', function (snapshot) {
-            console.log("new message child_removed");
-            $rootScope.$broadcast("messageLoad", {});
-        });
+        //firebase.database().ref('/Content/Messages').on('child_changed', function (snapshot) {
+        //    console.log("new message child_changed");
+        //    $rootScope.$broadcast("messageLoad", {});
+        //});
+
+        //firebase.database().ref('/Content/Messages').on('child_removed', function (snapshot) {
+        //    console.log("new message child_removed");
+        //    $rootScope.$broadcast("messageLoad", {});
+        //});
         
 
         $rootScope.$broadcast("messageLoad", {});
@@ -580,8 +581,7 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
     $scope.IsUnreadMessageExist = function () {
         
         var toReturn = false;
-        try {
-            $scope.user = storageService.getObject("CU");
+        try {            
             $scope.RefreshMessages = $scope.getUserMessagess();
             if ($scope.user) {
                 for (var i = 0; i < $scope.RefreshMessages.length; i++) {
@@ -605,9 +605,117 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
         return toReturn;
     }
 
+
+    $scope.IsUnreadMessageExistNew = function (RefreshMessagesList) {
+
+        var toReturn = false;
+        try {
+           
+            if ($scope.user) {
+                for (var i = 0; i < RefreshMessagesList.length; i++) {
+                    if (RefreshMessagesList[i].ReadBy) {
+                        var findid = _.contains(RefreshMessagesList[i].ReadBy, $scope.user.Details.$id);
+                        if (!findid) {
+                            toReturn = true;
+                        }
+                    }
+                    else {
+                        toReturn = true;
+                    }
+                }
+            }
+            else
+                toReturn = false;
+        }
+        catch (error) {
+            toReturn = false;
+        }
+        return toReturn;
+    }
+
+
+    $scope.ShowMessages = [];
+    $scope.RefreshMessages = function () {
+
+        $scope.ShowMessages = [];
+        for (var mcounter in $scope.AllMessages) {
+            if (moment(dateFormat(new Date(), 'mm/dd/yyyy')).isSame(moment($scope.AllMessages[mcounter].ExpirationDate)) == true || (moment($scope.AllMessages[mcounter].ExpirationDate).isBefore(moment(dateFormat(new Date(), 'mm/dd/yyyy')))) == false) {
+                var msgToAdd = $scope.AllMessages[mcounter];
+                msgToAdd.Id = mcounter;
+                if (parseInt($scope.AllMessages[mcounter].AllowMessageToAll) == 1) {
+                    if (msgToAdd.MessageText)
+                        msgToAdd.ISMessageText = true;
+                    else
+                        msgToAdd.ISMessageText = false;
+                    $scope.ShowMessages.push(msgToAdd);
+                } else {
+                    for (var i = 0; i < $scope.UserOrg.length; i++) {
+                        if ($scope.AllMessages[mcounter].OrganisationId == $scope.UserOrg[i]) {
+                            if (msgToAdd.MessageText)
+                                msgToAdd.ISMessageText = true;
+                            else
+                                msgToAdd.ISMessageText = false;
+                            $scope.ShowMessages.push(msgToAdd);
+                        }
+                    }
+                }
+            }
+        }
+
+        // $scope.$apply();
+
+        return $scope.ShowMessages;
+    }
+
+
+    $scope.init = function () {
+        $scope.user = storageService.getObject("CU");
+        $scope.UserOrg = [];
+        if ($scope.user) {
+            firebase.database().ref('/Content/Messages').once('value', function (msgsnapshot) {
+                $scope.AllMessages = msgsnapshot.val();
+                //$scope.RefreshMessages();
+
+                var hosCounter = 0;
+                var hosLength = 0;
+                try {
+                    hosLength = Object.keys($scope.user.Details.horse_ids).length;
+                } catch (errrrr) {
+                    hosLength = 0;
+                }
+
+                for (var i in $scope.user.Details.horse_ids) {
+                    firebase.database().ref('/horses/' + i).once('value', function (snapshot) {
+                        var horse = snapshot.val();
+                        if (horse && horse.associations) {
+                            for (var i = 0; i < horse.associations.length; i++) {
+                                if (!_.contains($scope.UserOrg, horse.associations[i].filter)) {
+                                    $scope.UserOrg.push(horse.associations[i].filter);
+                                }
+                            }
+                        }
+                        hosCounter++;
+                        if (hosCounter == hosLength) {
+                            $rootScope.IsUnreadMessageExistForUser = false;
+                            var msgList = $scope.RefreshMessages();
+                            var isExist = $scope.IsUnreadMessageExistNew(msgList);
+                            $rootScope.IsUnreadMessageExistForUser = isExist;
+                            //for (var msgCounter = 0; msgCounter < $scope.ShowMessages.length; msgCounter++) {
+                            //    $scope.markRead($scope.ShowMessages[msgCounter].Id);
+                            //}
+                            //$rootScope.$broadcast("messageReadComplete", {});
+                            //console.log($scope.ShowMessages);
+                        }
+                    })
+                }
+            })
+        }
+    }
+
+
     $rootScope.IsUnreadMessageExistForUser = false;
     $scope.$on('messageLoad', function (event, args) {
-        $rootScope.IsUnreadMessageExistForUser = $scope.IsUnreadMessageExist();
+        //$rootScope.IsUnreadMessageExistForUser = $scope.IsUnreadMessageExist();
         //var showBedge = $scope.IsUnreadMessageExist();
         //if (showBedge) {
         //    $("#message").show();
@@ -615,11 +723,14 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
         //else {
         //    $("#message").hide();
         //}
+
+        $scope.init();
     });
 
     $scope.$on('messageReadComplete', function (event, args) {
         //$("#message").hide();
-        $scope.IsUnreadMessageExistForUser = false;
+        //$scope.IsUnreadMessageExistForUser = false;
+        $scope.init();
         $scope.$apply();
     });
     
