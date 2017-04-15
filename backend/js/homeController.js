@@ -78,7 +78,7 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
    
     $scope.endDateForFilter = new Date();
     $scope.startDateForFilter = new Date();
-    $scope.startDateForFilter.setTime($scope.endDateForFilter.getTime() - 1000 * 60 * 60 * 24 * 30); // minus the date
+    $scope.startDateForFilter.setTime($scope.endDateForFilter.getTime() - 1000 * 60 * 60 * 24 * 31); // minus the date
     
     console.log($scope.startDateForFilter)
 

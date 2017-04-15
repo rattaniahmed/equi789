@@ -211,9 +211,11 @@
                 name: $scope.FinalOrganisations[i].SelectedOrganisation.DisplayName,
                 number: $scope.FinalOrganisations[i].UserId
             }
-            if (org.name != "") {
-                if (_.findLastIndex(assolistToAdd, { name: org.name }) == -1) {
-                    assolistToAdd.push(org);
+            if (org.name) {
+                if (org.filter) {
+                    if (_.findLastIndex(assolistToAdd, { name: org.name }) == -1) {
+                        assolistToAdd.push(org);
+                    }
                 }
             }
         }

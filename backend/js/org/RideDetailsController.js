@@ -212,6 +212,29 @@
         //};
     }
 
+    $scope.UpdateGridRecord = function () {
+        var rides = [];
+        var rideIdsTOFetch = $scope.AllData;// $scope.gridOptions.data;
+        for (var i in rideIdsTOFetch) {
+            try {
+                //if (moment(rideIdsTOFetch[i].start_time).format('MM/DD/YYYY') >=
+                //    moment($scope.date.startDate._d).format('MM/DD/YYYY') &&
+                //    moment(rideIdsTOFetch[i].end_time).format('MM/DD/YYYY') <=
+                //    moment($scope.date.endDate._d).format('MM/DD/YYYY')) {
+                //    rides.push(rideIdsTOFetch[i]);
+                //}
+                if (InDefinedTimeRang(rideIdsTOFetch[i], $scope.date))
+                    rides.push(rideIdsTOFetch[i]);
+            }
+            catch (errorObject) {
+
+            }
+        }
+        $scope.gridOptions.data = rides;
+        console.log($scope.gridOptions.data);
+    }
+
+
 
     $scope.renderCalender = function () {
 
@@ -443,8 +466,10 @@
                 }
             }
 
-            $scope.gridOptions.data = rideIdsTOFetch;
             $scope.AllData = rideIdsTOFetch;
+
+            //$scope.gridOptions.data = rideIdsTOFetch;
+            $scope.UpdateGridRecord();
             $scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
 
             $scope.setDateLable($scope.date.startDate, $scope.date.endDate);
@@ -500,28 +525,7 @@
     });
 
 
-    $scope.UpdateGridRecord = function () {
-        var rides = [];
-        var rideIdsTOFetch = $scope.AllData;// $scope.gridOptions.data;
-        for (var i in rideIdsTOFetch) {
-            try{
-                //if (moment(rideIdsTOFetch[i].start_time).format('MM/DD/YYYY') >=
-                //    moment($scope.date.startDate._d).format('MM/DD/YYYY') &&
-                //    moment(rideIdsTOFetch[i].end_time).format('MM/DD/YYYY') <=
-                //    moment($scope.date.endDate._d).format('MM/DD/YYYY')) {
-                //    rides.push(rideIdsTOFetch[i]);
-                //}
-                if (InDefinedTimeRang(rideIdsTOFetch[i], $scope.date))
-                    rides.push(rideIdsTOFetch[i]);
-            }
-            catch (errorObject) {
-
-            }
-        }
-        $scope.gridOptions.data = rides;
-        console.log($scope.gridOptions.data);
-    }
-
+   
     $scope.SelectItem = function () {
         var TempHorseIdData = [];
         var SearchData = [];
