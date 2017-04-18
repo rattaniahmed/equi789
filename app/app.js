@@ -391,6 +391,22 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
 
     $rootScope.appHorses = $firebaseArray(ref.child('horses'));
     $rootScope.appHorses.$loaded().then(function (dataArray) {
+        //var sizes = [];
+        //var total = 0;
+        //for (var i = 0; i < dataArray.length; i++) {
+        //    var f = dataArray[i];
+        //    if (f && f.photo) {
+        //        if (f.photo.length > 1000000) {
+        //            console.log(f.photo.length + "and key is " + f.$id + dataArray[i].name);
+        //            sizes.push(f.photo.length);
+        //        }
+        //        total = total + parseInt(f.photo.length);
+        //    }
+        //}
+
+        //console.log(_.max(sizes));
+        //console.log("total size is -" + total);
+
         $rootScope.$broadcast("horseLoaded", { data: event });
         $rootScope.appHorses.$watch(function (event) {
             console.log(event);

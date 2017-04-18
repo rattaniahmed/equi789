@@ -79,8 +79,12 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
     $scope.endDateForFilter = new Date();
     $scope.startDateForFilter = new Date();
     $scope.startDateForFilter.setTime($scope.endDateForFilter.getTime() - 1000 * 60 * 60 * 24 * 31); // minus the date
-    
+
+    //$scope.startDateForFilter = moment().subtract(30, "days");
+    //.startDateForFilter = moment();
+
     console.log($scope.startDateForFilter)
+    //console.log($scope.startDateForFilter)
 
     $scope.renderCalender = function () {
 
@@ -268,11 +272,20 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
                         var rideObj = $rootScope.backendHorseRides.$getRecord(rideId);
 
                         //if (time >= dateFilterStart && time <= dateFilterEnd) {
-                        var dateToPass = {
-                            startDate: new Date(dateFilterStart._d),
-                            endDate: new Date(dateFilterEnd._d)
+                        //var dateToPass = {
+                        //    startDate: new Date(dateFilterStart._d),
+                        //    endDate: new Date(dateFilterEnd._d)
+                        //}
+                        var dateToPass = {};
+                        if (dateFilterStart._d && dateFilterEnd._d) {
+                            dateToPass.startDate = new Date(dateFilterStart._d);
+                            dateToPass.endDate = new Date(dateFilterEnd._d);
+                        } else {
+                            dateToPass.startDate = dateFilterStart;
+                            dateToPass.endDate = dateFilterEnd;
                         }
-                        
+
+
                         if (InDefinedTimeRangForHomePage(rideObj, dateToPass.startDate, dateToPass.endDate)) {
                             var dateString = $scope.getDateForEquitrack(horseObject.ride_ids[rideId]);
                             var isExist = false;
