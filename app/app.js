@@ -397,15 +397,15 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
         //    var f = dataArray[i];
         //    if (f && f.photo) {
         //        if (f.photo.length > 1000000) {
-        //            console.log(f.photo.length + "and key is " + f.$id + dataArray[i].name);
+        //            console.log(f.photo.length + " bytes and key is " + f.$id );
         //            sizes.push(f.photo.length);
         //        }
         //        total = total + parseInt(f.photo.length);
         //    }
         //}
 
-        //console.log(_.max(sizes));
-        //console.log("total size is -" + total);
+        //console.log(" Maximum Size -"+ _.max(sizes)+ " bytes");
+        //console.log("Total size is -" + total+" bytes");
 
         $rootScope.$broadcast("horseLoaded", { data: event });
         $rootScope.appHorses.$watch(function (event) {
