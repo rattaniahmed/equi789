@@ -981,3 +981,15 @@ function ReplaceTime(time) {
         return time.replace("aN:aN:aN", "00:00:00");
     } catch (err)
     {}
+}
+
+
+function generateUniqueID() {
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxxxxxxxxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+    return uuid;
+};
