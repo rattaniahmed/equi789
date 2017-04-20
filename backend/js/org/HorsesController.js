@@ -322,7 +322,8 @@
             var addedCounter = 0;
             for (var counter = 0; counter < $scope.AllHorses.length; counter++) {
 
-                //if ($scope.AllHorses[counter].horse_name == "Sugar") {
+                         
+
 
                     $scope.AllHorses[counter].MembershipNumber = "";
 
