@@ -462,6 +462,8 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
 
     $scope.UpdateLoggedStatus = function () {
         console.log("calling function");
+        //remove
+        storageService.setObject("CU", null);
         var user = storageService.getObject("CU");
         if(user == null)
             $scope.isLogged = 0;
