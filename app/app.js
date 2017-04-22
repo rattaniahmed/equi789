@@ -91,6 +91,12 @@ app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
         controller: 'RideMapController',
     });
 
+    $routeProvider.when('/test.html', {
+        templateUrl: 'view/test.tpl.html',
+        controller: 'TestCtrl',
+    });
+    
+
     $routeProvider.when('/ride-history.html', {
         templateUrl: 'view/ride-history.tpl.html',
         controller: 'HistoryController',
@@ -758,6 +764,9 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
     
 
    
+
+   
+
 
 
 });
