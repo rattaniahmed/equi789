@@ -358,108 +358,92 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
         $rootScope.Admins = dataArray;
 
     });
-   // <!--change 20/4/2017 for hide-->
-    //<!--
-      ////// firebase.database().ref('/Content/Messages').on('value', function (snapshot) {
-      ////// console.log("Message load complete");
-
-        //firebase.database().ref('/Content/Messages').on('child_added', function (snapshot) {
-        //    console.log("new message added");
-        //    $rootScope.$broadcast("messageLoad", {});
-        //});
-
-        //firebase.database().ref('/Content/Messages').on('child_changed', function (snapshot) {
-        //    console.log("new message child_changed");
-        //    $rootScope.$broadcast("messageLoad", {});
-        //});
-
-        //firebase.database().ref('/Content/Messages').on('child_removed', function (snapshot) {
-        //    console.log("new message child_removed");
-        //    $rootScope.$broadcast("messageLoad", {});
-        //});
-        
-
-       ////// $rootScope.$broadcast("messageLoad", {});
-    ////// })
-    //-->
-
-    
-
-    //$rootScope.appMessages = $firebaseArray(ref.child('Content').child('Messages'));
-    //$rootScope.appMessages.$loaded().then(function (dataArray) {
-    //    //chek the unread count
-    //    $rootScope.$broadcast("messageLoad", {});
-    //    $rootScope.appMessages.$watch(function (event) {
-    //        console.log(event);
-    //        $rootScope.$broadcast("messageLoad", {});
-    //    });
-    //}).catch(function (error) {
-    //    console.log("Error in loading messages");
-    //});
 
 
-    // <!--change 20/4/2017 for hide-->
-   //////// $rootScope.appHorses = $firebaseArray(ref.child('horses'));
-   //////// $rootScope.appHorses.$loaded().then(function (dataArray) {
-        //var sizes = [];
-        //var total = 0;
-        //for (var i = 0; i < dataArray.length; i++) {
-        //    var f = dataArray[i];
-        //    if (f && f.photo) {
-        //        if (f.photo.length > 1000000) {
-        //            console.log(f.photo.length + " bytes and key is " + f.$id );
-        //            sizes.push(f.photo.length);
-        //        }
-        //        total = total + parseInt(f.photo.length);
-        //    }
-        //}
+    $rootScope.isUseListener = true;
 
-        //console.log(" Maximum Size -"+ _.max(sizes)+ " bytes");
-        //console.log("Total size is -" + total+" bytes");
+    if ($rootScope.isUseListener) {
+        firebase.database().ref('/Content/Messages').on('value', function (snapshot) {
+            console.log("Message load complete");
 
-       //////// $rootScope.$broadcast("horseLoaded", { data: event });
-       //////// $rootScope.appHorses.$watch(function (event) {
-         ////////   console.log(event);
-         ////////   $rootScope.$broadcast("horseModified", { data: event });
-       //////// });
-    ////////}).catch(function (error) {
-   ////////     console.log("Error in loading details");
-   //////// });
-    // <!--change 20/4/2017 for hide-->
-    ////$rootScope.appHorseRides = $firebaseArray(ref.child('rides'));
-    ////$rootScope.appHorseRides.$loaded().then(function (dataArray) {
-   // //    $rootScope.$broadcast("ridesLoaded", { data: event });
-   // //    $rootScope.appHorseRides.$watch(function (event) {
-    ////        console.log(event);
-    ////        $rootScope.$broadcast("ridesModified", { data: event });
-    ////    });
-   // //}).catch(function (error) {
-   // //    console.log("Error in loading details");
-   // //});;
+            //firebase.database().ref('/Content/Messages').on('child_added', function (snapshot) {
+            //    console.log("new message added");
+            //    $rootScope.$broadcast("messageLoad", {});
+            //});
 
-   // //$rootScope.appUsers = $firebaseArray(ref.child('users'));
-   // //$rootScope.appUsers.$loaded().then(function (dataArray) {
-   // //    $rootScope.appUsers.$watch(function (event) {
-   // //        console.log(event);
-   // //        var userToLocal = storageService.getObject("CU");
-   // //        if (event.key == userToLocal.Auth.uid)
-   // //        {
-    ////            var userNew = $rootScope.appUsers.$getRecord(userToLocal.Auth.uid);
-   // //            userNew.profile = CleanProfileUrl(userNew.profile);
-   // //            var obj = {
-   // //                Auth: userToLocal.Auth,
-    ////                Details: userNew
-   // //            };
-   // //            storageService.setObject("CU", obj);
-  //  //            $rootScope.$broadcast("userModified", { data: event });
-   // //        }
-   // //    });
-   // //}).catch(function (error) {
-   // //    console.log("Error in loading details");
-    ////});
+            //firebase.database().ref('/Content/Messages').on('child_changed', function (snapshot) {
+            //    console.log("new message child_changed");
+            //    $rootScope.$broadcast("messageLoad", {});
+            //});
 
-   
+            //firebase.database().ref('/Content/Messages').on('child_removed', function (snapshot) {
+            //    console.log("new message child_removed");
+            //    $rootScope.$broadcast("messageLoad", {});
+            //});
 
+
+            $rootScope.$broadcast("messageLoad", {});
+        });
+
+        $rootScope.appHorses = $firebaseArray(ref.child('horses'));
+        $rootScope.appHorses.$loaded().then(function (dataArray) {
+
+            //var sizes = [];
+            //var total = 0;
+            //for (var i = 0; i < dataArray.length; i++) {
+            //    var f = dataArray[i];
+            //    if (f && f.photo) {
+            //        if (f.photo.length > 1000000) {
+            //            console.log(f.photo.length + " bytes and key is " + f.$id );
+            //            sizes.push(f.photo.length);
+            //        }
+            //        total = total + parseInt(f.photo.length);
+            //    }
+            //}
+            //console.log(" Maximum Size -"+ _.max(sizes)+ " bytes");
+            //console.log("Total size is -" + total+" bytes");
+
+            $rootScope.$broadcast("horseLoaded", { data: event });
+            $rootScope.appHorses.$watch(function (event) {
+                console.log(event);
+                $rootScope.$broadcast("horseModified", { data: event });
+            });
+        }).catch(function (error) {
+            console.log("Error in loading details");
+        });
+
+
+        $rootScope.appHorseRides = $firebaseArray(ref.child('rides'));
+        $rootScope.appHorseRides.$loaded().then(function (dataArray) {
+            $rootScope.$broadcast("ridesLoaded", { data: event });
+            $rootScope.appHorseRides.$watch(function (event) {
+                console.log(event);
+                $rootScope.$broadcast("ridesModified", { data: event });
+            });
+        }).catch(function (error) {
+            console.log("Error in loading details");
+        });;
+
+        $rootScope.appUsers = $firebaseArray(ref.child('users'));
+        $rootScope.appUsers.$loaded().then(function (dataArray) {
+            $rootScope.appUsers.$watch(function (event) {
+                console.log(event);
+                var userToLocal = storageService.getObject("CU");
+                if (event.key == userToLocal.Auth.uid) {
+                    var userNew = $rootScope.appUsers.$getRecord(userToLocal.Auth.uid);
+                    userNew.profile = CleanProfileUrl(userNew.profile);
+                    var obj = {
+                        Auth: userToLocal.Auth,
+                        Details: userNew
+                    };
+                    storageService.setObject("CU", obj);
+                    $rootScope.$broadcast("userModified", { data: event });
+                }
+            });
+        }).catch(function (error) {
+            console.log("Error in loading details");
+        });
+    }
 });
 
 app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, storageService, blockUI, $http, firebaseService, $rootScope) {
@@ -469,7 +453,9 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
     $scope.UpdateLoggedStatus = function () {
         console.log("calling function");
         //remove
-        storageService.setObject("CU", null);
+        if (!$rootScope.isUseListener) {
+            storageService.setObject("CU", null);
+        }
         var user = storageService.getObject("CU");
         if(user == null)
             $scope.isLogged = 0;

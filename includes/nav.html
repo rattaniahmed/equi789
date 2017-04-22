@@ -30,11 +30,11 @@
                         <div class="pull-left top_bar_nav">
 
                             <ul class="un-styled">
-                                <!--change 20/4/2017 for hide-->
+                                
 
-                                <!--<li><a href="signup.html">SIGN UP</a></li>
+                                <li><a href="signup.html" ng-show="isUseListener">SIGN UP</a></li>
 
-                                <li><a href="login.html">LOGIN</a></li>-->
+                                <li><a href="login.html" ng-show="isUseListener">LOGIN</a></li>
 
                             </ul>
 
@@ -79,11 +79,11 @@
                 <ul class="un-styled clearfix">
 
                     <li><a href="./" ng-class="{'active': isActive(['/','/login.html','/signup.html','/forgot-password.html'])}">Home</a></li>
-                    <!--change 20/4/2017 for hide-->
-                    <!--<li><a href="my-stable.html" ng-class="{'active': isActive(['/my-stable.html','/my-stable-details.html','/ride-history.html','/last-ride.html'])}">My Stable</a></li>
+                    
+                    <li><a href="my-stable.html" ng-class="{'active': isActive(['/my-stable.html','/my-stable-details.html','/ride-history.html','/last-ride.html'])}">My Stable</a></li>
                   
-                    <li><a href="Messages.html" ng-class="{'active': isActive('/Messages.html')}">My Messages </a></li>-->
-                    <li><a href="disciplines.html" ng-class="{'active': isActive('/disciplines.html')}">Disciplines</a></li>
+                    <li><a href="Messages.html" ng-class="{'active': isActive('/Messages.html')}"  ng-show="isUseListener">My Messages </a></li>
+                    <li><a href="disciplines.html" ng-class="{'active': isActive('/disciplines.html')}" >Disciplines</a></li>
 
                     <li><a href="sponsors.html" ng-class="{'active': isActive('/sponsors.html')}">Sponsors <!--<i class="fa fa-angle-down"></i>--></a></li>
 
@@ -177,8 +177,8 @@
             <div class="brand_logo pull-left"><a href="./">
                                                   <img ng-src={{DynamucImages.Logo}} data-ng-src="{{DynamucImages.Logo}}" src="{{DynamucImages.Logo}}" width="79" height="78">
                 </a></div>
-            <!--change 20/4/2017 for hide-->
-            <!--<div class="nav_bar_avatar pull-right">
+            
+            <div class="nav_bar_avatar pull-right"  ng-show="isUseListener">
 
                 <div class="avatar_img"><img ng-src={{user.Details.profile}} width="55" height="55" class="img-circle" alt=""></div>
 
@@ -198,17 +198,16 @@
 
                 </div>
 
-            </div>-->
-
+            </div>
             <div class="nav_bar_nav pull-right">
 
                 <ul class="un-styled clearfix">
                    
                     <li><a href="./" ng-class="{'active': isActive(['/','/login.html','/signup.html','/forgot-password.html'])}">Home</a></li>
-                    <!--change 20/4/2017 for hide-->
-                   <!-- <li><a href="my-stable.html" ng-class="{'active': isActive(['/','/my-stable.html','/my-stable-details.html','/ride-history.html','/last-ride.html'])}">My Stable</a></li>
+                    
+                    <li><a href="my-stable.html" ng-class="{'active': isActive(['/','/my-stable.html','/my-stable-details.html','/ride-history.html','/last-ride.html'])}"  ng-show="isUseListener">My Stable</a></li>
 
-                    <li><a href="Messages.html" ng-class="{'active': isActive('/Messages.html')}">My Messages <span id="message" class="label label-danger" style="position:relative;top:-20px;left:-12px;" ng-show="IsUnreadMessageExistForUser">New</span></a></li>-->
+                    <li><a href="Messages.html" ng-class="{'active': isActive('/Messages.html')}"  ng-show="isUseListener">My Messages <span id="message" class="label label-danger" style="position:relative;top:-20px;left:-12px;" ng-show="IsUnreadMessageExistForUser">New</span></a></li>
 
                     <li><a href="disciplines.html" ng-class="{'active': isActive('/disciplines.html')}">Disciplines</a></li>
 
@@ -315,12 +314,11 @@
                         <!--<li><a href="Calendar.html">Calendar</a></li>-->
                         <!--<li><a href="Messages.html">My Message</a></li>-->
 
-                        <!--change 20/4/2017 for hide-->
-                        <!--
-                        <li><a href="settings.html">Settings</a></li>
+                        
+                        <li ng-show="isUseListener"><a href="settings.html">Settings</a></li>
 
-                        <li><a href="javascript:void(0);" ng-click="Logout()">Logout</a></li>
-                            -->
+                        <li ng-show="isUseListener"><a href="javascript:void(0);" ng-click="Logout()">Logout</a></li>
+                            
 
                     </ul>
 
