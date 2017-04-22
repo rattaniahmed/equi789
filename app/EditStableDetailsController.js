@@ -259,29 +259,47 @@
 
         var editid = horseRef.$id;
         console.log(horseRef);
-
         var horseRefToUpdate = angular.copy(horseRef);
-
         delete horseRefToUpdate.$$hashKey;
         delete horseRefToUpdate.$id;
 
-        firebase.database().ref('/horses/' + editid).set(horseRefToUpdate);
-        storageService.setObject("CS", horseRef);
-        swal("", "Your stable details has been added edied success fully", "success");
-        window.location.reload();
+        var isBase64 = false;
+        if (horseRefToUpdate && horseRefToUpdate.photo && horseRefToUpdate.photo.substr(0, 10) == "data:image")
+            isBase64 = true;
+
+        if (isBase64) {
+            var pic = horseRefToUpdate.photo.replace("data:image/jpeg;base64,", "");
+            pic = pic.replace("data:image/png;base64,", "");
+            var blob = b64toBlob(pic, "image/png");
+            var metadata = {
+                'contentType': blob.type
+            };
+            var fname = generateUniqueID() + ".jpg";
+            var storageRef = firebase.storage().ref();
+            storageRef.child('horses/' + fname).put(blob, metadata).then(function (snapshot) {
+                var url = snapshot.metadata.downloadURLs[0];
+                horseRefToUpdate.photo = url;
+                firebase.database().ref('/horses/' + editid).set(horseRefToUpdate);
+                storageService.setObject("CS", horseRef);
+                swal("", "Your stable details has been added edied success fully", "success");
+                window.location.reload();
+            }).catch(function (error) {
+                console.error('Upload failed:', error);
+            });
+        }
+        else {
+            firebase.database().ref('/horses/' + editid).set(horseRefToUpdate);
+            storageService.setObject("CS", horseRef);
+            swal("", "Your stable details has been added edied success fully", "success");
+            window.location.reload();
+        }
+
 
         //$rootScope.appHorses.$save(horseRef).then(function (res) {
-
-
-
         //    storageService.setObject("CS", horseRef);
         //    swal("", "Your stable details has been added edied success fully", "success");
 
         //});
 
     }
-
-
-
-
 });

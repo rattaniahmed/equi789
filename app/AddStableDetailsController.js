@@ -159,48 +159,122 @@
 
         blockUI.start("Adding horse details.....");
 
-        var pushRef = firebase.database().ref('horses').push();
-        pushRef.set($scope.stbadd);
-        var id = pushRef.key;
-        swal("", "Your stable details has been added success fully", "success");
 
-        if (IsNull($scope.user.Details.horse_ids)) {
-            $scope.user.Details['horse_ids'] = {};
+        var isBase64 = false;
+        if ($scope.stbadd && $scope.stbadd.photo && $scope.stbadd.photo.substr(0, 10) == "data:image")
+            isBase64 = true;
+
+        if (isBase64) {
+            var pic = $scope.stbadd.photo.replace("data:image/jpeg;base64,", "");
+            pic = pic.replace("data:image/png;base64,", "");
+            var blob = b64toBlob(pic, "image/png");
+            var metadata = {
+                'contentType': blob.type
+            };
+
+            var fname = generateUniqueID() + ".jpg";
+            var storageRef = firebase.storage().ref();
+            storageRef.child('horses/' + fname).put(blob, metadata).then(function (snapshot) {
+
+                var url = snapshot.metadata.downloadURLs[0];
+                //firebase.database().ref('/horses/' + id + '/photo').set(url);
+                //$scope.Start(i + 1);
+
+                $scope.stbadd.photo = url;
+                var pushRef = firebase.database().ref('horses').push();
+                pushRef.set($scope.stbadd);
+                var id = pushRef.key;
+                //swal("", "Your stable details has been added success fully", "success");
+
+                if (IsNull($scope.user.Details.horse_ids)) {
+                    $scope.user.Details['horse_ids'] = {};
+                }
+                var dtd123 = new Date();
+                var time123 = dtd123.getTime();
+                $scope.user.Details.horse_ids[id] = {
+                    created_at: time123,
+                    last_updated: time123,
+                    sync: "1"
+                };
+                storageService.setObject("CU", $scope.user);
+
+                firebase.database().ref('/users/' + $scope.user.Auth.uid + '/horse_ids').set($scope.user.Details.horse_ids);
+                swal("", "Your stable details has been added success fully", "success");
+
+                $scope.stbadd = {
+                    //associations: $scope.assolist,
+                    average_speed: "0.0",
+                    birthday: "",
+                    calories: "0.0",
+                    distance: "0.0",
+                    duration: "00:00:00",
+                    energy: "0.0",
+                    horse_name: "",
+                    id: generateUUID(),
+                    notes: "",
+                    photo: "images/horsePlaceHolder.png",
+                    registration: "",
+                    top_speed: "0.0",
+                    total_rides: "",
+                    weight: ""
+                }
+                $("#add_stable").modal('hide');
+
+                window.location.reload();
+                $scope.$apply(function () {
+                    blockUI.stop();
+                });
+
+
+            }).catch(function (error) {
+                console.error('Upload failed:', error);
+            });
         }
-        var dtd123 = new Date();
-        var time123 = dtd123.getTime();
-        $scope.user.Details.horse_ids[id] = {
-            created_at: time123,
-            last_updated: time123,
-            sync: "1"
-        };
-        storageService.setObject("CU", $scope.user);
+        else {
+            var pushRef = firebase.database().ref('horses').push();
+            pushRef.set($scope.stbadd);
+            var id = pushRef.key;
+            //swal("", "Your stable details has been added success fully", "success");
 
-        firebase.database().ref('/users/' + $scope.user.Auth.uid + '/horse_ids').set($scope.user.Details.horse_ids);
-        swal("", "Your stable details has been added success fully", "success");
-       
-        $scope.stbadd = {
-            //associations: $scope.assolist,
-            average_speed: "0.0",
-            birthday: "",
-            calories: "0.0",
-            distance: "0.0",
-            duration: "00:00:00",
-            energy: "0.0",
-            horse_name: "",
-            id: generateUUID(),
-            notes: "",
-            photo: "images/horsePlaceHolder.png",
-            registration: "",
-            top_speed: "0.0",
-            total_rides: "",
-            weight: ""
+            if (IsNull($scope.user.Details.horse_ids)) {
+                $scope.user.Details['horse_ids'] = {};
+            }
+            var dtd123 = new Date();
+            var time123 = dtd123.getTime();
+            $scope.user.Details.horse_ids[id] = {
+                created_at: time123,
+                last_updated: time123,
+                sync: "1"
+            };
+            storageService.setObject("CU", $scope.user);
+
+            firebase.database().ref('/users/' + $scope.user.Auth.uid + '/horse_ids').set($scope.user.Details.horse_ids);
+            swal("", "Your stable details has been added success fully", "success");
+
+            $scope.stbadd = {
+                //associations: $scope.assolist,
+                average_speed: "0.0",
+                birthday: "",
+                calories: "0.0",
+                distance: "0.0",
+                duration: "00:00:00",
+                energy: "0.0",
+                horse_name: "",
+                id: generateUUID(),
+                notes: "",
+                photo: "images/horsePlaceHolder.png",
+                registration: "",
+                top_speed: "0.0",
+                total_rides: "",
+                weight: ""
+            }
+            $("#add_stable").modal('hide');
+
+            window.location.reload();
+            $scope.$apply(function () {
+                blockUI.stop();
+            });
+
         }
-        $("#add_stable").modal('hide');
-
-        window.location.reload();
-        $scope.$apply(function () {
-            blockUI.stop();
-        });
     }
 });
