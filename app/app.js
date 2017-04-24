@@ -360,7 +360,7 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
     });
 
 
-    $rootScope.isUseListener = true;
+    $rootScope.isUseListener = false;
 
     if ($rootScope.isUseListener) {
         firebase.database().ref('/Content/Messages').on('value', function (snapshot) {
