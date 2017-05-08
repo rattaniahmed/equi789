@@ -74,22 +74,34 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
 
     }
 
-
+    $scope.setDateLable = function (start, end) {
+        debugger;
+        //console.log(start.toISOString() = end.toISOString());
+        console.log("setting start and end date ");
+        $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    };
    
-    $scope.endDateForFilter = new Date();
-    $scope.startDateForFilter = new Date();
-    $scope.startDateForFilter.setTime($scope.endDateForFilter.getTime() - 1000 * 60 * 60 * 24 * 31); // minus the date
+    //$scope.endDateForFilter = new Date(2017, 4, 8);
+    //$scope.startDateForFilter = new Date();
+    //$scope.startDateForFilter.setTime($scope.endDateForFilter.getTime() - 1000 * 60 * 60 * 24 * 31); // minus the date
+
+
+    $scope.date = {
+        startDate: moment().subtract(30, "days"),
+        endDate: moment()
+    };
+
 
     //$scope.startDateForFilter = moment().subtract(30, "days");
     //.startDateForFilter = moment();
 
-    console.log($scope.startDateForFilter)
+    //console.log($scope.startDateForFilter)
     //console.log($scope.startDateForFilter)
 
     $scope.renderCalender = function () {
 
         var cb = function (start, end, label) {
-            console.log(start.toISOString(), end.toISOString(), label);
+            console.log("Setting stat and end lable data");
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         };
 
@@ -130,10 +142,18 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
         });
         $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
             console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
-            $scope.endDateForFilter = picker.endDate;
-            $scope.startDateForFilter = picker.startDate;
-            $scope.FilterGraphs($scope.startDateForFilter, $scope.endDateForFilter);
-            $scope.MainGraph($scope.startDateForFilter, $scope.endDateForFilter);
+            //$scope.endDateForFilter = picker.endDate;
+            //$scope.startDateForFilter = picker.startDate;
+            //$scope.FilterGraphs($scope.startDateForFilter, $scope.endDateForFilter);
+            //$scope.MainGraph($scope.startDateForFilter, $scope.endDateForFilter);
+
+            $scope.date = {
+                startDate: picker.startDate,
+                endDate: picker.endDate
+            };
+            $scope.FilterGraphs($scope.date.startDate, $scope.date.endDate);
+            $scope.MainGraph($scope.date.startDate, $scope.date.endDate);
+           
             $scope.$apply();
         });
         $('#reportrange').on('cancel.daterangepicker', function (ev, picker) {
@@ -363,8 +383,6 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
 
         for (var userCounter = 0 ; userCounter < $scope.Users.length; userCounter++) {
             var user = $scope.Users[userCounter];
-            console.log(user.horse_ids);
-
             if (user) {
                 try{
                     if (user.createtime) {
@@ -408,7 +426,6 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
 
 
                         var horseObject = $rootScope.backendHorses.$getRecord(horseId);
-                        console.log(horseObject);
                         if (horseObject) {
                             if (horseObject.ride_ids) {
                                 for (var rideId in horseObject.ride_ids) {
@@ -745,8 +762,11 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
             angular.element(document).ready(function () {
                 $scope.renderCalender();
                 $scope.TotalGraphs();
-                $scope.FilterGraphs($scope.startDateForFilter, $scope.endDateForFilter);
-                $scope.MainGraph($scope.startDateForFilter, $scope.endDateForFilter);
+                $scope.FilterGraphs($scope.date.startDate, $scope.date.endDate);
+                $scope.MainGraph($scope.date.startDate, $scope.date.endDate);
+
+                $scope.setDateLable($scope.date.startDate, $scope.date.endDate);
+
                 $scope.$apply();
                 UnLoadingState();
             });

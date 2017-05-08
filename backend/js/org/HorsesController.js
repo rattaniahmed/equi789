@@ -151,7 +151,9 @@
     }
 
     $scope.setDateLable = function (start, end) {
+        debugger;
         //console.log(start.toISOString() = end.toISOString());
+        console.log("setting start and end date ");
         $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
     };
 

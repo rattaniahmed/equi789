@@ -239,7 +239,7 @@
     $scope.renderCalender = function () {
 
         var cb = function (start, end, label) {
-            console.log(start.toISOString(), end.toISOString(), label);
+            console.log("Setting stat and end lable data");
             $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         };
 
