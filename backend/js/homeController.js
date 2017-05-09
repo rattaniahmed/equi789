@@ -179,6 +179,12 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
         return date.getFullYear().toString() + date.getMonth().toString() + date.getDate().toString();
     }
 
+    $scope.getDateForEquitrackForRide = function (time) {
+        //time = parseInt(time);
+        var date = new Date(time);
+        return date.getFullYear().toString() + date.getMonth().toString() + date.getDate().toString();
+    }
+
     function gd(year, month, day) {
         return new Date(year, month - 1, day).getTime();
     }
@@ -307,7 +313,9 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
 
 
                         if (InDefinedTimeRangForHomePage(rideObj, dateToPass.startDate, dateToPass.endDate)) {
-                            var dateString = $scope.getDateForEquitrack(horseObject.ride_ids[rideId]);
+                            //var dateString = $scope.getDateForEquitrack(horseObject.ride_ids[rideId]);
+                            //debugger;
+                            var dateString = $scope.getDateForEquitrackForRide(rideObj.start_time);
                             var isExist = false;
                             for (var dateCounter = 0; dateCounter < dates.length; dateCounter++) {
                                 if (dates[dateCounter].dateString == dateString) {
@@ -369,6 +377,7 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
         return data;
     }
 
+    //for 
     $scope.getDataToShow = function (dateFilterStart, dateFilterEnd) {
 
         var usersDataArray = [];
