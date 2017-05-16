@@ -316,6 +316,7 @@
           
             $scope.AllHorses = $rootScope.getOrgHorses();
             $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
+            $scope.AllHorses = $rootScope.filterOrgHorses($scope.Users, $scope.AllHorses);
 
             var maps = getHorseUserMap($scope.Users);
 
@@ -323,12 +324,7 @@
             $scope.showhorse = [];
             var addedCounter = 0;
             for (var counter = 0; counter < $scope.AllHorses.length; counter++) {
-
-                         
-
-
                     $scope.AllHorses[counter].MembershipNumber = "";
-
                     if ($scope.AllHorses[counter].associations) {
                         var og = _.find($scope.AllHorses[counter].associations, function (oginner) { return oginner.filter == Organisation.OrganisationNumber });
                         if (og)
@@ -336,7 +332,6 @@
                     }
 
                     $scope.AllHorses[counter].Member = "";
-
                     var member = _.find(maps, function (singlemap) { return singlemap.HorseId == $scope.AllHorses[counter].$id });
                     if (member) {
                         $scope.AllHorses[counter].Member = member.Detail.email;
@@ -355,6 +350,10 @@
                         $scope.showhorse[addedCounter].TotalDistance = commulativeData.miles;
                         $scope.showhorse[addedCounter].TopSpeed = commulativeData.top_speed;
                         $scope.showhorse[addedCounter].TotalEnergy = commulativeData.energy;
+                        addedCounter++;
+                    } else {
+                        $scope.showhorse.push($scope.AllHorses[counter]);
+                        $scope.showhorse[addedCounter].TotalRides = 0;
                         addedCounter++;
                     }
 

@@ -195,7 +195,10 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
         for (var counter = 0; counter < $scope.Users.length; counter++) {
             var user = $scope.Users[counter];
             if (user.horse_ids) {
-                for (var horseId in user.horse_ids) {
+                //for (var horseId in user.horse_ids) {
+                var horseIds = $rootScope.getHorseIds(user, $scope.AllHorses);
+                for (var hCounter = 0; hCounter < horseIds.length; hCounter++) {
+                    var horseId = horseIds[hCounter];
                     var horseDetailObject = user.horse_ids[horseId];
                     if (horseDetailObject) {
                         if (horseDetailObject.created_at) {
@@ -416,7 +419,9 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
                 }
 
                 if (user.horse_ids) {
-                    for (var horseId in user.horse_ids) {
+                    var horseIds = $rootScope.getHorseIds(user, $scope.AllHorses);
+                    for (var hCounter=0;hCounter<horseIds.length;hCounter++) {
+                        var horseId = horseIds[hCounter];
                         var horseDetailObject = user.horse_ids[horseId];
                         if (horseDetailObject) {
                             if (horseDetailObject.created_at) {
@@ -767,6 +772,7 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
          if ($rootScope.isDataLoaded) {
             $scope.AllHorses = $rootScope.getOrgHorses();
             $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
+            $scope.AllHorses = $rootScope.filterOrgHorses($scope.Users, $scope.AllHorses);
 
             angular.element(document).ready(function () {
                 $scope.renderCalender();

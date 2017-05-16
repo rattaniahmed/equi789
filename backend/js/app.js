@@ -212,15 +212,23 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
 
     var ref = firebaseService.FIREBASEENDPOINT();
 
-    $rootScope.getHorseIds = function (user) {
-        if (!user.horse_ids)
-        {
+    $rootScope.getHorseIds = function (user, AllHorses) {
+        var Organisation = JSON.parse(localStorage.getItem('adminObject'));
+        if (!user.horse_ids) {
             return [];
         }
         else {
-            return Object.keys(user.horse_ids);
+            var ids = []
+            for (var id in user.horse_ids) {
+                for (var hCounter = 0 ; hCounter < AllHorses.length; hCounter++) {
+                    if (AllHorses[hCounter].$id == id) {
+                        ids.push(id);
+                        break;
+                    } else continue;
+                }
+            }
+            return ids;
         }
-       
     }
 
     $rootScope.getRideIds = function (horseIds) {
@@ -236,6 +244,14 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
         });
 
         return ids;
+    }
+
+    $rootScope.IsShowAllDataOrganization = function () {
+        var Organisation = JSON.parse(localStorage.getItem('adminObject'));
+        if (Organisation.ShowAllData && Organisation.ShowAllData == 1)
+            return true;
+        else
+            return false;
     }
 
     $rootScope.getOrgHorses = function () {
@@ -264,6 +280,21 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
         return AllHorses;
     }
     
+    $rootScope.filterOrgHorses = function (Users, AllHorses) {
+        var maps = getHorseUserMap(Users);
+        var HorsesToReturn = [];
+        for (var hCounter = 0; hCounter < AllHorses.length; hCounter++) {
+            var horse = AllHorses[hCounter];
+            for (var mCounter = 0; mCounter < maps.length; mCounter++) {
+                var map = maps[mCounter];
+                if (map.HorseId == horse.$id) {
+                    HorsesToReturn.push(horse);
+                }
+            }
+        }
+        return HorsesToReturn;
+    }
+
     $rootScope.getOrgUsers = function (AllHorses) {
 
         var AllUsers = [];

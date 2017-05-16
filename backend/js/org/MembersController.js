@@ -261,11 +261,13 @@
             
             $scope.AllHorses = $rootScope.getOrgHorses();
             $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
+            $scope.AllHorses = $rootScope.filterOrgHorses($scope.Users, $scope.AllHorses);
+
             $scope.showmember = [];
             var addedCounter = 0;
             for (var usrCounter = 0; usrCounter < $scope.Users.length; usrCounter++) {
 
-                var horseIds = $rootScope.getHorseIds($scope.Users[usrCounter]);
+                var horseIds = $rootScope.getHorseIds($scope.Users[usrCounter], $scope.AllHorses);
                 var rideIds = $rootScope.getRideIds(horseIds);
                 var commulativeData = getCommulativeData(rideIds, $rootScope.backendHorseRides, $scope.date);
                  
@@ -276,7 +278,12 @@
                     $scope.showmember[addedCounter].TotalTime = commulativeData.totalDuration;
                     $scope.showmember[addedCounter].TotalDistance = commulativeData.miles;
                     addedCounter++;
-                } 
+                } else {
+                    $scope.showmember.push($scope.Users[usrCounter]);
+                    $scope.showmember[addedCounter].TotalHorses = horseIds.length;
+                    $scope.showmember[addedCounter].TotalRides = 0;
+                    addedCounter++;
+                }
             }
             $scope.gridOptions.data = $scope.showmember;
            
