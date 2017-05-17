@@ -351,11 +351,12 @@
                         $scope.showhorse[addedCounter].TopSpeed = commulativeData.top_speed;
                         $scope.showhorse[addedCounter].TotalEnergy = commulativeData.energy;
                         addedCounter++;
-                    } else {
-                        $scope.showhorse.push($scope.AllHorses[counter]);
-                        $scope.showhorse[addedCounter].TotalRides = 0;
-                        addedCounter++;
                     }
+                    //else {
+                    //    $scope.showhorse.push($scope.AllHorses[counter]);
+                    //    $scope.showhorse[addedCounter].TotalRides = 0;
+                    //    addedCounter++;
+                    //}
 
                 //}
             }
