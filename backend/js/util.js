@@ -1185,9 +1185,10 @@ function InDefinedTimeRangForHomePage(ride, startDate, endDate) {
     //else
     //    return false;
 
+    var endDate1 = moment(endDate).add(1, 'days');
     if (ride)
         try {
-            return dates.inRange(ride.start_time, moment(startDate).format('l'), moment(endDate).format('l'));
+            return dates.inRange(ride.start_time, moment(startDate).format('l'), moment(endDate1).format('l'));
         }
         catch (err) {
             console.log("error in converting date " + ride.start_time);
@@ -1215,7 +1216,9 @@ function InDefinedTimeRang(ride, timePeriod) {
    // var timeValue = horseObject.ride_ids[rideId];
    // var ridetime = moment(ride.start_time);
 
-    return dates.inRange(ride.start_time, moment(timePeriod.startDate).format('l'), moment(timePeriod.endDate).format('l'));
+  
+    var endDate1 = moment(timePeriod.endDate).add(1, 'days');
+    return dates.inRange(ride.start_time, moment(timePeriod.startDate).format('l'), moment(endDate1).format('l'));
    
 }
 
