@@ -93,6 +93,7 @@
         enableSorting: true,
         paginationPageSize: 10,
         enableFiltering: false,
+        enableColumnResizing: true,
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
             $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
@@ -404,7 +405,7 @@
 
     $scope.Download = function () {
         var downloadData = $scope.getCurrentGridData();
-        JSONToCSVConvertor(downloadData, "Horses Data", true);
+        JSONToCSVConvertor(downloadData, "Horses Report"+" "+new Date().toString('yyyyMMdd'), true);
     }
     $scope.EmailSend = function () {
 

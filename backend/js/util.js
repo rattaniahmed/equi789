@@ -1042,6 +1042,46 @@ function getFormattedDate(date) {
     return month + '/' + day + '/' + year;
 }
 
+
+function replace_columnName(name) {
+    var Column_Name = [
+    { Source: "email", Destination: "Email" }, 
+    { Source: "location", Destination: "Location" }, 
+{ Source: "weather", Destination: "Weather" }, 
+{ Source: "energy", Destination: "Energy" }, 
+{ Source: "calories", Destination: "Calories" }, 
+{ Source: "birthday", Destination: "Birthday" }, 
+{ Source: "registration", Destination: "Registration" }, 
+{ Source: "weight", Destination: "Weight" }, 
+{ Source: "horse_name", Destination: "Horse Name" }, 
+{ Source: "total_distance", Destination: "Total Distance" },
+{ Source: "total_times", Destination: "Total Times" },
+{ Source: "top_speed", Destination: "Top Speed" },
+{ Source: "average_speed", Destination: "Average Speed" },
+{ Source: "start_time", Destination: "Start Time" },
+{ Source: "end_time", Destination: "End Time" },
+{ Source: "display_name", Destination: "Display Name" },
+{ Source: "first_name", Destination: "First Name" },
+{ Source: "last_name", Destination: "Last Name" },
+{ Source: "TotalRides", Destination: "Total Rides" },
+{ Source: "TotalHorses", Destination: "Total Horses" },
+{ Source: "TotalTime", Destination: "Total Time" },
+{ Source: "TotalDistance", Destination: "Total Distance" },
+{ Source: "MembershipNumber", Destination: "Membership Number" },
+{ Source: "TotalEnergy", Destination: "Total Energy" },
+{ Source: "TopSpeed", Destination: "Top Speed" },
+
+    ];
+    var toReturn = name;
+    for (i = 0; i < Column_Name.length; i++) {
+        var map = Column_Name[i];
+        if (map && map.Source == name) {
+            toReturn = map.Destination;
+        }
+    }
+    return toReturn;
+}
+
 function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
     //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
     var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
@@ -1057,9 +1097,9 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 
         //This loop will extract the label from 1st index of on array
         for (var index in arrData[0]) {
-
+            var column_name= replace_columnName(index);
             //Now convert each value to string and comma-seprated
-            row += index + ',';
+            row += column_name + ',';
         }
 
         row = row.slice(0, -1);
@@ -1116,252 +1156,252 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 }
 
 
-function ReplaceTime(time) {
-    try {
-        return time.replace("aN:aN:aN", "00:00:00");
-    } catch (err)
-    { }
-}
-
-function getAdminUser() {
-
-    var obj = localStorage.getItem("adminObject");
-    if (obj == null || obj == '' || obj == "undefined")
-        window.location.href = "login.html";
-    else
-        return JSON.parse(obj);
-
-        
-}
-var dates = {
-    convert: function (d) {
-        
-        return (
-            d.constructor === Date ? d :
-            d.constructor === Array ? new Date(d[0], d[1], d[2]) :
-            d.constructor === Number ? new Date(d) :
-            d.constructor === String ? new Date(d) :
-            typeof d === "object" ? new Date(d.year, d.month, d.date) :
-            NaN
-        );
-    },
-    compare: function (a, b) {
-       
-        return (
-            isFinite(a = this.convert(a).valueOf()) &&
-            isFinite(b = this.convert(b).valueOf()) ?
-            (a > b) - (a < b) :
-            NaN
-        );
-    },
-    inRange: function (d, start, end) {
-        
-        return (
-             isFinite(d = this.convert(d).valueOf()) &&
-             isFinite(start = this.convert(start).valueOf()) &&
-             isFinite(end = this.convert(end).valueOf()) ?
-             start <= d && d <= end :
-             false
-         );
-    }
-}
-
-
-
-function InDefinedTimeRangForHomePage(ride, startDate, endDate) {
-
-    //if (ride)
-    //    try {
-    //        var dateToCompare = new Date(ride.start_time);
-    //        if (dateToCompare > startDate && dateToCompare < endDate)
-    //            return true;
-    //        else
-    //            return false;
-    //        //return dates.inRange(ride.start_time, startDate.format('l'), endDate.format('l'));
-    //    }
-    //    catch (err) {
-    //        console.log("error in converting date " + ride.start_time);
-    //    }
-    //else
-    //    return false;
-
-    var endDate1 = moment(endDate).add(1, 'days');
-    if (ride)
+    function ReplaceTime(time) {
         try {
-            return dates.inRange(ride.start_time, moment(startDate).format('l'), moment(endDate1).format('l'));
+            return time.replace("aN:aN:aN", "00:00:00");
+        } catch (err)
+        { }
+    }
+
+    function getAdminUser() {
+
+        var obj = localStorage.getItem("adminObject");
+        if (obj == null || obj == '' || obj == "undefined")
+            window.location.href = "login.html";
+        else
+            return JSON.parse(obj);
+
+        
+    }
+    var dates = {
+        convert: function (d) {
+        
+            return (
+                d.constructor === Date ? d :
+                d.constructor === Array ? new Date(d[0], d[1], d[2]) :
+                d.constructor === Number ? new Date(d) :
+                d.constructor === String ? new Date(d) :
+                typeof d === "object" ? new Date(d.year, d.month, d.date) :
+                NaN
+            );
+        },
+        compare: function (a, b) {
+       
+            return (
+                isFinite(a = this.convert(a).valueOf()) &&
+                isFinite(b = this.convert(b).valueOf()) ?
+                (a > b) - (a < b) :
+                NaN
+            );
+        },
+        inRange: function (d, start, end) {
+        
+            return (
+                 isFinite(d = this.convert(d).valueOf()) &&
+                 isFinite(start = this.convert(start).valueOf()) &&
+                 isFinite(end = this.convert(end).valueOf()) ?
+                 start <= d && d <= end :
+                 false
+             );
         }
-        catch (err) {
-            console.log("error in converting date " + ride.start_time);
-        }
-    else
-        return false;
+    }
+
+
+
+    function InDefinedTimeRangForHomePage(ride, startDate, endDate) {
+
+        //if (ride)
+        //    try {
+        //        var dateToCompare = new Date(ride.start_time);
+        //        if (dateToCompare > startDate && dateToCompare < endDate)
+        //            return true;
+        //        else
+        //            return false;
+        //        //return dates.inRange(ride.start_time, startDate.format('l'), endDate.format('l'));
+        //    }
+        //    catch (err) {
+        //        console.log("error in converting date " + ride.start_time);
+        //    }
+        //else
+        //    return false;
+
+        var endDate1 = moment(endDate).add(1, 'days');
+        if (ride)
+            try {
+                return dates.inRange(ride.start_time, moment(startDate).format('l'), moment(endDate1).format('l'));
+            }
+            catch (err) {
+                console.log("error in converting date " + ride.start_time);
+            }
+        else
+            return false;
 
     
 
-}
+    }
 
 
-//function compareDate(time) {
-//    //put date compare logic based on ride time
+    //function compareDate(time) {
+    //    //put date compare logic based on ride time
 
-//    // var timeValue = horseObject.ride_ids[rideId];
-//    // var ridetime = moment(ride.start_time);
+    //    // var timeValue = horseObject.ride_ids[rideId];
+    //    // var ridetime = moment(ride.start_time);
 
-//    return dates.compare((time), moment(new Date).format('l'));
+    //    return dates.compare((time), moment(new Date).format('l'));
 
-//}
-function InDefinedTimeRang(ride, timePeriod) {
-    //put date compare logic based on ride time
+    //}
+    function InDefinedTimeRang(ride, timePeriod) {
+        //put date compare logic based on ride time
    
-   // var timeValue = horseObject.ride_ids[rideId];
-   // var ridetime = moment(ride.start_time);
+        // var timeValue = horseObject.ride_ids[rideId];
+        // var ridetime = moment(ride.start_time);
 
   
-    var endDate1 = moment(timePeriod.endDate).add(1, 'days');
-    return dates.inRange(ride.start_time, moment(timePeriod.startDate).format('l'), moment(endDate1).format('l'));
+        var endDate1 = moment(timePeriod.endDate).add(1, 'days');
+        return dates.inRange(ride.start_time, moment(timePeriod.startDate).format('l'), moment(endDate1).format('l'));
    
-}
+    }
 
-//function InDefinedTimeRangForGraph(rideObj, dateToPass) {
-//    var tie
-//    return InDefinedTimeRang(rideObj, new Date(dateToPass.startDate._d), new Date(dateToPass.endDate._d));
-//}
-
-
+    //function InDefinedTimeRangForGraph(rideObj, dateToPass) {
+    //    var tie
+    //    return InDefinedTimeRang(rideObj, new Date(dateToPass.startDate._d), new Date(dateToPass.endDate._d));
+    //}
 
 
 
-function getCommulativeData(ride_ids, rideRef, timePeriod) {
 
 
-    var commulativeData = {};
+    function getCommulativeData(ride_ids, rideRef, timePeriod) {
 
-    var totalTopSspeedArray = [];
-    var averageSpeed = 0.0;
-    var totalLength = 0;
 
-    var totalDistance = 0.0;
-    var totalDuration = 0;
-    var totalEnergy = 0;
-    var totalCalories = 0;
-    var totalAverageSpeed = 0.0;
-    var totalTopSspeed = 0.0;
+        var commulativeData = {};
 
-    if (ride_ids) {
-        for (var cnt = 0; cnt < ride_ids.length; cnt++) {
+        var totalTopSspeedArray = [];
+        var averageSpeed = 0.0;
+        var totalLength = 0;
 
-            var ride = rideRef.$getRecord(ride_ids[cnt]);
-            if (ride != null) {
-                try {
-                    var inRange = true;
-                    if (timePeriod) {
-                        inRange = InDefinedTimeRang(ride, timePeriod);
+        var totalDistance = 0.0;
+        var totalDuration = 0;
+        var totalEnergy = 0;
+        var totalCalories = 0;
+        var totalAverageSpeed = 0.0;
+        var totalTopSspeed = 0.0;
+
+        if (ride_ids) {
+            for (var cnt = 0; cnt < ride_ids.length; cnt++) {
+
+                var ride = rideRef.$getRecord(ride_ids[cnt]);
+                if (ride != null) {
+                    try {
+                        var inRange = true;
+                        if (timePeriod) {
+                            inRange = InDefinedTimeRang(ride, timePeriod);
+                        }
+                    } catch (err) { }
+                    if (inRange) {
+                        //totalLength = _.size(ride_ids);
+                        totalLength++;
+                        totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
+                        totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
+                        totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);
+                        totalCalories = parseFloat(totalCalories) + parseFloat(ride.calories);
+                        averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
+                        totalTopSspeedArray.push(parseFloat(ride.top_speed));
                     }
-                } catch (err) { }
-                if (inRange) {
-                    //totalLength = _.size(ride_ids);
-                    totalLength++;
-                    totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
-                    totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
-                    totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);
-                    totalCalories = parseFloat(totalCalories) + parseFloat(ride.calories);
-                    averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
-                    totalTopSspeedArray.push(parseFloat(ride.top_speed));
                 }
             }
         }
-    }
 
-    var tempDuration = totalDuration;
+        var tempDuration = totalDuration;
 
-    totalDistance = parseFloat(Math.round(totalDistance * 100) / 100).toFixed(2);
-    totalEnergy = parseFloat(Math.round(totalEnergy * 100) / 100).toFixed(2);
-    totalCalories = parseFloat(Math.round(totalCalories * 100) / 100).toFixed(2);
-    if (averageSpeed > 0) {
-        totalAverageSpeed = averageSpeed / totalLength;
-        totalAverageSpeed = parseFloat(Math.round(totalAverageSpeed * 100) / 100).toFixed(2);
-    }
-    totalDuration = ReplaceTime(hhmmss(totalDuration));
-    if (totalTopSspeedArray.length > 0) {
-        totalTopSspeed = Math.max.apply(Math, totalTopSspeedArray);
-
-        totalTopSspeed = parseFloat(Math.round(totalTopSspeed * 100) / 100).toFixed(2);
-        if (totalTopSspeed == "NaN") {
-            totalTopSspeed = '0';
+        totalDistance = parseFloat(Math.round(totalDistance * 100) / 100).toFixed(2);
+        totalEnergy = parseFloat(Math.round(totalEnergy * 100) / 100).toFixed(2);
+        totalCalories = parseFloat(Math.round(totalCalories * 100) / 100).toFixed(2);
+        if (averageSpeed > 0) {
+            totalAverageSpeed = averageSpeed / totalLength;
+            totalAverageSpeed = parseFloat(Math.round(totalAverageSpeed * 100) / 100).toFixed(2);
         }
-    }
+        totalDuration = ReplaceTime(hhmmss(totalDuration));
+        if (totalTopSspeedArray.length > 0) {
+            totalTopSspeed = Math.max.apply(Math, totalTopSspeedArray);
 
-    commulativeData.total_rides = totalLength;
-    commulativeData.top_speed = totalTopSspeed + " mph";
-    commulativeData.energy = totalCalories + " cal";
-    commulativeData.miles = totalDistance + " miles";
-    commulativeData.totalDuration = totalDuration;
-
-    return commulativeData;
-}
-
-
-function getHorseUserMap(users) {
-    var maps = [];
-
-    angular.forEach(users, function (user, key) {
-        for (var id in user.horse_ids) {
-            maps.push({
-                HorseId: id,
-                Detail: user
-            })
-        }
-    });
-
-    return maps;
-}
-
-
-function GetCSVFromArrayObject(JSONData, ShowLabel) {
-    //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
-    var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
-
-    var CSV = '';
-    //Set Report title in first row or line
-
-    //CSV += ReportTitle + '\r\n\n';
-
-    //This condition will generate the Label/Header
-    if (ShowLabel) {
-        var row = "";
-
-        //This loop will extract the label from 1st index of on array
-        for (var index in arrData[0]) {
-
-            //Now convert each value to string and comma-seprated
-            row += index + ',';
+            totalTopSspeed = parseFloat(Math.round(totalTopSspeed * 100) / 100).toFixed(2);
+            if (totalTopSspeed == "NaN") {
+                totalTopSspeed = '0';
+            }
         }
 
-        row = row.slice(0, -1);
+        commulativeData.total_rides = totalLength;
+        commulativeData.top_speed = totalTopSspeed + " mph";
+        commulativeData.energy = totalCalories + " cal";
+        commulativeData.miles = totalDistance + " miles";
+        commulativeData.totalDuration = totalDuration;
 
-        //append Label row with line break
-        CSV += row + '\r\n';
+        return commulativeData;
     }
 
-    //1st loop is to extract each row
-    for (var i = 0; i < arrData.length; i++) {
-        var row = "";
 
-        //2nd loop will extract each column and convert it in string comma-seprated
-        for (var index in arrData[i]) {
-            row += '"' + arrData[i][index] + '",';
+    function getHorseUserMap(users) {
+        var maps = [];
+
+        angular.forEach(users, function (user, key) {
+            for (var id in user.horse_ids) {
+                maps.push({
+                    HorseId: id,
+                    Detail: user
+                })
+            }
+        });
+
+        return maps;
+    }
+
+
+    function GetCSVFromArrayObject(JSONData, ShowLabel) {
+        //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+        var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+
+        var CSV = '';
+        //Set Report title in first row or line
+
+        //CSV += ReportTitle + '\r\n\n';
+
+        //This condition will generate the Label/Header
+        if (ShowLabel) {
+            var row = "";
+
+            //This loop will extract the label from 1st index of on array
+            for (var index in arrData[0]) {
+
+                //Now convert each value to string and comma-seprated
+                row += index + ',';
+            }
+
+            row = row.slice(0, -1);
+
+            //append Label row with line break
+            CSV += row + '\r\n';
         }
 
-        row.slice(0, row.length - 1);
+        //1st loop is to extract each row
+        for (var i = 0; i < arrData.length; i++) {
+            var row = "";
 
-        //add a line break after each row
-        CSV += row + '\r\n';
+            //2nd loop will extract each column and convert it in string comma-seprated
+            for (var index in arrData[i]) {
+                row += '"' + arrData[i][index] + '",';
+            }
+
+            row.slice(0, row.length - 1);
+
+            //add a line break after each row
+            CSV += row + '\r\n';
+        }
+        return CSV;
     }
-    return CSV;
-}
 
 
-function SendDataTONOdeJSBAckend(datatosend) {
+    function SendDataTONOdeJSBAckend(datatosend) {
    
 
-}
+    }

@@ -579,7 +579,7 @@
 
     $scope.Download = function () {
         var downloadData = $scope.getCurrentGridData();
-        JSONToCSVConvertor(downloadData, "Horse Rides Data", true);
+        JSONToCSVConvertor(downloadData, "Horse Rides Report"+" "+new Date().toString('yyyyMMdd'), true);
         
     }
 

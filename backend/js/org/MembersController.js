@@ -46,7 +46,7 @@
         paginationPageSizes: [5, 10, 20],
         paginationPageSize: 10,
         enableFiltering: false,
-        
+        enableColumnResizing: true,
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
             $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
@@ -308,7 +308,7 @@
 
     $scope.Download = function () {
         var downloadData = $scope.getCurrentGridData();
-        JSONToCSVConvertor(downloadData, "Members Data", true);
+        JSONToCSVConvertor(downloadData, "Members Report"+" "+new Date().toString('yyyyMMdd'), true);
     }
     //$scope.Download = function () {
     //    var downloadData = [];
