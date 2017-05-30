@@ -55,43 +55,54 @@
     }
 
     $scope.login = function () {
-        debugger;
-        if (!ValidateControl(['email', 'password']))
-            return;
-        else {
-            blockUI.start("Validation in progress");
-            var ref = firebaseService.FIREBASEENDPOINT();
-            ref.authWithPassword({
-                email: $scope.email,
-                password: $scope.password
-            }, function (error, authData) {
-                $scope.$apply(function () {
-                    blockUI.stop();
-                });
-                if (error) {
-                    swal({ title: "", text: "Invalid user name and password. Please try again", imageUrl: "bower_components/sweetalert/example/images/wrong.png" });
-                   
-                } else {
-
-                    var user = $scope.users.$getRecord(authData.uid);
-                    if (user) {
-                        user.profile = CleanProfileUrl(user.profile);
-
-                        var obj = {
-                            Auth: authData,
-                            Details: user
-                        };
-
-                        storageService.setObject("CU", obj);
-                    }
-                    $rootScope.$broadcast("messageLoad", {});
-                    swal("", "You have successfully logged in.  You are now being redirected to your dashboard.", "success");
+        if ($scope.email == "mjdmike@email.com") {
+            debugger;
+            if (!ValidateControl(['email', 'password']))
+                return;
+            else {
+                $rootScope.isUseListener = true;
+                blockUI.start("Validation in progress");
+                var ref = firebaseService.FIREBASEENDPOINT();
+                ref.authWithPassword({
+                    email: $scope.email,
+                    password: $scope.password
+                }, function (error, authData) {
                     $scope.$apply(function () {
-                        $scope.$parent.UpdateLoggedStatus();
-                        $location.path('dashboard.html');
+                        blockUI.stop();
                     });
-                }
-            });
+                    if (error) {
+                        swal({ title: "", text: "Invalid user name and password. Please try again", imageUrl: "bower_components/sweetalert/example/images/wrong.png" });
+
+                    } else {
+
+                        var user = $scope.users.$getRecord(authData.uid);
+                        if (user) {
+                            user.profile = CleanProfileUrl(user.profile);
+
+                            var obj = {
+                                Auth: authData,
+                                Details: user
+                            };
+
+                            storageService.setObject("CU", obj);
+                        }
+
+                       
+
+                        $rootScope.$broadcast("messageLoad", {});
+                        swal("", "You have successfully logged in.  You are now being redirected to your dashboard.", "success");
+                        $scope.$apply(function () {
+                            $scope.$parent.UpdateLoggedStatus();
+                            //$location.path('dashboard.html');
+                          
+                            $location.path('my-stable.html');
+
+                        });
+                    }
+                });
+            }
+        } else {
+            window.location.reload();
         }
     }
    

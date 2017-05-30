@@ -454,7 +454,13 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
         console.log("calling function");
         //remove
         if (!$rootScope.isUseListener) {
-            storageService.setObject("CU", null);
+            //if (storageService.getObject("CU"))
+            //    if ((storageService.getObject("CU").Details.email == "mjdmike@email.com")) {
+            //        $rootScope.isUseListener = true;
+            //    }
+            //else {
+                storageService.setObject("CU", null);
+            //}
         }
         var user = storageService.getObject("CU");
         if(user == null)
