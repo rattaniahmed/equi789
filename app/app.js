@@ -290,7 +290,7 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
                 }
 
             });
-            console.log($rootScope.DynamucContent);
+            //console.log($rootScope.DynamucContent);
         }).catch(function (error) {
             console.log("Error in loading details");
         });
@@ -362,7 +362,7 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
 
     $rootScope.loadFireBaseData = function () {
         firebase.database().ref('/Content/Messages').on('value', function (snapshot) {
-            console.log("Message load complete");
+           // console.log("Message load complete");
 
             //firebase.database().ref('/Content/Messages').on('child_added', function (snapshot) {
             //    console.log("new message added");
@@ -403,7 +403,7 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
 
             $rootScope.$broadcast("horseLoaded", { data: event });
             $rootScope.appHorses.$watch(function (event) {
-                console.log(event);
+               // console.log(event);
                 $rootScope.$broadcast("horseModified", { data: event });
             });
         }).catch(function (error) {
@@ -415,7 +415,7 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
         $rootScope.appHorseRides.$loaded().then(function (dataArray) {
             $rootScope.$broadcast("ridesLoaded", { data: event });
             $rootScope.appHorseRides.$watch(function (event) {
-                console.log(event);
+               // console.log(event);
                 $rootScope.$broadcast("ridesModified", { data: event });
             });
         }).catch(function (error) {
@@ -425,7 +425,7 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
         $rootScope.appUsers = $firebaseArray(ref.child('users'));
         $rootScope.appUsers.$loaded().then(function (dataArray) {
             $rootScope.appUsers.$watch(function (event) {
-                console.log(event);
+                //console.log(event);
                 var userToLocal = storageService.getObject("CU");
                 if (event.key == userToLocal.Auth.uid) {
                     var userNew = $rootScope.appUsers.$getRecord(userToLocal.Auth.uid);
@@ -443,7 +443,20 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
         });
     }
 
+
     $rootScope.isUseListener = false;
+    try{
+        var user = storageService.getObject("CU");
+        if (user) {
+            if(user.Details.email == "mjdmike@email.com")
+            {
+                $rootScope.isUseListener = true;
+            }
+        }
+    } catch (err) {
+        $rootScope.isUseListener = false;
+    }
+
     if ($rootScope.isUseListener) {
         $rootScope.loadFireBaseData();
     }
@@ -455,16 +468,16 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
     $scope.isLogged = 0;
 
     $scope.UpdateLoggedStatus = function () {
-        console.log("calling function");
+       
         //remove
         if (!$rootScope.isUseListener) {
-            //if (storageService.getObject("CU"))
-            //    if ((storageService.getObject("CU").Details.email == "mjdmike@email.com")) {
-            //        $rootScope.isUseListener = true;
-            //    }
-            //else {
+            if (storageService.getObject("CU"))
+                if ((storageService.getObject("CU").Details.email == "mjdmike@email.com")) {
+                    $rootScope.isUseListener = true;
+                }
+            else {
                 storageService.setObject("CU", null);
-            //}
+            }
         }
         var user = storageService.getObject("CU");
         if(user == null)
@@ -529,7 +542,7 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
                 method: 'GET',
                 url: url
             }).then(function successCallback(response) {
-                console.log(response);
+                
             }, function errorCallback(response) {
                 console.log(response);
             });

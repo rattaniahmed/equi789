@@ -3,7 +3,6 @@ app.controller('organisationsController', function ($scope, storageService, fire
 
 
 
-    console.log("organisation");
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.images = $firebaseArray(ref.child('admin'));
     $scope.Imgaes = [];
@@ -127,7 +126,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
                     $scope.images.$save(imageRef).then(function (ref) {
                         debugger;
                         var id = ref.key();
-                        console.log("added record with id " + id);
+                      
                         $("#loadingModal").hide();
                         window.location.reload();
 
@@ -155,7 +154,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
                 $scope.images.$save(imageRef).then(function (ref) {
                     debugger;
                     var id = ref.key();
-                    console.log("added record with id " + id);
+                   
                     $("#loadingModal").hide();
                     //window.location.reload();
 
@@ -183,8 +182,8 @@ app.controller('organisationsController', function ($scope, storageService, fire
   
     $scope.AddSponser = function ()
     {
-        debugger;
-        console.log($scope.checkbox);
+        
+       
 
        
         if (($("#namenew").val() == '') || ($("#numbernew").val() == '') || ($("#passwordnew").val() == '') || ($("#useridnew").val() == '') || ($("#filenew").val() == '')) {

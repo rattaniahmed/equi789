@@ -137,7 +137,7 @@
             }
             else {
                 var labels = [];
-                console.log(options);
+                
                 options.each(function () {
                     labels.push($(this).val());
                 });
@@ -160,7 +160,7 @@
             }
             else {
                 var labels = [];
-                console.log(options);
+                
                 options.each(function () {
                     labels.push($(this).val());
                 });
@@ -234,7 +234,7 @@
                 endDate: picker.endDate
             };
             $scope.Init();
-            console.log("applying date");
+          
             $scope.$apply();
         });
         $('#reportrangeride').on('cancel.daterangepicker', function (ev, picker) {
@@ -382,7 +382,7 @@
                 data: datatosend,
                 async: true,
                 success: function (response) {
-                    console.log(response);
+                    
                 },
                 error: function (reposnse) {
                     console.log("Unknown error occured");
