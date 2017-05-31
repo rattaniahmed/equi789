@@ -360,9 +360,7 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
     });
 
 
-    $rootScope.isUseListener = false;
-
-    if ($rootScope.isUseListener) {
+    $rootScope.loadFireBaseData = function () {
         firebase.database().ref('/Content/Messages').on('value', function (snapshot) {
             console.log("Message load complete");
 
@@ -444,6 +442,12 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
             console.log("Error in loading details");
         });
     }
+
+    $rootScope.isUseListener = false;
+    if ($rootScope.isUseListener) {
+        $rootScope.loadFireBaseData();
+    }
+
 });
 
 app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, storageService, blockUI, $http, firebaseService, $rootScope) {

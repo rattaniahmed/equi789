@@ -1,6 +1,6 @@
 ﻿app.controller('RideDetailsController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams, $rootScope) {
 
-    console.log("rideDetailController");
+    console.log("RideDetailController");
 
     $scope.date = {
         startDate: moment().subtract(30, "days"),
@@ -112,7 +112,7 @@
           { name: 'average_speed', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
           { name: 'start_time', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFn },
           { name: 'end_time', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFn },
-          { name: 'location', headerCellClass: 'blue' },
+        //  { name: 'location', headerCellClass: 'blue' },
           { name: 'weather', headerCellClass: 'blue' },
           { name: 'energy', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
           { name: 'calories', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt }
@@ -250,7 +250,9 @@
                 'Last 7 Days': [moment().subtract(6, 'days'), moment()],
                 'Last 30 Days': [moment().subtract(29, 'days'), moment()],
                 'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                'This Year': [moment().startOf('year'), moment().endOf('year')],
+                'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
             },
             opens: 'left',
             buttonClasses: ['btn btn-default'],
@@ -305,25 +307,67 @@
     }
 
     
-
-    $scope.filterValue = '';
+    $scope.filterCond = {};
     $scope.Search = function () {
-        $scope.filterValue = document.getElementById("search").value;
+        $scope.filterCond = {
+            TYPE: 'PLAIN',
+            VAL:document.getElementById("search").value
+        };
+        $scope.gridApi.grid.refresh();
+    }
+
+    $scope.SearchBYMILES = function () {
+        $scope.filterCond = {
+            TYPE: 'MILES',
+            VAL: document.getElementById("miles").value
+        };
+        $scope.gridApi.grid.refresh();
+    }
+
+    $scope.SearchBYHOURS = function () {
+        $scope.filterCond = {
+            TYPE: 'HOURS',
+            VAL: document.getElementById("hours").value
+        };
         $scope.gridApi.grid.refresh();
     }
 
     $scope.singleFilter = function (renderableRows) {
+        var value= '';
+        var colArray=['total_distance', 'total_time','calories', 'energy','top_speed', 'average_speed', 'high_heart_rate', 'weather', 'Member', 'MembershipNumber', 'Horse', 'total_distance'];
+        if ($scope.filterCond) {
+            if($scope.filterCond.TYPE=="MILES"){
+                value= $scope.filterCond.VAL;
+                colArray=['total_distance'];
+            }
+            if ($scope.filterCond.TYPE == "HOURS") {
+                value= $scope.filterCond.VAL;
+                colArray = ['total_time'];
+            }
+            if ($scope.filterCond.TYPE == "PLAIN") {
+                value = $scope.filterCond.VAL;
+                colArray = ['total_distance', 'total_time', 'calories', 'energy', 'top_speed', 'average_speed', 'high_heart_rate', 'weather', 'Member', 'MembershipNumber', 'Horse', 'total_distance'];
+            }
+        }
 
-        var matcher = new RegExp($scope.filterValue);
+        var matcher = new RegExp(value);
         renderableRows.forEach(function (row) {
 
             var match = false;
             // Object.keys(row.entity).
-            ['total_distance', 'total_time','calories', 'energy','top_speed', 'average_speed', 'high_heart_rate', 'weather', 'Member', 'MembershipNumber', 'Horse', 'total_distance'].forEach(function (field) {
+            colArray.forEach(function (field) {
                 try {
                     if (row && row.entity) {
                         if (row.entity[field]) {
-                            if (row.entity[field].match(matcher)) {
+                            if ($scope.filterCond.TYPE == "HOURS") {
+                                if ((parseInt(row.entity[field]) == value) || (parseInt(row.entity[field]) > value)) {
+                                    match = true;
+                                }
+                            } else if ($scope.filterCond.TYPE == "MILES") {
+                                if ((parseInt(row.entity[field]) == value) || (parseInt(row.entity[field]) > value)) {
+                                    match = true;
+                                }
+                            } else if (row.entity[field].match(matcher)) {
                                 match = true;
                             }
                         }
@@ -618,7 +662,7 @@
     $scope.getCurrentGridData = function () {
         var downloadData = [];
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-            var colArray = ["Member", "Horse", "MembershipNumber", "total_distance", "total_times", "top_speed", "average_speed", "start_time", "end_time", "location", "weather", "energy", "calories"]
+            var colArray = ["Member", "Horse", "MembershipNumber", "total_distance", "total_times", "top_speed", "average_speed", "start_time", "end_time",  "weather", "energy", "calories"]
             var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {
                 row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
