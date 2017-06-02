@@ -120,7 +120,7 @@
 
 
        else {
-           console.log($scope.addride)
+         //  console.log($scope.addride)
 
            var startTime = new Date($scope.addride.start_time);
            var endTime = new Date($scope.addride.end_time);

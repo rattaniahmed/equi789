@@ -45,7 +45,10 @@ app.config(function ($routeProvider, $locationProvider) {
              templateUrl: 'views/org/ridedetails.html',
              controller: 'RideDetailsController'
          })
-
+        .when('/ridemap', {
+            templateUrl: 'views/org/RideMap.html',
+            controller: 'RideMapController'
+        })
 
       .when('/rides/:id', {
           templateUrl: 'views/RideDetail.html',
