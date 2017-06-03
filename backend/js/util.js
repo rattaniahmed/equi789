@@ -1228,7 +1228,19 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
         var endDate1 = moment(endDate).add(1, 'days');
         if (ride)
             try {
-                return dates.inRange(ride.start_time, moment(startDate).format('l'), moment(endDate1).format('l'));
+                if (ride.$id == "-Kle77j7Q2WNFpCCzghW" || ride.$id == "-Kle53YyEOQFzmtq7baE") {
+                    debugger;
+                    var isex = true;
+                }
+
+                var timetocomparre = ride.start_time;
+                try {
+                    timetocomparre = timetocomparre.replace(" a.m.", "").replace("  A.M.", "").replace(" p.m.", "").replace("  P.M.", "");
+                } catch (err) {
+                    console.log("Error in formatin time for ride id " + ride.$id);
+                }
+
+                return dates.inRange(timetocomparre, moment(startDate).format('l'), moment(endDate1).format('l'));
             }
             catch (err) {
                 console.log("error in converting date " + ride.start_time);
@@ -1256,9 +1268,20 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
         // var timeValue = horseObject.ride_ids[rideId];
         // var ridetime = moment(ride.start_time);
 
-  
+        if (ride.$id == "-Kle77j7Q2WNFpCCzghW" || ride.$id == "-Kle53YyEOQFzmtq7baE") {
+            debugger;
+            var isex = true;
+        }
+        var timetocomparre = ride.start_time;
+        try{
+            timetocomparre = timetocomparre.replace(" a.m.", "").replace("  A.M.", "").replace(" p.m.", "").replace("  P.M.", "");
+        } catch (err) {
+            console.log("Error in formatin time for ride id " + ride.$id);
+        }
+
         var endDate1 = moment(timePeriod.endDate).add(1, 'days');
-        return dates.inRange(ride.start_time, moment(timePeriod.startDate).format('l'), moment(endDate1).format('l'));
+        //return dates.inRange(ride.start_time, moment(timePeriod.startDate).format('l'), moment(endDate1).format('l'));
+        return dates.inRange(timetocomparre, moment(timePeriod.startDate).format('l'), moment(endDate1).format('l'));
    
     }
 
@@ -1404,4 +1427,27 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
     function SendDataTONOdeJSBAckend(datatosend) {
    
 
+    }
+
+
+
+    function CheckRideExist(rideIdsTOFetch, id) {
+        var toReturn = false;
+        for (var idCounter = 0; idCounter < rideIdsTOFetch.length; idCounter++) {
+            if (rideIdsTOFetch[idCounter] && rideIdsTOFetch[idCounter].$id == id)
+                toReturn = true;
+        }
+        console.log("ride id " + id + "  value  is " + toReturn);
+        return toReturn;
+    }
+
+
+    function CheckHorseExist(horseIdsTOFetch, id) {
+        var toReturn = false;
+        for (var idCounter = 0; idCounter < horseIdsTOFetch.length; idCounter++) {
+            if (horseIdsTOFetch[idCounter] && horseIdsTOFetch[idCounter].$id == id)
+                toReturn = true;
+        }
+        console.log("horse id " + id + "  value  is " + toReturn);
+        return toReturn;
     }

@@ -213,8 +213,18 @@
     }
 
     $scope.UpdateGridRecord = function () {
+
         var rides = [];
         var rideIdsTOFetch = $scope.AllData;// $scope.gridOptions.data;
+
+        CheckHorseExist($scope.AllHorses, "-Kle4ePAlmZB5ficu8yB")
+        CheckHorseExist($scope.AllHorses, "-Kle6qVDdeuh39hhfspy")
+
+
+        CheckRideExist(rideIdsTOFetch, "-Kle77j7Q2WNFpCCzghW")
+        CheckRideExist(rideIdsTOFetch, "-Kle53YyEOQFzmtq7baE")
+
+
         for (var i in rideIdsTOFetch) {
             try {
                 //if (moment(rideIdsTOFetch[i].start_time).format('MM/DD/YYYY') >=
@@ -231,7 +241,15 @@
             }
         }
         $scope.gridOptions.data = rides;
-        console.log($scope.gridOptions.data);
+        //console.log($scope.gridOptions.data);
+
+        CheckHorseExist($scope.AllHorses, "-Kle4ePAlmZB5ficu8yB")
+        CheckHorseExist($scope.AllHorses, "-Kle6qVDdeuh39hhfspy")
+
+
+        CheckRideExist(rideIdsTOFetch, "-Kle77j7Q2WNFpCCzghW")
+        CheckRideExist(rideIdsTOFetch, "-Kle53YyEOQFzmtq7baE")
+
     }
 
 
@@ -509,6 +527,15 @@
                     }
                 }
             }
+
+
+            CheckHorseExist($scope.AllHorses, "-Kle4ePAlmZB5ficu8yB")
+            CheckHorseExist($scope.AllHorses, "-Kle6qVDdeuh39hhfspy")
+
+
+            CheckRideExist(rideIdsTOFetch, "-Kle77j7Q2WNFpCCzghW")
+            CheckRideExist(rideIdsTOFetch, "-Kle53YyEOQFzmtq7baE")
+
 
             $scope.AllData = rideIdsTOFetch;
 
