@@ -38,7 +38,7 @@
             'Last 30 Days': [moment().subtract(29, 'days'), moment()]
         }
     };
-
+   
     var srirachaSauce = 1;
     var myAwesomeSortFn = function (a1, b1, rowA, rowB, direction) {
 
@@ -230,17 +230,18 @@
 
             }
         }
-        // return rides;
-        $scope.InitMap();
+
         $scope.FinalData = rides;
-        i = 0;
-        for (var countmap = 0; countmap < $scope.FinalData.length; countmap++) {
-       
-            if ($scope.FinalData[countmap] && $scope.FinalData[countmap].start_cord) {
-                addMarker($scope.FinalData[countmap],$scope.FinalData[countmap].start_cord);
-                console.log(i + 1);
-            }
+
+        var centerCord = { lat: 29.44745, lng: -94.894173 };
+        if ($scope.currentLat ) {
+            centerCord = { lat: $scope.currentLat, lng: $scope.currentLong };
         }
+
+        
+        // return rides;
+        $scope.InitMap(centerCord, $scope.FinalData);
+        
         //console.log($scope.gridOptions.data);
         
         //show data to map
@@ -560,9 +561,9 @@
             '<h4 id="firstHeading" class="firstHeading">'+rideObj.location+'</h4>' +
             '<div id="bodyContent">' +
             '<table>'+
-            '<tr> <td style="padding:3px 10px 3px 0px;"><b>Start Time  :-  </b>' + rideObj.start_time + '</td>   <td> <b>End Time  :-  </b>' + rideObj.end_time + ' </td> </tr>' +
-            '<tr> <td style="padding:3px 10px 3px 0px;"><b>TopSpeed  :-  </b>' + rideObj.top_speed + '</td>   <td> <b>Avg Speed  :-  </b>' + rideObj.average_speed + ' </td> </tr>' +
-            '<tr> <td style="padding:3px 10px 3px 0px;"><b>Total Distance  :-  </b>' + rideObj.total_distance + '</td>   <td> <b>Total Time  :-  </b>' + rideObj.ride_time + ' </td> </tr>' +
+            '<tr> <td style="padding:3px 10px 3px 0px;"><b>Start Time  :  </b>' + rideObj.start_time + '</td>   <td> <b>End Time  :  </b>' + rideObj.end_time + ' </td> </tr>' +
+            '<tr> <td style="padding:3px 10px 3px 0px;"><b>TopSpeed  :  </b>' + rideObj.top_speed + '</td>   <td> <b>Avg Speed  :  </b>' + rideObj.average_speed + ' </td> </tr>' +
+            '<tr> <td style="padding:3px 10px 3px 0px;"><b>Total Distance  :  </b>' + rideObj.total_distance + '</td>   <td> <b>Total Time  :  </b>' + hhmmss(rideObj.ride_time) + ' </td> </tr>' +
             '</table>'+'</div>'+'</div>';
 
         var marker = new google.maps.Marker({
@@ -601,28 +602,77 @@
 
     }
 
+    $scope.currentLat = null;
+    $scope.currentLong = null;
 
-    $scope.InitMap = function () {
+    $scope.InitMap = function (center, FinalData) {
         $scope.map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: 29.44745, lng: -94.894173 },
+            center: center,
             zoom: 8,
             mapTypeId: 'terrain'
         });
         var autocomplete = new google.maps.places.Autocomplete(document.getElementById('search_address'));
+
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace();
+           // infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address + "<br>" + place.geometry.location);
+            if (place.geometry && place.geometry.location) {
+                $scope.currentLat = place.geometry.location.lat();
+                $scope.currentLong = place.geometry.location.lng();
+                $scope.UpdateGridRecord();
+            }
+        });
+
         //$scope.map = map;
 
         //$scope.map.addListener('click', function (event) {
         //    addMarker(event.latLng);
         //});
+        var searchRadius = $("#search_radius").val();
+        for (var countmap = 0; countmap < FinalData.length; countmap++) {
+
+            if (FinalData[countmap] && FinalData[countmap].start_cord) {
+                var radiusmap = $scope.distance(center.lat, center.lng, FinalData[countmap].start_cord.lat, FinalData[countmap].start_cord.lng);
+                if (searchRadius == "10+" || searchRadius=="") {
+                   
+                        //calculate the distance between FinalData[countmap].start_cord and center and compare with miles logic
+                        addMarker(FinalData[countmap], FinalData[countmap].start_cord);
+                   
+
+                }else if ($scope.distance() == searchRadius || $scope.distance() < searchRadius) {
+                    //calculate the distance between FinalData[countmap].start_cord and center and compare with miles logic
+                    addMarker(FinalData[countmap], FinalData[countmap].start_cord);
+                }
+               // console.log(i + 1);
+
+            }
+
+        }
     }
 
     $scope.FinalData = [];
+    $scope.distance=function(lat1, lon1, lat2, lon2) {
+        var radlat1 = Math.PI * lat1/180
+        var radlat2 = Math.PI * lat2/180
+        var theta = lon1-lon2
+        var radtheta = Math.PI * theta/180
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        dist = Math.acos(dist)
+        dist = dist * 180/Math.PI
+        dist = dist * 60 * 1.1515
+        //if (unit=="K") { dist = dist * 1.609344 }
+        //if (unit == "N")
+       // dist = dist * 0.8684 
+        return dist
+    }
     $scope.Init = function () {
         //$scope.InitMap();
         LoadingState();
 
         if ($rootScope.isDataLoaded) {
-         
+           
+           // $scope.distanceValue = "10+ miles";
             $scope.renderCalender();
             $scope.org = JSON.parse(localStorage.getItem('adminObject'));
             $scope.AllHorses = $rootScope.getOrgHorses();

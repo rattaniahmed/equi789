@@ -183,6 +183,7 @@
                 var start_cord = { lat: coord[0].lat, lng: coord[0].lng }
                 var end_cord = { lat: coord[len - 1].lat, lng: coord[len - 1].lng }
                 var coords = true;
+                console.log(rideId);
                 firebase.database().ref('/rides/' + rideId + '/start_cord').set(start_cord);
                 firebase.database().ref('/rides/' + rideId + '/end_cord').set(end_cord);
                 firebase.database().ref('/rides/' + rideId + '/coords').set(coords);
@@ -205,10 +206,10 @@
                 //$scope.Start(0);
 
                 
-                for (var rcounter = 0; rcounter < 500; rcounter++) {
+                for (var rcounter = 0; rcounter < $scope.RideData.length; rcounter++) {
                     var rideId = $scope.RideData[rcounter].$id;
                     $scope.updateRide(rideId);
-                    console.log("UPdated ride - " + rideId);
+                    //console.log("UPdated ride - " + rideId);
                 }
             });
 

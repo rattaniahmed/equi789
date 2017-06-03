@@ -7,12 +7,12 @@
            
             <label style="float: right;margin-left: 10px;">
                 within
-                <select id="search_radius" style="border:1px solid;height:34px;border-radius:5px">
-                    <option value="400">1 mile</option>
-                    <option value="600">2 miles</option>
-                    <option value="805">5 miles</option>
-                    <option value="1610">10 miles</option>
-                    <option value="3220">10+ miles</option>
+                <select id="search_radius" style="border:1px solid;height:34px;border-radius:5px" ng-change="UpdateGridRecord()" ng-model="distanceValue">
+                    <option value="1">1 mile</option>
+                    <option value="2">2 miles</option>
+                    <option value="5">5 miles</option>
+                    <option value="10">10 miles</option>
+                    <option value="10+" ng-selected="true">10+ miles</option>0
                 </select>
             </label>
             <input type="text" id="search_address" placeholder="Enter an address or an intersection" style="float:right;border:1px solid; width:350px; height:34px;border-radius:5px; padding:5px;"  autocomplete="off"  />
@@ -28,7 +28,7 @@
         <div class="clearfix"></div>
 
         <div class="row" style="margin-top:10px;">
-
+           
             <button type="button" class="btn btn-primary addjust mr-10">Filter</button>
             <!--<button type="button" class="btn btn-primary addjust mr-10" ng-click="SelectItem()">Filter</button>-->
             <!--<div ng-dropdown-multiselect="" class="addjust mr-10" search-filter="customFilter" options="example14data" selected-model="example14model" extra-settings="example14settings" translation-texts="example14customTexts">
@@ -46,6 +46,7 @@
                 <span>January 6, 2017 - February 4, 2017</span> <b class="caret"></b>
             </div>
             <h5 class="mr-10" style="float:right">Filter by Rides Saved:</h5>
+            <h5 class="mr-90" style="float:right">Number of Rides <small style="color:blue"> {{FinalData.length}} </small></h5>
 
             <!--<input date-range-picker id="daterange3" name="daterange3" class="form-control date-picker" type="text"
                    ng-model="date" options="opts" required style="width: 25%;    float: right;    margin-right: 10px;" />-->
@@ -85,7 +86,7 @@
 
 
 
-                    <div id="map" style="height:500px;"></div>
+                    <div id="map" style="height:650px;"></div>
 
 
                 </div>
