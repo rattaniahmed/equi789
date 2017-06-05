@@ -1,6 +1,6 @@
 ﻿app.controller('RideDetailsController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams, $rootScope) {
 
-    console.log("RideDetailController");
+   // console.log("RideDetailController");
 
     $scope.date = {
         startDate: moment().subtract(30, "days"),
@@ -163,13 +163,13 @@
           $scope.stables = [];
           angular.forEach($scope.horse.ride_ids, function (value, key) {
               //console.log(value);
-              console.log(key);
+            //  console.log(key);
               var rides = $scope.rides.$getRecord(key);
               if (rides != null) {
                   //(new Date).clearTime().addSeconds(rides.total_time).toString('H:mm:ss');
                   $scope.stables.push(rides);
               }
-              console.log($scope.stables);
+           //   console.log($scope.stables);
               $scope.gridOptions.data = $scope.stables;
 
           });
@@ -192,7 +192,7 @@
           });
 
           $scope.horses.$save($scope.horse).then(function (res) {
-              console.log(res);
+             // console.log(res);
 
 
           }).catch(function (err) {
@@ -257,7 +257,7 @@
     $scope.renderCalender = function () {
 
         var cb = function (start, end, label) {
-            console.log("Setting stat and end lable data");
+           // console.log("Setting stat and end lable data");
             $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         };
 
@@ -306,7 +306,7 @@
                 startDate: picker.startDate,
                 endDate: picker.endDate
             };
-            console.log("applying date");
+          //  console.log("applying date");
             $scope.UpdateGridRecord();
             $scope.$apply();
         });
@@ -416,7 +416,7 @@
             }
             else {
                 var labels = [];
-                console.log(options);
+               // console.log(options);
                 options.each(function () {
                     labels.push($(this).val());
                 });
@@ -439,7 +439,7 @@
             }
             else {
                 var labels = [];
-                console.log(options);
+               // console.log(options);
                 options.each(function () {
                     labels.push($(this).val());
                 });
@@ -566,7 +566,7 @@
     }
 
     $scope.$on('UpdateHorseDropDown', function (event, data) {
-        console.log("UpdateHorseDropDown event call"); // 'Data to send'
+        //console.log("UpdateHorseDropDown event call"); // 'Data to send'
 
         if ($scope.example15model.length > 0) {
             $scope.SearchData = [];
@@ -722,7 +722,7 @@
                 data: datatosend,
                 async: true,
                 success: function (response) {
-                    console.log(response);
+                //    console.log(response);
                 },
                 error: function (reposnse) {
                     console.log("Unknown error occured");

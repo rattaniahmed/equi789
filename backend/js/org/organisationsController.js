@@ -9,7 +9,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
         debugger;
-                console.log(dataArray);
+               // console.log(dataArray);
     }).catch(function (error) {
         console.log("Error in loading details");
     });
@@ -244,7 +244,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
                     $scope.images.$add(toAdd).then(function (ref) {
                         debugger;
                         var id = ref.key();
-                        console.log("added record with id " + id);
+                    //    console.log("added record with id " + id);
                       
 
                     });

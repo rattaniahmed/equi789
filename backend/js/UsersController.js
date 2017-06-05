@@ -1,7 +1,7 @@
 ﻿
 app.controller('UsersController', function ($scope, storageService, firebaseService, $firebaseArray) {
 
-    console.log("UsersController");
+    //console.log("UsersController");
     
 
 
@@ -55,7 +55,7 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
 
             var id = ref.key();
             if ($scope.user.$id == id) {
-                console.log("Deleted success fully");
+             //   console.log("Deleted success fully");
             }
 
         });
@@ -91,7 +91,7 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
                 
                     var id = ref.key();
                     if (ride.$id == id) {
-                        console.log("Deleted success fully");
+                      //  console.log("Deleted success fully");
                     }
                 });
 
@@ -99,7 +99,7 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
                     var cordToRemove = $scope.coords.$getRecord(key);
                     $scope.coords.$remove(cordToRemove).then(function (ref) {
                         var id = ref.key();
-                        console.log("corods Deleted success fully");
+                     //   console.log("corods Deleted success fully");
                     });
                 }
                 catch (corddeleteerro) {
@@ -113,7 +113,7 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
                  
                 var id = ref.key();
                 if (horse.$id == id) {
-                    console.log("Deleted success fully");
+                    //console.log("Deleted success fully");
                 }
             });
 
@@ -154,7 +154,7 @@ app.controller('UsersController', function ($scope, storageService, firebaseServ
     $scope.usersArray = [];
     $scope.users.$loaded().then(function (dataArray) {
         //$scope.usersArray = dataArray;
-        console.log($scope.usersArray);
+       // console.log($scope.usersArray);
 
         angular.forEach(dataArray, function (value, key) {
 

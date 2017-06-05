@@ -81,7 +81,7 @@ function PrepareRequestForMail(prcid, TO, CC, From, Subject, Body, DisplayName) 
     dataArray.push({ Key: "Body", Value: Body });
     dataArray.push({ Key: "DisplayName", Value: DisplayName });
     inputData.DataArray = dataArray;
-    console.log(inputData);
+   // console.log(inputData);
     return inputData;
 }
 
@@ -269,7 +269,7 @@ function Removemessage(obj) {
                 delete msgObject[msg];
             } 
         }
-        console.log(msgObject+"tyeyrtyretyretyrt");
+        //console.log(msgObject+"tyeyrtyretyretyrt");
         firebase.database().ref('/Content/Messages/').set(msgObject);
     });
 }
@@ -589,7 +589,7 @@ function ExecuteDataSetService(inputData, success, failure, showsuccessmessage, 
             // $('#loadingModal').hide();
             if (response.Code == "P00001") {
                 if (showsuccessmessage !== undefined && showsuccessmessage) { 
-                    console.log(response.Message);
+                    //console.log(response.Message);
                 }
                 if (success !== undefined)
                     success(response.Data);

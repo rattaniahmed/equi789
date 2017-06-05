@@ -1,6 +1,6 @@
 ﻿app.controller('rideDetailController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams) {
 
-    console.log("rideDetailController");
+   // console.log("rideDetailController");
 
     $scope.editId = $routeParams.id;
 
@@ -47,7 +47,7 @@
         $scope.rides.$remove($scope.ride).then(function (ref) {
             var id = ref.key();
             if ($scope.ride.$id == id) {
-                console.log("Deleted success fully");
+               // console.log("Deleted success fully");
             }
         });
 
@@ -55,7 +55,7 @@
               var cordToRemove = $scope.coords.$getRecord(row.entity.$id);
               $scope.coords.$remove(cordToRemove).then(function (ref) {
                   var id = ref.key();
-                  console.log("corods Deleted success fully");
+                 // console.log("corods Deleted success fully");
               });
           }
           catch (corddeleteerro) {
@@ -69,13 +69,13 @@
         $scope.stables = [];
         angular.forEach($scope.horse.ride_ids, function (value, key) {
             //console.log(value);
-            console.log(key);
+         //   console.log(key);
             var rides = $scope.rides.$getRecord(key);
             if (rides != null) {
 
                 $scope.stables.push(rides);
             }
-            console.log($scope.stables);
+           // console.log($scope.stables);
             $scope.gridOptions.data = $scope.stables;
 
         });
@@ -98,7 +98,7 @@
         });
 
         $scope.horses.$save($scope.horse).then(function (res) {
-            console.log(res);
+           // console.log(res);
             
 
         }).catch(function (err) {
@@ -151,7 +151,7 @@
         $scope.rides.$loaded().then(function (dataArray) {
             angular.forEach($scope.horse.ride_ids, function (value, key) {
                 //console.log(value);
-                console.log(key);
+               // console.log(key);
                 var rides = $scope.rides.$getRecord(key);
                 if (rides != null) {
                     
@@ -159,7 +159,7 @@
 
                     $scope.stables.push(rides);
                 }
-                console.log($scope.stables);
+                //console.log($scope.stables);
                 $scope.gridOptions.data = $scope.stables;
             });
         }).catch(function (error) {
@@ -170,7 +170,7 @@
 
     $scope.coords = $firebaseArray(ref.child('coords'));
     $scope.coords.$loaded().then(function (dataArray) {
-        console.log("coords loaded ");
+      //  console.log("coords loaded ");
     });
     
 
