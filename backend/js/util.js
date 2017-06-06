@@ -215,6 +215,13 @@ function hhmmss(secs) {
     minutes = minutes % 60;
     return pad(hours) + ":" + pad(minutes) + ":" + pad(secs);
 }
+function gethour(secs) {
+    var minutes = Math.floor(secs / 60);
+    secs = secs % 60;
+    var hours = Math.floor(minutes / 60)
+    minutes = minutes % 60;
+    return pad(hours); //+ ":" + pad(minutes) + ":" + pad(secs);
+}
 
 
 
@@ -1309,6 +1316,10 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
         var totalCalories = 0;
         var totalAverageSpeed = 0.0;
         var totalTopSspeed = 0.0;
+        try {
+            var milesfilter = document.getElementById("miles").value;
+            var hourfilter = document.getElementById("hours").value;
+        } catch (err) { }
 
         if (ride_ids) {
             for (var cnt = 0; cnt < ride_ids.length; cnt++) {
@@ -1323,19 +1334,21 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
                     } catch (err) { }
                     if (inRange) {
                         //totalLength = _.size(ride_ids);
-                        totalLength++;
-                        totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
-                        totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
-                        totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);
-                        totalCalories = parseFloat(totalCalories) + parseFloat(ride.calories);
-                        averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
-                        totalTopSspeedArray.push(parseFloat(ride.top_speed));
-                    }
+                       
+                            totalLength++;
+                            totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
+                            totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
+                            totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);
+                            totalCalories = parseFloat(totalCalories) + parseFloat(ride.calories);
+                            averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
+                            totalTopSspeedArray.push(parseFloat(ride.top_speed));
+                        }
+                    
                 }
             }
         }
-
-        var tempDuration = totalDuration;
+        if ((totalDistance >= milesfilter) && (parseInt(gethour(totalDuration)) >= hourfilter)) {
+        var tempDuration = totalDuration; 
 
         totalDistance = parseFloat(Math.round(totalDistance * 100) / 100).toFixed(2);
         totalEnergy = parseFloat(Math.round(totalEnergy * 100) / 100).toFixed(2);
@@ -1354,11 +1367,15 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
             }
         }
 
-        commulativeData.total_rides = totalLength;
-        commulativeData.top_speed = totalTopSspeed + " mph";
-        commulativeData.energy = totalCalories + " cal";
-        commulativeData.miles = totalDistance + " miles";
-        commulativeData.totalDuration = totalDuration;
+        
+            commulativeData.total_rides = totalLength;
+            commulativeData.top_speed = totalTopSspeed + " mph";
+            commulativeData.energy = totalCalories + " cal";
+            commulativeData.miles = totalDistance + " miles";
+            commulativeData.totalDuration = totalDuration;
+        } else {
+            commulativeData.total_rides = 0;
+        }
 
         return commulativeData;
     }

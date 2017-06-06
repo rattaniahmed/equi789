@@ -233,7 +233,7 @@
 
         $scope.FinalData = rides;
 
-        var centerCord = { lat: 29.44745, lng: -94.894173 };
+        var centerCord = JSON.parse(localStorage.getItem("CURRENTLOCATION"));
         if ($scope.currentLat ) {
             centerCord = { lat: $scope.currentLat, lng: $scope.currentLong };
         }
@@ -629,13 +629,14 @@
         //$scope.map.addListener('click', function (event) {
         //    addMarker(event.latLng);
         //});
+       // 
         var searchRadius = $("#search_radius").val();
         $scope.RideCount = 0;
         for (var countmap = 0; countmap < FinalData.length; countmap++) {
 
             if (FinalData[countmap] && FinalData[countmap].start_cord) {
                 var radiusmap = $scope.distance(center.lat, center.lng, FinalData[countmap].start_cord.lat, FinalData[countmap].start_cord.lng);
-                if (searchRadius == "10+" || searchRadius=="") {
+                if (searchRadius == "11" || searchRadius=="") {
                    
                         //calculate the distance between FinalData[countmap].start_cord and center and compare with miles logic
                     addMarker(FinalData[countmap], FinalData[countmap].start_cord);
@@ -673,53 +674,65 @@
        // dist = dist * 0.8684 
         return dist
     }
+   
+
+   
+
+   
     $scope.Init = function () {
         //$scope.InitMap();
         LoadingState();
+        $("#search_radius").val(11);
 
-        if ($rootScope.isDataLoaded) {
+       // angular.element(document).ready(function () {
            
-           // $scope.distanceValue = "10+ miles";
-            $scope.renderCalender();
-            $scope.org = JSON.parse(localStorage.getItem('adminObject'));
-            $scope.AllHorses = $rootScope.getOrgHorses();
-            $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
-            // $scope.Rides = $rootScope.getOrgRides($scope.AllHorses);
-            $scope.HorseUserMaps = getHorseUserMap($scope.Users);
-            var Organisation = JSON.parse(localStorage.getItem('adminObject'));
-            var rideIdsTOFetch = [];
 
-            for (var counter = 0; counter < $scope.AllHorses.length; counter++) {
-                var horse = $scope.AllHorses[counter];
-                if (horse && horse.ride_ids) {
-                    for (var rideid in horse.ride_ids) {
-                        var rideDetails = $scope.getFormattedRideDetail(horse, rideid);
-                        if (rideDetails) {
-                            rideIdsTOFetch.push(rideDetails);
+            if ($rootScope.isDataLoaded) {
+
+                // $scope.distanceValue = "10+ miles";
+                $scope.renderCalender();
+                $scope.org = JSON.parse(localStorage.getItem('adminObject'));
+                $scope.AllHorses = $rootScope.getOrgHorses();
+                $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
+                // $scope.Rides = $rootScope.getOrgRides($scope.AllHorses);
+                $scope.HorseUserMaps = getHorseUserMap($scope.Users);
+                var Organisation = JSON.parse(localStorage.getItem('adminObject'));
+
+                var rideIdsTOFetch = [];
+
+                for (var counter = 0; counter < $scope.AllHorses.length; counter++) {
+                    var horse = $scope.AllHorses[counter];
+                    if (horse && horse.ride_ids) {
+                        for (var rideid in horse.ride_ids) {
+                            var rideDetails = $scope.getFormattedRideDetail(horse, rideid);
+                            if (rideDetails) {
+                                rideIdsTOFetch.push(rideDetails);
+                            }
                         }
                     }
                 }
+
+                $scope.AllData = rideIdsTOFetch;
+
+                //$scope.gridOptions.data = rideIdsTOFetch;
+                $scope.UpdateGridRecord();
+
+                //$scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
+                $scope.setDateLable($scope.date.startDate, $scope.date.endDate);
+
+
+                //make a loop to add data to map
+
+
+                UnLoadingState();
             }
-
-            $scope.AllData = rideIdsTOFetch;
-
-            //$scope.gridOptions.data = rideIdsTOFetch;
-            $scope.UpdateGridRecord();
-
-            //$scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
-            $scope.setDateLable($scope.date.startDate, $scope.date.endDate);
-
-
-            //make a loop to add data to map
-           
-
-            UnLoadingState();
-        }
+        //});
     }
 
     $scope.Init();
+    
     $scope.$on('DataLoaded', function (event, data) {
-        $scope.Init();
+        $scope.Init();       
     });
 
 

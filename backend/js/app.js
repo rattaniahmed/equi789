@@ -206,6 +206,21 @@ app.factory('sessionService', function (storageService, $location) {
 
 });
 
+function showPosition(position) {
+    //x.innerHTML = "Latitude: " + position.coords.latitude +
+    //    "<br>Longitude: " + position.coords.longitude;
+    var centerCord = { lat: position.coords.latitude, lng: position.coords.longitude };
+    localStorage.setItem("CURRENTLOCATION", JSON.stringify(centerCord));
+   // $scope.$apply();
+}
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        swal("Geolocation is not supported by this browser.");
+        return;
+    }
+}
 app.run(function ($rootScope,firebaseService, $firebaseArray) {
 
     $rootScope.isDataLoaded = false;
@@ -214,6 +229,10 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
     $rootScope.isRidesLoaded = false;
 
     var ref = firebaseService.FIREBASEENDPOINT();
+    
+    
+
+    
 
     $rootScope.getHorseIds = function (user, AllHorses) {
         var Organisation = JSON.parse(localStorage.getItem('adminObject'));
@@ -384,7 +403,14 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
         }
     }).catch(function (error) {
         console.log("Error in loading rides");
-    });
+        });
+    var centerCord = { lat: 29.44745, lng: -94.894173 };
+    // var centerCord = { lat: position.coords.latitude, lng: position.coords.longitude };
+    //localStorage.setItem("CURRENTLOCATIONqwwqwqwq", centerCord);
+    localStorage.setItem("CURRENTLOCATION", JSON.stringify(centerCord));
+    getLocation();
+
+    
 
 })
 

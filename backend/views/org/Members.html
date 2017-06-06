@@ -13,12 +13,15 @@
         </div>
 
         <div class="clearfix"></div>
-        <div class="row" style="margin-top:10px;float: right;display:inline-flex">
+        
+        <div class="row pull-right" style="margin-top:10px;display:inline-flex;">
             <h5 class="mr-10">Filter by Rides Saved:</h5>
             <div id="reportrangeride" class="" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;margin-right: 10px;    height: 34px;">
                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                 <span>January 6, 2017 - February 4, 2017</span> <b class="caret"></b>
             </div>
+            <span style="line-height: 35px;" class="mr-5">>= Miles :</span> <input type="text" id="miles" style="border:1px solid; width:70px; height:34px;border-radius:5px; padding:5px;margin-right: 10px;" ng-keydown="checkNuumber($event)" placeholder="MILES" />
+            <span style="line-height: 35px;" class="mr-5">>= Hours :</span> <input type="text" id="hours" style="border:1px solid; width:70px; height:34px;border-radius:5px; padding:5px;margin-right: 10px;" ng-keydown="checkNuumber($event)" placeholder="HOURS" />
             <div class="mr-10">
                 <button type="button" class="btn btn-primary" ng-click="SelectItem()">Filter</button>
             </div>

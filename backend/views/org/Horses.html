@@ -13,7 +13,7 @@
         </div>
 
         <div class="clearfix"></div>
-
+        
         <div class="row mt-10 pull-right" style="display:inline-flex;">
             <h5 class="mr-10">Filter by Rides Saved:</h5>
             <div class="">
@@ -27,8 +27,10 @@
 
                 </div>
             </div>
-            
-            <div class="" style="">
+            <span style="line-height: 35px;" class="mr-5"> >= Miles :</span> <input type="text" id="miles" style="border:1px solid; width:70px; height:34px;border-radius:5px; padding:5px;margin-right: 10px;" ng-keydown="checkNuumber($event)" placeholder="MILES" />
+            <span style="line-height: 35px;" class="mr-5"> >= Hours :</span> <input type="text" id="hours" style="border:1px solid; width:70px; height:34px;border-radius:5px; padding:5px;margin-right: 10px;" ng-keydown="checkNuumber($event)" placeholder="HOURS" />
+
+            <div class="" style="padding-right:9px">
                     <button type="button" class="btn btn-primary" ng-click="SelectItem()">Filter</button>
         </div>
              
