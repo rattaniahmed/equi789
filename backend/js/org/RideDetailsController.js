@@ -237,7 +237,7 @@
                 //    rides.push(rideIdsTOFetch[i]);
                 //}
                 if (InDefinedTimeRang(rideIdsTOFetch[i], $scope.date)) {
-                    if ((InDefinedTimeRang(rideIdsTOFetch[i], $scope.date)) && (rideIdsTOFetch[i].total_distance >= milesfilter) && (parseInt(gethour(rideIdsTOFetch[i].total_time)) >= hourfilter))
+                    if ((InDefinedTimeRang(rideIdsTOFetch[i], $scope.date)) && (parseInt(rideIdsTOFetch[i].total_distance) >= milesfilter) && (parseInt(gethour(rideIdsTOFetch[i].total_time)) >= hourfilter))
                         rides.push(rideIdsTOFetch[i]);
                 }
                 //put miles check
