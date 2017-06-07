@@ -39,7 +39,7 @@
         ]
     };
     $scope.date = {
-        startDate: moment().subtract(30, "days"),
+        startDate: moment().subtract(29, "days"),
         endDate: moment()
     };
     $scope.gridOptions = {
@@ -260,7 +260,7 @@
     $scope.Init = function () {
         LoadingState();
         if ($rootScope.isDataLoaded) {
-            
+            RefillGridBacket();
             $scope.AllHorses = $rootScope.getOrgHorses();
             $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
             $scope.AllHorses = $rootScope.filterOrgHorses($scope.Users, $scope.AllHorses);

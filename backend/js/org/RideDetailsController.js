@@ -3,7 +3,7 @@
    // console.log("RideDetailController");
 
     $scope.date = {
-        startDate: moment().subtract(30, "days"),
+        startDate: moment().subtract(29, "days"),
         endDate: moment()
     };
     var Organisation = JSON.parse(localStorage.getItem('adminObject'));
@@ -211,7 +211,7 @@
         $scope.gridApi.exporter.pdfExport("all", "all");
         //};
     }
-
+    var rideGridBucket = [];
     $scope.UpdateGridRecord = function (rideIdsTOFetch) {
 
         var rides = [];
@@ -228,6 +228,8 @@
             var hourfilter = document.getElementById("hours").value;
         } catch (err) { }
 
+        rideGridBucket = [];
+
         for (var i in rideIdsTOFetch) {
             try {
                 //if (moment(rideIdsTOFetch[i].start_time).format('MM/DD/YYYY') >=
@@ -237,8 +239,10 @@
                 //    rides.push(rideIdsTOFetch[i]);
                 //}
                 if (InDefinedTimeRang(rideIdsTOFetch[i], $scope.date)) {
-                    if ((InDefinedTimeRang(rideIdsTOFetch[i], $scope.date)) && (parseInt(rideIdsTOFetch[i].total_distance) >= milesfilter) && (parseInt(gethour(rideIdsTOFetch[i].total_time)) >= hourfilter))
+                    if ((InDefinedTimeRang(rideIdsTOFetch[i], $scope.date)) && (parseInt(rideIdsTOFetch[i].total_distance) >= milesfilter) && (parseInt(gethour(rideIdsTOFetch[i].total_time)) >= hourfilter)) {
                         rides.push(rideIdsTOFetch[i]);
+                        rideGridBucket.push(rideIdsTOFetch[i].$id);
+                    }
                 }
                 //put miles check
                 //if ((totalDistance >= milesfilter) && (parseInt(gethour(totalDuration)) >= hourfilter)) {

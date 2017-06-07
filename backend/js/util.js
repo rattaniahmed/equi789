@@ -1247,7 +1247,10 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
                     console.log("Error in formatin time for ride id " + ride.$id);
                 }
 
-                return dates.inRange(timetocomparre, moment(startDate).format('l'), moment(endDate1).format('l'));
+                var toReturn = dates.inRange(timetocomparre, moment(startDate).format('l'), moment(endDate1).format('l'));
+                if (toReturn)
+                    gridBucket.push(ride.$id);
+                return toReturn;
             }
             catch (err) {
                 console.log("error in converting date " + ride.start_time);
@@ -1268,7 +1271,12 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 
     //    return dates.compare((time), moment(new Date).format('l'));
 
-    //}
+//}
+    gridBucket = [];
+    function RefillGridBacket() {
+        gridBucket = [];
+    }
+
     function InDefinedTimeRang(ride, timePeriod) {
         //put date compare logic based on ride time
    
@@ -1288,8 +1296,11 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 
         var endDate1 = moment(timePeriod.endDate).add(1, 'days');
         //return dates.inRange(ride.start_time, moment(timePeriod.startDate).format('l'), moment(endDate1).format('l'));
-        return dates.inRange(timetocomparre, moment(timePeriod.startDate).format('l'), moment(endDate1).format('l'));
-   
+        var toReturn = dates.inRange(timetocomparre, moment(timePeriod.startDate).format('l'), moment(endDate1).format('l'));
+        if (toReturn)
+            gridBucket.push(ride.$id);
+
+        return toReturn;
     }
 
     //function InDefinedTimeRangForGraph(rideObj, dateToPass) {

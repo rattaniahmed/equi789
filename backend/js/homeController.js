@@ -87,7 +87,7 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
 
 
     $scope.date = {
-        startDate: moment().subtract(30, "days"),
+        startDate: moment().subtract(29, "days"),
         endDate: moment()
     };
 
