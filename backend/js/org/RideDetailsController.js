@@ -212,18 +212,21 @@
         //};
     }
 
-    $scope.UpdateGridRecord = function () {
+    $scope.UpdateGridRecord = function (rideIdsTOFetch) {
 
         var rides = [];
-        var rideIdsTOFetch = $scope.AllData;// $scope.gridOptions.data;
+    //  var  rideIdsTOFetch= $scope.getUSERHORSERIDEFILTERIDS();
 
-        CheckHorseExist($scope.AllHorses, "-Kle4ePAlmZB5ficu8yB")
-        CheckHorseExist($scope.AllHorses, "-Kle6qVDdeuh39hhfspy")
+       // var rideIdsTOFetch = null;// $scope.gridOptions.data;
+        if (rideIdsTOFetch) {
+            
+        }
+        else rideIdsTOFetch = $scope.AllData;
 
-
-        CheckRideExist(rideIdsTOFetch, "-Kle77j7Q2WNFpCCzghW")
-        CheckRideExist(rideIdsTOFetch, "-Kle53YyEOQFzmtq7baE")
-
+        try {
+            var milesfilter = document.getElementById("miles").value;
+            var hourfilter = document.getElementById("hours").value;
+        } catch (err) { }
 
         for (var i in rideIdsTOFetch) {
             try {
@@ -233,22 +236,25 @@
                 //    moment($scope.date.endDate._d).format('MM/DD/YYYY')) {
                 //    rides.push(rideIdsTOFetch[i]);
                 //}
-                if (InDefinedTimeRang(rideIdsTOFetch[i], $scope.date))
-                    rides.push(rideIdsTOFetch[i]);
+                if (InDefinedTimeRang(rideIdsTOFetch[i], $scope.date)) {
+                    if ((InDefinedTimeRang(rideIdsTOFetch[i], $scope.date)) && (rideIdsTOFetch[i].total_distance >= milesfilter) && (parseInt(gethour(rideIdsTOFetch[i].total_time)) >= hourfilter))
+                        rides.push(rideIdsTOFetch[i]);
+                }
+                //put miles check
+                //if ((totalDistance >= milesfilter) && (parseInt(gethour(totalDuration)) >= hourfilter)) {
+                //put hours check 
+
+                
             }
             catch (errorObject) {
 
             }
         }
+
         $scope.gridOptions.data = rides;
         //console.log($scope.gridOptions.data);
 
-        CheckHorseExist($scope.AllHorses, "-Kle4ePAlmZB5ficu8yB")
-        CheckHorseExist($scope.AllHorses, "-Kle6qVDdeuh39hhfspy")
-
-
-        CheckRideExist(rideIdsTOFetch, "-Kle77j7Q2WNFpCCzghW")
-        CheckRideExist(rideIdsTOFetch, "-Kle53YyEOQFzmtq7baE")
+       
 
     }
 
@@ -325,67 +331,44 @@
     }
 
     
-    $scope.filterCond = {};
+    //$scope.filterCond = {};
     $scope.Search = function () {
-        $scope.filterCond = {
-            TYPE: 'PLAIN',
-            VAL:document.getElementById("search").value
-        };
+        //$scope.filterCond = {
+        //    TYPE: 'PLAIN',
+        //    VAL:document.getElementById("search").value
+        //};
+        $scope.filterValue = document.getElementById("search").value;
         $scope.gridApi.grid.refresh();
+        //$scope.gridApi.grid.refresh();
     }
 
-    $scope.SearchBYMILES = function () {
-        $scope.filterCond = {
-            TYPE: 'MILES',
-            VAL: document.getElementById("miles").value
-        };
-        $scope.gridApi.grid.refresh();
-    }
+    //$scope.SearchBYMILES = function () {
+    //    $scope.filterCond = {
+    //        TYPE: 'MILES',
+    //        VAL: document.getElementById("miles").value
+    //    };
+    //    $scope.gridApi.grid.refresh();
+    //}
 
-    $scope.SearchBYHOURS = function () {
-        $scope.filterCond = {
-            TYPE: 'HOURS',
-            VAL: document.getElementById("hours").value
-        };
-        $scope.gridApi.grid.refresh();
-    }
+    //$scope.SearchBYHOURS = function () {
+    //    $scope.filterCond = {
+    //        TYPE: 'HOURS',
+    //        VAL: document.getElementById("hours").value
+    //    };
+    //    $scope.gridApi.grid.refresh();
+    //}
 
     $scope.singleFilter = function (renderableRows) {
-        var value= '';
-        var colArray=['total_distance', 'total_time','calories', 'energy','top_speed', 'average_speed', 'high_heart_rate', 'weather', 'Member', 'MembershipNumber', 'Horse', 'total_distance'];
-        if ($scope.filterCond) {
-            if($scope.filterCond.TYPE=="MILES"){
-                value= $scope.filterCond.VAL;
-                colArray=['total_distance'];
-            }
-            if ($scope.filterCond.TYPE == "HOURS") {
-                value= $scope.filterCond.VAL;
-                colArray = ['total_time'];
-            }
-            if ($scope.filterCond.TYPE == "PLAIN") {
-                value = $scope.filterCond.VAL;
-                colArray = ['total_distance', 'total_time', 'calories', 'energy', 'top_speed', 'average_speed', 'high_heart_rate', 'weather', 'Member', 'MembershipNumber', 'Horse', 'total_distance'];
-            }
-        }
-
-        var matcher = new RegExp(value);
+        var matcher = new RegExp($scope.filterValue);
         renderableRows.forEach(function (row) {
 
             var match = false;
             // Object.keys(row.entity).
-            colArray.forEach(function (field) {
+            ['total_distance', 'total_time', 'calories', 'energy', 'top_speed', 'average_speed', 'high_heart_rate', 'weather', 'Member', 'MembershipNumber', 'Horse', 'total_distance'].forEach(function (field) {
                 try {
                     if (row && row.entity) {
                         if (row.entity[field]) {
-                            if ($scope.filterCond.TYPE == "HOURS") {
-                                if ((parseInt(row.entity[field]) == value) || (parseInt(row.entity[field]) > value)) {
-                                    match = true;
-                                }
-                            } else if ($scope.filterCond.TYPE == "MILES") {
-                                if ((parseInt(row.entity[field]) == value) || (parseInt(row.entity[field]) > value)) {
-                                    match = true;
-                                }
-                            } else if (row.entity[field].match(matcher)) {
+                            if (row.entity[field].match(matcher)) {
                                 match = true;
                             }
                         }
@@ -401,6 +384,9 @@
 
         });
         return renderableRows;
+       
+               // colArray = ['total_distance', 'total_time', 'calories', 'energy', 'top_speed', 'average_speed', 'high_heart_rate', 'weather', 'Member', 'MembershipNumber', 'Horse', 'total_distance'];
+        
     }
 
     $('#lstStates').multiselect({
@@ -529,14 +515,6 @@
             }
 
 
-            CheckHorseExist($scope.AllHorses, "-Kle4ePAlmZB5ficu8yB")
-            CheckHorseExist($scope.AllHorses, "-Kle6qVDdeuh39hhfspy")
-
-
-            CheckRideExist(rideIdsTOFetch, "-Kle77j7Q2WNFpCCzghW")
-            CheckRideExist(rideIdsTOFetch, "-Kle53YyEOQFzmtq7baE")
-
-
             $scope.AllData = rideIdsTOFetch;
 
             //$scope.gridOptions.data = rideIdsTOFetch;
@@ -595,9 +573,50 @@
         }
     });
 
+    $scope.getUSERHORSERIDEFILTERIDS = function () {
+
+        var TempHorseIdData = [];
+        var SearchData = [];
+        var selecthorseid = [];
+        for (var i = 0; i < $scope.example14model.length; i++) {
+            selecthorseid.push($scope.example14model[i].id);
+        }
+
+        for (var i = 0; i < $scope.example15model.length; i++) {
+            var filterUser = _.findWhere($scope.Users, { $id: $scope.example15model[i].id })
+            if (filterUser.horse_ids) {
+                var ids = Object.keys(filterUser.horse_ids);
+                for (var idcounter = 0; idcounter < ids.length; idcounter++) // coun id in ids) {
+                    if (_.contains(selecthorseid, ids[idcounter])) {
+                        TempHorseIdData.push(ids[idcounter]);
+                    } else if ($scope.example14model.length == 0) {
+                        TempHorseIdData.push(ids[idcounter]);
+                    }
+            }
+        }
+
+        for (var hcounter = 0; hcounter < TempHorseIdData.length; hcounter++) {
+            var hoursid = TempHorseIdData[hcounter];
+            var horse = _.findWhere($scope.AllHorses, { $id: hoursid })
+            if (horse && horse.ride_ids) {
+                if (horse.ride_ids) {
+                    for (var rideid in horse.ride_ids) {
+                        var rideDetails = $scope.getFormattedRideDetail(horse, rideid);
+                        SearchData.push(rideDetails);
+                    }
+                }
+            }
+        }
+
+
+
+        return SearchData;
+    }
+
 
    
     $scope.SelectItem = function () {
+
         var TempHorseIdData = [];
         var SearchData = [];
         var selecthorseid = [];
@@ -643,8 +662,12 @@
                 }
             }
         }
-
-        $scope.gridOptions.data = SearchData;
+        if ($scope.example15model.length <= 0) {
+            $scope.UpdateGridRecord($scope.AllData);
+        } else {
+            $scope.UpdateGridRecord(SearchData);
+        }
+        //$scope.gridOptions.data = SearchData;
 
     }
 
@@ -732,5 +755,19 @@
             swal('', 'Your report has been sent.', 'success');
         }
     }
+    $scope.checkNuumber = function (event) {
 
+
+        if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || event.keyCode == 8 || event.keyCode == 190 || event.keyCode == 110) {
+            //document.getElementById("miles")= event.key;
+        }
+        else if (event.keyCode == 13) {
+            $scope.UpdateGridRecord();
+        }
+        else {
+            alert("Only Digits you can press")
+            event.preventDefault();
+        }
+
+    }
 });
