@@ -99,7 +99,10 @@
             $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
         },
         columnDefs: [
-          { name: 'Member', headerCellClass: 'blue' },
+            {
+                name: 'Member', headerCellClass: 'blue',
+                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}">{{row.entity.Member}}</a></div>'
+            },
           { name: 'horse_name', enableFiltering: false, headerCellClass: 'blue' },
           { name: 'MembershipNumber', enableFiltering: false, headerCellClass: 'blue' },
           { name: 'RidingProgram', enableFiltering: false, headerCellClass: 'blue' },
@@ -347,7 +350,9 @@
                     var commulativeData = getCommulativeData(rideIds, $rootScope.backendHorseRides, $scope.date);
 
                     if (commulativeData.total_rides != 0) {
+                        
                         $scope.showhorse.push($scope.AllHorses[counter]);
+                        $scope.showhorse[addedCounter].OGNAME = Organisation.DisplayName;
                         $scope.showhorse[addedCounter].TotalRides = commulativeData.total_rides;
                         $scope.showhorse[addedCounter].TotalTime = commulativeData.totalDuration;
                         $scope.showhorse[addedCounter].TotalDistance = commulativeData.miles;

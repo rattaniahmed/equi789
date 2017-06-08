@@ -121,7 +121,7 @@
                         finalArray.push({ HID: hid, RID: rid.$id, DATE: date});
                     }
 
-                    for (var counter = 0; counter < 20; counter++) {
+                    for (var counter = 0; counter < finalArray.length; counter++) {
                         if (finalArray[counter].HID == "-1") {
                             //$scope.DeleteRide("-Kk43pb4ZmECv1akbhWK");
                             firebase.database().ref('/rides/' + finalArray[counter].RID).set(null);

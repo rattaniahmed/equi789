@@ -52,7 +52,10 @@
             $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
         },
         columnDefs: [
-           { name: 'email', headerCellClass: 'blue', field: 'email' },
+            {
+                name: 'email', headerCellClass: 'blue', field: 'email',
+                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.email}}?subject=Congratulations from {{row.entity.OGNAME}}">{{row.entity.email}}</a></div>'
+            },
             { name: 'membership_number', headerCellClass: 'blue', field: 'membership_number' },
           { name: 'display_name', enableFiltering: false, headerCellClass: 'blue', field: 'display_name' },
           { name: 'first_name', headerCellClass: 'blue', field: 'first_name' },
@@ -267,6 +270,7 @@
 
             $scope.showmember = [];
             var addedCounter = 0;
+            var Organisation = JSON.parse(localStorage.getItem('adminObject'));
             for (var usrCounter = 0; usrCounter < $scope.Users.length; usrCounter++) {
 
                 var horseIds = $rootScope.getHorseIds($scope.Users[usrCounter], $scope.AllHorses);
@@ -274,7 +278,9 @@
                 var commulativeData = getCommulativeData(rideIds, $rootScope.backendHorseRides, $scope.date);
                  
                 if (commulativeData.total_rides != 0) {
+                    
                     $scope.showmember.push($scope.Users[usrCounter]);
+                    $scope.showmember[addedCounter].OGNAME = Organisation.DisplayName;
                     $scope.showmember[addedCounter].TotalRides = commulativeData.total_rides;
                     $scope.showmember[addedCounter].TotalHorses = horseIds.length;
                     $scope.showmember[addedCounter].TotalTime = commulativeData.totalDuration;

@@ -17,11 +17,14 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
             for (var i = 0; i <= dataArray.length; i++) {
                 try {
                     if (dataArray[i].horse_name != undefined) {
+                        // if (dataArray[i] != undefined) {
                         $scope.org = JSON.parse(localStorage.getItem('adminObject'));
                         var evens = _.filter(dataArray[i].associations, function (num) { return num.filter == $scope.org.OrganisationNumber; });
                         if (evens.length > 0) {
                             $scope.AllHorses.push(dataArray[i]);
                         }
+                    } else {
+                        console.log("horse Id:----" + dataArray[i]);
                     }
                 }
                 catch (e) {

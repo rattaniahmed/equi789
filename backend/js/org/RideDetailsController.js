@@ -92,6 +92,7 @@
         }
     };
 
+    //$scope.OGNAME = "test";
     $scope.gridOptions = {
         paginationPageSizes: [5, 10, 20],
         paginationPageSize: 10,
@@ -103,7 +104,12 @@
         },
 
         columnDefs: [
-           { name: 'Member', headerCellClass: 'blue' },
+            //{ name: 'rideid', headerCellClass: 'blue' },
+            //{ name: 'horseid', headerCellClass: 'blue' },
+            {
+                name: 'Member', headerCellClass: 'blue', 
+                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}">{{row.entity.Member}}</a></div>'
+            },
            { name: 'Horse', headerCellClass: 'blue', field: 'Horse' },
           { name: 'MembershipNumber', headerCellClass: 'blue', field: 'MembershipNumber' },
           { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
@@ -246,7 +252,7 @@
                     //if (rideIdsTOFetch[i].$id == "-KlAo5eoNzIrzWtdQiI9") {
                         var d = 0;
                         if (rideIdsTOFetch[i].total_distance)
-                            d = rideIdsTOFetch[i].total_distance;
+                            d = (rideIdsTOFetch[i].total_distance).replace(',','.');
 
                         var t = 0;
                         if (rideIdsTOFetch[i].total_time)
@@ -254,7 +260,7 @@
 
                         if (parseFloat(d) >= parseFloat(milesfilter) && parseFloat(gethour(t)) >= parseFloat(hourfilter)) {
                             rides.push(rideIdsTOFetch[i]);
-                            rideGridBucket.push({ RID: rideIdsTOFetch[i].$id });
+                           // rideGridBucket.push({ RID: rideIdsTOFetch[i].$id });
                         }
                     //}
                     //rides.push(rideIdsTOFetch[i]);
@@ -274,7 +280,7 @@
         $scope.gridOptions.data = rides;
         //console.log($scope.gridOptions.data);
 
-        JSONToCSVConvertor(rideGridBucket, "Temp Report" + " " + new Date().toString('yyyyMMdd'), true);
+       // JSONToCSVConvertor(rideGridBucket, "Temp Report" + " " + new Date().toString('yyyyMMdd'), true);
 
     }
 
@@ -528,6 +534,9 @@
                     for (var rideid in horse.ride_ids) {                        
                         var rideDetails = $scope.getFormattedRideDetail(horse, rideid);
                         if (rideDetails) {
+                            //rideDetails.rideid = rideid;
+                            //rideDetails.horseid = rideDetails.horse_firebase_key;
+                            rideDetails.OGNAME = Organisation.DisplayName;
                             rideIdsTOFetch.push(rideDetails);
                         }
                     }
