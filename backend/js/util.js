@@ -1364,9 +1364,12 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
                 }
             }
         }
-
+        //if (totalDistance == 0.0) {
+        //} else {
+        //    totalDistance=  totalDistance.replace(',', '.')
+        //}
         //if ((totalDistance >= milesfilter) && (parseInt(gethour(totalDuration)) >= hourfilter)) {
-        if (parseFloat(totalDistance.replace(',', '.')) >= parseFloat(milesfilter) && parseFloat(gethour(totalDuration)) >= parseFloat(hourfilter)) {
+        if (parseFloat(totalDistance) >= parseFloat(milesfilter) && parseFloat(gethour(totalDuration)) >= parseFloat(hourfilter)) {
 
         var tempDuration = totalDuration; 
 
