@@ -1233,12 +1233,12 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
         //    return false;
 
         var endDate1 = moment(endDate).add(1, 'days');
-        if (ride)
+        if (ride && ride.start_time) {
             try {
-                if (ride.$id == "-Kle77j7Q2WNFpCCzghW" || ride.$id == "-Kle53YyEOQFzmtq7baE") {
-                    debugger;
-                    var isex = true;
-                }
+                //if (ride.$id == "-Kle77j7Q2WNFpCCzghW" || ride.$id == "-Kle53YyEOQFzmtq7baE") {
+                //    debugger;
+                //    var isex = true;
+                //}
 
                 var timetocomparre = ride.start_time;
                 try {
@@ -1254,7 +1254,9 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
             }
             catch (err) {
                 console.log("error in converting date " + ride.start_time);
+                return false;
             }
+        }
         else
             return false;
 
@@ -1282,25 +1284,24 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
    
         // var timeValue = horseObject.ride_ids[rideId];
         // var ridetime = moment(ride.start_time);
+        if (ride && ride.start_time) {
+            var timetocomparre = ride.start_time;
+            try {
+                timetocomparre = timetocomparre.replace(" a.m.", "").replace("  A.M.", "").replace(" p.m.", "").replace("  P.M.", "");
+            } catch (err) {
+                console.log("Error in formatin time for ride id " + ride.$id);
+            }
 
-        if (ride.$id == "-Kle77j7Q2WNFpCCzghW" || ride.$id == "-Kle53YyEOQFzmtq7baE") {
-            debugger;
-            var isex = true;
+            var endDate1 = moment(timePeriod.endDate).add(1, 'days');
+            //return dates.inRange(ride.start_time, moment(timePeriod.startDate).format('l'), moment(endDate1).format('l'));
+            var toReturn = dates.inRange(timetocomparre, moment(timePeriod.startDate).format('l'), moment(endDate1).format('l'));
+            if (toReturn)
+                gridBucket.push(ride.$id);
+
+            return toReturn;
+        } else {
+            return false;
         }
-        var timetocomparre = ride.start_time;
-        try{
-            timetocomparre = timetocomparre.replace(" a.m.", "").replace("  A.M.", "").replace(" p.m.", "").replace("  P.M.", "");
-        } catch (err) {
-            console.log("Error in formatin time for ride id " + ride.$id);
-        }
-
-        var endDate1 = moment(timePeriod.endDate).add(1, 'days');
-        //return dates.inRange(ride.start_time, moment(timePeriod.startDate).format('l'), moment(endDate1).format('l'));
-        var toReturn = dates.inRange(timetocomparre, moment(timePeriod.startDate).format('l'), moment(endDate1).format('l'));
-        if (toReturn)
-            gridBucket.push(ride.$id);
-
-        return toReturn;
     }
 
     //function InDefinedTimeRangForGraph(rideObj, dateToPass) {
@@ -1329,7 +1330,12 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
         var totalTopSspeed = 0.0;
         try {
             var milesfilter = document.getElementById("miles").value;
+            if (milesfilter == "")
+                milesfilter = 0;
             var hourfilter = document.getElementById("hours").value;
+            if (hourfilter == "")
+                hourfilter = 0;
+
         } catch (err) { }
 
         if (ride_ids) {
@@ -1358,7 +1364,10 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
                 }
             }
         }
-        if ((totalDistance >= milesfilter) && (parseInt(gethour(totalDuration)) >= hourfilter)) {
+
+        //if ((totalDistance >= milesfilter) && (parseInt(gethour(totalDuration)) >= hourfilter)) {
+        if (parseFloat(totalDistance) >= parseFloat(milesfilter) && parseFloat(gethour(totalDuration)) >= parseFloat(hourfilter)) {
+
         var tempDuration = totalDuration; 
 
         totalDistance = parseFloat(Math.round(totalDistance * 100) / 100).toFixed(2);

@@ -225,7 +225,11 @@
 
         try {
             var milesfilter = document.getElementById("miles").value;
+            if (milesfilter == "")
+                milesfilter = 0;
             var hourfilter = document.getElementById("hours").value;
+            if (hourfilter == "")
+                hourfilter = 0;
         } catch (err) { }
 
         rideGridBucket = [];
@@ -239,10 +243,22 @@
                 //    rides.push(rideIdsTOFetch[i]);
                 //}
                 if (InDefinedTimeRang(rideIdsTOFetch[i], $scope.date)) {
-                    if ((InDefinedTimeRang(rideIdsTOFetch[i], $scope.date)) && (parseInt(rideIdsTOFetch[i].total_distance) >= milesfilter) && (parseInt(gethour(rideIdsTOFetch[i].total_time)) >= hourfilter)) {
-                        rides.push(rideIdsTOFetch[i]);
-                        rideGridBucket.push(rideIdsTOFetch[i].$id);
-                    }
+                    //if (rideIdsTOFetch[i].$id == "-KlAo5eoNzIrzWtdQiI9") {
+                        var d = 0;
+                        if (rideIdsTOFetch[i].total_distance)
+                            d = rideIdsTOFetch[i].total_distance;
+
+                        var t = 0;
+                        if (rideIdsTOFetch[i].total_time)
+                            t = rideIdsTOFetch[i].total_time;
+
+                        if (parseFloat(d) >= parseFloat(milesfilter) && parseFloat(gethour(t)) >= parseFloat(hourfilter)) {
+                            rides.push(rideIdsTOFetch[i]);
+                            rideGridBucket.push({ RID: rideIdsTOFetch[i].$id });
+                        }
+                    //}
+                    //rides.push(rideIdsTOFetch[i]);
+                    
                 }
                 //put miles check
                 //if ((totalDistance >= milesfilter) && (parseInt(gethour(totalDuration)) >= hourfilter)) {
@@ -258,7 +274,7 @@
         $scope.gridOptions.data = rides;
         //console.log($scope.gridOptions.data);
 
-       
+        JSONToCSVConvertor(rideGridBucket, "Temp Report" + " " + new Date().toString('yyyyMMdd'), true);
 
     }
 
