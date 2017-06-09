@@ -108,7 +108,7 @@
             //{ name: 'horseid', headerCellClass: 'blue' },
             {
                 name: 'Member', headerCellClass: 'blue', 
-                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}">{{row.entity.Member}}</a></div>'
+                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Member}}</a></div>'
             },
            { name: 'Horse', headerCellClass: 'blue', field: 'Horse' },
           { name: 'MembershipNumber', headerCellClass: 'blue', field: 'MembershipNumber' },

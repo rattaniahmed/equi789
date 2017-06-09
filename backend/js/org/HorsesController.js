@@ -101,7 +101,7 @@
         columnDefs: [
             {
                 name: 'Member', headerCellClass: 'blue',
-                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}">{{row.entity.Member}}</a></div>'
+                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Member}}</a></div>'
             },
           { name: 'horse_name', enableFiltering: false, headerCellClass: 'blue' },
           { name: 'MembershipNumber', enableFiltering: false, headerCellClass: 'blue' },

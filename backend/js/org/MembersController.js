@@ -54,7 +54,7 @@
         columnDefs: [
             {
                 name: 'email', headerCellClass: 'blue', field: 'email',
-                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.email}}?subject=Congratulations from {{row.entity.OGNAME}}">{{row.entity.email}}</a></div>'
+                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.email}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.email}}</a></div>'
             },
             { name: 'membership_number', headerCellClass: 'blue', field: 'membership_number' },
           { name: 'display_name', enableFiltering: false, headerCellClass: 'blue', field: 'display_name' },
