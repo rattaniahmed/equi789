@@ -444,18 +444,18 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
     }
 
 
-    $rootScope.isUseListener = false;
-    try{
-        var user = storageService.getObject("CU");
-        if (user) {
-            if(user.Details.email == "mjdmike@email.com")
-            {
-                $rootScope.isUseListener = true;
-            }
-        }
-    } catch (err) {
-        $rootScope.isUseListener = false;
-    }
+    $rootScope.isUseListener = true;
+    //try{
+    //    var user = storageService.getObject("CU");
+    //    if (user) {
+    //        if(user.Details.email == "mjdmike@email.com")
+    //        {
+    //            $rootScope.isUseListener = true;
+    //        }
+    //    }
+    //} catch (err) {
+    //    $rootScope.isUseListener = false;
+    //}
 
     if ($rootScope.isUseListener) {
         $rootScope.loadFireBaseData();

@@ -55,8 +55,8 @@
     }
 
     $scope.login = function () {
-        if ($scope.email == "mjdmike@email.com") {
-            debugger;
+        //if ($scope.email == "mjdmike@email.com") {
+           // debugger;
             if (!ValidateControl(['email', 'password']))
                 return;
             else {
@@ -102,9 +102,9 @@
                     }
                 });
             }
-        } else {
-            window.location.reload();
-        }
+       // } else {
+          //  window.location.reload();
+      //  }
     }
    
     $scope.reset = function () {
