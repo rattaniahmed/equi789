@@ -494,6 +494,28 @@ textarea.form-control {height:auto;resize:none}
 
 .stable_desc.name{opacity:1;}
 
+
+.stable_row1 {
+    /*max-width: 350px;*/
+}
+
+    .stable_row1 .titile, .stable_desc {
+        float: left;
+        width: 25%;
+        margin: 5px 0;
+    }
+
+    .stable_row1 .titile {
+        font-size: 16px;
+        color: #0e1323;
+        opacity: .5;
+        font-style: italic;
+        font-weight: 400;
+    }
+
+
+
+
 /*My stable Details*/
 
 .stable_details {width:100%;display:table;border-top:1px solid #e6e7e9;border-bottom:1px solid #e6e7e9;padding-top:20px;padding-bottom:40px;}

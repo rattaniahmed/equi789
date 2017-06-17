@@ -52,9 +52,17 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
             catch (err) { }
             var find = _.findLastIndex($scope.stables, { $id: horse.$id });
             if (find == -1) {
+                if (horse.ride_ids) {
+                    var details = $scope.getridedetailsforstable(horse.ride_ids);
+                    horse.details = details;
+                }
                 $scope.stables.push(horse);
             } else {
-                $scope.stables= _.reject($scope.stables, function (num) { return num.$id == horse.$id; });
+                $scope.stables = _.reject($scope.stables, function (num) { return num.$id == horse.$id; });
+                if (horse.ride_ids) {
+                    var details = $scope.getridedetailsforstable(horse.ride_ids);
+                    horse.details = details;
+                }
                 $scope.stables.push(horse);
                 $scope.$apply();
             }
@@ -165,6 +173,53 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
         storageService.setObject("CU", null);
         $location.path('/');
     }
+    $scope.getridedetailsforstable=function(ride_ids){
+      //  var totalTopSspeed = [];
+      //  var averageSpeed = 0.0;
+        $scope.totalDistance = 0.0;
+
+        for (var id in ride_ids) {
+            var ride = $rootScope.appHorseRides.$getRecord(id);
+            //$scope.totalRidesDetails.push(ride);
+            $scope.totalLength = _.size(ride_ids);
+            if (ride != null) {
+
+               // $scope.IsRideExist = true;
+
+                //$scope.totalLength = $scope.totalLength + 1;
+               
+                $scope.totalDistance = parseFloat($scope.totalDistance) + parseFloat(ride.total_distance);
+                $scope.totalDuration = parseInt($scope.totalDuration) + parseInt(ride.total_time);
+               // $scope.totalEnergy = parseFloat($scope.totalEnergy) + parseFloat(ride.energy);
+               // $scope.totalCalories = parseFloat($scope.totalCalories) + parseFloat(ride.calories);
+                //$scope.totalAverageSpeed = $scope.totalAverageSpeed + ride.average_speed;
+                //$scope.totalTopSspeed = $scope.totalTopSspeed + ride.top_speed;
+             //   averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
+               // totalTopSspeed.push(parseFloat(ride.top_speed));
+
+
+
+            }
+        }
+
+       // var tempDuration = $scope.totalDuration;
+
+        $scope.totalDistance = parseFloat(Math.round($scope.totalDistance * 100) / 100).toFixed(2);
+      ///  $scope.totalEnergy = parseFloat(Math.round($scope.totalEnergy * 100) / 100).toFixed(2);
+        //$scope.totalCalories = parseFloat(Math.round($scope.totalCalories * 100) / 100).toFixed(2);
+        //if (averageSpeed > 0) {
+        //    $scope.totalAverageSpeed = averageSpeed / $scope.totalLength;
+
+        //    $scope.totalAverageSpeed = parseFloat(Math.round($scope.totalAverageSpeed * 100) / 100).toFixed(2);
+        //}
+        $scope.totalDuration = ReplaceTime(hhmmss($scope.totalDuration));
+        //if (totalTopSspeed.length > 0) {
+        //    $scope.totalTopSspeed = Math.max.apply(Math, totalTopSspeed);
+
+        //    $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
+        //}
+        return { distance: $scope.totalDistance, time: $scope.totalDuration, ride: $scope.totalLength };
+    }
 
     $scope.$on('userModified', function (event, data) {
         console.log("get the horse add event in stable page"); // 'Data to send'
@@ -174,4 +229,9 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
     $scope.$on('horseLoaded', function (event, args) {
         $scope.Init();
     });
+    
+    $scope.$on('ridesLoaded', function (event, args) {
+        $scope.Init();
+    });
+   
 });
