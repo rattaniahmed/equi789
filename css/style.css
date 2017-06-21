@@ -513,6 +513,18 @@ textarea.form-control {height:auto;resize:none}
         font-weight: 400;
     }
 
+    .stable_row1 .stable_desc {
+        font-size: 20px;
+        color: #0e1323;
+        opacity: .5;
+    }
+
+        .stable_row1 .stable_desc.name {
+            opacity: 1;
+        }
+
+
+
 
 
 
