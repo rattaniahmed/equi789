@@ -720,12 +720,17 @@
                         for (var rideid in horse.ride_ids) {
                             var rideDetails = $scope.getFormattedRideDetail(horse, rideid);
                             if (rideDetails) {
-                                rideIdsTOFetch.push(rideDetails);
+                                if (rideDetails.start_cord){
+                                    if (!(rideDetails.start_cord.lat == 0 && rideDetails.start_cord.lng == 0)) {
+                                        rideIdsTOFetch.push(rideDetails);
+                                      //  console.log(rideDetails.start_cord.lat + "    " + rideDetails.start_cord.lng);
+                                    }
+                                }
                             }
                         }
                     }
                 }
-
+               
                 $scope.AllData = rideIdsTOFetch;
 
                 //$scope.gridOptions.data = rideIdsTOFetch;
