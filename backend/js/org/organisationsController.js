@@ -8,7 +8,6 @@ app.controller('organisationsController', function ($scope, storageService, fire
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
-        debugger;
                // console.log(dataArray);
     }).catch(function (error) {
         console.log("Error in loading details");
@@ -45,6 +44,17 @@ app.controller('organisationsController', function ($scope, storageService, fire
         }
         else
             $("#checkboxeditMessage").prop('checked', false);
+        if (image.UpdateData) {
+            if (image.UpdateData == "1") {
+                $("#checkboxeditUpdateD").prop('checked', true)
+            }
+            else {
+                $("#checkboxeditUpdateD").prop('checked', false);
+            }
+
+        }
+        else
+            $("#checkboxeditUpdateD").prop('checked', false);
         if (image.ShowAllData) {
             if (image.ShowAllData == "1") {
                 $("#checkboxeditData").prop('checked', true)
@@ -93,6 +103,10 @@ app.controller('organisationsController', function ($scope, storageService, fire
         if ($('#checkboxeditData').is(":checked")) {
             ShowAllData = "1";
         }
+        var UpdateData = "0";
+        if ($('#checkboxeditUpdateD').is(":checked")) {
+            UpdateData = "1";
+        }
             var file = document.getElementById('imagefileedit').files[0];
             if (file != undefined) {
 
@@ -106,7 +120,6 @@ app.controller('organisationsController', function ($scope, storageService, fire
 
                 storageRef.child('profile/' + fname).put(file, metadata).then(function (snapshot) {
 
-                    debugger;
                     var url = snapshot.metadata.downloadURLs[0];
                     $("#loadingModal").show();
 
@@ -119,12 +132,12 @@ app.controller('organisationsController', function ($scope, storageService, fire
                     imageRef.AllowMessageToAll = AllowMessageToAll;
                     imageRef.AllowMessaging = AllowMessaging;
                     imageRef.ShowAllData = ShowAllData;
+                    imageRef.UpdateData = UpdateData;
                     if (imageRef.AllowMessageToAll == 0) {
                         Removemessage(imageRef.OrganisationNumber);
                     }
 
                     $scope.images.$save(imageRef).then(function (ref) {
-                        debugger;
                         var id = ref.key();
                       
                         $("#loadingModal").hide();
@@ -147,12 +160,12 @@ app.controller('organisationsController', function ($scope, storageService, fire
                 imageRef.AllowMessageToAll = AllowMessageToAll;
                 imageRef.AllowMessaging = AllowMessaging;
                 imageRef.ShowAllData = ShowAllData;
+                imageRef.UpdateData = UpdateData;
                 if (imageRef.AllowMessageToAll == 0) {
                     Removemessage(imageRef.OrganisationNumber);
                 }
 
                 $scope.images.$save(imageRef).then(function (ref) {
-                    debugger;
                     var id = ref.key();
                    
                     $("#loadingModal").hide();
@@ -172,7 +185,6 @@ app.controller('organisationsController', function ($scope, storageService, fire
         $("#loadingModal").show();
         Removemessage(image.OrganisationNumber);
         $scope.images.$remove(image).then(function (ref) {
-            debugger;
            
             var id = ref.key();
             $("#loadingModal").hide();
@@ -183,7 +195,6 @@ app.controller('organisationsController', function ($scope, storageService, fire
     $scope.AddSponser = function ()
     {
         
-       
 
        
         if (($("#namenew").val() == '') || ($("#numbernew").val() == '') || ($("#passwordnew").val() == '') || ($("#useridnew").val() == '') || ($("#filenew").val() == '')) {
@@ -204,7 +215,6 @@ app.controller('organisationsController', function ($scope, storageService, fire
             var storageRef = firebase.storage().ref();
             storageRef.child('profile/' + fname).put(file, metadata).then(function (snapshot) {
               
-                debugger;
                 var url = snapshot.metadata.downloadURLs[0];
                 
               
@@ -225,11 +235,16 @@ app.controller('organisationsController', function ($scope, storageService, fire
                 if ($('#checkboxaddData').is(":checked")) {
                     ShowAllData = "1";
                 }
+                var UpdateData = "0";
+                if ($('#checkboxUpdate').is(":checked")) {
+                    UpdateData = "1";
+                }
                 var toAdd = {
                     ShowAllData:ShowAllData,
                     AllowMessaging: AllowMessaging,
                     ShowInEquiTrack: ShowInEquiTrack,
                     AllowMessageToAll: AllowMessageToAll,
+                    UpdateData:UpdateData,
                     DisplayName: $("#namenew").val(),
                     OrganisationName: $("#namenew").val(),
                     OrganisationNumber: $("#numbernew").val(),
@@ -242,7 +257,6 @@ app.controller('organisationsController', function ($scope, storageService, fire
 
                 if (_.findLastIndex($scope.images, { DisplayName: toAdd.DisplayName }) == -1) {
                     $scope.images.$add(toAdd).then(function (ref) {
-                        debugger;
                         var id = ref.key();
                     //    console.log("added record with id " + id);
                       
