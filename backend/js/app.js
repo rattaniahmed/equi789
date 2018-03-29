@@ -122,11 +122,16 @@ app.config(function ($routeProvider, $locationProvider) {
              templateUrl: 'views/nh.html',
              controller: 'nhController'
          })
-
+    
          .when('/messages', {
              templateUrl: 'views/messages.html',
              controller: 'messagesController'
-         })
+        })
+
+        .when('/uploadorgmember', {
+            templateUrl: 'views/uploadorgmember.html',
+            controller: 'uploadorgmemberController'
+        })
 
  .when('/messages/:id', {
      templateUrl: 'views/editmessages.html',

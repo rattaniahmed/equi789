@@ -3,5 +3,6 @@ admin/vendor/
 firebase.json
 *.log
 home.tpl.html
+node_modules/
 view/my-stable-details.tpl.html
 images/homespo2.png

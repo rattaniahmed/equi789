@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\backend",
+    "\\backend\\js",
+    "\\backend\\js\\org",
+    "\\backend\\views\\org",
+    "\\js",
+    "\\view"
+  ],
+  "SelectedNode": "\\backend\\js\\util.js",
+  "PreviewInSolutionExplorer": false
+}
