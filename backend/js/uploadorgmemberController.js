@@ -1,6 +1,6 @@
 ﻿
 app.controller('uploadorgmemberController', function ($scope, storageService, firebaseService, $firebaseArray) {
-  
+
     $scope.gridOptions = {
         paginationPageSizes: [5, 10, 20],
         paginationPageSize: 10,
@@ -28,7 +28,7 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
     $scope.browseFile = function () {
         document.getElementById('addphoto').click();
     };
-    
+
     $("#addphoto").change(function () {
         readURL(this);
     });
@@ -72,8 +72,10 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
         }
     }
     $scope.Errorinrecord = true;
+    $scope.uploadeddata = [];
     $scope.manipulateData = function (data) {
         $scope.gridOptions.data = [];
+        $scope.uploadeddata = [];
         $scope.Errorinrecord = true;
         if (data && data.length > 0 && data[0].length == 5) {
             var alertMsg = "";
@@ -90,17 +92,15 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
             if (alertMsg == "") {
                 data[0].push("Possible Errors");
                 $scope.Errorinrecord = false;
+                $scope.$apply();
                 var member_Id = [];
                 // var useremails: any = [];
                 for (var cnt = 1; cnt < data.length; cnt++) {
-
                     var possibleErrors = "";
-
                     if (!data[cnt][0] || data[cnt][0] == '') {
                         possibleErrors += "please currect Member ID";
                         $scope.Errorinrecord = true;
                     }
-
                     if (member_Id.indexOf(data[cnt][0]) >= 0) {
                         possibleErrors += "Duplicare Member ID";
                         $scope.Errorinrecord = true;
@@ -132,7 +132,16 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
                         status: data[cnt][4],
                         error: data[cnt][5],
                     }
+                    $scope.uploadeddata.push({
+                        member_id: data[cnt][0],
+                        association_id: data[cnt][1],
+                        name: data[cnt][2],
+                        email: data[cnt][3],
+                        status: data[cnt][4],
+                    });
                     data[cnt] = obj;
+                  //  var newobj = obj;
+                    
                 }
                 data.splice(0, 1);
                 $scope.gridOptions.data = data;
@@ -141,24 +150,43 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
             else
                 alert(alertMsg);
         } else
-            //alert(alertMsg);
-        swal('You seems to be uploaded a wrong template file, Please verify or download the sample file')
-           // this.itHoursService.showErrorMessage("Oops!", "You seems to be uploaded a wrong template file, Please verify or download the sample file");
+            swal('You seems to be uploaded a wrong template file, Please verify or download the sample file')
     }
 
-    $scope.uplodeRecord=function() {
-        var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
-        $scope.orgmember = $firebaseArray(ref.child('Content').child('OrganisationMember'));
-        $scope.orgmember.$add(toAdd).then(function (ref) {
-
-            var id = ref.key();
-            console.log("added record with id " + id);
-            $("#loadingModal").hide();
-            window.location.href = "#/messages";
-
-
-        });
+    $scope.uplodeRecord = function () {
+       // $scope.Errorinrecord = true;
+        var ref = firebaseService.FIREBASEENDPOINT();  
+        for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+            var val = $scope.gridOptions.data[i];
+            var even =_.find($scope.totalmember, function (num) { return num.member_id == val.member_id && num.association_id == val.association_id ; });
+            if (even) {
+                $scope.gridOptions.data[i].error = "Member already Exist"
+                $scope.Errorinrecord = true;
+            }   
+        }
+        if (!$scope.Errorinrecord) {
+            $scope.orgmember = $firebaseArray(ref.child('OrganisationMember'));
+            for (var i = 0; i < $scope.uploadeddata.length; i++) {
+                $scope.orgmember.$add($scope.uploadeddata[i]).then(function (ref) { });
             }
-       
-  
+            $scope.uploadeddata = [];
+            $scope.gridOptions.data = [];
+        } else {
+            swal('You seems to be uploaded a wrong template file, Please verify all Member details')
+        }
+        $scope.Errorinrecord = true;
+    }
+
+    $scope.init = function () {
+        $("#loadingModal").show();
+        var ref = firebaseService.FIREBASEENDPOINT();  
+        $scope.totalmemberref = $firebaseArray(ref.child('OrganisationMember'));
+        $scope.totalmemberref.$loaded().then(function (dataArray) {
+            $scope.totalmember = dataArray;
+            $("#loadingModal").hide();
+        }).catch(function (error) {
+            console.log("Error in loading details");
+        });
+    }
+    $scope.init();
 });
