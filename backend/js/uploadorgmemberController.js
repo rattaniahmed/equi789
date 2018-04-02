@@ -13,7 +13,7 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
             { name: 'member id', enableFiltering: false, headerCellClass: 'blue', field: 'member_id' },
             ////// //{ name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', field: 'MessageImage', cellTemplate: '<div style="text-align:center;">' + "<img width=\"40px\" ng-src=\"{{grid.getCellValue(row, col)}}\"></div>", },
             //{ name: 'association ID', enableFiltering: false, headerCellClass: 'blue', field: 'association ID', cellTemplate: '<div style="text-align:center;">' + "<img ng-show=\"row.entity.ImageExist\" width=\"40px\" src=\"{{row.entity.MessageImage}}\"></div>", },
-            { name: 'association id', enableFiltering: false, headerCellClass: 'blue', field: 'association_id' },
+           // { name: 'association id', enableFiltering: false, headerCellClass: 'blue', field: 'association_id' },
             { name: 'membership Name', headerCellClass: 'blue', field: 'name' },
             { name: 'membership Email', headerCellClass: 'blue', field: 'email' },
             { name: 'membership status', headerCellClass: 'blue', field: 'status' },
@@ -77,17 +77,15 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
         $scope.gridOptions.data = [];
         $scope.uploadeddata = [];
         $scope.Errorinrecord = true;
-        if (data && data.length > 0 && data[0].length == 5) {
+        if (data && data.length > 0 && data[0].length == 4) {
             var alertMsg = "";
             if (!validateColumnName("Member ID", data[0][0]))
                 alertMsg += "Member ID  should  be first column";
-            if (!validateColumnName("Association ID", data[0][1]))
-                alertMsg += "Association ID  be second colum";
-            if (!validateColumnName("Member Name", data[0][2]))
+            if (!validateColumnName("Member Name", data[0][1]))
                 alertMsg += "Member Name  should  be first column";
-            if (!validateColumnName("Member Email", data[0][3]))
+            if (!validateColumnName("Member Email", data[0][2]))
                 alertMsg += "Member Email  should  be first column";
-            if (!validateColumnName("Membership Status", data[0][4]))
+            if (!validateColumnName("Membership Status", data[0][3]))
                 alertMsg += "Membership Status  should  be second colum";
             if (alertMsg == "") {
                 data[0].push("Possible Errors");
@@ -106,38 +104,32 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
                         $scope.Errorinrecord = true;
                     } else
                         member_Id.push(data[cnt][0]);
-
+                   
                     if (!data[cnt][1] || data[cnt][1] == '') {
-                        possibleErrors += "please currect Association ID";
-                        $scope.Errorinrecord = true;
-                    }
-                    if (!data[cnt][2] || data[cnt][2] == '') {
                         possibleErrors += "please currect Member Name";
                         $scope.Errorinrecord = true;
                     }
-                    if (!data[cnt][3] || data[cnt][3] == '') {
+                    if (!data[cnt][2] || data[cnt][2] == '') {
                         possibleErrors += "please currect Member Email";
                         $scope.Errorinrecord = true;
                     }
-                    if (!data[cnt][4] || data[cnt][4] == '') {
+                    if (!data[cnt][3] || data[cnt][3] == '') {
                         possibleErrors += "please currect Membership Status";
                         $scope.Errorinrecord = true;
                     }
-                    data[cnt][5] = possibleErrors;
+                    data[cnt][4] = possibleErrors;
                     var obj = {
                         member_id: data[cnt][0],
-                        association_id: data[cnt][1],
-                        name: data[cnt][2],
-                        email: data[cnt][3],
-                        status: data[cnt][4],
-                        error: data[cnt][5],
+                        name: data[cnt][1],
+                        email: data[cnt][2],
+                        status: data[cnt][3],
+                        error: data[cnt][4],
                     }
                     $scope.uploadeddata.push({
                         member_id: data[cnt][0],
-                        association_id: data[cnt][1],
-                        name: data[cnt][2],
-                        email: data[cnt][3],
-                        status: data[cnt][4],
+                        name: data[cnt][1],
+                        email: data[cnt][2],
+                        status: data[cnt][3],
                     });
                     data[cnt] = obj;
                   //  var newobj = obj;
@@ -165,7 +157,7 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
             }   
         }
         if (!$scope.Errorinrecord) {
-            $scope.orgmember = $firebaseArray(ref.child('OrganisationMember'));
+            $scope.orgmember = $firebaseArray(ref.child('Members').child("fsdfj").child());
             for (var i = 0; i < $scope.uploadeddata.length; i++) {
                 $scope.orgmember.$add($scope.uploadeddata[i]).then(function (ref) { });
             }
@@ -178,15 +170,20 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
     }
 
     $scope.init = function () {
-        $("#loadingModal").show();
-        var ref = firebaseService.FIREBASEENDPOINT();  
-        $scope.totalmemberref = $firebaseArray(ref.child('OrganisationMember'));
-        $scope.totalmemberref.$loaded().then(function (dataArray) {
-            $scope.totalmember = dataArray;
-            $("#loadingModal").hide();
-        }).catch(function (error) {
-            console.log("Error in loading details");
-        });
+        $scope.user = JSON.parse(localStorage.getItem("adminObject"));
+        if ($scope.user) {
+            $("#loadingModal").show();
+            var ref = firebaseService.FIREBASEENDPOINT();
+            $scope.totalmemberref = $firebaseArray(ref.child('Members').child("fsdfj"));
+            $scope.totalmemberref.$loaded().then(function (dataArray) {
+                $scope.totalmember = dataArray;
+                $("#loadingModal").hide();
+            }).catch(function (error) {
+                console.log("Error in loading details");
+            });
+        } else {
+            swal('Something went wrong please check login details')
+        }
     }
     $scope.init();
 });
