@@ -216,8 +216,11 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
                    // $scope.gridOptions.enableGridMenu = true;
                     $scope.gridOptions.data = data;
                   //  $scope.gridApi.grid.refresh();
+                    try {
+                        $scope.gridApi.core.refresh();
+                    } catch (err) {
 
-                    $scope.gridApi.core.refresh();
+                    }
 
                     //$scope.$apply();
                    // }, 1000);
@@ -244,7 +247,7 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
             }   
         }
         if (!$scope.Errorinrecord) {
-            $scope.orgmember = $firebaseArray(ref.child('Members').child("fsdfj").child());
+            $scope.orgmember = $firebaseArray(ref.child('Members').child($scope.user.OrganisationNumber));
             for (var i = 0; i < $scope.uploadeddata.length; i++) {
                 $scope.orgmember.$add($scope.uploadeddata[i]).then(function (ref) { });
             }
@@ -261,7 +264,7 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
         if ($scope.user) {
             $("#loadingModal").show();
             var ref = firebaseService.FIREBASEENDPOINT();
-            $scope.totalmemberref = $firebaseArray(ref.child('Members').child("fsdfj"));
+            $scope.totalmemberref = $firebaseArray(ref.child('Members').child($scope.user.OrganisationNumber));
             $scope.totalmemberref.$loaded().then(function (dataArray) {
                 $scope.totalmember = dataArray;
                 $("#loadingModal").hide();
