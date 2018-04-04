@@ -26,13 +26,13 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="row" ng-repeat="x in mappings"  ng-show="!showgrid">
-                                    <div class="form-group">
+                                    <div class="form-group" style="margin-bottom:40px !important">
                                         <div class="col-md-3 col-md-offset-3">
                                             {{x.sourcecol}}
                                         </div>
                                         <div class="col-md-3">
 
-                                            <select id="id111" ng-model="x.selecetedDest" ng-options="item.name for item in x.destArray">
+                                            <select style="padding:5px !important;" id="id111" ng-model="x.selecetedDest" ng-options="item.name for item in x.destArray">
                                                 <option value="">
                                                     --Please select--
                                                 </option>
