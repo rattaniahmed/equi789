@@ -10,25 +10,18 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
             //$scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
         },
         columnDefs: [
-            { name: 'member id', enableFiltering: false, headerCellClass: 'blue', field: 'member_id' },
-            ////// //{ name: 'MessageImage', enableFiltering: false, headerCellClass: 'blue', field: 'MessageImage', cellTemplate: '<div style="text-align:center;">' + "<img width=\"40px\" ng-src=\"{{grid.getCellValue(row, col)}}\"></div>", },
-            //{ name: 'association ID', enableFiltering: false, headerCellClass: 'blue', field: 'association ID', cellTemplate: '<div style="text-align:center;">' + "<img ng-show=\"row.entity.ImageExist\" width=\"40px\" src=\"{{row.entity.MessageImage}}\"></div>", },
-           // { name: 'association id', enableFiltering: false, headerCellClass: 'blue', field: 'association_id' },
-            { name: 'member Name', headerCellClass: 'blue', field: 'name' },
-            { name: 'member Email', headerCellClass: 'blue', field: 'email' },
-            { name: 'membership status', headerCellClass: 'blue', field: 'status' },
-            { name: 'Possible errors', headerCellClass: 'blue', field: 'error' },
-
-            //{ name: 'AnnouncementType', headerCellClass: 'blue', cellTemplate: '<div style="text-align:center;">' + "<img width=\"25px\" ng-src=\"{{grid.getCellValue(row, col)}}\" lazy-src></div>", field: 'AnnouncementType' },
-            //{ name: 'Read', headerCellClass: 'blue', field: 'Read' },
+          //  { name: 'member Email', headerCellClass: 'blue', field: 'email' },
+         //   { name: 'member id', enableFiltering: false, headerCellClass: 'blue', field: 'member_id' },
+          //  { name: 'member Name', headerCellClass: 'blue', field: 'name' },
+            //{ name: 'Possible errors', headerCellClass: 'blue', field: 'error' },
         ],
 
     };
     $scope.Excelsheetcolumn = [
         { name: "Member ID", value: 0 },
-        { name: "Member Name", value: 1 },
-        { name: "Member Email", value: 2 },
-        { name: "Membership Status", value: 3 }
+        { name: "Member Email", value: 1 },
+        { name: "Member Name", value: 2 },
+        { name: "Optional", value: 3 }
     ]
     $scope.user = JSON.parse(localStorage.getItem("adminObject"));
     $scope.browseFile = function () {
@@ -40,16 +33,16 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
     $("#addphoto").change(function () {
         readURL(this);
     });
-    function validateColumnName(name, datarow) {
-        if (datarow) {
-            if (datarow.toLocaleLowerCase() != name.toLocaleLowerCase())
-                return false;
-            else
-                return true;
-        } else {
-            return false;
-        }
-    }
+    //function validateColumnName(name, datarow) {
+    //    if (datarow) {
+    //        if (datarow.toLocaleLowerCase() != name.toLocaleLowerCase())
+    //            return false;
+    //        else
+    //            return true;
+    //    } else {
+    //        return false;
+    //    }
+    //}
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -91,31 +84,33 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
     }
     $scope.Errorinrecord = true;
     $scope.uploadeddata = [];
-    $scope.uniqueselection = function (array) {
-        var flags = [], output = [], l = array.length, i;
-        for (i = 0; i < l; i++) {
-            if (array[i].selecetedDest) {
-                if (flags[array[i].selecetedDest.name]) continue;
-                flags[array[i].selecetedDest.name] = true;
-                output.push(array[i].selecetedDest.name);
-            }
-        }
-        return output;
-    }
+    //$scope.uniqueselection = function (array) {
+    //    var flags = [], output = [], l = array.length, i;
+    //    for (i = 0; i < l; i++) {
+    //        if (array[i].selecetedDest) {
+    //            if (flags[array[i].selecetedDest.name]) continue;
+    //            flags[array[i].selecetedDest.name] = true;
+    //            output.push(array[i].selecetedDest.name);
+    //        }
+    //    }
+    //    return output;
+    //}
 
     $scope.uniqueselection1 = function (array) {
         var selected = [];
         for (var i = 0; i < array.length; i++) {
             if (array[i].selecetedDest) {
-                if (selected.indexOf(array[i].selecetedDest.name) >= 0) {
-                    return { issuccess: false, maps: [] };
-                } else
-                    selected.push(array[i].selecetedDest.name);
+                if (array[i].selecetedDest.name != "Optional") { 
+                    if (selected.indexOf(array[i].selecetedDest.name) >= 0) {
+                        return { issuccess: false, maps: [] };
+                    } else
+                        selected.push(array[i].selecetedDest.name);
+                }
             }
         }
         return { issuccess: true, maps: selected };
     }
-
+    
 
     $scope.getIndexByMapping = function (attrval, array) {
         var selected = [];
@@ -133,12 +128,30 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
         var res = $scope.uniqueselection1(mapp);
         if (res.issuccess) {
 
-            //var tempselectarray = $scope.uniqueselection(mapp);
-            if (res.maps.length != $scope.Excelsheetcolumn.length) {
-                swal('please map all destination required column');
+           // if (res.maps.length != $scope.Excelsheetcolumn.length) {
+            if (res.maps.length < 2 || res.maps.indexOf("Member ID") == -1 || res.maps.indexOf("Member Email") == -1) {
+                swal('please map all required column-1.Member ID 2.Member Email');
                 return;
             }
-
+            debugger;
+            //for (k = 0; k < maps.length; k++) {
+            //    if (maps.sourcecol == "") { }
+            //    if (maps.sourcecol == "") { }
+            //}
+            for (var cl = 0; cl < mapp.length; cl++) {
+                //if (mapp[cl].selecetedDest && mapp[cl].selecetedDest.value != 0 && mapp[cl].selecetedDest.value != 1) {
+                    $scope.gridOptions.columnDefs.push({
+                        name: mapp[cl].sourcecol, headerCellClass: 'blue', field: mapp[cl].sourcecol
+                    });
+                //}
+            }
+            
+            //$scope.gridOptions.columnDefs.push({
+              //  name: 'membership status', headerCellClass: 'blue', field: 'status'
+            //});
+            $scope.gridOptions.columnDefs.push({
+                name: 'Possible errors', headerCellClass: 'blue', field: 'error'
+            });
             $scope.gridOptions.data = [];
             $scope.uploadeddata = [];
             $scope.Errorinrecord = true;
@@ -160,50 +173,63 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
                     $scope.Errorinrecord = false;
                     var member_Id = [];
                     var memberIdIndex = $scope.getIndexByMapping(0, mapp);
-                    var memberNameIndex = $scope.getIndexByMapping(1, mapp);
-                    var memberEmailIndex = $scope.getIndexByMapping(2, mapp);
-                    var memberstatusIndex = $scope.getIndexByMapping(3, mapp);
+                    var memberEmailIndex = $scope.getIndexByMapping(1, mapp);
+                    //var memberstatusIndex = $scope.getIndexByMapping(3, mapp);
+                    debugger;
+                    //var memberstatusIndex = $scope.getIndexByMappingforoptional(data[0], mapp);
 
                     // var useremails: any = [];
                     for (var cnt = 1; cnt < data.length; cnt++) {
                         debugger;
                         var possibleErrors = "";
-                        if (!data[cnt][memberIdIndex] || data[cnt][memberIdIndex] == '') {
-                            possibleErrors += "please currect Member ID";
-                            $scope.Errorinrecord = true;
+                        //if (!data[cnt][memberNameIndex] || data[cnt][memberNameIndex] == '') {
+                        //    possibleErrors += "please currect Member Name";
+                        //    $scope.Errorinrecord = true;
+                        //}
+                        //if (!data[cnt][memberstatusIndex] || data[cnt][memberstatusIndex] == '') {
+                        //    possibleErrors += "please currect Membership Status";
+                        //    $scope.Errorinrecord = true;
+                        //}
+                        var obj = {
+                            status: true,
                         }
-                        if (member_Id.indexOf(data[cnt][memberIdIndex]) >= 0) {
-                            possibleErrors += "Duplicare Member ID";
-                            $scope.Errorinrecord = true;
-                        } else
-                            member_Id.push(data[cnt][memberIdIndex]);
-
-                        if (!data[cnt][memberNameIndex] || data[cnt][memberNameIndex] == '') {
-                            possibleErrors += "please currect Member Name";
-                            $scope.Errorinrecord = true;
+                        var obj1 = {
+                            status: true,
                         }
-                        if (!data[cnt][memberEmailIndex] || data[cnt][memberEmailIndex] == '') {
-                            possibleErrors += "please currect Member Email";
-                            $scope.Errorinrecord = true;
-                        }
-                        if (!data[cnt][memberstatusIndex] || data[cnt][memberstatusIndex] == '') {
-                            possibleErrors += "please currect Membership Status";
-                            $scope.Errorinrecord = true;
+                        debugger;
+                        for (var cl = 0; cl < mapp.length; cl++) {
+                           // if (mapp[cl].selecetedDest && mapp[cl].selecetedDest.value != 0 && mapp[cl].selecetedDest.value != 1) {
+                                if (mapp[cl].selecetedDest && mapp[cl].selecetedDest.value == 0) {
+                                    if (!data[cnt][data[0].indexOf(mapp[cl].sourcecol)] || data[cnt][data[0].indexOf(mapp[cl].sourcecol)] == '') {
+                                        possibleErrors += "please currect Member ID";
+                                        $scope.Errorinrecord = true;
+                                    }
+                                    if (member_Id.indexOf(data[cnt][data[0].indexOf(mapp[cl].sourcecol)]) >= 0) {
+                                        possibleErrors += "Duplicare Member ID";
+                                        $scope.Errorinrecord = true;
+                                    } else
+                                        member_Id.push(data[cnt][data[0].indexOf(mapp[cl].sourcecol)]);
+                                    obj.member_id = data[cnt][data[0].indexOf(mapp[cl].sourcecol)]
+                                    obj1.member_id = data[cnt][data[0].indexOf(mapp[cl].sourcecol)]
+                                }
+                                else if (mapp[cl].selecetedDest && mapp[cl].selecetedDest.value == 1) {
+                                    if (!data[cnt][data[0].indexOf(mapp[cl].sourcecol)] || data[cnt][data[0].indexOf(mapp[cl].sourcecol)] == '') {
+                                        possibleErrors += "please currect Member Email";
+                                        $scope.Errorinrecord = true;
+                                    }
+                                    
+                                    obj.email = data[cnt][data[0].indexOf(mapp[cl].sourcecol)]
+                                    obj1.email = data[cnt][data[0].indexOf(mapp[cl].sourcecol)]
+                                } else {
+                                    obj[mapp[cl].sourcecol] = data[cnt][data[0].indexOf(mapp[cl].sourcecol)] || "";
+                                    obj1[mapp[cl].sourcecol] = data[cnt][data[0].indexOf(mapp[cl].sourcecol)] || "";
+                            }
+                               
+                           // }
                         }
                         data[cnt][data[0].length] = possibleErrors;
-                        var obj = {
-                            member_id: data[cnt][memberIdIndex],
-                            name: data[cnt][memberNameIndex],
-                            email: data[cnt][memberEmailIndex],
-                            status: data[cnt][memberstatusIndex],
-                            error: data[cnt][data[0].length],
-                        }
-                        $scope.uploadeddata.push({
-                            member_id: data[cnt][memberIdIndex],
-                            name: data[cnt][memberNameIndex],
-                            email: data[cnt][memberEmailIndex],
-                            status: data[cnt][memberstatusIndex],
-                        });
+                        obj.error = data[cnt][data[0].length];
+                        $scope.uploadeddata.push(obj1);
                         data[cnt] = obj;
                         //  var newobj = obj;
 

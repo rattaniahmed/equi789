@@ -1,5 +1,5 @@
 ﻿function IsProduction() {
-    return true;
+    return false;
 }
 
 
@@ -9,8 +9,9 @@ function IsLocalNodeJsRunning() {
 
 
 function getFireBaseEndPoint() {
+    var endPoint = "https://equitrack-c7ccd.firebaseio.com";
    // var endPoint = "https://myequitrackdemo.firebaseio.com";
-    var endPoint = "https://demoproject-a35d4.firebaseio.com";
+   // var endPoint = "https://demoproject-a35d4.firebaseio.com";
     if (IsProduction())
         endPoint = "https://myequitrack.firebaseio.com";
 
