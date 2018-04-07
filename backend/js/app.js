@@ -157,7 +157,10 @@ app.config(function ($routeProvider, $locationProvider) {
          templateUrl: 'views/addSpe.html',
          controller: 'addSpeController'
      })
-    
+        .when('/vieworgmember', {
+            templateUrl: 'views/vieworgmember.html',
+            controller: 'vieworgmemberController'
+        })
 
     ;
 });
