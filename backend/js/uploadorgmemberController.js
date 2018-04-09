@@ -119,7 +119,7 @@ $scope.showbrowsebtn=false;
             for (var cl = 0; cl < mapp.length; cl++) {
                 if (mapp[cl].selecetedDest && mapp[cl].selecetedDest.name == "Optional") {
                     $scope.gridOptions.columnDefs.push({
-                        name: mapp[cl].sourcecol+"(Optional)", field: mapp[cl].sourcecol
+                        name: mapp[cl].sourcecol+" "+"(Optional)", field: mapp[cl].sourcecol
                     });
                 }
             }
@@ -261,5 +261,5 @@ $scope.showbrowsebtn=false;
             swal('Something went wrong please check login details')
         }
     }
-    $scope.init();
+$scope.init();
 });
