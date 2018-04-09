@@ -12,12 +12,13 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
         columnDefs: [
             {
                 name: "membership status", headerCellClass: 'blue', cellTemplate: '<div style="text-align:center;">' +
-                '<a ng-show=\"row.entity.status\">Active</a>    <a ng-show=\"!row.entity.status\">Deactive</a>' +
+                '<a ng-show=\"row.entity.status\">Active</a>    <a ng-show=\"!row.entity.status\">Inactive</a>' +
                 '</div>', enableFiltering: false, field: 'status' },
+                { name: 'member Email', headerCellClass: 'blue', field: 'email' },
+           
             { name: 'member id', enableFiltering: false, headerCellClass: 'blue', field: 'member_id' },
-            { name: 'member Email', headerCellClass: 'blue', field: 'email' },
             {
-                name: "optional", headerCellClass: 'blue', cellTemplate: '<div style="text-align:center;" ng-click="grid.appScope.ViewOptional(row,col)">' +
+                name: "optional information", headerCellClass: 'blue', cellTemplate: '<div style="text-align:center;" ng-click="grid.appScope.ViewOptional(row,col)">' +
                 '<a class="blueactionclass">View Optional Data</a>' +
                 '</div>', enableFiltering: false },
             {
@@ -121,7 +122,7 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
     $scope.Activemember = function (row, col) {
         swal({
             title: "Are you sure?",
-            text: "Do you Want to deactivate this member?",
+            text: "Do you want to deactivate this member?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
