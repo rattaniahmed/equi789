@@ -1,4 +1,11 @@
-﻿<div class="right_col" role="main">
+﻿<style>
+    .instruction{
+       text-align:center;
+       margin-top: 20px;
+    }
+
+</style>
+<div class="right_col" role="main">
     <div class="">
         <div class="clearfix"></div>
         <div class="row">
@@ -22,15 +29,22 @@
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalid" ng-show="!Errorinrecord" ng-click="uplodeRecord()"><i class="fa fa-plus"></i> Upload File</button>
                                         </li>-->
                                     </ul>
+                                    
                                     <input type="file" style="visibility:hidden;position:absolute;width:0;height:0;" id="addphoto">
                                     <div class="clearfix"></div>
                                 </div>
+
+                                
+                                
+                                <div class="row">
+<div class="col-md-8">
 
                                 <div class="row" ng-repeat="x in mappings"  ng-show="!showgrid">
                                     <div class="form-group" style="margin-bottom:40px !important">
                                         <div class="col-md-3 col-md-offset-3">
                                             {{x.sourcecol}}
                                         </div>
+                                        
                                         <div class="col-md-3">
 
                                             <select style="padding:5px !important;" id="id111" ng-model="x.selecetedDest" ng-options="item.name for item in x.destArray">
@@ -46,6 +60,26 @@
                                         </div>
                                     </div>
                                 </div>
+
+
+</div>
+
+<div class="col-md-4">
+        <div class="instruction" ng-show="showbrowsebtn">
+                <p style="color:#73879b;text-decoration: underline;
+                padding-right: 20px;font-size: 20px;">Instructions</p>
+                <h6 style="text-align:left;color:#73879b;">
+                <p>Map the required fields, and any optional fields<br/> you would like to see.</p><br/>
+                <p><b>The required fields are:</b></p>
+                <p><b>1. Member Id</b></p>
+                <p><b>2. Member Email</b></p><br/>
+                <p>All other fields are optional.</p>
+                </h6>
+            </div>
+</div>
+
+</div>
+
 
                                 <div class="x_content" id="gridid" >
 
