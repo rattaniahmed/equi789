@@ -56,12 +56,12 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
     $scope.RemoveMember = function (row, col) {
         swal({
             title: "Are you sure?",
-            text: "You Want to delete Member!",
+            text: "Do you want to delete this member?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: "Yes, delete it!",
+            confirmButtonText: "Delete member",
             closeOnConfirm: false
         },
             function () {
@@ -85,12 +85,12 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
     $scope.Dctivemember = function (row, col) {
         swal({
             title: "Are you sure?",
-            text: "You Want to Active Membership",
+            text: "Do you want to activate this member?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: "Yes, delete it!",
+            confirmButtonText: "Activate member",
             closeOnConfirm: false
         },
             function () {
@@ -121,12 +121,12 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
     $scope.Activemember = function (row, col) {
         swal({
             title: "Are you sure?",
-            text: "You Want to Deactive Member!",
+            text: "Do you Want to deactivate this member?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: "Yes, delete it!",
+            confirmButtonText: "Deactivate member",
             closeOnConfirm: false
         },
             function () {
@@ -159,4 +159,8 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
         //delete $scope.viewobj
         $("#OptionalModal").show();
     }
+
+    setTimeout(() => {
+        $("#loadingModal").hide();
+    }, 2000);
 });
