@@ -162,7 +162,7 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
         $("#OptionalModal").show();
     }
 
-    setTimeout(() => {
-        $("#loadingModal").hide();
-    }, 2000);
+    // setTimeout(() => {
+    //     $("#loadingModal").hide();
+    // }, 2000);
 });
