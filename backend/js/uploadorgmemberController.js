@@ -17,6 +17,7 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
         ],
 
     };
+    $scope.showcontent=false;
 $scope.showbrowsebtn=false;
     $scope.Excelsheetcolumn = [
         { name: "Member ID", value: 0 },
@@ -55,6 +56,7 @@ $scope.showbrowsebtn=false;
                         selecetedDest: null
                     })
                 }
+                $scope.showcontent=true;
                 $scope.$apply();
             }
             reader.readAsBinaryString(input.files[0]);
@@ -109,6 +111,8 @@ $scope.showbrowsebtn=false;
                 swal('please map all required column-1.Member ID 2.Member Email');
                 return;
             }
+            $scope.showcontent=false;
+           
             $scope.gridOptions.columnDefs = new Array();
             $scope.gridOptions.columnDefs.push({
                 name: "member_id", headerCellClass: 'blue', field: "member_id"
