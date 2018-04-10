@@ -161,6 +161,7 @@ $scope.showbrowsebtn=false;
                         var toLoop = toLoopArray[cl];
                         if (toLoop.field == "member_id") {
                             obj.member_id = data[cnt][memberIdIndex] || '';
+                            obj1.member_id = data[cnt][memberIdIndex] || '';
                             if (obj.member_id == '') {
                                 possibleErrors += "please currect Member ID";
                                 $scope.Errorinrecord = true;
@@ -172,14 +173,17 @@ $scope.showbrowsebtn=false;
                                 member_Id.push(data[cnt][memberIdIndex]);
                         } else if (toLoop.field == "email") {
                             obj.email = data[cnt][memberEmailIndex] || '';
+                            obj1.email = data[cnt][memberEmailIndex] || '';
                             if (obj.email == '' || !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(obj.email))) {
                                 possibleErrors += "please currect Member email";
                                 $scope.Errorinrecord = true;
                             }
                         } else if (toLoop.field == "member_name") {
                             obj.member_name = data[cnt][memberNameIndex] || '';
+                            obj1.member_name = data[cnt][memberNameIndex] || '';
                         } else {
                             obj[toLoop.field] = data[cnt][data[0].indexOf(toLoop.field)] || "";
+                            obj1[toLoop.field] = data[cnt][data[0].indexOf(toLoop.field)] || "";
                         }
 
 
@@ -213,7 +217,7 @@ $scope.showbrowsebtn=false;
                     }
                     data[cnt][data[0].length] = possibleErrors;
                     obj.error = data[cnt][data[0].length];
-                    //$scope.uploadeddata.push(obj1);
+                    $scope.uploadeddata.push(obj1);
                     data[cnt] = obj;
                 }
                 data.splice(0, 1);
