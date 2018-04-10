@@ -116,6 +116,9 @@ $scope.showbrowsebtn=false;
             $scope.gridOptions.columnDefs.push({
                 name: "email", headerCellClass: 'blue', field: "email"
             });
+            $scope.gridOptions.columnDefs.push({
+                name: "member_name", headerCellClass: 'blue', field: "member_name"
+            });
             for (var cl = 0; cl < mapp.length; cl++) {
                 if (mapp[cl].selecetedDest && mapp[cl].selecetedDest.name == "Optional") {
                     $scope.gridOptions.columnDefs.push({
@@ -138,6 +141,8 @@ $scope.showbrowsebtn=false;
                 var member_Id = [];
                 var memberIdIndex = $scope.getIndexByMapping(0, mapp);
                 var memberEmailIndex = $scope.getIndexByMapping(1, mapp);
+                var memberNameIndex = $scope.getIndexByMapping(1, mapp);
+
                 for (var cnt = 1; cnt < data.length; cnt++) {
                     var possibleErrors = "";
                     var obj = {
@@ -167,6 +172,8 @@ $scope.showbrowsebtn=false;
                                 possibleErrors += "please currect Member email";
                                 $scope.Errorinrecord = true;
                             }
+                        } else if (toLoop.field == "member_name") {
+                            obj.member_name = data[cnt][memberNameIndex] || '';
                         } else {
                             obj[toLoop.field] = data[cnt][data[0].indexOf(toLoop.field)] || "";
                         }

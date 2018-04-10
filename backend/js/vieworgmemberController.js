@@ -17,6 +17,7 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
                 { name: 'member Email', headerCellClass: 'blue', field: 'email' },
            
             { name: 'member id', enableFiltering: false, headerCellClass: 'blue', field: 'member_id' },
+        { name: 'member name', enableFiltering: false, headerCellClass: 'blue', field: 'member_name' },
             {
                 name: "optional information", headerCellClass: 'blue', cellTemplate: '<div style="text-align:center;" ng-click="grid.appScope.ViewOptional(row,col)">' +
                 '<a class="blueactionclass">View Optional Data</a>' +
