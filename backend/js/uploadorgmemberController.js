@@ -108,8 +108,10 @@ $scope.showbrowsebtn=false;
         var res = $scope.uniqueselection1(mapp);
         if (res.issuccess) {
             if (res.maps.length < 2 || res.maps.indexOf("Member ID") == -1 || res.maps.indexOf("Member Email") == -1) {
-                swal('please map all required column-1.Member ID 2.Member Email');
-                return;
+                swal('Please map the required fields:\n 1.Member ID\n2.Member Email ');
+            
+              
+                return
             }
             $scope.showcontent=false;
            
@@ -145,7 +147,7 @@ $scope.showbrowsebtn=false;
                 var member_Id = [];
                 var memberIdIndex = $scope.getIndexByMapping(0, mapp);
                 var memberEmailIndex = $scope.getIndexByMapping(1, mapp);
-                var memberNameIndex = $scope.getIndexByMapping(1, mapp);
+                var memberNameIndex = $scope.getIndexByMapping(2, mapp);
 
                 for (var cnt = 1; cnt < data.length; cnt++) {
                     var possibleErrors = "";
@@ -248,16 +250,28 @@ $scope.showbrowsebtn=false;
             }   
         }
         if (!$scope.Errorinrecord) {
+            $("#loadingModal").show();
             $scope.orgmember = $firebaseArray(ref.child('Members').child($scope.user.OrganisationNumber));
             for (var i = 0; i < $scope.uploadeddata.length; i++) {
                 $scope.orgmember.$add($scope.uploadeddata[i]).then(function (ref) { });
             }
+           
+            setTimeout(function(){
+                $("#loadingModal").show();
+                swal('Data has been uploaded to server, You will be redireced to existing members screen');
+                setTimeout(function(){
+                    window.location.href = "#/vieworgmember";
+                },3000);    
+            },5000);
             $scope.uploadeddata = [];
             $scope.gridOptions.data = [];
+
+
         } else {
             swal('You seems to be uploaded a wrong template file, Please verify all Member details.Some Member already exist')
         }
         $scope.Errorinrecord = true;
+    
     }
 
     $scope.init = function () {

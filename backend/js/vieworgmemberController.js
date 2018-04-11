@@ -14,7 +14,11 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
                 name: "membership status", headerCellClass: 'blue', cellTemplate: '<div style="text-align:center;">' +
                 '<a ng-show=\"row.entity.status\">Active</a>    <a ng-show=\"!row.entity.status\">Inactive</a>' +
                 '</div>', enableFiltering: false, field: 'status' },
-                { name: 'member Email', headerCellClass: 'blue', field: 'email' },
+
+
+                { name: 'member Email', headerCellClass: 'blue', field: 'email' ,
+                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.email}}?subject=AQHA HBR Program Membership {{row.entity.email}}"target="_blank">{{row.entity.email}}</a></div>'
+            },
            
             { name: 'member id', enableFiltering: false, headerCellClass: 'blue', field: 'member_id' },
         { name: 'member name', enableFiltering: false, headerCellClass: 'blue', field: 'member_name' },
@@ -74,7 +78,7 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
                         if (error) { }
                         else {
                             $scope.gridOptions.data = _.reject($scope.gridOptions.data, function (num) { return num.$id == row.entity.$id; });
-                            swal("", "Your Member has been removed success fully", "success");
+                            swal("", "This member has been deleted", "success");
 
                         }
                     })
@@ -109,7 +113,7 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
                                     $scope.gridOptions.data[i].$id.status = true;
                                 }
                             }
-                            swal("", "Your has been Active Member success fully", "success");
+                            swal("", "You have successfully activated this member", "success");
 
                         }
                     })
@@ -145,7 +149,7 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
                                     $scope.gridOptions.data[i].$id.status = false;
                                 }
                             }
-                            swal("", "Your has been Deactive Member success fully", "success");
+                            swal("", "You have successfully deactivated this member", "success");
 
                         }
                     })
