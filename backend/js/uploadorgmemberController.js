@@ -263,8 +263,8 @@ $scope.showbrowsebtn=false;
                     window.location.href = "#/vieworgmember";
                 },3000);    
             },5000);
-            $scope.uploadeddata = [];
-            $scope.gridOptions.data = [];
+            //$scope.uploadeddata = [];
+            //$scope.gridOptions.data = [];
 
 
         } else {

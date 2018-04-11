@@ -108,7 +108,7 @@
                 </button>
             </div>
             <div  style="padding: 2px 10px;" ng-repeat="(key,val)  in viewobj">
-                <div ng-show="key!='member_id' && key!='email' && key!='status' && key!='error'"> {{key}} - {{ val}}</div>
+                <div ng-if="key!='member_id' && key!='email' && key!='status' && key!='error'"> {{key}} - {{ val}}</div>
             </div>
             <div class="modal-footer">
                 <button type="button" ng-click="closemodel()"class="btn btn-secondary" data-dismiss="modal">Close</button>
