@@ -12,6 +12,9 @@
         cursor: pointer !important;
         color: green !important;
     }
+    .members{
+        margin-left: 50px;
+    }
 </style>
 <div class="right_col" role="main">
     <div class="">
@@ -23,7 +26,12 @@
                         <div class="col-md-12 col-sm-112 col-xs-12">
                             <div class="x_panel">
                                 <div class="x_title">
-                                    <h2>Equitrack <small>Validate Members</small></h2>
+                                    <h2 style="padding-right: 30px">Equitrack <small>Validate Members</small></h2>
+                                    <table style="color:#8A0F1B">
+                                    <th style="width:150px;padding-top:8px">Total Members :    {{tcount}}</th>
+                                    <th style="width:150px;padding-top:8px">Active :    {{act}}</th>
+                                    <th style="width:150px;padding-top:8px">Inactive :    {{deact}}</th>
+                                    </table>
                                     <ul class="nav navbar-right panel_toolbox">
                                         <li>
                                             <a  href="#/uploadorgmember" style="font-weight: bold;text-decoration: underline;padding-right:10px;font-size: 20px;color: #3c9cdd;">

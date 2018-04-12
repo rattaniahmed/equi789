@@ -42,16 +42,36 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
     
     $scope.user = JSON.parse(localStorage.getItem("adminObject"));
     
+
+$scope.setCount =function(totalmember){
+    debugger;
+    $scope.act=0,$scope.deact=0;
+    $scope.tcount = totalmember.length;
+    for(var i=0;i<totalmember.length;i++)
+    {
+        if(totalmember[i].status==true)                    
+        $scope.act++;                    
+        else                    
+        $scope.deact++;                    
+    }
+try{
+    $scope.$apply();
+}catch(err){
+
+}
+}
+
     $scope.init = function () {
+        
         $scope.user = JSON.parse(localStorage.getItem("adminObject"));
         if ($scope.user) {
             $("#loadingModal").show();
             var ref = firebaseService.FIREBASEENDPOINT();
             $scope.totalmemberref = $firebaseArray(ref.child('Members').child($scope.user.OrganisationNumber));
             $scope.totalmemberref.$loaded().then(function (dataArray) {
-                $scope.totalmember = dataArray;
                 $scope.gridOptions.data = dataArray;
-                $("#loadingModal").hide();
+                $scope.setCount($scope.gridOptions.data);
+               $("#loadingModal").hide();
             }).catch(function (error) {
                 console.log("Error in loading details");
             });
@@ -59,6 +79,7 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
             swal('Something went wrong please check login details')
         }
     }
+    
     $scope.init();
     $scope.RemoveMember = function (row, col) {
         swal({
@@ -114,6 +135,7 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
                                     $scope.gridOptions.data[i].$id.status = true;
                                 }
                             }
+                            $scope.setCount($scope.gridOptions.data);
                             swal("", "You have successfully activated this member", "success");
 
                         }
@@ -137,7 +159,7 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
             closeOnConfirm: false
         },
             function () {
-
+             
                 try {
                     var id = row.entity.$id;
                     firebase.database().ref('/Members/' + $scope.user.OrganisationNumber + '/' + row.entity.$id + '/status').set(false, function (error) {
@@ -150,6 +172,8 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
                                     $scope.gridOptions.data[i].$id.status = false;
                                 }
                             }
+                           
+                            $scope.setCount($scope.gridOptions.data);
                             swal("", "You have successfully deactivated this member", "success");
 
                         }
