@@ -34,7 +34,8 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
                 name: "delete member", headerCellClass: 'blue',  cellTemplate: '<div>' +
                     '<div>   <div class="actionclass" ng-click="grid.appScope.RemoveMember(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;"><i class="fa fa-trash"></i></div> </div>',
                 enableFiltering: false },
-            
+                
+                
         ],
 
     };

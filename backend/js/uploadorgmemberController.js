@@ -14,6 +14,7 @@ app.controller('uploadorgmemberController', function ($scope, storageService, fi
          //   { name: 'member id', enableFiltering: false, headerCellClass: 'blue', field: 'member_id' },
           //  { name: 'member Name', headerCellClass: 'blue', field: 'name' },
             //{ name: 'Possible errors', headerCellClass: 'blue', field: 'error' },
+            
         ],
 
     };
@@ -125,6 +126,9 @@ $scope.showbrowsebtn=false;
             $scope.gridOptions.columnDefs.push({
                 name: "member_name", headerCellClass: 'blue', field: "member_name"
             });
+
+            
+
             for (var cl = 0; cl < mapp.length; cl++) {
                 if (mapp[cl].selecetedDest && mapp[cl].selecetedDest.name == "Optional") {
                     $scope.gridOptions.columnDefs.push({
@@ -135,6 +139,13 @@ $scope.showbrowsebtn=false;
             $scope.gridOptions.columnDefs.push({
                 name: 'Possible errors', headerCellClass: 'red', field: 'error'
             });
+
+            $scope.gridOptions.columnDefs.push({
+                name: "Edit member", headerCellClass: 'blue',  cellTemplate: '<div>' +
+                    '<div >   <div class="actionclass"  ng-click="grid.appScope.ViewOptional(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;"><i class="fa fa-edit"></i></div> </div>',
+                enableFiltering: false },
+            );
+
             $scope.gridOptions.data = [];
             $scope.uploadeddata = [];
             $scope.Errorinrecord = true;
@@ -224,7 +235,9 @@ $scope.showbrowsebtn=false;
                 }
                 data.splice(0, 1);
                 console.log(data);
-                $scope.gridOptions.data = data;
+                $scope.tempdata = data;
+                $scope.gridOptions.data = $scope.tempdata;
+                
                 try {
                     $scope.gridApi.core.refresh();
                 } catch (err) {
@@ -237,6 +250,38 @@ $scope.showbrowsebtn=false;
             swal('please map all destination required column');
         }
     }
+
+    
+    $scope.ViewOptional = function (row, col) {
+        $scope.viewobj = row.entity;
+        //delete $scope.viewobj.member_id;
+        //delete $scope.viewobj.email;
+        //delete $scope.viewobj.status;
+        //delete $scope.viewobj
+        $("#OptionalModal").show();
+    }
+    $scope.closemodel = function () {
+        $("#OptionalModal").hide();
+    }
+
+    $scope.save=function(){
+        // console.log($scope.viewobj);
+       // console.log($scope.tempdata);
+        for(var c=0;c<$scope.tempdata.length;c++)
+        {
+            if($scope.tempdata[c].email==$scope.viewobj.email)
+            {
+                $scope.tempdata[c].email=$scope.viewobj.email;
+            }
+        }
+
+
+    }
+
+
+
+
+
 
     $scope.uplodeRecord = function () {
        // $scope.Errorinrecord = true;
