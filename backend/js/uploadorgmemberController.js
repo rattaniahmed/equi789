@@ -271,7 +271,8 @@ $scope.showbrowsebtn=false;
         {
             if($scope.tempdata[c].email==$scope.viewobj.email)
             {
-                $scope.tempdata[c].email=$scope.viewobj.email;
+
+                //$scope.tempdata[c].email=$scope.viewobj.email;
             }
         }
 
@@ -286,7 +287,7 @@ $scope.showbrowsebtn=false;
     $scope.uplodeRecord = function () {
        // $scope.Errorinrecord = true;
         var ref = firebaseService.FIREBASEENDPOINT();  
-        for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+        for (var i = 0; i < $scope.tempdata.length; i++) {
             var val = $scope.gridOptions.data[i];
             var even =_.find($scope.totalmember, function (num) { return num.member_id == val.member_id && num.association_id == val.association_id ; });
             if (even) {
