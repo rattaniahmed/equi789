@@ -142,8 +142,8 @@ $scope.showbrowsebtn=false;
 
             $scope.gridOptions.columnDefs.push({
                 name: "Edit member", headerCellClass: 'blue',  cellTemplate: '<div>' +
-                    '<div >   <div class="actionclass"  ng-click="grid.appScope.ViewOptional(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;"><i class="fa fa-edit"></i></div> </div>',
-                enableFiltering: false },
+                    '<div >   <div class="actionclass" ng-click="grid.appScope.ViewOptional(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;"><i class="fa fa-edit"></i></div> </div>',
+                enableFiltering: false }
             );
 
             $scope.gridOptions.data = [];
@@ -253,28 +253,75 @@ $scope.showbrowsebtn=false;
 
     
     $scope.ViewOptional = function (row, col) {
-        $scope.viewobj = row.entity;
+        $scope.index = row.grid.renderContainers.body.visibleRowCache.indexOf(row)
+        var viewobj = row.entity;
+
+        $scope.viewobj = [];
+        for (p in viewobj) {
+            $scope.viewobj.push({
+                pname: p,
+                val: viewobj[p]
+            });
+        }
+
         //delete $scope.viewobj.member_id;
         //delete $scope.viewobj.email;
         //delete $scope.viewobj.status;
         //delete $scope.viewobj
+
         $("#OptionalModal").show();
     }
     $scope.closemodel = function () {
         $("#OptionalModal").hide();
     }
 
-    $scope.save=function(){
+    $scope.save = function () {
+        var obj ={};
+        for (var i = 0; i < $scope.viewobj.length; i++) { 
+            obj[$scope.viewobj[i].pname] = $scope.viewobj[i].val;
+        }
+
+        $scope.tempdata[$scope.index] = obj;
+
+
+        $scope.gridOptions.data = $scope.tempdata;
+
+        //var t = "temp" + Math.floor(Math.random() * 1000);
+
+        //$scope.gridOptions.columnDefs.push({
+        //    name: t,  field: t
+        //});
+
+        try {
+
+            //$scope.gridApi.grid.notifyDataChange(uiGridConstants.dataChange.ALL);
+
+            $scope.gridApi.core.refresh();
+            //$scope.$apply();
+
+            //$scope.gridOptions.columnDefs.splice($scope.gridOptions.columnDefs.length - 1, 1);
+
+        } catch (err) {
+
+        }
+
+        //$scope.refresh = false;
+        //setTimeout(function () {
+        //    $scope.refresh = true;
+        //    $scope.$apply();
+        //}, 100);
+
+        $("#OptionalModal").hide();
         // console.log($scope.viewobj);
        // console.log($scope.tempdata);
-        for(var c=0;c<$scope.tempdata.length;c++)
-        {
-            if($scope.tempdata[c].email==$scope.viewobj.email)
-            {
-
+       // for(var c=0;c<$scope.tempdata.length;c++)
+       // {
+           // if ($scope.tempdata[$scope.index].email == $scope.viewobj.email)
+        //    {
+        //        console.log('asdad');
                 //$scope.tempdata[c].email=$scope.viewobj.email;
-            }
-        }
+         //   }
+        //}
 
 
     }
@@ -287,24 +334,36 @@ $scope.showbrowsebtn=false;
     $scope.uplodeRecord = function () {
        // $scope.Errorinrecord = true;
         var ref = firebaseService.FIREBASEENDPOINT();  
+        var finalUploads = [];
         for (var i = 0; i < $scope.tempdata.length; i++) {
             var val = $scope.gridOptions.data[i];
             var even =_.find($scope.totalmember, function (num) { return num.member_id == val.member_id && num.association_id == val.association_id ; });
             if (even) {
-                $scope.gridOptions.data[i].error = "Member already Exist"
-                $scope.Errorinrecord = true;
-            }   
+                //$scope.gridOptions.data[i].error = "Member already Exist"
+                //$scope.Errorinrecord = true;
+            }   else
+            {
+                delete $scope.tempdata[i].error;
+                delete $scope.tempdata[i].undefined;
+
+                finalUploads.push($scope.tempdata[i]);
+            }
         }
+
         if (!$scope.Errorinrecord) {
             $("#loadingModal").show();
             $scope.orgmember = $firebaseArray(ref.child('Members').child($scope.user.OrganisationNumber));
-            for (var i = 0; i < $scope.uploadeddata.length; i++) {
-                $scope.orgmember.$add($scope.uploadeddata[i]).then(function (ref) { });
+            for (var i = 0; i < finalUploads.length; i++) {
+                $scope.orgmember.$add(finalUploads[i]).then(function (ref) { });
             }
            
             setTimeout(function(){
                 $("#loadingModal").show();
-                swal('Data has been uploaded to server, You will be redireced to existing members screen');
+                swal({
+                    title: '',
+                    text: 'Data has been uploaded..',
+                    timer: 3000
+                });
                 setTimeout(function(){
                     window.location.href = "#/vieworgmember";
                 },3000);    
