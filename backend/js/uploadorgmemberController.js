@@ -51,6 +51,7 @@ $scope.showbrowsebtn=false;
                 $scope.showlistdata = tempdata;
                 $scope.mappings = [];
                 for (var c = 0; c < $scope.showlistdata[0].length; c++) {
+                    $scope.showlistdata[0][c]= $scope.showlistdata[0][c].replace(/[^a-zA-Z ]/g, "")
                     $scope.mappings.push({
                         sourcecol: $scope.showlistdata[0][c],
                         destArray: $scope.Excelsheetcolumn,
@@ -63,7 +64,7 @@ $scope.showbrowsebtn=false;
             reader.readAsBinaryString(input.files[0]);
         }
     }
-        
+      
     $scope.Errorinrecord = true;
     $scope.uploadeddata = [];
     //$scope.uniqueselection = function (array) {
@@ -140,11 +141,11 @@ $scope.showbrowsebtn=false;
                 name: 'Possible errors', headerCellClass: 'red', field: 'error'
             });
 
-            $scope.gridOptions.columnDefs.push({
-                name: "Edit member", headerCellClass: 'blue',  cellTemplate: '<div>' +
-                    '<div >   <div class="actionclass" ng-click="grid.appScope.ViewOptional(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;"><i class="fa fa-edit"></i></div> </div>',
-                enableFiltering: false }
-            );
+            //$scope.gridOptions.columnDefs.push({
+            //    name: "Edit member", headerCellClass: 'blue',  cellTemplate: '<div>' +
+            //        '<div >   <div class="actionclass" ng-click="grid.appScope.ViewOptional(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;"><i class="fa fa-edit"></i></div> </div>',
+            //    enableFiltering: false }
+            //);
 
             $scope.gridOptions.data = [];
             $scope.uploadeddata = [];
@@ -332,6 +333,7 @@ $scope.showbrowsebtn=false;
 
 
     $scope.uplodeRecord = function () {
+        debugger;
        // $scope.Errorinrecord = true;
         var ref = firebaseService.FIREBASEENDPOINT();  
         var finalUploads = [];

@@ -33,7 +33,13 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
             {
                 name: "delete member", headerCellClass: 'blue',  cellTemplate: '<div>' +
                     '<div>   <div class="actionclass" ng-click="grid.appScope.RemoveMember(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;"><i class="fa fa-trash"></i></div> </div>',
-                enableFiltering: false },
+                enableFiltering: false
+            },
+           {
+                name: "Edit member", headerCellClass: 'blue',  cellTemplate: '<div>' +
+                    '<div >   <div class="actionclass" ng-click="grid.appScope.ViewOptionaledit(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;"><i class="fa fa-edit"></i></div> </div>',
+                enableFiltering: false }
+            
                 
                 
         ],
@@ -42,7 +48,67 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
     
     $scope.user = JSON.parse(localStorage.getItem("adminObject"));
     
+    $scope.ViewOptionaledit = function (row, col) {
+        $scope.index = row.grid.renderContainers.body.visibleRowCache.indexOf(row)
+        var viewobj = row.entity;
 
+        $scope.viewobj = [];
+        for (p in viewobj) {
+            $scope.viewobj.push({
+                pname: p,
+                val: viewobj[p]
+            });
+        }
+
+        //delete $scope.viewobj.member_id;
+        //delete $scope.viewobj.email;
+        //delete $scope.viewobj.status;
+        //delete $scope.viewobj
+
+        $("#OptionalModal11").show();
+    }
+    $scope.saveedit = function () {
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to Edit details for this member?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Save Details",
+            closeOnConfirm: false
+        },
+            function () {
+
+                try {
+                    debugger;
+                    var obj = {};
+                    var obj1 = {};
+                    var id = null;
+                    for (var i = 0; i < $scope.viewobj.length; i++) {
+                        if ($scope.viewobj[i].pname == '$id') {
+                            id = $scope.viewobj[i].val
+                        }
+                        obj[$scope.viewobj[i].pname] = $scope.viewobj[i].val;
+                        if ($scope.viewobj[i].pname != 'error' && $scope.viewobj[i].pname != '$id' && $scope.viewobj[i].pname != '$priority' && $scope.viewobj[i].pname != '$$hashKey'){
+                            obj1[$scope.viewobj[i].pname] = $scope.viewobj[i].val;
+                        }
+                    }
+                    //$scope.gridOptions[$scope.index] = obj;
+                   
+                   // var id = $scope.viewobj[$scope.index].val;
+                    firebase.database().ref('/Members/' + $scope.user.OrganisationNumber + '/' + id).set(obj1, function (error) {
+                        if (error) {
+                            swal("", "Please try again", "error");
+                        } else {
+                            window.location.reload();
+                            swal("", "This member has been Update successfully", "success");
+                        }
+                    });
+                    $("#OptionalModal11").hide();
+                } catch (err){ }
+                });
+    }
 $scope.setCount =function(totalmember){
     debugger;
     $scope.act=0,$scope.deact=0;
@@ -145,6 +211,10 @@ try{
     }
     $scope.closemodel = function () {
         $("#OptionalModal").hide();
+
+    }
+    $scope.closemodel1 = function () {
+        $("#OptionalModal11").hide();
 
     }
     $scope.Activemember = function (row, col) {
