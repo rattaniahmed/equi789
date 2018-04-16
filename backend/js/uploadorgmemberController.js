@@ -103,14 +103,50 @@ $scope.showbrowsebtn=false;
         }
         return 0;
     }
+
+    $scope.optional=function()
+    {
+       
+       for(i=0;i<$scope.mappings.length;i++)
+       {
+        $scope.mappings[i].selecetedDest=$scope.mappings[i].destArray[3];
+    
+      
+       }
+       
+    }
+     $scope.msg="--Please Select--";
+     $scope.reset=function()
+    {
+       
+       for(i=0;i<$scope.mappings.length;i++)
+       {
+        $scope.mappings[i].selecetedDest=$scope.msg;
+    
+      
+       }
+       
+    }
+
     $scope.showgrid = false;
     $scope.manipulateData = function (data, mapp) {
         debugger
+        
+
         var res = $scope.uniqueselection1(mapp);
         if (res.issuccess) {
             if (res.maps.length < 2 || res.maps.indexOf("Member ID") == -1 || res.maps.indexOf("Member Email") == -1) {
-                swal('Please map the required fields:\n 1.Member ID\n2.Member Email ');
-            
+
+                swal({
+                    title: "",
+                    text: "<p> Please map the  required fields:</p> <br/><p>1.Member ID</p> <br/><p>&emsp; 2.Member Email</p> ",
+                    type: "warning",
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: "OK",
+                    html:true
+                });
+                //swal('Please map the required fields:\n1.Member ID\n2.Member Email ');
+              
               
                 return
             }
@@ -247,7 +283,15 @@ $scope.showbrowsebtn=false;
             else
                 swal('You seems to be uploaded a wrong template file, Please verify or download the sample file')
         } else {
-            swal('please map all destination required column');
+           // swal('please map all destination required column');
+           swal({
+            title: "",
+            text: "Please map all destination required column",
+            type: "warning",
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: "OK",
+        
+        });
         }
     }
 

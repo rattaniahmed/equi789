@@ -31,11 +31,14 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
                 '<a class="actionclass" ng-show=\"row.entity.status\" ng-click="grid.appScope.Activemember(row,col)">Deactivate Membership </a>    <a class="greenactionclass" ng-show=\"!row.entity.status\" ng-click="grid.appScope.Dctivemember(row,col)">Activate Membership</a>' +
                 '</div>', enableFiltering: false, field: 'status' },
             {
-                name: "delete member", headerCellClass: 'blue',  cellTemplate: '<div>' +
-                    '<div>   <div class="actionclass" ng-click="grid.appScope.RemoveMember(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;"><i class="fa fa-trash"></i></div> </div>',
-                enableFiltering: false },
+                name: "Actions", headerCellClass: 'blue',  cellTemplate: '<div>' +
                 
+                    '<div style="text-align:center;">   <div class="actionclass"  ng-click="grid.appScope.EditMember(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;display:inline;"><i class="fa fa-edit" style="color: #3c9cdd;"></i></div> &emsp; '+
+                    '   <div class="actionclass" ng-click="grid.appScope.RemoveMember(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;display:inline;"><i class="fa fa-trash"></i></div> </div>',
                 
+                    enableFiltering: false },
+                
+                 
         ],
 
     };
@@ -71,6 +74,11 @@ try{
             $scope.totalmemberref.$loaded().then(function (dataArray) {
                 $scope.gridOptions.data = dataArray;
                 $scope.setCount($scope.gridOptions.data);
+                try{
+                    $scope.$apply();
+                }catch(err){
+                
+                }
                $("#loadingModal").hide();
             }).catch(function (error) {
                 console.log("Error in loading details");
@@ -100,6 +108,13 @@ try{
                         if (error) { }
                         else {
                             $scope.gridOptions.data = _.reject($scope.gridOptions.data, function (num) { return num.$id == row.entity.$id; });
+                            
+                            $scope.setCount($scope.gridOptions.data);
+                            try{
+                                $scope.$apply();
+                            }catch(err){
+                            
+                            }
                             swal("", "This member has been deleted", "success");
 
                         }
@@ -136,7 +151,13 @@ try{
                                 }
                             }
                             $scope.setCount($scope.gridOptions.data);
+                            try{
+                                $scope.$apply();
+                            }catch(err){
+                            
+                            }
                             swal("", "You have successfully activated this member", "success");
+                            
 
                         }
                     })
@@ -174,7 +195,13 @@ try{
                             }
                            
                             $scope.setCount($scope.gridOptions.data);
+                            try{
+                                $scope.$apply();
+                            }catch(err){
+                            
+                            }
                             swal("", "You have successfully deactivated this member", "success");
+                            
 
                         }
                     })

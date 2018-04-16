@@ -1,7 +1,6 @@
 ﻿<style>
     .instruction{
-       text-align:center;
-       margin-top: 20px;
+       text-align:left;
     }
 
 </style>
@@ -49,7 +48,7 @@
 
                                             <select style="padding:5px !important;" id="id111" ng-model="x.selecetedDest" ng-options="item.name for item in x.destArray">
                                                 <option value="">
-                                                    --Please select--
+                                                    {{msg}}
                                                 </option>
                                             </select>
                                             <!--<select id="select111" class="form-control" ng-model="selecetedDest">
@@ -64,10 +63,11 @@
 
 </div>
 
+
 <div class="col-md-4">
         <div class="instruction" ng-show="showcontent">
                 <p style="color:#73879b;text-decoration: underline;
-                padding-right: 20px;font-size: 20px;">Instructions</p>
+                padding-right: 40px;font-size: 20px;">Instructions</p>
                 <h6 style="text-align:left;color:#73879b;">
                 <p>Map the required fields, and any optional fields<br/> you would like to see.</p><br/>
                 <p><b>The required fields are:</b></p>
@@ -88,8 +88,12 @@
 
                                 <div class="row" style="text-align:center;">
                                     <button type="button" class="btn btn-primary" ng-show="!showbrowsebtn" data-toggle="modal" data-target="#modalid" ng-click="browseFile()"><i class="fa fa-file "></i> Browse Members Data File</button>
+                                    
                                     <button type="button" class="btn btn-primary" ng-show="showbrowsebtn" data-toggle="modal" data-target="#modalid" ng-click="browseFile()"><i class="fa fa-file "></i> ReUpload Data File</button>
                                     <button type="button" class="btn btn-primary" ng-show="!showgrid && showlistdata.length>0" data-toggle="modal" data-target="#modalid" ng-click="manipulateData(showlistdata,mappings)"><i class="fa fa-check"></i> Mapping Done</button>
+                                    <button type="button" class="btn btn-primary" ng-show="showbrowsebtn" data-toggle="modal" data-target="#modalid" ng-click="optional()">Select All as Optional</button>
+                                    <button type="button" class="btn btn-primary" ng-show="showbrowsebtn" data-toggle="modal" data-target="#modalid" ng-click="reset()">Reset</button>
+                                    
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalid" ng-show="!Errorinrecord && showgrid" ng-click="uplodeRecord()"><i class="fa fa-upload"></i> Upload To Server</button>
                                 </div>
                             </div>
