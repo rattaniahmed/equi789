@@ -78,31 +78,66 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
             function () {
 
                 try {
-                    debugger;
+                    {
+                        debugger;
+                        $scope.tempdata = $scope.gridOptions.data;
+                   
                     var obj = {};
                     var obj1 = {};
                     var id = null;
+                    var memNumber = null;
+                    var memEmail = null;
                     for (var i = 0; i < $scope.viewobj.length; i++) {
                         if ($scope.viewobj[i].pname == '$id') {
                             id = $scope.viewobj[i].val
                         }
+                        if ($scope.viewobj[i].pname == 'email') {
+                            memEmail = $scope.viewobj[i].val
+                        }
+                        if ($scope.viewobj[i].pname == 'member_id') {
+                            memNumber = $scope.viewobj[i].val
+                        }
                         obj[$scope.viewobj[i].pname] = $scope.viewobj[i].val;
-                        if ($scope.viewobj[i].pname != 'error' && $scope.viewobj[i].pname != '$id' && $scope.viewobj[i].pname != '$priority' && $scope.viewobj[i].pname != '$$hashKey'){
+                        if ($scope.viewobj[i].pname != 'error' && $scope.viewobj[i].pname != '$id' && $scope.viewobj[i].pname != '$priority' && $scope.viewobj[i].pname != '$$hashKey') {
                             obj1[$scope.viewobj[i].pname] = $scope.viewobj[i].val;
                         }
                     }
-                    //$scope.gridOptions[$scope.index] = obj;
-                   
-                   // var id = $scope.viewobj[$scope.index].val;
-                    firebase.database().ref('/Members/' + $scope.user.OrganisationNumber + '/' + id).set(obj1, function (error) {
-                        if (error) {
-                            swal("", "Please try again", "error");
-                        } else {
-                            window.location.reload();
-                            swal("", "This member has been Update successfully", "success");
+                    $scope.tempdata[$scope.index] = obj;
+                    var Idcount = 0;
+                    var Ecount = 0;
+                    for (var j = 0; j < $scope.tempdata.length; j++) {
+                        debugger;
+                        console.log($scope.tempdata[j].member_id == memNumber);
+                        if ($scope.tempdata[j].member_id == memNumber) {
+                            debugger;
+                            Idcount++;
                         }
-                    });
-                    $("#OptionalModal11").hide();
+                        if ($scope.tempdata[j].email == memEmail) {
+                            debugger;
+                            Ecount++;
+                        }
+                    }
+                    //$scope.gridOptions[$scope.index] = obj;
+
+                    // var id = $scope.viewobj[$scope.index].val;
+                    debugger;
+                    if (Idcount >1) {
+                        swal("!Oops", "Member Id already exist", "error");
+                    } else if (Ecount > 1) {
+                        swal("!Oops", "Member Email already exist", "error");
+                    } else {
+                        firebase.database().ref('/Members/' + $scope.user.OrganisationNumber + '/' + id).set(obj1, function (error) {
+                            if (error) {
+                                swal("", "Please try again", "error");
+                            } else {
+                                //$scope.gridOptions[$scope.index] = obj
+                                window.location.reload();
+                                swal("", "This member has been Update successfully", "success");
+                            }
+                        });
+                        $("#OptionalModal11").hide();
+                    }
+                }
                 } catch (err){ }
                 });
     }
