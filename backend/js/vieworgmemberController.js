@@ -32,7 +32,7 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
                 '</div>', enableFiltering: false, field: 'status' },
             {
                 name: "Actions", headerCellClass: 'blue',  cellTemplate: '<div>' +
-                    '<div style="text-align:center;">   <div class="actionclass"  ng-click="grid.appScope.EditMember(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;display:inline;"><i class="fa fa-edit" style="color: #3c9cdd;"></i></div> &emsp; '+
+                    '<div style="text-align:center;">   <div class="actionclass"  ng-click="grid.appScope.ViewOptionaledit (row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;display:inline;"><i class="fa fa-edit" style="color: #3c9cdd;"></i></div> &emsp; '+
                     '   <div class="actionclass" ng-click="grid.appScope.RemoveMember(row,col)" class="ui-grid-cell-contents" title="TOOLTIP" style="text-align:center;display:inline;"><i class="fa fa-trash"></i></div> </div>',
                 
                     enableFiltering: false
@@ -67,12 +67,12 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
     $scope.saveedit = function () {
         swal({
             title: "Are you sure?",
-            text: "Do you want to Edit details for this member?",
+            text: "Do you want to save these changes?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: "Save Details",
+            confirmButtonText: "Save Changes",
             closeOnConfirm: false
         },
             function () {
@@ -185,6 +185,47 @@ try{
                 
             });
     }
+
+    $scope.deleteAll=function()
+    {
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to delete all members?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Delete members",
+            closeOnConfirm: false
+        },
+        function () {
+
+            try {
+                //var id = row.entity.$id;
+                firebase.database().ref('/Members/' + $scope.user.OrganisationNumber).remove(function (error) {
+                    if (error) { }
+                    else {
+                        //$scope.gridOptions.data = _.reject($scope.gridOptions.data, function (num) { return num.$id == row.entity.$id; });
+                        
+                        //$scope.setCount($scope.gridOptions.data);
+                        try{
+                            $scope.$apply();
+                        }catch(err){
+                        
+                        }
+                        swal("", "All members have been deleted", "success");
+setTimeout(() => {
+    window.location.reload();
+}, 1000);
+                    }
+                })
+                } catch (err) {
+
+            }    
+            
+        });
+    }
+
     $scope.Dctivemember = function (row, col) {
         swal({
             title: "Are you sure?",

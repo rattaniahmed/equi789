@@ -37,13 +37,15 @@
                                             <a  href="#/uploadorgmember" style="font-weight: bold;text-decoration: underline;padding-right:10px;font-size: 20px;color: #3c9cdd;">
                                                Upload New Members
                                             </a>
-                                        </li>
+                                            </li>
                                         <!--<li>
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalid" ng-click="browseFile()"><i class="fa fa-plus"></i> Browse Data File</button>
                                         </li>-->
                                         <!--<li>
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalid" ng-show="!Errorinrecord" ng-click="uplodeRecord()"><i class="fa fa-plus"></i> Upload File</button>
                                         </li>-->
+                                        <button type="button" class="btn btn-primary" style="background-color: red;" ng-click="deleteAll()">Delete Members</button>
+                                        
                                     </ul>
                                    <!-- <input type="file" style="visibility:hidden;position:absolute;width:0;height:0;" id="addphoto">-->
                                     <div class="clearfix"></div>
@@ -116,8 +118,8 @@
             </div>
             <div style="padding: 2px 10px;" ng-repeat="obj  in viewobj" ng-if="obj.pname != 'error'">
                 <div>
-                    <label style="width:200px ;padding-left:50px" ng-if="obj.pname != '$$hashKey' && obj.pname != 'undefined' && obj.pname !='$id' && obj.pname !='$priority' && obj.pname !='member_id' && obj.pname !='email'">{{obj.pname}}</label> <span ng-if="obj.pname != '$$hashKey' && obj.pname != 'undefined' && obj.pname !='$id' && obj.pname !='$priority' && obj.pname !='member_id' && obj.pname !='email'">-</span> 
-                    <input style="margin-left:100px;" type="text" ng-if="obj.pname != '$$hashKey' && obj.pname!= 'undefined' && obj.pname !='$id' && obj.pname !='$priority' && obj.pname !='member_id' && obj.pname !='email'" ng-model="obj.val">
+                    <label style="width:200px ;padding-left:50px" ng-if="obj.pname != '$$hashKey' && obj.pname != 'undefined' && obj.pname !='$id' && obj.pname !='$priority' ">{{obj.pname}}</label> <span ng-if="obj.pname != '$$hashKey' && obj.pname != 'undefined' && obj.pname !='$id' && obj.pname !='$priority'">-</span> 
+                    <input style="margin-left:100px;" type="text" ng-if="obj.pname != '$$hashKey' && obj.pname!= 'undefined' && obj.pname !='$id' && obj.pname !='$priority'" ng-model="obj.val">
                 </div>
             </div>
             <div class="modal-footer">
