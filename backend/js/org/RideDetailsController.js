@@ -107,21 +107,29 @@
             //{ name: 'rideid', headerCellClass: 'blue' },
             //{ name: 'horseid', headerCellClass: 'blue' },
             {
-                name: 'Member', headerCellClass: 'blue', 
+                name: 'EquiTrack Email', headerCellClass: 'blue', 
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Member}}</a></div>'
             },
-           { name: 'Horse', headerCellClass: 'blue', field: 'Horse' },
-          { name: 'MembershipNumber', headerCellClass: 'blue', field: 'MembershipNumber' },
+            {
+                name: 'Member Email', headerCellClass: 'blue', 
+                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Member}}</a></div>'
+            },
+           
+            { name: 'Member Id', headerCellClass: 'blue', field: 'MemberID' },
+            { name: 'Horse', headerCellClass: 'blue', field: 'Horse' },
+            { name: 'Registered Name', headerCellClass: 'blue', field: 'RegisteredName' },
+            { name: 'Registration Number', headerCellClass: 'blue', field: 'RegistrationNumber' },
+            { name: 'total_time', headerCellClass: 'blue' },
           { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
-          { name: 'total_times', headerCellClass: 'blue' },
-          { name: 'top_speed', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
-          { name: 'average_speed', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
+          
+       //   { name: 'top_speed', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
+         // { name: 'average_speed', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
           { name: 'start_time', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFn },
           { name: 'end_time', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFn },
         //  { name: 'location', headerCellClass: 'blue' },
-          { name: 'weather', headerCellClass: 'blue' },
-          { name: 'energy', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
-          { name: 'calories', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt }
+         // { name: 'weather', headerCellClass: 'blue' },
+        //  { name: 'energy', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
+        //  { name: 'calories', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt }
 
         ],
         exporterLinkLabel: 'get your csv here',

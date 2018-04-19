@@ -57,7 +57,7 @@
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.email}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.email}}</a></div>'
             },
             {
-                name: 'AQHA-2017 Email', headerCellClass: 'blue', field: 'aqhaemail',
+                name: 'Member Email', headerCellClass: 'blue', field: 'aqhaemail',
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.aqhaemail}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.aqhaemail}}</a></div>'
             },
             { name: 'Membership Id', headerCellClass: 'blue', field: 'membership_number' },

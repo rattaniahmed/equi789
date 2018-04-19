@@ -100,20 +100,27 @@
         },
         columnDefs: [
             {
-                name: 'Member', headerCellClass: 'blue',
+                name: 'EquiTrack Email', headerCellClass: 'blue',
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Member}}</a></div>'
             },
+            {
+                name: 'Member Email', headerCellClass: 'blue',
+                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Member}}</a></div>'
+            },
+            { name: 'Member ID', enableFiltering: false, headerCellClass: 'blue' },
           { name: 'horse_name', enableFiltering: false, headerCellClass: 'blue' },
-          { name: 'MembershipNumber', enableFiltering: false, headerCellClass: 'blue' },
-          { name: 'RidingProgram', enableFiltering: false, headerCellClass: 'blue' },
-          { name: 'birthday', headerCellClass: 'blue' },
-          { name: 'registration', headerCellClass: 'blue' },
-          { name: 'weight', headerCellClass: 'blue' },
+          
+          { name: 'Registered Name', enableFiltering: false, headerCellClass: 'blue' },
+          { name: 'Registration Number', enableFiltering: false, headerCellClass: 'blue' },
+        //  { name: 'RidingProgram', enableFiltering: false, headerCellClass: 'blue' },
+          //{ name: 'birthday', headerCellClass: 'blue' },
+          //{ name: 'registration', headerCellClass: 'blue' },
+         // { name: 'weight', headerCellClass: 'blue' },
           { name: 'TotalRides', headerCellClass: 'blue', field: 'TotalRides', type:'number' },
            { name: 'TotalTime', headerCellClass: 'blue', field: 'TotalTime' },
           { name: 'TotalDistance', headerCellClass: 'blue', field: 'TotalDistance', sortingAlgorithm: myAwesomeSortFnForInt },
-          { name: 'TopSpeed', headerCellClass: 'blue', field: 'TopSpeed', sortingAlgorithm: myAwesomeSortFnForTopSpeedInt },
-          { name: 'TotalEnergy', headerCellClass: 'blue', field: 'TotalEnergy' , sortingAlgorithm: myAwesomeSortFnForEnergyInt }
+          //{ name: 'TopSpeed', headerCellClass: 'blue', field: 'TopSpeed', sortingAlgorithm: myAwesomeSortFnForTopSpeedInt },
+         // { name: 'TotalEnergy', headerCellClass: 'blue', field: 'TotalEnergy' , sortingAlgorithm: myAwesomeSortFnForEnergyInt }
           //{ name: 'energy', headerCellClass: 'blue' },
           //{ name: 'calories', headerCellClass: 'blue' },
 
