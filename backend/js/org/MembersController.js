@@ -53,7 +53,7 @@
         },
         columnDefs: [
             {
-                name: 'EquiTrack Email', headerCellClass: 'blue', field: 'email',
+                name: 'EquiTrack Email', displayName: 'EquiTrack Email', headerCellClass: 'blue', field: 'email',
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.email}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.email}}</a></div>'
             },
             {
@@ -293,12 +293,14 @@
                     $scope.showmember[addedCounter].TotalDistance = commulativeData.miles;
                   
                     try {
-                        if ($scope.showmember[addedCounter][Organisation.OrganisationNumber]) {
-                            if ($scope.showmember[addedCounter][Organisation.OrganisationNumber].memberEmail) {
-                                $scope.showmember[addedCounter].aqhaemail = $scope.showmember[addedCounter][Organisation.OrganisationNumber].memberEmail
+                        console.log($scope.showmember[addedCounter]);
+                        debugger
+                        if ($scope.showmember[addedCounter]['org_membership'] && $scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber]) {
+                            if ($scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber].member_email) {
+                                $scope.showmember[addedCounter].aqhaemail = $scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber].member_email
                             }
-                            if ($scope.showmember[addedCounter][Organisation.OrganisationNumber].memberId) {
-                                $scope.showmember[addedCounter].membership_number = $scope.showmember[addedCounter][Organisation.OrganisationNumber].memberId
+                            if ($scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber].member_number) {
+                                $scope.showmember[addedCounter].membership_number = $scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber].member_number
                             }
                         }
                     } catch (errr) { }

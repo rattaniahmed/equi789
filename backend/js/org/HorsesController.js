@@ -100,7 +100,7 @@
         },
         columnDefs: [
             {
-                name: 'EquiTrack Email', headerCellClass: 'blue',
+                name: 'EquiTrack Email', displayName: 'EquiTrack Email', headerCellClass: 'blue',
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Member}}</a></div>'
             },
             {
