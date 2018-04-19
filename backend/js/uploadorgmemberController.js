@@ -398,7 +398,7 @@ $scope.showbrowsebtn=false;
 
         if (!$scope.Errorinrecord) {
             $("#loadingModal").show();
-            $scope.orgmember = $firebaseArray(ref.child('Members').child($scope.user.OrganisationNumber));
+            $scope.orgmember = $firebaseArray(ref.child('members').child($scope.user.OrganisationNumber));
             for (var i = 0; i < finalUploads.length; i++) {
                 $scope.orgmember.$add(finalUploads[i]).then(function (ref) { });
             }
@@ -430,7 +430,7 @@ $scope.showbrowsebtn=false;
         if ($scope.user) {
             $("#loadingModal").show();
             var ref = firebaseService.FIREBASEENDPOINT();
-            $scope.totalmemberref = $firebaseArray(ref.child('Members').child($scope.user.OrganisationNumber));
+            $scope.totalmemberref = $firebaseArray(ref.child('members').child($scope.user.OrganisationNumber));
             $scope.totalmemberref.$loaded().then(function (dataArray) {
                 $scope.totalmember = dataArray;
                 $("#loadingModal").hide();

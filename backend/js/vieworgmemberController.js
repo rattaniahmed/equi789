@@ -126,7 +126,7 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
                     } else if (Ecount > 1) {
                         swal("!Oops", "Member Email already exist", "error");
                     } else {
-                        firebase.database().ref('/Members/' + $scope.user.OrganisationNumber + '/' + id).set(obj1, function (error) {
+                        firebase.database().ref('/members/' + $scope.user.OrganisationNumber + '/' + id).set(obj1, function (error) {
                             if (error) {
                                 swal("", "Please try again", "error");
                             } else {
@@ -165,7 +165,7 @@ try{
         if ($scope.user) {
             $("#loadingModal").show();
             var ref = firebaseService.FIREBASEENDPOINT();
-            $scope.totalmemberref = $firebaseArray(ref.child('Members').child($scope.user.OrganisationNumber));
+            $scope.totalmemberref = $firebaseArray(ref.child('members').child($scope.user.OrganisationNumber));
             $scope.totalmemberref.$loaded().then(function (dataArray) {
                 $scope.gridOptions.data = dataArray;
                 $scope.setCount($scope.gridOptions.data);
@@ -199,7 +199,7 @@ try{
 
                 try {
                     var id = row.entity.$id;
-                    firebase.database().ref('/Members/' + $scope.user.OrganisationNumber+'/' + row.entity.$id).remove(function (error) {
+                    firebase.database().ref('/members/' + $scope.user.OrganisationNumber+'/' + row.entity.$id).remove(function (error) {
                         if (error) { }
                         else {
                             $scope.gridOptions.data = _.reject($scope.gridOptions.data, function (num) { return num.$id == row.entity.$id; });
@@ -237,7 +237,7 @@ try{
 
             try {
                 //var id = row.entity.$id;
-                firebase.database().ref('/Members/' + $scope.user.OrganisationNumber).remove(function (error) {
+                firebase.database().ref('/members/' + $scope.user.OrganisationNumber).remove(function (error) {
                     if (error) { }
                     else {
                         //$scope.gridOptions.data = _.reject($scope.gridOptions.data, function (num) { return num.$id == row.entity.$id; });
@@ -276,7 +276,7 @@ setTimeout(() => {
 
                 try {
                     var id = row.entity.$id;
-                    firebase.database().ref('/Members/' + $scope.user.OrganisationNumber + '/' + row.entity.$id + '/status').set(true, function (error) {
+                    firebase.database().ref('/members/' + $scope.user.OrganisationNumber + '/' + row.entity.$id + '/status').set(true, function (error) {
                         //   firebase.database().ref('/Members/' + $scope.user.OrganisationNumber + '/' + row.entity.$id).remove(function (error) {
                         if (error) { }
                         else {
@@ -323,7 +323,7 @@ setTimeout(() => {
              
                 try {
                     var id = row.entity.$id;
-                    firebase.database().ref('/Members/' + $scope.user.OrganisationNumber + '/' + row.entity.$id + '/status').set(false, function (error) {
+                    firebase.database().ref('/members/' + $scope.user.OrganisationNumber + '/' + row.entity.$id + '/status').set(false, function (error) {
                         //   firebase.database().ref('/Members/' + $scope.user.OrganisationNumber + '/' + row.entity.$id).remove(function (error) {
                         if (error) { }
                         else {
