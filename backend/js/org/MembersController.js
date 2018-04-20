@@ -306,12 +306,12 @@
                     } catch (errr) { }
                     addedCounter++;
                 }
-                //else {
-                //    $scope.showmember.push($scope.Users[usrCounter]);
-                //    $scope.showmember[addedCounter].TotalHorses = horseIds.length;
-                //    $scope.showmember[addedCounter].TotalRides = 0;
-                //    addedCounter++;
-                //}
+                else {
+                    $scope.showmember.push($scope.Users[usrCounter]);
+                    $scope.showmember[addedCounter].TotalHorses = horseIds.length;
+                    $scope.showmember[addedCounter].TotalRides = 0;
+                    addedCounter++;
+                }
             }
             $scope.gridOptions.data = $scope.showmember;
            

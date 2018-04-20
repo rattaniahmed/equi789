@@ -105,13 +105,13 @@
             },
             {
                 name: 'Member Email', headerCellClass: 'blue',
-                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Member}}</a></div>'
+                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Orgmember}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Orgmember}}</a></div>'
             },
-            { name: 'Member ID', enableFiltering: false, headerCellClass: 'blue' },
-          { name: 'horse_name', enableFiltering: false, headerCellClass: 'blue' },
+            { name: 'Member ID', displayName: 'Member ID', enableFiltering: false, field: 'Orgnumber', headerCellClass: 'blue' },
+            { name: 'horse_name', enableFiltering: false, headerCellClass: 'blue', field: 'horse_name'},
           
-          { name: 'Registered Name', enableFiltering: false, headerCellClass: 'blue' },
-          { name: 'Registration Number', enableFiltering: false, headerCellClass: 'blue' },
+            { name: 'Registered Name', enableFiltering: false, field: 'registration',headerCellClass: 'blue' },
+          { name: 'Registration Number', enableFiltering: false, field: 'MembershipNumber', headerCellClass: 'blue' },
         //  { name: 'RidingProgram', enableFiltering: false, headerCellClass: 'blue' },
           //{ name: 'birthday', headerCellClass: 'blue' },
           //{ name: 'registration', headerCellClass: 'blue' },
@@ -340,15 +340,22 @@
                     $scope.AllHorses[counter].MembershipNumber = "";
                     if ($scope.AllHorses[counter].associations) {
                         var og = _.find($scope.AllHorses[counter].associations, function (oginner) { return oginner.filter == Organisation.OrganisationNumber });
-                        if (og)
+                        if (og) {
                             $scope.AllHorses[counter].MembershipNumber = og.number;
+                            
+                        }
                     }
 
                     $scope.AllHorses[counter].Member = "";
                     var member = _.find(maps, function (singlemap) { return singlemap.HorseId == $scope.AllHorses[counter].$id });
                     if (member) {
                         $scope.AllHorses[counter].Member = member.Detail.email;
-                        $scope.AllHorses[counter].MemberId = member.Detail.$id;
+                        $scope.AllHorses[counter].MemberId = member.Detail.$id; 
+                        
+                        if (member.Detail['org_membership'] && member.Detail['org_membership'][Organisation.OrganisationNumber]) {
+                            $scope.AllHorses[counter].Orgmember = member.Detail['org_membership']['AQHA-2017'].member_email
+                            $scope.AllHorses[counter].Orgnumber = member.Detail['org_membership']['AQHA-2017'].member_number
+                        }
                     }
                     var rideIds = []
                     if ($scope.AllHorses[counter].ride_ids)
@@ -367,11 +374,16 @@
                         $scope.showhorse[addedCounter].TotalEnergy = commulativeData.energy;
                         addedCounter++;
                     }
-                    //else {
-                    //    $scope.showhorse.push($scope.AllHorses[counter]);
-                    //    $scope.showhorse[addedCounter].TotalRides = 0;
-                    //    addedCounter++;
-                    //}
+                    else {
+                        $scope.showhorse.push($scope.AllHorses[counter]);
+                        $scope.showhorse[addedCounter].OGNAME = Organisation.DisplayName;
+                        $scope.showhorse[addedCounter].TotalRides = 0;
+                        $scope.showhorse[addedCounter].TotalTime = 0;
+                        $scope.showhorse[addedCounter].TotalDistance = 0;
+                        $scope.showhorse[addedCounter].TopSpeed = 0;
+                        $scope.showhorse[addedCounter].TotalEnergy = 0;
+                        addedCounter++;
+                    }
 
                 //}
             }

@@ -112,13 +112,13 @@
             },
             {
                 name: 'Member Email', headerCellClass: 'blue', 
-                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Member}}</a></div>'
+                cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Orgmember}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Orgmember}}</a></div>'
             },
            
-            { name: 'Member Id', headerCellClass: 'blue', field: 'MemberID' },
+            { name: 'Member Id', headerCellClass: 'blue', field: 'Orgnumber' },
             { name: 'Horse', headerCellClass: 'blue', field: 'Horse' },
-            { name: 'Registered Name', headerCellClass: 'blue', field: 'RegisteredName' },
-            { name: 'Registration Number', headerCellClass: 'blue', field: 'RegistrationNumber' },
+            { name: 'Registered Name', headerCellClass: 'blue', field: 'registration' },
+            { name: 'Registration Number', headerCellClass: 'blue', field: 'MembershipNumber' },
             { name: 'total_time', headerCellClass: 'blue' },
           { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
           
@@ -493,6 +493,7 @@
             rideDetails.MembershipNumber = "";
 
             if (horse) {
+                rideDetails.registration = horse.registration
                 if (horse.associations) {
                     var og = _.find(horse.associations,
                         function (oginner) { return oginner.filter == $scope.ORGDETAIL.OrganisationNumber });
@@ -506,6 +507,10 @@
             if (member) {
                 rideDetails.Member = member.Detail.email;
                 rideDetails.MemberId = member.Detail.$id;
+                if (member.Detail['org_membership'] && member.Detail['org_membership'][Organisation.OrganisationNumber]) {
+                    rideDetails.Orgmember = member.Detail['org_membership']['AQHA-2017'].member_email
+                    rideDetails.Orgnumber = member.Detail['org_membership']['AQHA-2017'].member_number
+                }
             }
 
             rideDetails.Horse = horse.horse_name;
