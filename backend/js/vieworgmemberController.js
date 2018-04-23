@@ -7,7 +7,7 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
         enableFiltering: false,
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
-            //$scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
+            $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
         },
         columnDefs: [
             {
@@ -42,6 +42,40 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
         ],
 
     };
+    $scope.filterValue = '';
+    $scope.Search = function () {
+        $scope.filterValue = document.getElementById("search").value;
+        $scope.gridApi.grid.refresh();
+    }
+    $scope.singleFilter = function (renderableRows) {
+
+        var matcher = new RegExp($scope.filterValue);
+        renderableRows.forEach(function (row) {
+
+            var match = false;
+            // Object.keys(row.entity).
+            ['email', 'member_id', 'member_name'].forEach(function (field) {
+                try {
+                    if (row && row.entity) {
+                        if (row.entity[field]) {
+                            if (row.entity[field].match(matcher)) {
+                                match = true;
+                            }
+                        }
+                    }
+                }
+                catch (e) {
+                    match = false;
+                    console.log(e);
+                }
+            });
+
+            row.visible = match;
+
+        });
+        return renderableRows;
+    }
+
     
     $scope.user = JSON.parse(localStorage.getItem("adminObject"));
     

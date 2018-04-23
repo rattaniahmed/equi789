@@ -27,11 +27,6 @@
                             <div class="x_panel">
                                 <div class="x_title">
                                     <h2 style=" padding-right: 30px">Equitrack <small>Validate Members</small></h2>
-                                    <table style="color:#3c9cdd;font-size:15px;">
-                                    <th style="padding-right: 30px; padding-top:8px;"><u>Total Members</u> - <label style="color:#73879C" > {{tcount}}</label></th>
-                                    <th style=" padding-right: 30px;padding-top:8px"><u>Active</u> - <label style="color:#73879C;" >  {{act}}</label></th>
-                                    <th style="padding-right: 30px; padding-top:8px"><u>Inactive</u> -  <label style="color:#73879C" >  {{deact}}</label></th>
-                                    </table>
                                     <ul class="nav navbar-right panel_toolbox">
                                         <li>
                                             <a  href="#/uploadorgmember" style="font-weight: bold;text-decoration: underline;padding-right:10px;font-size: 20px;color: #3c9cdd;">
@@ -45,8 +40,20 @@
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalid" ng-show="!Errorinrecord" ng-click="uplodeRecord()"><i class="fa fa-plus"></i> Upload File</button>
                                         </li>-->
                                         <button type="button" class="btn btn-primary" style="background-color: red;" ng-click="deleteAll()">Delete All Members</button>
+                                        <input type="text" id="search" style="float:right;border:1px solid; width:200px; height:35px;border-radius:5px; padding:5px;" ng-keyup="Search()" placeholder="Search Members" />
                                         
                                     </ul>
+                                    <table style="color:#3c9cdd;font-size:15px;width:400px;margin-top: 40px !important;">
+                                        <th style="width:160px; "><u>Total Members</u> - <label style="color:#73879C" > {{tcount}}</label></th>
+                                        <th style="width:100px; padding-right: 30px;"><u>Active</u> - <label style="color:#73879C;" >  {{act}}</label></th>
+                                        <th style=""><u>Inactive</u> -  <label style="color:#73879C" >  {{deact}}</label></th>
+                                    </table>
+                                   
+                                   
+                                
+                                    
+                                   
+                    
                                    <!-- <input type="file" style="visibility:hidden;position:absolute;width:0;height:0;" id="addphoto">-->
                                     <div class="clearfix"></div>
                                 </div>
