@@ -391,18 +391,37 @@ $scope.showbrowsebtn=false;
             {
                 delete $scope.tempdata[i].error;
                 delete $scope.tempdata[i].undefined;
-
+                delete $scope.tempdata[i].$$hashKey;
                 finalUploads.push($scope.tempdata[i]);
             }
         }
 
         if (!$scope.Errorinrecord) {
             $("#loadingModal").show();
-            $scope.orgmember = $firebaseArray(ref.child('members').child($scope.user.OrganisationNumber));
+
+            var refdb = firebase.database().ref('/members/' + $scope.user.OrganisationNumber + '/');
+            //$scope.orgmember = $firebaseArray(ref.child('members_test').child($scope.user.OrganisationNumber));
+            //$scope.orgmember = ref.child('memberstest').child("AQHA2017");
             for (var i = 0; i < finalUploads.length; i++) {
-                $scope.orgmember.$add(finalUploads[i]).then(function (ref) { });
+                //var newref =  ;
+                // firebase.database().ref('/horses/' + id + '/photo').set(finalUploads[i]);
+                //$scope.orgmember.set(finalUploads[i]);
+                //ref.set(finalUploads[i]);
+                //life saver
+                console.log(finalUploads[i]);
+                //var obj = {
+                //    sadsadsa: "fdfsdfsdfsdfsd",
+                //    fsdgfdgfdgfdg: "gfdgfdgfdgfd",
+                //    fkljsdfkljsdkfjklsdjlfsd: "ssdsdsadsad"
+                //};
+                refdb[finalUploads[i].member_id] = finalUploads[i];
+                firebase.database().ref('/members/' + $scope.user.OrganisationNumber + '/' + finalUploads[i].member_id).set(finalUploads[i]);
             }
-           
+            //var refdb = firebase.database().ref('/members_test/AQHA-2017/') //.set(finalUploads[0])
+            //refdb["123243434343"] = finalUploads[0];
+            //firebase.database().ref('/members_test/AQHA-2017/123243434343').set(finalUploads[0]);
+
+
             setTimeout(function(){
                 $("#loadingModal").show();
                 swal({
@@ -426,6 +445,13 @@ $scope.showbrowsebtn=false;
     }
 
     $scope.init = function () {
+        debugger;
+        ////life saver
+        //var refdb = firebase.database().ref('/members_test/AQHA-2017/') //.set(finalUploads[0])
+        //refdb["123243434343454545"] = finalUploads;
+        //firebase.database().ref('/members_test/AQHA-2017/123243434343454545').set(finalUploads);
+
+
         $scope.user = JSON.parse(localStorage.getItem("adminObject"));
         if ($scope.user) {
             $("#loadingModal").show();
