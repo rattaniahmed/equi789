@@ -26,6 +26,7 @@
                         <div class="col-md-12 col-sm-112 col-xs-12">
                             <div class="x_panel">
                                 <div class="x_title">
+                                    <div class="row">
                                     <h2 style=" padding-right: 30px">Equitrack <small>Validate Members</small></h2>
                                     <ul class="nav navbar-right panel_toolbox">
                                         <li>
@@ -43,20 +44,41 @@
                                         <input type="text" id="search" style="float:right;border:1px solid; width:200px; height:35px;border-radius:5px; padding:5px;" ng-keyup="Search()" placeholder="Search Members" />
                                         
                                     </ul>
-                                    <table style="color:#3c9cdd;font-size:15px;width:400px;margin-top: 40px !important;">
-                                        <th style="width:160px; "><u>Total Members</u> - <label style="color:#73879C" > {{tcount}}</label></th>
-                                        <th style="width:100px; padding-right: 30px;"><u>Active</u> - <label style="color:#73879C;" >  {{act}}</label></th>
+                                </div>
+
+                                 <!--   <table style="color:#3c9cdd;font-size:15px;width:400px;margin-top: 40px !important;">
+                                      
+                                        <th style="width:185px;"><u>Total Members</u> - <label style="color:#73879C" > {{tcount}}</label></th>
+                                        <th style="width:130px; "><u>Active</u> - <label style="color:#73879C;" >  {{act}}</label></th>
                                         <th style=""><u>Inactive</u> -  <label style="color:#73879C" >  {{deact}}</label></th>
-                                    </table>
+                                 </table>-->
                                    
                                    
                                 
-                                    
-                                   
-                    
+                                 <div class="row top_tiles text-center" style="margin: 10px 0;background: #F7F7F7;">
+                                        <div class="col-md-4 col-sm-3 col-xs-6 tile" style="padding-top: 7px;">
+                                            <span style="color: #73879C; font-weight: bold;">Total Members</span>
+                                            <h2 style="float: none;">{{tcount}}</h2>
+                                        </div>
+                                        <div class="col-md-4 col-sm-3 col-xs-6 tile" style="padding-top: 7px;">
+                                            <span style="color: #73879C; font-weight: bold;">Total Horses</span>
+                                            <h2 style="float: none;">{{act}}</h2>
+                                        </div>
+                                        <div class="col-md-4 col-sm-3 col-xs-6 tile" style="padding-top: 7px;">
+                                            <span style="color: #73879C;font-weight: bold;">Total Rides</span>
+                                            <h2 style="float: none;"> {{deact}}</h2>
+                                        </div>
+                                        <!--<div class="col-md-3 col-sm-3 col-xs-6 tile">
+                                            <span>Total Sessions</span>
+                                            <h2>231,809</h2>
+                                            <span class="sparkline_one" style="height: 160px;"><canvas width="478" height="125" style="display: inline-block; width: 478px; height: 125px; vertical-align: top;"></canvas></span>
+                                        </div>-->
+                                    </div>
+
                                    <!-- <input type="file" style="visibility:hidden;position:absolute;width:0;height:0;" id="addphoto">-->
                                     <div class="clearfix"></div>
                                 </div>
+                                
                                 <!--<div class="row" ng-repeat="x in mappings"  ng-show="!showgrid">
                                     <div class="form-group" style="margin-bottom:40px !important">
                                         <div class="col-md-3 col-md-offset-3">
