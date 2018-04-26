@@ -50,24 +50,24 @@
                  <div class="box clearfix">
 
                      <div class="share_btn pull-right">
-                         
-                         <!--<a class="btn btn-transparent btn-icon" ng-click="PrintPDF()" style="color: red;border: 2px solid red;">
-                             <i class="fa fa-print" aria-hidden="true"></i>
-                         </a>-->
 
-                         <a href="#" class="btn btn-transparent btn-icon"  ng-click="SocialShare()">
-                            
-                            <!--socialshare
-                            socialshare-provider="facebook"
-                            socialshare-text="Myequitrack - Socialsharing"
-                            socialshare-hashtags="Myequitrack, Myequitrack-socialshare"
-                            socialshare-url="https://myequitrack.com/share.html?type=2&id={{rideId}}">-->
+                         <!--<a class="btn btn-transparent btn-icon" ng-click="PrintPDF()" style="color: red;border: 2px solid red;">
+        <i class="fa fa-print" aria-hidden="true"></i>
+    </a>-->
+                         <a href="ridemap.html" class="btn btn-transparent" ng-click="SeeMap(lastRide)">See on Map</a>
+                         <a href="#" class="btn btn-transparent btn-icon" ng-click="SocialShare()">
+
+                             <!--socialshare
+        socialshare-provider="facebook"
+        socialshare-text="Myequitrack - Socialsharing"
+        socialshare-hashtags="Myequitrack, Myequitrack-socialshare"
+        socialshare-url="https://myequitrack.com/share.html?type=2&id={{rideId}}">-->
 
                              <i class="fa fa-share"></i>
                          </a>
                          <!--<a href="#" class="btn btn-transparent btn-icon" ng-click="DeleteRide(rideId)" style="color: red;border: 2px solid red;">
-                            <i class="fa fa-trash"></i>
-                        </a>-->
+        <i class="fa fa-trash"></i>
+    </a>-->
 
                      </div>
 
@@ -130,7 +130,7 @@
 
     </select>-->
 
-    <a href="ridemap.html" class="btn btn-transparent" ng-click="SeeMap(lastRide)">See on Map</a>
+   
 
 
 
@@ -266,7 +266,7 @@
 
                              <div class="lora text-center"> <h1 class="heading" style="font-size:45px;">Training Program: <span class="brand-color">{{lastRide.program_name}}</span></h1> </div>
 
-                             <!--<table cellpadding="0" cellspacing="0" class="table table_trainig text-center">
+                             <table cellpadding="0" cellspacing="0" class="table table_trainig text-center">
 
                                  <thead>
 
@@ -332,7 +332,7 @@
 
                                  </tfoot>
 
-                             </table>-->
+                             </table>
 
 
 
