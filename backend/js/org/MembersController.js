@@ -308,6 +308,19 @@
                 }
                 else {
                     $scope.showmember.push($scope.Users[usrCounter]);
+                    try {
+                        console.log($scope.showmember[addedCounter]);
+                        debugger
+                        if ($scope.showmember[addedCounter]['org_membership'] && $scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber]) {
+                            if ($scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber].member_email) {
+                                $scope.showmember[addedCounter].aqhaemail = $scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber].member_email
+                            }
+                            if ($scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber].member_number) {
+                                $scope.showmember[addedCounter].membership_number = $scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber].member_number
+                            }
+                        }
+                    } catch (errr) { }
+                    
                     $scope.showmember[addedCounter].TotalHorses = horseIds.length;
                     $scope.showmember[addedCounter].TotalRides = 0;
                     addedCounter++;

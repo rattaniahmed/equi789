@@ -336,18 +336,30 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
             if (Organisation.ShowAllData && Organisation.ShowAllData == 1) {
                 AllUsers.push(user);
             } else {
+
+                var pushed = false;
                 if (user.horse_ids) {
                     var ids = Object.keys(user.horse_ids);
-
                     for (var i in AllHorses) {
                         var evens = _.filter(ids, function (num) { return num == AllHorses[i].$id; });
                         if (evens.length > 0) {
                             if (!(_.contains(AllUsers, user))) {
                                 AllUsers.push(user);
+                                pushed = true;
                             }
                         }
                     }
                 }
+
+                if (!pushed) {
+                    if (user['org_membership'] && user['org_membership'][Organisation.OrganisationNumber]) {
+                        if (user['org_membership'][Organisation.OrganisationNumber].member_email) {
+                            //user.aqhaemail = user['org_membership'][Organisation.OrganisationNumber].member_email
+                            AllUsers.push(user);
+                        }
+                    }
+                }
+
             }
 
         });
