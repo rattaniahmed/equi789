@@ -213,7 +213,7 @@ $scope.showbrowsebtn=false;
                             obj.member_id = data[cnt][memberIdIndex] || '';
                             obj1.member_id = data[cnt][memberIdIndex] || '';
                             if (obj.member_id == '') {
-                                possibleErrors += "please currect Member ID";
+                                possibleErrors += "Please correct Member ID";
                                 $scope.Errorinrecord = true;
                             }
                             if (member_Id.indexOf(data[cnt][memberIdIndex]) >= 0) {
@@ -225,7 +225,7 @@ $scope.showbrowsebtn=false;
                             obj.email = data[cnt][memberEmailIndex] || '';
                             obj1.email = data[cnt][memberEmailIndex] || '';
                             if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(obj.email))) {
-                                possibleErrors += "please currect Member email";
+                                possibleErrors += "Please correct Member Email";
                                 $scope.Errorinrecord = true;
                             }
                         } else if (toLoop.field == "member_name") {
