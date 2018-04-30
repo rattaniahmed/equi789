@@ -69,7 +69,6 @@
           { name: 'TotalHorses', headerCellClass: 'blue', field: 'TotalHorses' },
         { name: 'TotalTime', headerCellClass: 'blue', field: 'TotalTime' },
          { name: 'TotalDistance', headerCellClass: 'blue', field: 'TotalDistance', sortingAlgorithm: myAwesomeSortFnForInt }
-
         ],
         exporterLinkLabel: 'get your csv here',
         exporterPdfDefaultStyle: { fontSize: 9 },
@@ -354,7 +353,7 @@
     //    var downloadData = [];
     //    for (var i = 0; i < $scope.gridOptions.data.length; i++) {
 
-    //        var colArray = ["display_name", "email", "first_name", "last_name", "TotalRides", "TotalHorses", "TotalTime", "TotalDistance"]
+    //        var colArray = ["display_name", "email","aqhaemail","membership_number", "first_name", "last_name", "TotalRides", "TotalHorses", "TotalTime", "TotalDistance"]
     //        var row = {};
     //        for (var counter = 0; counter < colArray.length; counter++) {
     //            row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
@@ -387,7 +386,7 @@
     $scope.getCurrentGridData = function () {
         var downloadData = [];
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-            var colArray = ["display_name", "email", "first_name", "last_name", "TotalRides", "TotalHorses", "TotalTime", "TotalDistance"]
+            var colArray = ["display_name", "email", "aqhaemail", "membership_number", "first_name", "last_name", "TotalRides", "TotalHorses", "TotalTime", "TotalDistance"]
             var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {
                 row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];

@@ -754,7 +754,7 @@
     $scope.getCurrentGridData = function () {
         var downloadData = [];
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-            var colArray = ["Member", "Horse", "MembershipNumber", "total_distance", "total_times", "top_speed", "average_speed", "start_time", "end_time",  "weather", "energy", "calories"]
+            var colArray = ["Member", "Orgmember", "Orgnumber", "Horse","registration", "MembershipNumber", "total_distance", "total_times", "start_time", "end_time"]
             var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {
                 row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];

@@ -17,7 +17,6 @@
     };
     var myAwesomeSortFnForEnergyInt = function (a1, b1, rowA, rowB, direction) {
 
-
         try {
             var a = parseFloat(a1.replace(" col", ""));
             var b = parseFloat(b1.replace(" col", ""));
@@ -26,6 +25,21 @@
             if (a > b) return -1;
 
             return srirachaSauce;
+        } catch (err) {
+            return -1;
+        }
+    };
+    var myAwesomeSortFnForEmail = function (a1, b1, rowA, rowB, direction) {
+
+
+        try {
+           // var a = parseFloat(a1.replace(" col", ""));
+           // var b = parseFloat(b1.replace(" col", ""));
+            var textA = a.toUpperCase();
+            var textB = b.toUpperCase();
+          ////  return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            
         } catch (err) {
             return -1;
         }
@@ -87,7 +101,7 @@
            
         ]
     };
-
+   
     $scope.gridOptions = {
         paginationPageSizes: [5, 10, 20],
         enableSorting: true,
@@ -100,11 +114,11 @@
         },
         columnDefs: [
             {
-                name: 'EquiTrack Email', displayName: 'EquiTrack Email', headerCellClass: 'blue',
+                name: 'EquiTrack Email', displayName: 'EquiTrack Email', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForEmail,
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Member}}</a></div>'
             },
             {
-                name: 'Member Email', headerCellClass: 'blue',
+                name: 'Member Email', headerCellClass: 'blue', enableFiltering: false,
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Orgmember}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Orgmember}}</a></div>'
             },
             { name: 'Member ID', displayName: 'Member ID', enableFiltering: false, field: 'Orgnumber', headerCellClass: 'blue' },
@@ -116,8 +130,8 @@
           //{ name: 'birthday', headerCellClass: 'blue' },
           //{ name: 'registration', headerCellClass: 'blue' },
          // { name: 'weight', headerCellClass: 'blue' },
-          { name: 'TotalRides', headerCellClass: 'blue', field: 'TotalRides', type:'number' },
-           { name: 'TotalTime', headerCellClass: 'blue', field: 'TotalTime' },
+          { name: 'TotalRides', headerCellClass: 'blue', enableFiltering: false, field: 'TotalRides', type:'number' },
+          { name: 'TotalTime', headerCellClass: 'blue', field: 'TotalTime', enableFiltering: false, },
           { name: 'TotalDistance', headerCellClass: 'blue', field: 'TotalDistance', sortingAlgorithm: myAwesomeSortFnForInt },
           //{ name: 'TopSpeed', headerCellClass: 'blue', field: 'TopSpeed', sortingAlgorithm: myAwesomeSortFnForTopSpeedInt },
          // { name: 'TotalEnergy', headerCellClass: 'blue', field: 'TotalEnergy' , sortingAlgorithm: myAwesomeSortFnForEnergyInt }
@@ -445,7 +459,7 @@
     $scope.getCurrentGridData = function () {
         var downloadData = [];
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-            var colArray = ["Member", "horse_name", "MembershipNumber", "birthday", "registration", "weight", "TotalRides", "TotalTime", "TotalDistance", "TopSpeed", "TotalEnergy"]
+            var colArray = ["Member", "Orgmember", "Orgnumber", "horse_name", "registration","MembershipNumber", "TotalRides", "TotalTime", "TotalDistance"]
             var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {
                 row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
