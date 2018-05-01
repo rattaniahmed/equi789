@@ -348,6 +348,10 @@
             var maps = getHorseUserMap($scope.Users);
 
             Organisation = JSON.parse(localStorage.getItem('adminObject'));
+                if (Organisation.OrganisationNumber != "AQHA-2017") {
+                $scope.gridOptions.columnDefs[1] = { field: $scope.gridOptions.columnDefs[1].name, visible: false };
+                $scope.gridOptions.columnDefs[2] = { field: $scope.gridOptions.columnDefs[2].name, visible: false };
+            }
             $scope.showhorse = [];
             var addedCounter = 0;
             for (var counter = 0; counter < $scope.AllHorses.length; counter++) {

@@ -119,7 +119,7 @@
             { name: 'Horse', headerCellClass: 'blue', field: 'Horse' },
             { name: 'Registered Name', headerCellClass: 'blue', field: 'registration' },
             { name: 'Registration Number', headerCellClass: 'blue', field: 'MembershipNumber' },
-            { name: 'total_time', headerCellClass: 'blue' },
+            { name: 'total_time', headerCellClass: 'blue', field:'total_times'},
           { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
           
        //   { name: 'top_speed', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
@@ -534,6 +534,10 @@
         if ($rootScope.isDataLoaded) {
             $scope.renderCalender();
             $scope.org = JSON.parse(localStorage.getItem('adminObject'));
+            if ($scope.org.OrganisationNumber != "AQHA-2017") {
+                $scope.gridOptions.columnDefs[1] = { field: $scope.gridOptions.columnDefs[1].name, visible: false };
+                $scope.gridOptions.columnDefs[2] = { field: $scope.gridOptions.columnDefs[2].name, visible: false };
+            }
             $scope.AllHorses = $rootScope.getOrgHorses();
             $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
             // $scope.Rides = $rootScope.getOrgRides($scope.AllHorses);

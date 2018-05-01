@@ -276,6 +276,10 @@
             var addedCounter = 0;
             debugger;
             var Organisation = JSON.parse(localStorage.getItem('adminObject'));
+            if (Organisation.OrganisationNumber != "AQHA-2017") {
+                $scope.gridOptions.columnDefs[1] = { field: $scope.gridOptions.columnDefs[1].name, visible: false };
+                $scope.gridOptions.columnDefs[2] = { field: $scope.gridOptions.columnDefs[2].name, visible: false };
+            }
             for (var usrCounter = 0; usrCounter < $scope.Users.length; usrCounter++) {
 
                 var horseIds = $rootScope.getHorseIds($scope.Users[usrCounter], $scope.AllHorses);
