@@ -118,7 +118,7 @@
             { name: 'Member Id', headerCellClass: 'blue', field: 'Orgnumber' },
             { name: 'Horse', headerCellClass: 'blue', field: 'Horse' },
             { name: 'Registered Name', headerCellClass: 'blue', field: 'registration' },
-            { name: 'Registration Number', headerCellClass: 'blue', field: 'MembershipNumber' },
+            { name: 'Registration Number', headerCellClass: 'blue', field: 'reg_number' },
             { name: 'total_time', headerCellClass: 'blue', field:'total_times'},
           { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
           
@@ -719,7 +719,7 @@
 
     $scope.Download = function () {
         var downloadData = $scope.getCurrentGridData();
-        JSONToCSVConvertor(downloadData, "Horse Rides Report"+" "+new Date().toString('yyyyMMdd'), true);
+        JSONToCSVConvertor(downloadData, "Rides Report"+" "+new Date().toString('yyyyMMdd hhmmss'), true);
         
     }
 
@@ -758,10 +758,15 @@
     $scope.getCurrentGridData = function () {
         var downloadData = [];
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-            var colArray = ["Member", "Orgmember", "Orgnumber", "Horse","registration", "MembershipNumber", "total_distance", "total_times", "start_time", "end_time"]
+            var colArray = [];
+            if (Organisation.OrganisationNumber == "AQHA-2017") {
+                colArray = ["Member", "Orgmember", "Orgnumber", "Horse", "registration", "reg_number", "total_distance", "total_times", "start_time", "end_time", "high_heart_rate","average_speed"]
+            } else {
+                colArray = ["Member", "Horse", "registration", "reg_number", "total_distance", "total_times", "start_time", "end_time", "high_heart_rate", "average_speed"]
+            }
             var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {
-                row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
+                row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]] ||"no data";
             }
             downloadData.push(row);
         }

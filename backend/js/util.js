@@ -1063,11 +1063,11 @@ function replace_columnName(name) {
 { Source: "energy", Destination: "Energy" }, 
 { Source: "calories", Destination: "Calories" }, 
 { Source: "birthday", Destination: "Birthday" }, 
-{ Source: "registration", Destination: "Registration Name" }, 
+        { Source: "registration", Destination: "Registered Name" }, 
 { Source: "weight", Destination: "Weight" }, 
 { Source: "horse_name", Destination: "Horse Name" }, 
 { Source: "total_distance", Destination: "Total Distance" },
-{ Source: "total_times", Destination: "Total Times" },
+        { Source: "total_times", Destination: "Total Time" },
 { Source: "top_speed", Destination: "Top Speed" },
 { Source: "average_speed", Destination: "Average Speed" },
 { Source: "start_time", Destination: "Start Time" },
@@ -1141,7 +1141,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
     }
 
     //Generate a file name
-    var fileName = "Equitrack_";
+    var fileName = "EquiTrack_";
     //this will remove the blank-spaces from the title and replace it with an underscore
     fileName += ReportTitle.replace(/ /g, "_");
 

@@ -351,7 +351,7 @@
 
     $scope.Download = function () {
         var downloadData = $scope.getCurrentGridData();
-        JSONToCSVConvertor(downloadData, "Members Report"+" "+new Date().toString('yyyyMMdd'), true);
+        JSONToCSVConvertor(downloadData, "Members Report" + " " + new Date().toString('yyyyMMdd hhmmss'), true);
     }
     //$scope.Download = function () {
     //    var downloadData = [];
@@ -390,10 +390,15 @@
     $scope.getCurrentGridData = function () {
         var downloadData = [];
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-            var colArray = ["display_name", "email", "aqhaemail", "membership_number", "first_name", "last_name", "TotalRides", "TotalHorses", "TotalTime", "TotalDistance"]
+            var colArray = [];
+            if (Organisation.OrganisationNumber == "AQHA-2017") {
+                 colArray = ["display_name", "email", "aqhaemail", "membership_number", "first_name", "last_name", "TotalRides", "TotalHorses", "TotalTime", "TotalDistance"]
+            } else {
+                colArray = ["display_name", "email",  "first_name", "last_name", "TotalRides", "TotalHorses", "TotalTime", "TotalDistance"]
+            }
             var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {
-                row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
+                row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]] || "no data";
             }
             downloadData.push(row);
         }

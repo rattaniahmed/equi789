@@ -35,10 +35,14 @@
         try {
            // var a = parseFloat(a1.replace(" col", ""));
            // var b = parseFloat(b1.replace(" col", ""));
-            var textA = a.toUpperCase();
-            var textB = b.toUpperCase();
+
+if(a < b) return -1;
+    if(a > b) return 1;
+    return 0;
+           // var textA = a.toUpperCase();
+            //var textB = b.toUpperCase();
           ////  return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-            return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            // return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
             
         } catch (err) {
             return -1;
@@ -118,14 +122,14 @@
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Member}}</a></div>'
             },
             {
-                name: 'Member Email', headerCellClass: 'blue', enableFiltering: false,
+                name: 'Member Email', headerCellClass: 'blue', enableFiltering: false, sortingAlgorithm: myAwesomeSortFnForEmail,
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Orgmember}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Orgmember}}</a></div>'
             },
             { name: 'Member ID', displayName: 'Member ID', enableFiltering: false, field: 'Orgnumber', headerCellClass: 'blue' },
             { name: 'horse_name', enableFiltering: false, headerCellClass: 'blue', field: 'horse_name'},
           
             { name: 'Registered Name', enableFiltering: false, field: 'registration',headerCellClass: 'blue' },
-          { name: 'Registration Number', enableFiltering: false, field: 'MembershipNumber', headerCellClass: 'blue' },
+            { name: 'Registration Number', enableFiltering: false, field: 'reg_number', headerCellClass: 'blue' },
         //  { name: 'RidingProgram', enableFiltering: false, headerCellClass: 'blue' },
           //{ name: 'birthday', headerCellClass: 'blue' },
           //{ name: 'registration', headerCellClass: 'blue' },
@@ -449,7 +453,7 @@
 
     $scope.Download = function () {
         var downloadData = $scope.getCurrentGridData();
-        JSONToCSVConvertor(downloadData, "Horses Report"+" "+new Date().toString('yyyyMMdd'), true);
+        JSONToCSVConvertor(downloadData, "Horses Report" + " " + new Date().toString('yyyyMMdd hhmmss'), true);
     }
     $scope.EmailSend = function () {
 
@@ -463,10 +467,15 @@
     $scope.getCurrentGridData = function () {
         var downloadData = [];
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-            var colArray = ["Member", "Orgmember", "Orgnumber", "horse_name", "registration","MembershipNumber", "TotalRides", "TotalTime", "TotalDistance"]
-            var row = {};
+            var colArray = [];
+            if (Organisation.OrganisationNumber == "AQHA-2017") {
+                colArray = ["Member", "Orgmember", "Orgnumber", "horse_name", "registration", "reg_number", "TotalRides", "TotalTime", "TotalDistance"]
+            } else {
+                colArray = ["Member", "horse_name", "registration", "reg_number", "TotalRides", "TotalTime", "TotalDistance"]
+            }
+             var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {
-                row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]];
+                row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]] || "no data";
             }
             downloadData.push(row);
         }
