@@ -117,8 +117,8 @@
            
             { name: 'Member Id', headerCellClass: 'blue', field: 'Orgnumber' },
             { name: 'Horse', headerCellClass: 'blue', field: 'Horse' },
-            { name: 'Registered Name', headerCellClass: 'blue', field: 'registration' },
-            { name: 'Registration Number', headerCellClass: 'blue', field: 'reg_number' },
+            { name: 'Registered Name', headerCellClass: 'blue', field: 'aqharegname' },
+            { name: 'Registration Number', headerCellClass: 'blue', field: 'aqharegnum' },
             { name: 'total_time', headerCellClass: 'blue', field:'total_times'},
           { name: 'total_distance', enableFiltering: false, headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForInt },
           
@@ -497,8 +497,15 @@
                 if (horse.associations) {
                     var og = _.find(horse.associations,
                         function (oginner) { return oginner.filter == $scope.ORGDETAIL.OrganisationNumber });
-                    if (og)
+                    if (og) {
                         rideDetails.MembershipNumber = og.number;
+                        debugger;
+                        if ($scope.ORGDETAIL.OrganisationNumber != "AQHA-2017") {
+                            rideDetails.aqharegname = og.name;
+                            rideDetails.aqharegnum = og.number;
+
+                        }
+                    }
                 }
             }
             rideDetails.Member = "";
@@ -760,9 +767,9 @@
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
             var colArray = [];
             if (Organisation.OrganisationNumber == "AQHA-2017") {
-                colArray = ["Member", "Orgmember", "Orgnumber", "Horse", "registration", "reg_number", "total_distance", "total_times", "start_time", "end_time", "high_heart_rate","average_speed"]
+                colArray = ["Member", "Orgmember", "Orgnumber", "Horse", "aqharegname", "aqharegnum", "total_distance", "total_times", "start_time", "end_time", "average_heart_rate","average_speed"]
             } else {
-                colArray = ["Member", "Horse", "registration", "reg_number", "total_distance", "total_times", "start_time", "end_time", "high_heart_rate", "average_speed"]
+                colArray = ["Member", "Horse", "aqharegname", "aqharegnum", "total_distance", "total_times", "start_time", "end_time", "average_heart_rate", "average_speed"]
             }
             var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {

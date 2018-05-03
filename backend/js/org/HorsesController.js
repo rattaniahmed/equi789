@@ -128,8 +128,9 @@ if(a < b) return -1;
             { name: 'Member ID', displayName: 'Member ID', enableFiltering: false, field: 'Orgnumber', headerCellClass: 'blue' },
             { name: 'horse_name', enableFiltering: false, headerCellClass: 'blue', field: 'horse_name'},
           
-            { name: 'Registered Name', enableFiltering: false, field: 'registration',headerCellClass: 'blue' },
-            { name: 'Registration Number', enableFiltering: false, field: 'reg_number', headerCellClass: 'blue' },
+            { name: 'Registered Name', enableFiltering: false, field: 'aqharegname',headerCellClass: 'blue' },
+            { name: 'Registration Number', enableFiltering: false, field: 'aqharegnum', headerCellClass: 'blue' },
+            { name: 'Breed', enableFiltering: false, field: 'registration', headerCellClass: 'blue' },
         //  { name: 'RidingProgram', enableFiltering: false, headerCellClass: 'blue' },
           //{ name: 'birthday', headerCellClass: 'blue' },
           //{ name: 'registration', headerCellClass: 'blue' },
@@ -353,17 +354,23 @@ if(a < b) return -1;
 
             Organisation = JSON.parse(localStorage.getItem('adminObject'));
                 if (Organisation.OrganisationNumber != "AQHA-2017") {
-                $scope.gridOptions.columnDefs[1] = { field: $scope.gridOptions.columnDefs[1].name, visible: false };
-                $scope.gridOptions.columnDefs[2] = { field: $scope.gridOptions.columnDefs[2].name, visible: false };
-            }
+                    $scope.gridOptions.columnDefs[1] = { field: $scope.gridOptions.columnDefs[1].name,visible: false };
+                    $scope.gridOptions.columnDefs[2] = { field: $scope.gridOptions.columnDefs[2].name,visible: false };
+                }
             $scope.showhorse = [];
             var addedCounter = 0;
+
             for (var counter = 0; counter < $scope.AllHorses.length; counter++) {
                     $scope.AllHorses[counter].MembershipNumber = "";
                     if ($scope.AllHorses[counter].associations) {
                         var og = _.find($scope.AllHorses[counter].associations, function (oginner) { return oginner.filter == Organisation.OrganisationNumber });
                         if (og) {
                             $scope.AllHorses[counter].MembershipNumber = og.number;
+                            if (Organisation.OrganisationNumber != "AQHA-2017") {
+                                $scope.AllHorses[counter].aqharegname = og.name;
+                                $scope.AllHorses[counter].aqharegnum = og.number;
+
+                            }
                             
                         }
                     }
@@ -382,6 +389,9 @@ if(a < b) return -1;
                     var rideIds = []
                     if ($scope.AllHorses[counter].ride_ids)
                         rideIds = Object.keys($scope.AllHorses[counter].ride_ids);
+
+                    
+                  
 
                     var commulativeData = getCommulativeData(rideIds, $rootScope.backendHorseRides, $scope.date);
 
@@ -469,9 +479,9 @@ if(a < b) return -1;
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
             var colArray = [];
             if (Organisation.OrganisationNumber == "AQHA-2017") {
-                colArray = ["Member", "Orgmember", "Orgnumber", "horse_name", "registration", "reg_number", "TotalRides", "TotalTime", "TotalDistance"]
+                colArray = ["Member", "Orgmember", "Orgnumber", "horse_name", "aqharegname", "aqharegnum", "registration","TotalRides", "TotalTime", "TotalDistance"]
             } else {
-                colArray = ["Member", "horse_name", "registration", "reg_number", "TotalRides", "TotalTime", "TotalDistance"]
+                colArray = ["Member", "horse_name", "aqharegname", "aqharegnum", "registration","TotalRides", "TotalTime", "TotalDistance"]
             }
              var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {

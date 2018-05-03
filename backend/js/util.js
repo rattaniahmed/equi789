@@ -1063,7 +1063,7 @@ function replace_columnName(name) {
 { Source: "energy", Destination: "Energy" }, 
 { Source: "calories", Destination: "Calories" }, 
 { Source: "birthday", Destination: "Birthday" }, 
-        { Source: "registration", Destination: "Registered Name" }, 
+        { Source: "registration", Destination: "Breed" }, 
 { Source: "weight", Destination: "Weight" }, 
 { Source: "horse_name", Destination: "Horse Name" }, 
 { Source: "total_distance", Destination: "Total Distance" },
@@ -1082,7 +1082,9 @@ function replace_columnName(name) {
 { Source: "MembershipNumber", Destination: "Registration Number" },
 { Source: "TotalEnergy", Destination: "Total Energy" },
 { Source: "TopSpeed", Destination: "Top Speed" },
-
+{ Source: "aqharegname", Destination: "Registered Name" },
+{ Source: "aqharegnum", Destination: "Registration Number" }, 
+        { Source: "average_heart_rate", Destination: "Average Heart Rate" },
     ];
     var toReturn = name;
     for (i = 0; i < Column_Name.length; i++) {
