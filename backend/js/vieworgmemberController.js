@@ -342,6 +342,10 @@ setTimeout(() => {
         $("#OptionalModal11").hide();
 
     }
+$scope.closemodel11 = function () {
+        $("#OptionalModal12").hide();
+
+    }
     $scope.Activemember = function (row, col) {
         swal({
             title: "Are you sure?",
@@ -395,4 +399,55 @@ setTimeout(() => {
     // setTimeout(() => {
     //     $("#loadingModal").hide();
     // }, 2000);
+
+ $scope.openaddmodel = function () {     
+        
+        $("#OptionalModal12").show();
+    }
+$scope.addNewMember=function(){
+    if(!$scope.MemberName||!$scope.MemberEmail||!$scope.MemberId){
+        swal("", "Please fill all member Details", "error");
+      }else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($scope.MemberEmail))) {
+                  swal("", "Please fill Correct Member Email", "error");               
+      }else{
+            if($scope.gridOptions.data){
+                var exist=false;
+                for(var i=0;i<$scope.gridOptions.data.length;i++){
+                    if($scope.gridOptions.data[i].member_id==$scope.MemberId){
+                            exist=true;
+                        }
+                 }
+                if(exist){
+                swal("", "Member Id alresdy exist", "error");
+                }else{
+                        var obj={
+email:$scope.MemberEmail,
+member_id:$scope.MemberId,
+member_name:$scope.MemberName,
+status:true
+                            }
+                        var ref = firebaseService.FIREBASEENDPOINT();  
+                        var refdb = firebase.database().ref('/members/' + $scope.user.OrganisationNumber + '/');
+                      //  refdb[finalUploads[i].member_id] = finalUploads[i];
+                         firebase.database().ref('/members/' + $scope.user.OrganisationNumber + '/' +$scope.MemberId).set(obj);
+                    $("#OptionalModal12").hide();
+ }
+                }else{
+                    $scope.gridOptions.data=[];
+ var obj={
+email:$scope.MemberEmail,
+member_id:$scope.MemberId,
+member_name:$scope.MemberName,
+status:true
+                            }
+                        var ref = firebaseService.FIREBASEENDPOINT();  
+                        var refdb = firebase.database().ref('/members/' + $scope.user.OrganisationNumber + '/');
+                      //  refdb[finalUploads[i].member_id] = finalUploads[i];
+                         firebase.database().ref('/members/' + $scope.user.OrganisationNumber + '/' +$scope.MemberId).set(obj);
+               $("#OptionalModal12").hide();
+}
+
+}
+}
+
 });

@@ -1,18 +1,21 @@
 ﻿<style>
 
-    .actionclass{
-        cursor:pointer !important;
-        color:red !important;
+    .actionclass {
+        cursor: pointer !important;
+        color: red !important;
     }
+
     .blueactionclass {
         cursor: pointer !important;
         color: #3c9cdd !important;
     }
+
     .greenactionclass {
         cursor: pointer !important;
         color: green !important;
     }
-    .members{
+
+    .members {
         margin-left: 50px;
     }
 </style>
@@ -27,35 +30,35 @@
                             <div class="x_panel">
                                 <div class="x_title">
                                     <div class="row">
-                                    <h2 style=" padding-right: 30px">Equitrack <small>Validate Members</small></h2>
-                                    <ul class="nav navbar-right panel_toolbox">
-                                        <li>
-                                            <a  href="#/uploadorgmember" style="font-weight: bold;text-decoration: underline;padding-right:10px;font-size: 20px;color: #3c9cdd;">
-                                               Upload New Members
-                                            </a>
+                                        <h2 style=" padding-right: 30px">Equitrack <small>Validate Members</small></h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                            <li>
+                                                <a href="#/uploadorgmember" style="font-weight: bold;text-decoration: underline;padding-right:10px;font-size: 20px;color: #3c9cdd;">
+                                                    Upload New Members
+                                                </a>
                                             </li>
-                                        <!--<li>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalid" ng-click="browseFile()"><i class="fa fa-plus"></i> Browse Data File</button>
-                                        </li>-->
-                                        <!--<li>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalid" ng-show="!Errorinrecord" ng-click="uplodeRecord()"><i class="fa fa-plus"></i> Upload File</button>
-                                        </li>-->
-                                        <button type="button" class="btn btn-primary" style="background-color: red;" ng-click="deleteAll()">Delete All Members</button>
-                                        <input type="text" id="search" style="float:right;border:1px solid; width:200px; height:35px;border-radius:5px; padding:5px;" ng-keyup="Search()" placeholder="Search Members" />
-                                        
-                                    </ul>
-                                </div>
+                                            <!--<li>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalid" ng-click="browseFile()"><i class="fa fa-plus"></i> Browse Data File</button>
+                                            </li>-->
+                                            <!--<li>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalid" ng-show="!Errorinrecord" ng-click="uplodeRecord()"><i class="fa fa-plus"></i> Upload File</button>
+                                            </li>-->
+                                            <button type="button" class="btn btn-primary" style="background-color: red;" ng-click="deleteAll()">Delete All Members</button>
+                                            <input type="text" id="search" style="float:right;border:1px solid; width:200px; height:35px;border-radius:5px; padding:5px;" ng-keyup="Search()" placeholder="Search Members" />
 
-                                 <!--   <table style="color:#3c9cdd;font-size:15px;width:400px;margin-top: 40px !important;">
-                                      
-                                        <th style="width:185px;"><u>Total Members</u> - <label style="color:#73879C" > {{tcount}}</label></th>
-                                        <th style="width:130px; "><u>Active</u> - <label style="color:#73879C;" >  {{act}}</label></th>
-                                        <th style=""><u>Inactive</u> -  <label style="color:#73879C" >  {{deact}}</label></th>
-                                 </table>-->
-                                   
-                                   
-                                
-                                 <div class="row top_tiles text-center" style="margin: 10px 0;background: #F7F7F7;">
+                                        </ul>
+                                    </div>
+
+                                    <!--   <table style="color:#3c9cdd;font-size:15px;width:400px;margin-top: 40px !important;">
+
+                                           <th style="width:185px;"><u>Total Members</u> - <label style="color:#73879C" > {{tcount}}</label></th>
+                                           <th style="width:130px; "><u>Active</u> - <label style="color:#73879C;" >  {{act}}</label></th>
+                                           <th style=""><u>Inactive</u> -  <label style="color:#73879C" >  {{deact}}</label></th>
+                                    </table>-->
+
+
+
+                                    <div class="row top_tiles text-center" style="margin: 10px 0;background: #F7F7F7;">
                                         <div class="col-md-4 col-sm-3 col-xs-6 tile" style="padding-top: 7px;">
                                             <span style="color: #73879C; font-weight: bold;">Total Members</span>
                                             <h2 style="float: none;">{{tcount}}</h2>
@@ -75,10 +78,10 @@
                                         </div>-->
                                     </div>
 
-                                   <!-- <input type="file" style="visibility:hidden;position:absolute;width:0;height:0;" id="addphoto">-->
+                                    <!-- <input type="file" style="visibility:hidden;position:absolute;width:0;height:0;" id="addphoto">-->
                                     <div class="clearfix"></div>
                                 </div>
-                                
+
                                 <!--<div class="row" ng-repeat="x in mappings"  ng-show="!showgrid">
                                     <div class="form-group" style="margin-bottom:40px !important">
                                         <div class="col-md-3 col-md-offset-3">
@@ -95,13 +98,13 @@
                                     </div>
                                 </div>-->
 
-                                <div class="x_content" id="gridid" >
+                                <div class="x_content" id="gridid">
 
-                                    <div ui-grid="gridOptions" style="height:400px" ui-grid-pagination ></div>
+                                    <div ui-grid="gridOptions" style="height:400px" ui-grid-pagination></div>
                                 </div>
 
                                 <!--<ul class="nav navbar-right panel_toolbox">
-                                    
+
                                     <li>
                                         <button type="button" class="btn btn-primary" ng-show="!showgrid && showlistdata.length>0" data-toggle="modal" data-target="#modalid" ng-click="manipulateData(showlistdata,mappings)"><i class="fa fa-plus"></i> Mapping Done</button>
                                     </li>
@@ -147,7 +150,7 @@
             </div>
             <div style="padding: 2px 10px;" ng-repeat="obj  in viewobj" ng-if="obj.pname != 'error'">
                 <div>
-                    <label style="width:200px ;padding-left:50px" ng-if="obj.pname != '$$hashKey' && obj.pname != 'undefined' && obj.pname !='$id' && obj.pname !='$priority'&& obj.pname !='status' ">{{obj.pname}}</label> <span ng-if="obj.pname != '$$hashKey' && obj.pname != 'undefined' && obj.pname !='$id' && obj.pname !='$priority' && obj.pname !='status'">-</span> 
+                    <label style="width:200px ;padding-left:50px" ng-if="obj.pname != '$$hashKey' && obj.pname != 'undefined' && obj.pname !='$id' && obj.pname !='$priority'&& obj.pname !='status' ">{{obj.pname}}</label> <span ng-if="obj.pname != '$$hashKey' && obj.pname != 'undefined' && obj.pname !='$id' && obj.pname !='$priority' && obj.pname !='status'">-</span>
                     <input style="margin-left:100px;" type="text" ng-if="obj.pname != '$$hashKey' && obj.pname!= 'undefined' && obj.pname !='$id' && obj.pname !='$priority'&& obj.pname !='status'" ng-model="obj.val">
                 </div>
             </div>
@@ -165,15 +168,48 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title modaleheader">Optional Member Information</h5>
-                <button type="button" ng-click="closemodel()"class="close modaleclose" data-dismiss="modal" aria-label="Close">
+                <button type="button" ng-click="closemodel()" class="close modaleclose" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div  style="padding: 2px 10px;" ng-repeat="(key,val)  in viewobj">
+            <div style="padding: 2px 10px;" ng-repeat="(key,val)  in viewobj">
                 <div ng-if="key!='member_id' && key!='email' && key!='status' && key!='error' && key!='member_name'"> {{key}} - {{ val}}</div>
             </div>
             <div class="modal-footer">
-                <button type="button" ng-click="closemodel()"class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" ng-click="closemodel()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div style="bottom:150px;position:fixed;right:60px">
+    <button type="button" class="btn btn-primary"  ng-click="openaddmodel()">+</button>
+</div>
+<div id="OptionalModal12" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title modaleheader">Member Information</h5>
+                <button type="button" ng-click="closemodel11()" class="close modaleclose" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div style="margin:5px">
+                <label style="width:200px ;padding-left:50px">Member Name</label> <span>-</span>
+                <input style="margin-left:100px;" type="text" ng-model="MemberName">
+            </div>
+            <div style="margin:5px">
+                <label style="width:200px ;padding-left:50px">Member Email</label> <span>-</span>
+                <input style="margin-left:100px;" type="text" ng-model="MemberEmail">
+            </div>
+            <div style="margin:5px">
+                <label style="width:200px ;padding-left:50px">Member ID</label> <span>-</span>
+                <input style="margin-left:100px;" type="text" ng-model="MemberId">
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="addNewMember()" class="btn btn-secondary" data-dismiss="modal">Save</button>
+                <button type="button" ng-click="closemodel11()" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
         <!-- /.modal-content -->

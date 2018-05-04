@@ -118,11 +118,11 @@ if(a < b) return -1;
         },
         columnDefs: [
             {
-                name: 'EquiTrack Email', displayName: 'EquiTrack Email', headerCellClass: 'blue', sortingAlgorithm: myAwesomeSortFnForEmail,
+                name: 'EquiTrack Email', displayName: 'EquiTrack Email', headerCellClass: 'blue', enableFiltering: false,
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Member}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Member}}</a></div>'
             },
             {
-                name: 'Member Email', headerCellClass: 'blue', enableFiltering: false, sortingAlgorithm: myAwesomeSortFnForEmail,
+                name: 'Member Email', headerCellClass: 'blue', enableFiltering: false, enableFiltering: false,
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Orgmember}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Orgmember}}</a></div>'
             },
             { name: 'Member ID', displayName: 'Member ID', enableFiltering: false, field: 'Orgnumber', headerCellClass: 'blue' },
