@@ -398,7 +398,7 @@
 
             var match = false;
             // Object.keys(row.entity).
-            ['total_distance', 'total_time', 'calories', 'energy', 'top_speed', 'average_speed', 'high_heart_rate', 'weather', 'Member', 'MembershipNumber', 'Horse', 'total_distance'].forEach(function (field) {
+            ['total_distance', 'total_time', 'Member', 'MembershipNumber', 'Horse','Orgmember','Orgnumber','aqharegname','aqharegnum'].forEach(function (field) {
                 try {
                     if (row && row.entity) {
                         if (row.entity[field]) {
@@ -493,7 +493,9 @@
             rideDetails.MembershipNumber = "";
 
             if (horse) {
-                rideDetails.registration = horse.registration
+                rideDetails.registration = horse.registration;
+                rideDetails.aqharegname = horse.aqharegname;
+                rideDetails.aqharegnum = horse.aqharegnum;
                 if (horse.associations) {
                     var og = _.find(horse.associations,
                         function (oginner) { return oginner.filter == $scope.ORGDETAIL.OrganisationNumber });
@@ -515,8 +517,8 @@
                 rideDetails.Member = member.Detail.email;
                 rideDetails.MemberId = member.Detail.$id;
                 if (member.Detail['org_membership'] && member.Detail['org_membership'][Organisation.OrganisationNumber]) {
-                    rideDetails.Orgmember = member.Detail['org_membership']['AQHA-2017'].member_email
-                    rideDetails.Orgnumber = member.Detail['org_membership']['AQHA-2017'].member_number
+                    rideDetails.Orgmember = member.Detail['org_membership'][Organisation.OrganisationNumber].member_email
+                    rideDetails.Orgnumber = member.Detail['org_membership'][Organisation.OrganisationNumber].member_number
                 }
             }
 

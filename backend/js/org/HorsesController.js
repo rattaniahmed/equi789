@@ -263,7 +263,7 @@ if(a < b) return -1;
 
             var match = false;
             // Object.keys(row.entity).
-            ['horse_name', 'birthday', 'registration', 'weight', 'Member', 'MembershipNumber', 'RidingProgram', 'total_distance'].forEach(function (field) {
+            ['horse_name', 'registration', 'Orgmember', 'Orgnumber', 'aqharegname', 'Member','aqharegnum', 'MembershipNumber', 'TotalDistance','TotalTime'].forEach(function (field) {
                 try {
                     if (row && row.entity) {
                         if (row.entity[field]) {
@@ -382,8 +382,8 @@ if(a < b) return -1;
                         $scope.AllHorses[counter].MemberId = member.Detail.$id; 
                         
                         if (member.Detail['org_membership'] && member.Detail['org_membership'][Organisation.OrganisationNumber]) {
-                            $scope.AllHorses[counter].Orgmember = member.Detail['org_membership']['AQHA-2017'].member_email
-                            $scope.AllHorses[counter].Orgnumber = member.Detail['org_membership']['AQHA-2017'].member_number
+                            $scope.AllHorses[counter].Orgmember = member.Detail['org_membership'][Organisation.OrganisationNumber].member_email
+                            $scope.AllHorses[counter].Orgnumber = member.Detail['org_membership'][Organisation.OrganisationNumber].member_number
                         }
                     }
                     var rideIds = []

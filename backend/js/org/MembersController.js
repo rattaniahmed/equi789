@@ -60,7 +60,7 @@
                 name: 'Member Email', headerCellClass: 'blue', field: 'aqhaemail',
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.aqhaemail}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.aqhaemail}}</a></div>'
             },
-            { name: 'Membership Id', headerCellClass: 'blue', field: 'membership_number' },
+            { name: 'Member Id', headerCellClass: 'blue', field: 'membership_number' },
             
           { name: 'display_name', enableFiltering: false, headerCellClass: 'blue', field: 'display_name' },
           { name: 'first_name', headerCellClass: 'blue', field: 'first_name' },
@@ -109,7 +109,7 @@
 
             var match = false;
             // Object.keys(row.entity).
-            ['first_name', 'last_name', 'display_name', 'email','total_distance'].forEach(function (field) {
+            ['first_name', 'last_name', 'aqhaemail','membership_number', 'display_name', 'email','total_distance'].forEach(function (field) {
                 try {
                     if (row && row.entity) {
                         if (row.entity[field]) {
