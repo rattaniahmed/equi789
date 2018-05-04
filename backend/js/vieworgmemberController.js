@@ -187,7 +187,7 @@ $scope.setCount =function(totalmember){
         $scope.deact++;                    
     }
 try{
-    $scope.$apply();
+    //$scope.$apply();
 }catch(err){
 
 }
@@ -204,7 +204,7 @@ try{
                 $scope.gridOptions.data = dataArray;
                 $scope.setCount($scope.gridOptions.data);
                 try{
-                    $scope.$apply();
+                   // $scope.$apply();
                 }catch(err){
                 
                 }

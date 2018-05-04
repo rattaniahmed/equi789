@@ -53,7 +53,7 @@
         },
         columnDefs: [
             {
-                name: 'EquiTrack Email', displayName: 'EquiTrack Email', headerCellClass: 'blue', field: 'email',
+                name: 'EquiTrack Email', displayName: 'EquiTrack Email', headerCellClass: 'blue', field: 'email', enableSorting: true,
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.email}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.email}}</a></div>'
             },
             {
@@ -101,7 +101,10 @@
         $scope.filterValue = document.getElementById("search").value;
         $scope.gridApi.grid.refresh();
     }
-   
+   $scope.sort = function() {
+    $scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data, "email", false)
+    $scope.grid1Api.core.notifyDataChange( uiGridConstants.dataChange.EDIT );
+  };
     $scope.singleFilter = function (renderableRows) {
 
         var matcher = new RegExp($scope.filterValue);
@@ -330,7 +333,10 @@
                 }
             }
             $scope.gridOptions.data = $scope.showmember;
-           
+
+            //$scope.gridOptions.data =$filter('orderBy')( $scope.showmember, "email", false)
+//for sorting  
+              //  $scope.sort();
             $scope.setDateLable($scope.date.startDate, $scope.date.endDate);
 
             UnLoadingState();
