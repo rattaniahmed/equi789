@@ -257,19 +257,24 @@ if(a < b) return -1;
         });
     }
     $scope.singleFilter = function (renderableRows) {
-
+        $scope.filterValue = $scope.filterValue || "";
         var matcher = new RegExp($scope.filterValue);
         renderableRows.forEach(function (row) {
 
             var match = false;
             // Object.keys(row.entity).
-            ['horse_name', 'registration', 'Orgmember', 'Orgnumber', 'aqharegname', 'Member','aqharegnum', 'MembershipNumber', 'TotalDistance','TotalTime'].forEach(function (field) {
+            ['horse_name', 'registration', 'Orgmember', 'Orgnumber', 'aqharegname', 'Member','aqharegnum', 'MembershipNumber'].forEach(function (field) {
                 try {
                     if (row && row.entity) {
                         if (row.entity[field]) {
-                            if (row.entity[field].match(matcher)) {
-                                match = true;
-                            }
+                            debugger;
+                            try {
+                                if (row.entity[field].toLocaleLowerCase().indexOf($scope.filterValue.toLocaleLowerCase()) > -1) {
+                                    //if (row.entity[field].toLocaleLowerCase().match(matcher.toLocaleString())) {
+                                    // if (row.entity[field].match(matcher)) {
+                                    match = true;
+                                }
+                            } catch (err){ }
                         }
                     }
                 }
@@ -423,7 +428,10 @@ if(a < b) return -1;
             $scope.gridOptions.data = $scope.showhorse;
             //$scope.gridOptions.data = $scope.AllHorses;
 
-            $scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
+            $scope.example15data = _.map($scope.Users, function (elem) {
+                console.log("sdfsfa");
+                return { id: elem.$id, label: elem.first_name + " " + elem.last_name }
+            });
 
             $scope.setDateLable($scope.date.startDate, $scope.date.endDate);
             UnLoadingState();

@@ -393,6 +393,7 @@
     //}
 
     $scope.singleFilter = function (renderableRows) {
+        $scope.filterValue = $scope.filterValue || "";
         var matcher = new RegExp($scope.filterValue);
         renderableRows.forEach(function (row) {
 
@@ -402,9 +403,12 @@
                 try {
                     if (row && row.entity) {
                         if (row.entity[field]) {
-                            if (row.entity[field].match(matcher)) {
-                                match = true;
-                            }
+                            try {
+                                if (row.entity[field].toLocaleLowerCase().indexOf($scope.filterValue.toLocaleLowerCase()) > -1) {
+                                    // if (row.entity[field].match(matcher)) {
+                                    match = true;
+                                }
+                            } catch (errr){ }
                         }
                     }
                 }
