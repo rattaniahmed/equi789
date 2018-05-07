@@ -164,6 +164,9 @@ if(a < b) return -1;
     };
     
 
+   // alert("test");
+
+
    // $scope.headertext = ["Appaloosa Horse Club Horses Summary Report Report Range:  January 2017"];
     $scope.export = function (type) {
         //if ($scope.export_format == type) {
@@ -181,7 +184,6 @@ if(a < b) return -1;
     }
 
     $scope.setDateLable = function (start, end) {
-        debugger;
         //console.log(start.toISOString() = end.toISOString());
       //  console.log("setting start and end date ");
         $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
@@ -267,7 +269,6 @@ if(a < b) return -1;
                 try {
                     if (row && row.entity) {
                         if (row.entity[field]) {
-                            debugger;
                             try {
                                 if (row.entity[field].toLocaleLowerCase().indexOf($scope.filterValue.toLocaleLowerCase()) > -1) {
                                     //if (row.entity[field].toLocaleLowerCase().match(matcher.toLocaleString())) {
@@ -409,6 +410,7 @@ if(a < b) return -1;
                         $scope.showhorse[addedCounter].TotalDistance = commulativeData.miles;
                         $scope.showhorse[addedCounter].TopSpeed = commulativeData.top_speed;
                         $scope.showhorse[addedCounter].TotalEnergy = commulativeData.energy;
+                        $scope.showhorse[addedCounter].TotalAverageHeartRate = commulativeData.totalAverageHeartRate;
                         addedCounter++;
                     }
                     else {
@@ -419,6 +421,7 @@ if(a < b) return -1;
                         $scope.showhorse[addedCounter].TotalDistance = 0;
                         $scope.showhorse[addedCounter].TopSpeed = 0;
                         $scope.showhorse[addedCounter].TotalEnergy = 0;
+                        $scope.showhorse[addedCounter].TotalAverageHeartRate = 0;
                         addedCounter++;
                     }
 
@@ -447,23 +450,73 @@ if(a < b) return -1;
    
     $scope.SelectItem = function () {
         $scope.Init();
-        $scope.SearchData = []
+        
+        LoadingState();
+
+        var isUserFilter = false;
+        $scope.tempData = []
+       
         if ($scope.example15model.length > 0) {
-            LoadingState();
             for (var i = 0; i < $scope.example15model.length; i++) {               
                 var user = _.findWhere($scope.Users, { $id: $scope.example15model[i].id });
-               // console.log(user);
+
+                // console.log(user);
                 var rows = _.filter($scope.AllHorses, function (record) { return record.MemberId == user.$id });
 
                 for (var counter = 0; counter < rows.length; counter++) {
-                    $scope.SearchData.push(rows[counter]);
+                    $scope.tempData.push(rows[counter]);
+                }
+
+                isUserFilter = true;
+            }
+        }
+
+
+        //filter for distance
+
+        var isMileFilter = false;
+        $scope.tempData1 = []
+
+        try {
+            var mile = $("#miles").val();
+            var hour = $("#hours").val();
+
+            console.log(mile);
+            console.log(hour);
+
+            var tofilter = $scope.AllHorses;
+            if (isUserFilter)
+                tofilter = $scope.tempData;
+
+            for (var counter = 0; counter < tofilter.length; counter++) {
+                if (mile != "" && hour != "") {
+                    if (parseFloat(tofilter[counter].TotalDistance) >= parseFloat(mile)
+                        && parseFloat(tofilter[counter].TotalTime) >= parseFloat(hour)) {
+                        $scope.tempData1.push(tofilter[counter]);
+                        isMileFilter = true;
+                    }
+                } else if (mile != "") {
+                    if (parseFloat(tofilter[counter].TotalDistance) >= parseFloat(mile)) {
+                        $scope.tempData1.push(tofilter[counter]);
+                        isMileFilter = true;
+                    }
+                } else if (hour != "") {
+                    if (parseFloat(tofilter[counter].TotalTime) >= parseFloat(hour)) {
+                        $scope.tempData1.push(tofilter[counter]);
+                        isMileFilter = true;
+                    }
                 }
             }
-            UnLoadingState();
-            $scope.gridOptions.data = $scope.SearchData;
+        } catch (err) {
+
         }
         
-       
+        if (isMileFilter)
+            $scope.gridOptions.data = $scope.tempData1;
+        else if (isUserFilter)
+            $scope.gridOptions.data = $scope.tempData;
+
+        UnLoadingState();
     }
 
 
@@ -487,11 +540,11 @@ if(a < b) return -1;
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
             var colArray = [];
             if (Organisation.OrganisationNumber == "AQHA-2017") {
-                colArray = ["Member", "Orgmember", "Orgnumber", "horse_name", "aqharegname", "aqharegnum", "registration","TotalRides", "TotalTime", "TotalDistance"]
+                colArray = ["Member", "Orgmember", "Orgnumber", "horse_name", "aqharegname", "aqharegnum", "registration", "TotalRides", "TotalTime", "TotalDistance", "TotalAverageHeartRate"];
             } else {
-                colArray = ["Member", "horse_name", "aqharegname", "aqharegnum", "registration","TotalRides", "TotalTime", "TotalDistance"]
+                colArray = ["Member", "horse_name", "aqharegname", "aqharegnum", "registration", "TotalRides", "TotalTime", "TotalDistance", "TotalAverageHeartRate"];
             }
-             var row = {};
+            var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {
                 row[colArray[counter]] = $scope.gridOptions.data[i][colArray[counter]] || "no data";
             }
@@ -506,7 +559,6 @@ if(a < b) return -1;
             return;
         } else {
             $("#sharemodal").hide();
-            debugger;
             
             var downloadData = $scope.getCurrentGridData();
             var csv = GetCSVFromArrayObject(downloadData, true);

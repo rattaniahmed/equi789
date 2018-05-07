@@ -1052,39 +1052,40 @@ function getFormattedDate(date) {
 
 function replace_columnName(name) {
     var Column_Name = [
-        { Source: "Member", Destination: "Equitrack Email" }, 
+        { Source: "Member", Destination: "Equitrack Email" },
         { Source: "email", Destination: "Equitrack Email" },
-        { Source: "Orgmember", Destination: "Member Email" }, 
+        { Source: "Orgmember", Destination: "Member Email" },
         { Source: "Orgnumber", Destination: "Membership Id" },
-        { Source: "aqhaemail", Destination: "Member Email" }, 
-        { Source: "membership_number", Destination: "Membership Number" }, 
-    { Source: "location", Destination: "Location" }, 
-{ Source: "weather", Destination: "Weather" }, 
-{ Source: "energy", Destination: "Energy" }, 
-{ Source: "calories", Destination: "Calories" }, 
-{ Source: "birthday", Destination: "Birthday" }, 
-        { Source: "registration", Destination: "Breed" }, 
-{ Source: "weight", Destination: "Weight" }, 
-{ Source: "horse_name", Destination: "Horse Name" }, 
-{ Source: "total_distance", Destination: "Total Distance" },
+        { Source: "aqhaemail", Destination: "Member Email" },
+        { Source: "membership_number", Destination: "Membership Number" },
+        { Source: "location", Destination: "Location" },
+        { Source: "weather", Destination: "Weather" },
+        { Source: "energy", Destination: "Energy" },
+        { Source: "calories", Destination: "Calories" },
+        { Source: "birthday", Destination: "Birthday" },
+        { Source: "registration", Destination: "Breed" },
+        { Source: "weight", Destination: "Weight" },
+        { Source: "horse_name", Destination: "Horse Name" },
+        { Source: "total_distance", Destination: "Total Distance" },
         { Source: "total_times", Destination: "Total Time" },
-{ Source: "top_speed", Destination: "Top Speed" },
-{ Source: "average_speed", Destination: "Average Speed" },
-{ Source: "start_time", Destination: "Start Time" },
-{ Source: "end_time", Destination: "End Time" },
-{ Source: "display_name", Destination: "Display Name" },
-{ Source: "first_name", Destination: "First Name" },
-{ Source: "last_name", Destination: "Last Name" },
-{ Source: "TotalRides", Destination: "Total Rides" },
-{ Source: "TotalHorses", Destination: "Total Horses" },
-{ Source: "TotalTime", Destination: "Total Time" },
-{ Source: "TotalDistance", Destination: "Total Distance" },
-{ Source: "MembershipNumber", Destination: "Registration Number" },
-{ Source: "TotalEnergy", Destination: "Total Energy" },
-{ Source: "TopSpeed", Destination: "Top Speed" },
-{ Source: "aqharegname", Destination: "Registered Name" },
-{ Source: "aqharegnum", Destination: "Registration Number" }, 
+        { Source: "top_speed", Destination: "Top Speed" },
+        { Source: "average_speed", Destination: "Average Speed" },
+        { Source: "start_time", Destination: "Start Time" },
+        { Source: "end_time", Destination: "End Time" },
+        { Source: "display_name", Destination: "Display Name" },
+        { Source: "first_name", Destination: "First Name" },
+        { Source: "last_name", Destination: "Last Name" },
+        { Source: "TotalRides", Destination: "Total Rides" },
+        { Source: "TotalHorses", Destination: "Total Horses" },
+        { Source: "TotalTime", Destination: "Total Time" },
+        { Source: "TotalDistance", Destination: "Total Distance" },
+        { Source: "MembershipNumber", Destination: "Registration Number" },
+        { Source: "TotalEnergy", Destination: "Total Energy" },
+        { Source: "TopSpeed", Destination: "Top Speed" },
+        { Source: "aqharegname", Destination: "Registered Name" },
+        { Source: "aqharegnum", Destination: "Registration Number" },
         { Source: "average_heart_rate", Destination: "Average Heart Rate" },
+        { Source: "TotalAverageHeartRate", Destination: "Average Heart Rate" },
     ];
     var toReturn = name;
     for (i = 0; i < Column_Name.length; i++) {
@@ -1335,6 +1336,8 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
         var totalCalories = 0;
         var totalAverageSpeed = 0.0;
         var totalTopSspeed = 0.0;
+        var totalAverageHeartRate = 0.0;
+
         try {
             var milesfilter = document.getElementById("miles").value;
             if (milesfilter == "")
@@ -1358,16 +1361,17 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
                     } catch (err) { }
                     if (inRange) {
                         //totalLength = _.size(ride_ids);
-                       
-                            totalLength++;
-                            totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
-                            totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
-                            totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);
-                            totalCalories = parseFloat(totalCalories) + parseFloat(ride.calories);
-                            averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
-                            totalTopSspeedArray.push(parseFloat(ride.top_speed));
-                        }
-                    
+
+                        totalLength++;
+                        totalDistance = parseFloat(totalDistance) + parseFloat(ride.total_distance);
+                        totalDuration = parseInt(totalDuration) + parseInt(ride.total_time);
+                        totalEnergy = parseFloat(totalEnergy) + parseFloat(ride.energy);
+                        totalCalories = parseFloat(totalCalories) + parseFloat(ride.calories);
+                        averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
+                        totalTopSspeedArray.push(parseFloat(ride.top_speed));
+                        totalAverageHeartRate = parseFloat(totalAverageHeartRate) + parseFloat(ride.average_heart_rate);
+                    }
+
                 }
             }
         }
@@ -1378,31 +1382,37 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
         //if ((totalDistance >= milesfilter) && (parseInt(gethour(totalDuration)) >= hourfilter)) {
         if (parseFloat(totalDistance) >= parseFloat(milesfilter) && parseFloat(gethour(totalDuration)) >= parseFloat(hourfilter)) {
 
-        var tempDuration = totalDuration; 
+            var tempDuration = totalDuration;
 
-        totalDistance = parseFloat(Math.round(totalDistance * 100) / 100).toFixed(2);
-        totalEnergy = parseFloat(Math.round(totalEnergy * 100) / 100).toFixed(2);
-        totalCalories = parseFloat(Math.round(totalCalories * 100) / 100).toFixed(2);
-        if (averageSpeed > 0) {
-            totalAverageSpeed = averageSpeed / totalLength;
-            totalAverageSpeed = parseFloat(Math.round(totalAverageSpeed * 100) / 100).toFixed(2);
-        }
-        totalDuration = ReplaceTime(hhmmss(totalDuration));
-        if (totalTopSspeedArray.length > 0) {
-            totalTopSspeed = Math.max.apply(Math, totalTopSspeedArray);
-
-            totalTopSspeed = parseFloat(Math.round(totalTopSspeed * 100) / 100).toFixed(2);
-            if (totalTopSspeed == "NaN") {
-                totalTopSspeed = '0';
+            totalDistance = parseFloat(Math.round(totalDistance * 100) / 100).toFixed(2);
+            totalEnergy = parseFloat(Math.round(totalEnergy * 100) / 100).toFixed(2);
+            totalCalories = parseFloat(Math.round(totalCalories * 100) / 100).toFixed(2);
+            if (averageSpeed > 0) {
+                totalAverageSpeed = averageSpeed / totalLength;
+                totalAverageSpeed = parseFloat(Math.round(totalAverageSpeed * 100) / 100).toFixed(2);
             }
-        }
+            totalDuration = ReplaceTime(hhmmss(totalDuration));
+            if (totalTopSspeedArray.length > 0) {
+                totalTopSspeed = Math.max.apply(Math, totalTopSspeedArray);
 
-        
+                totalTopSspeed = parseFloat(Math.round(totalTopSspeed * 100) / 100).toFixed(2);
+                if (totalTopSspeed == "NaN") {
+                    totalTopSspeed = '0';
+                }
+            }
+
+            if (totalAverageHeartRate > 0) {
+                totalAverageHeartRate = totalAverageHeartRate / totalLength;
+                totalAverageHeartRate = parseFloat(Math.round(totalAverageHeartRate * 100) / 100).toFixed(2);
+            }
+
+
             commulativeData.total_rides = totalLength;
             commulativeData.top_speed = totalTopSspeed + " mph";
             commulativeData.energy = totalCalories + " cal";
             commulativeData.miles = totalDistance + " miles";
             commulativeData.totalDuration = totalDuration;
+            commulativeData.totalAverageHeartRate = totalAverageHeartRate;
         } else {
             commulativeData.total_rides = 0;
         }
