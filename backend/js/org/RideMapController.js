@@ -563,7 +563,6 @@
         return "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
     }
 
-
     function addMarker(rideObj, location) {
        $scope.orgexistflag = false;
         debugger;
@@ -571,34 +570,32 @@
             $scope.orgexistflag = true;
             var even = _.find($scope.healthlocations, function (num) { return num.user_id == rideObj.MemberId; });
             if (even) {
-                rideObj.start_time = even.location_time;
-                location = even.location;
+                    rideObj.start_time = even.location_time;
+                    location = even.user_location;
+                    rideObj.location = even.location;
             }
         }
-        var contentString1 = '<div id="content">' + '<div center style="text-align:center;object-fit:cover;"><img style="width:150px;height:150px" src='+$scope.GOrganisation.Url+' /></div>'+
+        var contentString1 = '<div id="content" style="margin-left:20px;margin-top:20px;">' + '<div center style="text-align:center;object-fit:cover;"><img style="width:150px;height:150px" src='+$scope.GOrganisation.Url+' /></div>'+
             '<div id="siteNotice">' +
             '</div>' + 
-            '<h4 id="firstHeading" class="firstHeading">' + rideObj.location + '</h4>' +
+            '<div style="text-align: center;"><h4 id="firstHeading" class="firstHeading">' + rideObj.location + '</h4></div>' +
             '<div id="bodyContent">' +
             '<table>' +
             '<tr> <td style="padding:3px 10px 3px 0px;"><b>Start Time  :  </b>' + rideObj.start_time + '</td>  <td> <b>End Time  :  </b>' + rideObj.end_time + ' </td> </tr>' +
             '<tr> <td style="padding:3px 10px 3px 0px;"><b>TopSpeed  :  </b>' + rideObj.top_speed + '</td>   <td> <b>Avg Speed  :  </b>' + rideObj.average_speed + ' </td> </tr>' +
             '<tr> <td style="padding:3px 10px 3px 0px;"><b>Total Distance  :  </b>' + rideObj.total_distance + '</td>   <td> <b>Total Time  :  </b>' + hhmmss(rideObj.ride_time) + ' </td> </tr>' +
             '</table>' + '</div>' + '</div>';
-        var contentString2 = '<div id="content">' + '<div center style="text-align:center;object-fit:cover;"><img style="width:150px;height:150px" src='+$scope.GOrganisation.Url+' /></div>'+
+        var contentString2 = '<div id="content" style="margin-left:20px;margin-top:20px;">' + '<div center style="text-align:center;object-fit:cover;"><img style="width:150px;height:150px" src='+$scope.GOrganisation.Url+' /></div>'+
             '<div id="siteNotice">' +
             '</div>'  +
-            '<h4 id="firstHeading" class="firstHeading">' + rideObj.location + '</h4>' +
+            '<div style="text-align: center;"><h4 id="firstHeading" class="firstHeading">' + rideObj.location + '</h4></div>' +
             '<div id="bodyContent">' +
-            '<table>' +
-            '<tr> <td style="padding:3px 10px 3px 0px;">' + rideObj.start_time + '</td></tr>' +
-            '<tr> <td style="padding:3px 10px 3px 0px;"><b>TopSpeed  :  </b>' + rideObj.top_speed + '</td>   <td> <b>Avg Speed  :  </b>' + rideObj.average_speed + ' </td> </tr>' +
-            '<tr> <td style="padding:3px 10px 3px 0px;"><b>Total Distance  :  </b>' + rideObj.total_distance + '</td>   <td> <b>Total Time  :  </b>' + hhmmss(rideObj.ride_time) + ' </td> </tr>' +
-            '</table>' + '</div>' + '</div>';
+            '<div style="text-align: center;"><h4 id="firstHeading" class="firstHeading">' + rideObj.start_time + '</h4></div>' + '</div>' + '</div>';
+        var contentString = null;
         if ($scope.orgexistflag) {
-           var contentString = contentString2;
+            contentString = contentString2;
         } else {
-            var contentString = contentString1;
+             contentString = contentString1;
        }
         var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         var marker = new google.maps.Marker({

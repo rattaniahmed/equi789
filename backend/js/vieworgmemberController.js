@@ -58,9 +58,12 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
                 try {
                     if (row && row.entity) {
                         if (row.entity[field]) {
-                            if (row.entity[field].match(matcher)) {
-                                match = true;
-                            }
+                            try {
+                                if (row.entity[field].toLocaleLowerCase().indexOf($scope.filterValue.toLocaleLowerCase()) > -1) {
+                                    //  if (row.entity[field].match(matcher)) {
+                                    match = true;
+                                }
+                            } catch (err){ }
                         }
                     }
                 }
