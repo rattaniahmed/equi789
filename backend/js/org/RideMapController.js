@@ -571,7 +571,6 @@
             var even = _.find($scope.healthlocations, function (num) { return num.user_id == rideObj.MemberId; });
             if (even) {
                     rideObj.start_time = even.location_time;
-                    location = even.user_location;
                     rideObj.location = even.location;
             }
         }
