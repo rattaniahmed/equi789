@@ -224,7 +224,8 @@ $scope.showbrowsebtn=false;
                         } else if (toLoop.field == "email") {
                             obj.email = data[cnt][memberEmailIndex] || '';
                             obj1.email = data[cnt][memberEmailIndex] || '';
-                            if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(obj.email))) {
+                            if (!(obj.email.indexOf('@') == obj.email.lastIndexOf('@') && obj.email.indexOf('@') < obj.email.lastIndexOf('.'))) {
+                            //if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(obj.email))) {
                                 possibleErrors += "Please correct Member Email";
                                 $scope.Errorinrecord = true;
                             }
