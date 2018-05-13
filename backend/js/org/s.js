@@ -100,9 +100,7 @@
             //  console.log("coords loaded ");
             UnLoadingState();
             debugger;
-            var isEH1 = $scope.GOrganisation.OrganisationNumber == 'EH1';
-
-            //isEH1 = true;
+            var isEH1 = true;
 
             if (isEH1)
                 $scope.InitEH1(dataArray);
@@ -571,14 +569,14 @@
     }
 
     function addMarker(rideObj, location) {
-        $scope.orgexistflag = false;
+       $scope.orgexistflag = false;
         debugger;
-        if ($scope.GOrganisation.OrganisationNumber == 'EH1') {
+        if ($scope.GOrganisation.OrganisationNumber =='EH1') {
             $scope.orgexistflag = true;
             var even = _.find($scope.healthlocations, function (num) { return num.user_id == rideObj.MemberId; });
             if (even) {
-                rideObj.start_time = even.location_time;
-                rideObj.location = even.location;
+                    rideObj.start_time = even.location_time;
+                    rideObj.location = even.location;
             }
         }
 
@@ -603,7 +601,7 @@
 
         var contentString2 = '<div id="content" style="margin-left:20px;margin-top:20px;">' + '<div center style="text-align:center;object-fit:cover;"><img style="width:150px;height:150px" src=' + $scope.GOrganisation.Url + ' /></div>' +
             '<div id="siteNotice">' +
-            '</div>' +
+            '</div>'  +
             '<div style="text-align: center;"><h4 id="firstHeading" class="firstHeading">' + rideObj.location + '</h4></div>' +
             '<div id="bodyContent">' +
             '<div style="text-align: center;"><h4 id="firstHeading" class="firstHeading">' + rideObj.start_time + '</h4></div>' + '</div>' + '</div>';
@@ -613,8 +611,8 @@
         if ($scope.orgexistflag) {
             contentString = contentString2;
         } else {
-            contentString = contentString1;
-        }
+             contentString = contentString1;
+       }
         var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         var marker = new google.maps.Marker({
             icon: $scope.getIconUrl(),
@@ -662,13 +660,13 @@
             '</div>' +
             '<div style="text-align: center;"><h4 id="firstHeading" class="firstHeading">' + rideObj.location + '</h4></div>' +
             '<div id="bodyContent">' +
-            '<div style="text-align: center;"><h4 id="firstHeading" class="firstHeading">' + rideObj.location_time + '</h4></div>' + '</div>' + '</div>';
+            '<div style="text-align: center;"><h4 id="firstHeading" class="firstHeading">' + rideObj.start_time + '</h4></div>' + '</div>' + '</div>';
 
 
         var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         var marker = new google.maps.Marker({
             icon: $scope.getIconUrl(),
-            position: rideObj.user_location,
+            position: location,
             map: $scope.map
         });
 
@@ -740,12 +738,12 @@
 
         }
 
-
+        
         var markerCluster = new MarkerClusterer($scope.map, $scope.markers,
             { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
 
         //markerCluster.setStyles("default");
-        // markerCluster.sizes = 80; 
+       // markerCluster.sizes = 80; 
         //,
 
     }
@@ -773,8 +771,8 @@
         $scope.RideCount = 0;
         $scope.markers = [];
         for (var countmap = 0; countmap < FinalData.length; countmap++) {
-            if (FinalData[countmap] && (FinalData[countmap].location_time || FinalData[countmap].location)) {
-                addMarkerForEH1(FinalData[countmap],location);
+            if (FinalData[countmap] && FinalData[countmap].start_cord) {
+                addMarkerForEH1(FinalData[countmap]);
             }
         }
 
@@ -785,23 +783,23 @@
     }
 
     $scope.FinalData = [];
-    $scope.distance = function (lat1, lon1, lat2, lon2) {
-        var radlat1 = Math.PI * lat1 / 180
-        var radlat2 = Math.PI * lat2 / 180
-        var theta = lon1 - lon2
-        var radtheta = Math.PI * theta / 180
+    $scope.distance=function(lat1, lon1, lat2, lon2) {
+        var radlat1 = Math.PI * lat1/180
+        var radlat2 = Math.PI * lat2/180
+        var theta = lon1-lon2
+        var radtheta = Math.PI * theta/180
         var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
         dist = Math.acos(dist)
-        dist = dist * 180 / Math.PI
+        dist = dist * 180/Math.PI
         dist = dist * 60 * 1.1515
         //if (unit=="K") { dist = dist * 1.609344 }
         //if (unit == "N")
-        // dist = dist * 0.8684 
+       // dist = dist * 0.8684 
         return dist
     }
+   
 
-
-
+   
     $scope.InitEH1 = function (locations) {
         LoadingState();
         if ($rootScope.isDataLoaded) {
@@ -813,71 +811,71 @@
             UnLoadingState();
         }
     }
-
+   
     $scope.Init = function () {
-        //  $scope.TempInit();
+      //  $scope.TempInit();
         //$scope.InitMap();
         LoadingState();
         $("#search_radius").val(11);
 
-        // angular.element(document).ready(function () {
+       // angular.element(document).ready(function () {
+           
 
+            if ($rootScope.isDataLoaded) {
 
-        if ($rootScope.isDataLoaded) {
+                // $scope.distanceValue = "10+ miles";
+                $scope.renderCalender();
+                $scope.org = JSON.parse(localStorage.getItem('adminObject'));
+                $scope.AllHorses = $rootScope.getOrgHorses();
+                $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
+                // $scope.Rides = $rootScope.getOrgRides($scope.AllHorses);
+                $scope.HorseUserMaps = getHorseUserMap($scope.Users);
+                var Organisation = JSON.parse(localStorage.getItem('adminObject'));
 
-            // $scope.distanceValue = "10+ miles";
-            $scope.renderCalender();
-            $scope.org = JSON.parse(localStorage.getItem('adminObject'));
-            $scope.AllHorses = $rootScope.getOrgHorses();
-            $scope.Users = $rootScope.getOrgUsers($scope.AllHorses);
-            // $scope.Rides = $rootScope.getOrgRides($scope.AllHorses);
-            $scope.HorseUserMaps = getHorseUserMap($scope.Users);
-            var Organisation = JSON.parse(localStorage.getItem('adminObject'));
+                var rideIdsTOFetch = [];
 
-            var rideIdsTOFetch = [];
-
-            for (var counter = 0; counter < $scope.AllHorses.length; counter++) {
-                var horse = $scope.AllHorses[counter];
-                if (horse && horse.ride_ids) {
-                    for (var rideid in horse.ride_ids) {
-                        var rideDetails = $scope.getFormattedRideDetail(horse, rideid);
-                        if (rideDetails) {
-                            if (rideDetails.start_cord) {
-                                if (!(rideDetails.start_cord.lat == 0 && rideDetails.start_cord.lng == 0)) {
-                                    rideIdsTOFetch.push(rideDetails);
-                                    //  console.log(rideDetails.start_cord.lat + "    " + rideDetails.start_cord.lng);
+                for (var counter = 0; counter < $scope.AllHorses.length; counter++) {
+                    var horse = $scope.AllHorses[counter];
+                    if (horse && horse.ride_ids) {
+                        for (var rideid in horse.ride_ids) {
+                            var rideDetails = $scope.getFormattedRideDetail(horse, rideid);
+                            if (rideDetails) {
+                                if (rideDetails.start_cord){
+                                    if (!(rideDetails.start_cord.lat == 0 && rideDetails.start_cord.lng == 0)) {
+                                        rideIdsTOFetch.push(rideDetails);
+                                      //  console.log(rideDetails.start_cord.lat + "    " + rideDetails.start_cord.lng);
+                                    }
                                 }
                             }
                         }
                     }
                 }
+               
+                $scope.AllData = rideIdsTOFetch;
+
+                //$scope.gridOptions.data = rideIdsTOFetch;
+                $scope.UpdateGridRecord();
+
+                //$scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
+                $scope.setDateLable($scope.date.startDate, $scope.date.endDate);
+
+
+                //make a loop to add data to map
+
+
+                UnLoadingState();
             }
-
-            $scope.AllData = rideIdsTOFetch;
-
-            //$scope.gridOptions.data = rideIdsTOFetch;
-            $scope.UpdateGridRecord();
-
-            //$scope.example15data = _.map($scope.Users, function (elem) { return { id: elem.$id, label: elem.first_name + " " + elem.last_name } });
-            $scope.setDateLable($scope.date.startDate, $scope.date.endDate);
-
-
-            //make a loop to add data to map
-
-
-            UnLoadingState();
-        }
         //});
     }
     ////call init change for show logo
-    // $scope.Init();
+   // $scope.Init();
     $scope.Tempinit1();
 
-    // LoadingState();
+   // LoadingState();
     $scope.$on('DataLoaded', function (event, data) {
         ////call init change for show logo
-        // $scope.Init();  
-
+       // $scope.Init();  
+        
         $scope.Tempinit1();
     });
 
@@ -893,7 +891,7 @@
     }
 
     $scope.$on('UpdateHorseDropDown', function (event, data) {
-        //  console.log("UpdateHorseDropDown event call"); // 'Data to send'
+      //  console.log("UpdateHorseDropDown event call"); // 'Data to send'
 
         if ($scope.example15model.length > 0) {
             $scope.SearchData = [];
@@ -1049,7 +1047,7 @@
                 data: datatosend,
                 async: true,
                 success: function (response) {
-                    //  console.log(response);
+                  //  console.log(response);
                 },
                 error: function (reposnse) {
                     console.log("Unknown error occured");
@@ -1060,6 +1058,6 @@
         }
     }
 
-
+   
 
 });
