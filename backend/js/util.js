@@ -639,7 +639,8 @@ var rootUrl = global.settings.getMultiServiceUrl();
             if (response.Code == "P00001") {
                 if (showsuccessmessage !== undefined && showsuccessmessage)
                     { //alert(response.Message);
-                    // console.log(response.Message);}
+                    // console.log(response.Message);
+}
                 if (success !== undefined)
                     success(response.Data);
             }
@@ -951,7 +952,8 @@ var rootUrl = global.settings.getMailServiceUrl();
             if (response.Code == "P00001") {
                 if (showsuccessmessage !== undefined && showsuccessmessage)
                     { //alert(response.Message);
-                    // console.log(response.Message);}
+                    // console.log(response.Message);
+}
                 if (success !== undefined)
                     success(response.Data);
             }
