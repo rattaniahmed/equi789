@@ -182,7 +182,7 @@
                             else {
                                 var diff = today - d;
                                 var days = parseInt(diff / 1000 / 60 / 60 / 24);
-                                debugger;
+                                // debugger;
                                 console.log(days);
 
                                 var year = parseInt(days / 365);

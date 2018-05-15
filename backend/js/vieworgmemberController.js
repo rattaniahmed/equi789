@@ -69,7 +69,7 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
                 }
                 catch (e) {
                     match = false;
-                    console.log(e);
+                    // console.log(e);
                 }
             });
 
@@ -144,7 +144,7 @@ app.controller('vieworgmemberController', function ($scope, storageService, fire
                     var Ecount = 0;
                     for (var j = 0; j < $scope.tempdata.length; j++) {
                         debugger;
-                        console.log($scope.tempdata[j].member_id == memNumber);
+                        // console.log($scope.tempdata[j].member_id == memNumber);
                         if ($scope.tempdata[j].member_id == memNumber) {
                             debugger;
                             Idcount++;
@@ -213,7 +213,7 @@ try{
                 }
                $("#loadingModal").hide();
             }).catch(function (error) {
-                console.log("Error in loading details");
+                // console.log("Error in loading details");
             });
         } else {
             swal('Something went wrong please check login details')

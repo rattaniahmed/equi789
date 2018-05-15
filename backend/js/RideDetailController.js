@@ -1,6 +1,6 @@
 ﻿app.controller('rideDetailController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams) {
 
-   // console.log("rideDetailController");
+   // // console.log("rideDetailController");
 
     $scope.editId = $routeParams.id;
 
@@ -47,7 +47,7 @@
         $scope.rides.$remove($scope.ride).then(function (ref) {
             var id = ref.key();
             if ($scope.ride.$id == id) {
-               // console.log("Deleted success fully");
+               // // console.log("Deleted success fully");
             }
         });
 
@@ -55,7 +55,7 @@
               var cordToRemove = $scope.coords.$getRecord(row.entity.$id);
               $scope.coords.$remove(cordToRemove).then(function (ref) {
                   var id = ref.key();
-                 // console.log("corods Deleted success fully");
+                 // // console.log("corods Deleted success fully");
               });
           }
           catch (corddeleteerro) {
@@ -68,19 +68,19 @@
         //$scope.horse.ride_ids.splice($scope.horse.ride_ids.indexOf(row.entity.$id), 1);
         $scope.stables = [];
         angular.forEach($scope.horse.ride_ids, function (value, key) {
-            //console.log(value);
-         //   console.log(key);
+            //// console.log(value);
+         //   // console.log(key);
             var rides = $scope.rides.$getRecord(key);
             if (rides != null) {
 
                 $scope.stables.push(rides);
             }
-           // console.log($scope.stables);
+           // // console.log($scope.stables);
             $scope.gridOptions.data = $scope.stables;
 
         });
         var index = -1;
-        for (var i = 0 ; i < $scope.rides.length; i++) {//console.log(value);
+        for (var i = 0 ; i < $scope.rides.length; i++) {//// console.log(value);
             if ($scope.rides[i].$id == row.entity.$id) {           //remove
                 index = i;
             }
@@ -90,7 +90,7 @@
 
         $scope.stables = [];
         angular.forEach($scope.users, function (value, key) {
-            //console.log(value);
+            //// console.log(value);
 
             $scope.stables.push(rides);
             $scope.gridOptions.data = $scope.stables;
@@ -98,11 +98,11 @@
         });
 
         $scope.horses.$save($scope.horse).then(function (res) {
-           // console.log(res);
+           // // console.log(res);
             
 
         }).catch(function (err) {
-            console.log(err);
+            // console.log(err);
         });
         swal("Deleted!", "Your rides has been deleted.", "success");
       });
@@ -127,7 +127,7 @@
                     }}
                 catch (e) {
                     //match = true;
-                    console.log(e);
+                    // console.log(e);
                 }
             });
             if (!match) {
@@ -150,8 +150,8 @@
         $scope.rides = $firebaseArray(ref.child('rides'));
         $scope.rides.$loaded().then(function (dataArray) {
             angular.forEach($scope.horse.ride_ids, function (value, key) {
-                //console.log(value);
-               // console.log(key);
+                //// console.log(value);
+               // // console.log(key);
                 var rides = $scope.rides.$getRecord(key);
                 if (rides != null) {
                     
@@ -159,18 +159,18 @@
 
                     $scope.stables.push(rides);
                 }
-                //console.log($scope.stables);
+                //// console.log($scope.stables);
                 $scope.gridOptions.data = $scope.stables;
             });
         }).catch(function (error) {
-            console.log("Error in loading details");
+            // console.log("Error in loading details");
         });
 
     });
 
     $scope.coords = $firebaseArray(ref.child('coords'));
     $scope.coords.$loaded().then(function (dataArray) {
-      //  console.log("coords loaded ");
+      //  // console.log("coords loaded ");
     });
     
 

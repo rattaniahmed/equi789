@@ -272,7 +272,7 @@ $scope.showbrowsebtn=false;
                     data[cnt] = obj;
                 }
                 data.splice(0, 1);
-                console.log(data);
+                // console.log(data);
                 $scope.tempdata = data;
                 $scope.gridOptions.data = $scope.tempdata;
                 
@@ -358,13 +358,13 @@ $scope.showbrowsebtn=false;
         //}, 100);
 
         $("#OptionalModal").hide();
-        // console.log($scope.viewobj);
-       // console.log($scope.tempdata);
+        // // console.log($scope.viewobj);
+       // // console.log($scope.tempdata);
        // for(var c=0;c<$scope.tempdata.length;c++)
        // {
            // if ($scope.tempdata[$scope.index].email == $scope.viewobj.email)
         //    {
-        //        console.log('asdad');
+        //        // console.log('asdad');
                 //$scope.tempdata[c].email=$scope.viewobj.email;
          //   }
         //}
@@ -409,7 +409,7 @@ $scope.showbrowsebtn=false;
                 //$scope.orgmember.set(finalUploads[i]);
                 //ref.set(finalUploads[i]);
                 //life saver
-                console.log(finalUploads[i]);
+                // console.log(finalUploads[i]);
                 //var obj = {
                 //    sadsadsa: "fdfsdfsdfsdfsd",
                 //    fsdgfdgfdgfdg: "gfdgfdgfdgfd",
@@ -462,7 +462,7 @@ $scope.showbrowsebtn=false;
                 $scope.totalmember = dataArray;
                 $("#loadingModal").hide();
             }).catch(function (error) {
-                console.log("Error in loading details");
+                // console.log("Error in loading details");
             });
         } else {
             swal('Something went wrong please check login details')

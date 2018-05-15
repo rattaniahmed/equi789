@@ -1,7 +1,7 @@
 ﻿
 app.controller('messagesController', function ($scope, storageService, firebaseService, $firebaseArray) {
 
-    console.log("messagesController");
+    // console.log("messagesController");
 
 
     $scope.gridOptions = {
@@ -78,11 +78,11 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
 
         $scope.gridOptions.data = dataToShow;
 
-        console.log(dataArray);
+        // console.log(dataArray);
 
         $scope.$apply();
     });//.catch(function (error) {
-        //console.log("Error in loading details");
+        //// console.log("Error in loading details");
     //});
 
 
@@ -90,7 +90,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
 
     //$scope.Collopse = function (image) {
 
-    //    console.log(image);
+    //    // console.log(image);
 
     //    $("#link_" + image.$id).addClass("collapsed");
     //    $("#div_" + image.$id).addClass("in");
@@ -122,8 +122,8 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
 
             ////storageService.setObject("CS", rideRef);
             //swal("", "Your notes details has been edited success fully", "success");
-            //console.log(res);
-            console.log(res);
+            //// console.log(res);
+            // console.log(res);
             window.location.reload();
 
         });
@@ -137,7 +137,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
             debugger;
             var id = ref.key();
             if (stb.$id == id) {
-                console.log("Deleted success fully");
+                // console.log("Deleted success fully");
             }
 
         });
@@ -156,7 +156,7 @@ app.controller('messagesController', function ($scope, storageService, firebaseS
         $scope.images.$add(toAdd).then(function (ref) {
             debugger;
             var id = ref.key();
-            console.log("added record with id " + id);
+            // console.log("added record with id " + id);
 
 
             window.location.reload();

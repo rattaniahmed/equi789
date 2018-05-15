@@ -81,7 +81,7 @@ function PrepareRequestForMail(prcid, TO, CC, From, Subject, Body, DisplayName) 
     dataArray.push({ Key: "Body", Value: Body });
     dataArray.push({ Key: "DisplayName", Value: DisplayName });
     inputData.DataArray = dataArray;
-   // console.log(inputData);
+   // // console.log(inputData);
     return inputData;
 }
 
@@ -276,7 +276,7 @@ function Removemessage(obj) {
                 delete msgObject[msg];
             } 
         }
-        //console.log(msgObject+"tyeyrtyretyretyrt");
+        //// console.log(msgObject+"tyeyrtyretyretyrt");
         firebase.database().ref('/Content/Messages/').set(msgObject);
     });
 }
@@ -572,7 +572,7 @@ var rootUrl = global.settings.getServiceUrl();
             }
         },
         error: function (reposnse) {
-            console.log("Unknown error occured");
+            // console.log("Unknown error occured");
         }
     });
 
@@ -596,7 +596,7 @@ function ExecuteDataSetService(inputData, success, failure, showsuccessmessage, 
             // $('#loadingModal').hide();
             if (response.Code == "P00001") {
                 if (showsuccessmessage !== undefined && showsuccessmessage) { 
-                    //console.log(response.Message);
+                    //// console.log(response.Message);
                 }
                 if (success !== undefined)
                     success(response.Data);
@@ -610,7 +610,7 @@ function ExecuteDataSetService(inputData, success, failure, showsuccessmessage, 
             }
         },
         error: function (reposnse) {
-            console.log("Unknown error occured");
+            // console.log("Unknown error occured");
         }
     });
 
@@ -639,7 +639,7 @@ var rootUrl = global.settings.getMultiServiceUrl();
             if (response.Code == "P00001") {
                 if (showsuccessmessage !== undefined && showsuccessmessage)
                     { //alert(response.Message);
-                    console.log(response.Message);}
+                    // console.log(response.Message);}
                 if (success !== undefined)
                     success(response.Data);
             }
@@ -652,7 +652,7 @@ var rootUrl = global.settings.getMultiServiceUrl();
             }
         },
         error: function (reposnse) {
-            console.log("Unknown error occured");
+            // console.log("Unknown error occured");
         }
     });
 
@@ -721,7 +721,7 @@ function ExecuteAJAX(url, inputData, success, failure, showsuccessmessage, showf
         },
         error: function (reposnse) {
             //alert("Unknown error occured");
-            console.log("Unknown error occured");
+            // console.log("Unknown error occured");
         }
     });
 
@@ -924,7 +924,7 @@ function PrepareRequestForMail(prcid, to, sub, msg) {
 
     inputData.DataArray = dataArray;
 
-    console.log(inputData);
+    // console.log(inputData);
     return inputData;
 }
 
@@ -951,7 +951,7 @@ var rootUrl = global.settings.getMailServiceUrl();
             if (response.Code == "P00001") {
                 if (showsuccessmessage !== undefined && showsuccessmessage)
                     { //alert(response.Message);
-                    console.log(response.Message);}
+                    // console.log(response.Message);}
                 if (success !== undefined)
                     success(response.Data);
             }
@@ -964,7 +964,7 @@ var rootUrl = global.settings.getMailServiceUrl();
             }
         },
         error: function (reposnse) {
-            console.log("Unknown error occured");
+            // console.log("Unknown error occured");
         }
     });
 
@@ -1026,7 +1026,7 @@ function getCharArray() {
         };        
         toReturn.push(item);
     }
-    console.log(toReturn);
+    // console.log(toReturn);
     return toReturn;
 }
 
@@ -1235,7 +1235,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
         //        //return dates.inRange(ride.start_time, startDate.format('l'), endDate.format('l'));
         //    }
         //    catch (err) {
-        //        console.log("error in converting date " + ride.start_time);
+        //        // console.log("error in converting date " + ride.start_time);
         //    }
         //else
         //    return false;
@@ -1252,7 +1252,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
                 try {
                     timetocomparre = timetocomparre.replace(" a.m.", "").replace("  A.M.", "").replace(" p.m.", "").replace("  P.M.", "");
                 } catch (err) {
-                    console.log("Error in formatin time for ride id " + ride.$id);
+                    // console.log("Error in formatin time for ride id " + ride.$id);
                 }
 
                 var toReturn = dates.inRange(timetocomparre, moment(startDate).format('l'), moment(endDate1).format('l'));
@@ -1261,7 +1261,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
                 return toReturn;
             }
             catch (err) {
-                console.log("error in converting date " + ride.start_time);
+                // console.log("error in converting date " + ride.start_time);
                 return false;
             }
         }
@@ -1297,7 +1297,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
             try {
                 timetocomparre = timetocomparre.replace(" a.m.", "").replace("  A.M.", "").replace(" p.m.", "").replace("  P.M.", "");
             } catch (err) {
-                console.log("Error in formatin time for ride id " + ride.$id);
+                // console.log("Error in formatin time for ride id " + ride.$id);
             }
 
             var endDate1 = moment(timePeriod.endDate).add(1, 'days');
@@ -1494,7 +1494,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
             if (rideIdsTOFetch[idCounter] && rideIdsTOFetch[idCounter].$id == id)
                 toReturn = true;
         }
-        console.log("ride id " + id + "  value  is " + toReturn);
+        // console.log("ride id " + id + "  value  is " + toReturn);
         return toReturn;
     }
 
@@ -1505,6 +1505,6 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
             if (horseIdsTOFetch[idCounter] && horseIdsTOFetch[idCounter].$id == id)
                 toReturn = true;
         }
-        console.log("horse id " + id + "  value  is " + toReturn);
+        // console.log("horse id " + id + "  value  is " + toReturn);
         return toReturn;
     }
