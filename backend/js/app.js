@@ -304,7 +304,6 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
                 }
             }
             catch (e) {
-                console.log(e);
             }
         });
         return AllHorses;
@@ -400,7 +399,6 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
             $rootScope.$broadcast("DataLoaded", {});
         }
     }).catch(function (error) {
-        console.log("Error in loading users");
     });
 
     $rootScope.backendHorseRides = $firebaseArray(ref.child('rides'));
@@ -411,7 +409,6 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
             $rootScope.$broadcast("DataLoaded", {});
         }
     }).catch(function (error) {
-        console.log("Error in loading horses");
     });;
 
     $rootScope.backendUsers = $firebaseArray(ref.child('users'));
@@ -422,7 +419,6 @@ app.run(function ($rootScope,firebaseService, $firebaseArray) {
             $rootScope.$broadcast("DataLoaded", {});
         }
     }).catch(function (error) {
-        console.log("Error in loading rides");
         });
     var centerCord = { lat: 29.44745, lng: -94.894173 };
     // var centerCord = { lat: position.coords.latitude, lng: position.coords.longitude };
@@ -460,7 +456,6 @@ var loginapp = angular.module('loginapp', ['ngRoute', 'firebase']);
 
 loginapp.controller('loginController', function ($scope, $firebaseArray) {
 
-    console.log("loginController");
 
     $scope.test = function () {
         var formData = new FormData();
@@ -487,11 +482,9 @@ loginapp.controller('loginController', function ($scope, $firebaseArray) {
             contentType: false,
             processData: false,
             success: function (data) {
-                console.log(data);
                 alert(data);
             },
             error: function (data) {
-                console.log(data);
                 alert(data);
             }
 
@@ -548,7 +541,6 @@ loginapp.controller('loginController', function ($scope, $firebaseArray) {
             $("#loadingModal").hide();
             angular.forEach(dataArray, function (value, key) {
                 var user = $scope.users.$getRecord(value.$id);
-                console.log(user);
                 try {
                     if (user.UserId == $("#usrval").val() && user.Password == $("#pwdval").val()) {
                         found = true;

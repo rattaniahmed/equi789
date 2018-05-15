@@ -8,9 +8,7 @@ app.controller('organisationsController', function ($scope, storageService, fire
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
-               // console.log(dataArray);
     }).catch(function (error) {
-        console.log("Error in loading details");
     });
 
 
@@ -148,7 +146,6 @@ app.controller('organisationsController', function ($scope, storageService, fire
 
 
                 }).catch(function (error) {
-                    console.error('Upload failed:', error);
                 });
             } else {
                 var imageRef = $scope.images.$getRecord($scope.cntId);
@@ -258,9 +255,6 @@ app.controller('organisationsController', function ($scope, storageService, fire
                 if (_.findLastIndex($scope.images, { DisplayName: toAdd.DisplayName }) == -1) {
                     $scope.images.$add(toAdd).then(function (ref) {
                         var id = ref.key();
-                    //    console.log("added record with id " + id);
-                      
-
                     });
                 }
                 window.location.reload();
@@ -268,7 +262,6 @@ app.controller('organisationsController', function ($scope, storageService, fire
 
                 
             }).catch(function (error) {
-                console.error('Upload failed:', error);
             });
 
         }

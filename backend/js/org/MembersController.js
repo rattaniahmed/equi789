@@ -124,7 +124,6 @@
                 }
                 catch (e) {
                     match = false;
-                    console.log(e);
                 }
             });
 
@@ -194,7 +193,6 @@
     $scope.renderCalender = function () {
 
         var cb = function (start, end, label) {
-            //console.log(start.toISOString(), end.toISOString(), label);
             $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         };
 
@@ -229,13 +227,10 @@
         $('#reportrangeride span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
         $('#reportrangeride').daterangepicker(optionSet1, cb);
         $('#reportrangeride').on('show.daterangepicker', function () {
-            console.log("show event fired");
         });
         $('#reportrangeride').on('hide.daterangepicker', function () {
-            console.log("hide event fired");
         });
         $('#reportrangeride').on('apply.daterangepicker', function (ev, picker) {
-            console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
             $scope.endDateForFilter = picker.endDate;
             $scope.startDateForFilter = picker.startDate;
             //$scope.FilterGraphs($scope.startDateForFilter, $scope.endDateForFilter);
@@ -248,7 +243,6 @@
             $scope.$apply();
         });
         $('#reportrangeride').on('cancel.daterangepicker', function (ev, picker) {
-            console.log("cancel event fired");
         });
         $('#options1').click(function () {
             $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
@@ -262,7 +256,6 @@
     }
 
     $scope.setDateLable = function (start, end) {
-        //console.log(start.toISOString() = end.toISOString());
         $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
     };
 
@@ -277,7 +270,6 @@
 
             $scope.showmember = [];
             var addedCounter = 0;
-            debugger;
             var Organisation = JSON.parse(localStorage.getItem('adminObject'));
             if (Organisation.OrganisationNumber != "AQHA-2017") {
                 $scope.gridOptions.columnDefs[1] = { field: $scope.gridOptions.columnDefs[1].name, visible: false };
@@ -299,8 +291,6 @@
                     $scope.showmember[addedCounter].TotalDistance = commulativeData.miles;
                   
                     try {
-                        console.log($scope.showmember[addedCounter]);
-                        debugger
                         if ($scope.showmember[addedCounter]['org_membership'] && $scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber]) {
                             if ($scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber].member_email) {
                                 $scope.showmember[addedCounter].aqhaemail = $scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber].member_email
@@ -315,8 +305,6 @@
                 else {
                     $scope.showmember.push($scope.Users[usrCounter]);
                     try {
-                        console.log($scope.showmember[addedCounter]);
-                        debugger
                         if ($scope.showmember[addedCounter]['org_membership'] && $scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber]) {
                             if ($scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber].member_email) {
                                 $scope.showmember[addedCounter].aqhaemail = $scope.showmember[addedCounter]['org_membership'][Organisation.OrganisationNumber].member_email
@@ -417,7 +405,6 @@
             return;
         } else {
             $("#sharemodal").hide();
-            debugger;
 
             var downloadData = $scope.getCurrentGridData();
             var csv = GetCSVFromArrayObject(downloadData, true);

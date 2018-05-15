@@ -1,6 +1,6 @@
 ﻿app.controller('editmessagesController', function ($scope, $routeParams, storageService, firebaseService, $firebaseArray, $http) {
 
-    console.log("editmessagesController" + $routeParams.id);
+    //console.log("editmessagesController" + $routeParams.id);
 
     //$scope.url = "http://localhost:5000/download.html?id=";
     $scope.url = "https://myequitrack.com/download.html?id=";
@@ -45,9 +45,7 @@
             method: 'GET',
             url: url
         }).then(function successCallback(response) {
-            console.log(response);
         }, function errorCallback(response) {
-            console.log(response);
         });
 
 
@@ -163,7 +161,6 @@
                 $("#optionType").val($scope.Question.selectoption);
 
 
-                console.log("added selected icon " + $scope.Question.AnnouncementType);
                 for (var counter = 0; counter < $scope.icons.length; counter++) {
                     if ($scope.Question.AnnouncementType == $scope.icons[counter].url)
                         $scope.icons[counter].useclass = 'imgSelect'
@@ -180,19 +177,19 @@
 
         }
     }).catch(function (error) {
-        console.log("Error in loading details");
+        //console.log("Error in loading details");
     });
 
   
     //$scope.OnOrganisaionChange = function (FinalOrg) {
-    //    console.log(FinalOrg);
+    //    //console.log(FinalOrg);
     //    $scope.FinalOrg = FinalOrg;
     //    //$scope.orgnumber= item.OrganisationNumber
     //}
 
     //$scope.Collopse = function (image) {
 
-    //    console.log(image);
+    //    //console.log(image);
 
     //    $("#link_" + image.$id).addClass("collapsed");
     //    $("#div_" + image.$id).addClass("in");
@@ -202,7 +199,7 @@
     //////$scope.EditQuestionModal = function (image) {
     //////    $scope.cntId = image.$id;
     //////    //$("#addphoto").click();
-    //////    debugger;
+    //////    // // debugger;
 
     //////    $("#name").val(image.MessageText);
     //////    $("#expiry").val(image.Expiry);
@@ -233,7 +230,7 @@
                 var storageRef = firebase.storage().ref();
                 storageRef.child('profile/' + fname).put(file, metadata).then(function (snapshot) {
 
-                    debugger;
+                    // // debugger;
                     var url = snapshot.metadata.downloadURLs[0];
 
 
@@ -242,7 +239,6 @@
                         $scope.img = $scope.Question.AnnouncementType;
                     }
 
-                    console.log(url);
                     var imageRef = $scope.images.$getRecord($routeParams.id);
                     imageRef.AnnouncementTitle = $("#title").val();
                     imageRef.ExpirationDate = $("#expiry").val();
@@ -265,7 +261,6 @@
                     }
                     $scope.images.$save(imageRef).then(function (res) {
 
-                        console.log(res);
 
                         $scope.showSendContent = true;
                         $scope.DownloadLink = $scope.url + $routeParams.id;
@@ -281,7 +276,7 @@
                     $scope.img = $scope.Question.AnnouncementType;
                 }
 
-                // console.log(url);
+                // //console.log(url);
                 var imageRef = $scope.images.$getRecord($routeParams.id);
                 imageRef.AnnouncementTitle = $("#title").val();
                 //imageRef.MessageText = $("#name").val();
@@ -304,7 +299,6 @@
                 $scope.images.$save(imageRef).then(function (res) {
 
                     $("#reportModal").hide();
-                    console.log(res);
 
                     $scope.showSendContent = true;
                     $scope.DownloadLink = $scope.url + $routeParams.id;
@@ -347,7 +341,6 @@
             }
             $scope.images.$save(imageRef).then(function (res) {
 
-                console.log(res);
 
                 $scope.showSendContent = true;
                 $scope.DownloadLink = $scope.url + $routeParams.id;
@@ -364,7 +357,7 @@
         $("#loadingModal").show();
         var question = $scope.Question;
         $scope.images.$remove(question).then(function (ref) {
-            debugger;
+            // // debugger;
             var id = ref.key();
 
             $("#loadingModal").hide();
@@ -392,17 +385,15 @@
 
                 var fname = new Date().getMilliseconds() + file.name.substring(file.name.indexOf("."));
                 var ext = fname.substr(fname.lastIndexOf('.') + 1);
-                console.log("extecion is" + ext);
 
                 if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'png' || ext == 'bmp') {
                     var storageRef = firebase.storage().ref();
                     storageRef.child('profile/' + fname).put(file, metadata).then(function (snapshot) {
 
-                        debugger;
+                        // // debugger;
                         var url = snapshot.metadata.downloadURLs[0];
 
 
-                        console.log(url);
                         if ($scope.img == undefined) {
                             $scope.img = "";
                         }
@@ -437,7 +428,6 @@
                         $scope.images.$add(toAdd).then(function (ref) {
 
                             var id = ref.key();
-                            console.log("added record with id " + id);
                             $("#loadingModal").hide();
                             window.location.href = "#/messages";
                            
@@ -474,7 +464,7 @@
                 //$scope.images.$add(toAdd).then(function (ref) {
 
                 //    var id = ref.key();
-                //    console.log("added record with id " + id);
+                //    //console.log("added record with id " + id);
                 //    $("#loadingModal").hide();
                 //    window.location.href = "#/messages/";
                 //    window.location.reload();
@@ -525,11 +515,9 @@
             $("#loadingModal").show();
             $scope.images.$add(toAdd).then(function (ref) {
                 var id = ref.key();
-                console.log("added record with id " + id);
                 $("#loadingModal").hide();
                 window.location.href = "#/messages";
             }).catch(function (error) {
-                console.log(error);
             });
           
         }

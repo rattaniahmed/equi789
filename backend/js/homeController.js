@@ -24,11 +24,11 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
                             $scope.AllHorses.push(dataArray[i]);
                         }
                     } else {
-                        console.log("horse Id:----" + dataArray[i]);
+                        // console.log("horse Id:----" + dataArray[i]);
                     }
                 }
                 catch (e) {
-                    console.log(e);
+                    // console.log(e);
                 }
             }
 
@@ -51,8 +51,8 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
                             if (evens.length > 0) {
                                 if (!(_.contains($scope.Users, $scope.AllDBUsers[counter]))) {
                                     $scope.Users.push($scope.AllDBUsers[counter]);
-                                    console.log($scope.Users);
-                                    console.log(_.pluck($scope.Users, 'horse_ids'));
+                                    // console.log($scope.Users);
+                                    // console.log(_.pluck($scope.Users, 'horse_ids'));
                                     $scope.horseCreate.push(_.pluck($scope.Users, 'horse_ids'));
 
                                 }
@@ -66,7 +66,7 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
                 //$scope.example15data = _.map(dataArray, function (elem) { return { id: elem.$id, label: elem.first_name +" "+ elem.last_name } });
                 if ($scope.horseCreate)
                     $scope.Init();
-                console.log(dataArray);
+                // console.log(dataArray);
             });
 
 
@@ -78,9 +78,9 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
     }
 
     $scope.setDateLable = function (start, end) {
-        debugger;
-        //console.log(start.toISOString() = end.toISOString());
-        console.log("setting start and end date ");
+        // debugger;
+        //// console.log(start.toISOString() = end.toISOString());
+        // console.log("setting start and end date ");
         $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
     };
    
@@ -98,13 +98,13 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
     //$scope.startDateForFilter = moment().subtract(30, "days");
     //.startDateForFilter = moment();
 
-    //console.log($scope.startDateForFilter)
-    //console.log($scope.startDateForFilter)
+    //// console.log($scope.startDateForFilter)
+    //// console.log($scope.startDateForFilter)
 
     $scope.renderCalender = function () {
 
         var cb = function (start, end, label) {
-            console.log("Setting stat and end lable data");
+            // console.log("Setting stat and end lable data");
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         };
 
@@ -140,13 +140,13 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
         $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
         $('#reportrange').daterangepicker(optionSet1, cb);
         $('#reportrange').on('show.daterangepicker', function () {
-            console.log("show event fired");
+            // console.log("show event fired");
         });
         $('#reportrange').on('hide.daterangepicker', function () {
-            console.log("hide event fired");
+            // console.log("hide event fired");
         });
         $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
-            console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
+            // console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
             //$scope.endDateForFilter = picker.endDate;
             //$scope.startDateForFilter = picker.startDate;
             //$scope.FilterGraphs($scope.startDateForFilter, $scope.endDateForFilter);
@@ -162,7 +162,7 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
             $scope.$apply();
         });
         $('#reportrange').on('cancel.daterangepicker', function (ev, picker) {
-            console.log("cancel event fired");
+            // console.log("cancel event fired");
         });
         $('#options1').click(function () {
             $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
@@ -267,8 +267,8 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
             startCounter++;
         }
 
-        console.log("befre to show");
-        console.log(toShow);
+        // console.log("befre to show");
+        // console.log(toShow);
 
 
         var data = {
@@ -322,7 +322,7 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
 
                         if (InDefinedTimeRangForHomePage(rideObj, dateToPass.startDate, dateToPass.endDate)) {
                             //var dateString = $scope.getDateForEquitrack(horseObject.ride_ids[rideId]);
-                            //debugger;
+                            //// debugger;
                             var dateString = $scope.getDateForEquitrackForRide(rideObj.start_time);
                             var isExist = false;
                             for (var dateCounter = 0; dateCounter < dates.length; dateCounter++) {
@@ -633,8 +633,8 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
         var data1 = $scope.GetMainGraphDataSet1(startDate, endDate);
         var data2 = $scope.GetMainGraphDataSet2(startDate, endDate);
 
-        console.log(data1);
-        console.log(data2);
+        // console.log(data1);
+        // console.log(data2);
 
         $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
           data1, data2
@@ -767,7 +767,7 @@ app.controller('homeController', function ($scope, firebaseService, $firebaseArr
             });
         }
         catch (err) {
-            console.log("unable to make highchats")
+            // console.log("unable to make highchats")
         }
     }
 

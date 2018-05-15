@@ -1,7 +1,5 @@
 ﻿app.controller('RideDetailsController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams, $rootScope) {
 
-   // console.log("RideDetailController");
-
     $scope.date = {
         startDate: moment().subtract(29, "days"),
         endDate: moment()
@@ -167,7 +165,6 @@
           $scope.rides.$remove($scope.ride).then(function (ref) {
               var id = ref.key();
               if ($scope.ride.$id == id) {
-                  console.log("Deleted success fully");
               }
           });
 
@@ -176,19 +173,16 @@
           //$scope.horse.ride_ids.splice($scope.horse.ride_ids.indexOf(row.entity.$id), 1);
           $scope.stables = [];
           angular.forEach($scope.horse.ride_ids, function (value, key) {
-              //console.log(value);
-            //  console.log(key);
               var rides = $scope.rides.$getRecord(key);
               if (rides != null) {
                   //(new Date).clearTime().addSeconds(rides.total_time).toString('H:mm:ss');
                   $scope.stables.push(rides);
               }
-           //   console.log($scope.stables);
               $scope.gridOptions.data = $scope.stables;
 
           });
           var index = -1;
-          for (var i = 0 ; i < $scope.rides.length; i++) {//console.log(value);
+          for (var i = 0 ; i < $scope.rides.length; i++) {
               if ($scope.rides[i].$id == row.entity.$id) {           //remove
                   index = i;
               }
@@ -198,19 +192,13 @@
 
           $scope.stables = [];
           angular.forEach($scope.users, function (value, key) {
-              //console.log(value);
-
               $scope.stables.push(rides);
               $scope.gridOptions.data = $scope.stables;
 
           });
 
           $scope.horses.$save($scope.horse).then(function (res) {
-             // console.log(res);
-
-
           }).catch(function (err) {
-              console.log(err);
           });
           swal("Deleted!", "Your imaginary file has been deleted.", "success");
       });
@@ -286,7 +274,6 @@
         }
 
         $scope.gridOptions.data = rides;
-        //console.log($scope.gridOptions.data);
 
        // JSONToCSVConvertor(rideGridBucket, "Temp Report" + " " + new Date().toString('yyyyMMdd'), true);
 
@@ -297,7 +284,6 @@
     $scope.renderCalender = function () {
 
         var cb = function (start, end, label) {
-           // console.log("Setting stat and end lable data");
             $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         };
 
@@ -332,13 +318,10 @@
         $('#reportrangeride span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
         $('#reportrangeride').daterangepicker(optionSet1, cb);
         $('#reportrangeride').on('show.daterangepicker', function () {
-            console.log("show event fired");
         });
         $('#reportrangeride').on('hide.daterangepicker', function () {
-            console.log("hide event fired");
         });
         $('#reportrangeride').on('apply.daterangepicker', function (ev, picker) {
-            console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
             $scope.endDateForFilter = picker.endDate;
             $scope.startDateForFilter = picker.startDate;
             //$scope.FilterGraphs($scope.startDateForFilter, $scope.endDateForFilter);
@@ -346,12 +329,10 @@
                 startDate: picker.startDate,
                 endDate: picker.endDate
             };
-          //  console.log("applying date");
             $scope.UpdateGridRecord();
             $scope.$apply();
         });
         $('#reportrangeride').on('cancel.daterangepicker', function (ev, picker) {
-            console.log("cancel event fired");
         });
         $('#options1').click(function () {
             $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
@@ -414,7 +395,6 @@
                 }
                 catch (e) {
                     match = false;
-                    console.log(e);
                 }
             });
 
@@ -440,7 +420,6 @@
             }
             else {
                 var labels = [];
-               // console.log(options);
                 options.each(function () {
                     labels.push($(this).val());
                 });
@@ -463,7 +442,6 @@
             }
             else {
                 var labels = [];
-               // console.log(options);
                 options.each(function () {
                     labels.push($(this).val());
                 });
@@ -505,7 +483,6 @@
                         function (oginner) { return oginner.filter == $scope.ORGDETAIL.OrganisationNumber });
                     if (og) {
                         rideDetails.MembershipNumber = og.number;
-                        debugger;
                         if ($scope.ORGDETAIL.OrganisationNumber != "AQHA-2017") {
                             rideDetails.aqharegname = og.name;
                             rideDetails.aqharegnum = og.number;
@@ -537,7 +514,6 @@
     }
 
     $scope.setDateLable = function (start, end) {
-        //console.log(start.toISOString() = end.toISOString());
         $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
     };
 
@@ -603,8 +579,6 @@
     }
 
     $scope.$on('UpdateHorseDropDown', function (event, data) {
-        //console.log("UpdateHorseDropDown event call"); // 'Data to send'
-
         if ($scope.example15model.length > 0) {
             $scope.SearchData = [];
             for (var i = 0; i < $scope.example15model.length; i++) {
@@ -792,8 +766,6 @@
             return;
         } else {
             $("#sharemodal").hide();
-            debugger;
-
             var downloadData = $scope.getCurrentGridData();
             var csv = GetCSVFromArrayObject(downloadData, true);
             var datatosend = {
@@ -809,7 +781,6 @@
                 data: datatosend,
                 async: true,
                 success: function (response) {
-                //    console.log(response);
                 },
                 error: function (reposnse) {
                     console.log("Unknown error occured");

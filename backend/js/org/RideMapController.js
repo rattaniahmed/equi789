@@ -1,6 +1,5 @@
 ﻿app.controller('RideMapController', function ($scope, storageService, firebaseService, $firebaseArray, $routeParams, $rootScope) {
 
-    // console.log("RideMapController");
 
     $scope.date = {
         startDate: moment().subtract(30, "days"),
@@ -93,13 +92,10 @@
         }
     };
     $scope.Tempinit1 = function () {
-        debugger;
         LoadingState();
         $scope.healthlocations = $firebaseArray(ref.child('healthlocations'));
         $scope.healthlocations.$loaded().then(function (dataArray) {
-            //  console.log("coords loaded ");
             UnLoadingState();
-            debugger;
             var isEH1 = $scope.GOrganisation.OrganisationNumber == 'EH1';
 
             //isEH1 = true;
@@ -171,7 +167,6 @@
                 $scope.rides.$remove($scope.ride).then(function (ref) {
                     var id = ref.key();
                     if ($scope.ride.$id == id) {
-                        console.log("Deleted success fully");
                     }
                 });
 
@@ -180,19 +175,16 @@
                 //$scope.horse.ride_ids.splice($scope.horse.ride_ids.indexOf(row.entity.$id), 1);
                 $scope.stables = [];
                 angular.forEach($scope.horse.ride_ids, function (value, key) {
-                    //console.log(value);
-                    // console.log(key);
                     var rides = $scope.rides.$getRecord(key);
                     if (rides != null) {
                         //(new Date).clearTime().addSeconds(rides.total_time).toString('H:mm:ss');
                         $scope.stables.push(rides);
                     }
-                    //console.log($scope.stables);
                     $scope.gridOptions.data = $scope.stables;
 
                 });
                 var index = -1;
-                for (var i = 0; i < $scope.rides.length; i++) {//console.log(value);
+                for (var i = 0; i < $scope.rides.length; i++) {
                     if ($scope.rides[i].$id == row.entity.$id) {           //remove
                         index = i;
                     }
@@ -202,7 +194,6 @@
 
                 $scope.stables = [];
                 angular.forEach($scope.users, function (value, key) {
-                    //console.log(value);
 
                     $scope.stables.push(rides);
                     $scope.gridOptions.data = $scope.stables;
@@ -210,11 +201,9 @@
                 });
 
                 $scope.horses.$save($scope.horse).then(function (res) {
-                    //  console.log(res);
 
 
                 }).catch(function (err) {
-                    console.log(err);
                 });
                 swal("Deleted!", "Your imaginary file has been deleted.", "success");
             });
@@ -260,7 +249,6 @@
         // return rides;
         $scope.InitMap(centerCord, $scope.FinalData);
 
-        //console.log($scope.gridOptions.data);
 
         //show data to map
     }
@@ -270,7 +258,6 @@
     $scope.renderCalender = function () {
 
         var cb = function (start, end, label) {
-            //console.log("Setting stat and end lable data");
             $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         };
 
@@ -305,13 +292,10 @@
         $('#reportrangeride span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
         $('#reportrangeride').daterangepicker(optionSet1, cb);
         $('#reportrangeride').on('show.daterangepicker', function () {
-            console.log("show event fired");
         });
         $('#reportrangeride').on('hide.daterangepicker', function () {
-            console.log("hide event fired");
         });
         $('#reportrangeride').on('apply.daterangepicker', function (ev, picker) {
-            console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
             $scope.endDateForFilter = picker.endDate;
             $scope.startDateForFilter = picker.startDate;
             //$scope.FilterGraphs($scope.startDateForFilter, $scope.endDateForFilter);
@@ -319,12 +303,10 @@
                 startDate: picker.startDate,
                 endDate: picker.endDate
             };
-            console.log("applying date");
             $scope.UpdateGridRecord();
             $scope.$apply();
         });
         $('#reportrangeride').on('cancel.daterangepicker', function (ev, picker) {
-            console.log("cancel event fired");
         });
         $('#options1').click(function () {
             $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
@@ -406,7 +388,6 @@
                 }
                 catch (e) {
                     match = false;
-                    console.log(e);
                 }
             });
 
@@ -429,7 +410,6 @@
             }
             else {
                 var labels = [];
-                // console.log(options);
                 options.each(function () {
                     labels.push($(this).val());
                 });
@@ -452,7 +432,6 @@
             }
             else {
                 var labels = [];
-                //  console.log(options);
                 options.each(function () {
                     labels.push($(this).val());
                 });
@@ -512,13 +491,11 @@
     }
 
     $scope.setDateLable = function (start, end) {
-        //console.log(start.toISOString() = end.toISOString());
         $('#reportrangeride span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
     };
 
     $scope.Init2 = function () {
         angular.element(document).ready(function () {
-            debugger;
             var myMap = new MapsLib({
                 fusionTableId: "1m4Ez9xyTGfY2CU6O-UgEcPzlS0rnzLU93e4Faa0",
                 googleApiKey: "AIzaSyA3FQFrNr5W2OEVmuENqhb2MBB2JabdaOY",
@@ -572,7 +549,6 @@
 
     function addMarker(rideObj, location) {
         $scope.orgexistflag = false;
-        debugger;
         if ($scope.GOrganisation.OrganisationNumber == 'EH1') {
             $scope.orgexistflag = true;
             var even = _.find($scope.healthlocations, function (num) { return num.user_id == rideObj.MemberId; });
@@ -648,7 +624,6 @@
         //    }
         //    $scope.markers.splice(indexToRemove, 1);
 
-        //    //console.log($scope.markers);
 
         //    marker.setMap(null);
 
@@ -723,16 +698,13 @@
                     //calculate the distance between FinalData[countmap].start_cord and center and compare with miles logic
                     addMarker(FinalData[countmap], FinalData[countmap].start_cord);
                     $scope.RideCount = parseInt($scope.RideCount) + 1;
-                    // console.log($scope.RideCount);
 
 
                 } else if ($scope.distance() == searchRadius || $scope.distance() < searchRadius) {
                     //calculate the distance between FinalData[countmap].start_cord and center and compare with miles logic
                     addMarker(FinalData[countmap], FinalData[countmap].start_cord);
                     $scope.RideCount = parseInt($scope.RideCount) + 1;
-                    // console.log($scope.RideCount);
                 }
-                // console.log(i + 1);
 
 
 
@@ -751,7 +723,6 @@
     }
 
     $scope.InitMapForEH1 = function (center, FinalData) {
-        debugger;
         $scope.map = new google.maps.Map(document.getElementById('map'), {
             center: center,
             zoom: 10,
@@ -845,7 +816,6 @@
                             if (rideDetails.start_cord) {
                                 if (!(rideDetails.start_cord.lat == 0 && rideDetails.start_cord.lng == 0)) {
                                     rideIdsTOFetch.push(rideDetails);
-                                    //  console.log(rideDetails.start_cord.lat + "    " + rideDetails.start_cord.lng);
                                 }
                             }
                         }
@@ -893,7 +863,6 @@
     }
 
     $scope.$on('UpdateHorseDropDown', function (event, data) {
-        //  console.log("UpdateHorseDropDown event call"); // 'Data to send'
 
         if ($scope.example15model.length > 0) {
             $scope.SearchData = [];
@@ -1032,7 +1001,6 @@
             return;
         } else {
             $("#sharemodal").hide();
-            debugger;
 
             var downloadData = $scope.getCurrentGridData();
             var csv = GetCSVFromArrayObject(downloadData, true);
@@ -1049,10 +1017,8 @@
                 data: datatosend,
                 async: true,
                 success: function (response) {
-                    //  console.log(response);
                 },
                 error: function (reposnse) {
-                    console.log("Unknown error occured");
                 }
             });
             // SendDataTONOdeJSBAckend(datatosend)

@@ -1,7 +1,6 @@
 ﻿
 app.controller('imagesController', function ($scope, storageService, firebaseService, $firebaseArray) {
 
-    //console.log("images");
 
 
     $("#addphoto").change(function () {
@@ -30,7 +29,6 @@ app.controller('imagesController', function ($scope, storageService, firebaseSer
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
-        console.log(dataArray);
     }).catch(function (error) {
         console.log("Error in loading details");
     });
@@ -54,7 +52,6 @@ app.controller('imagesController', function ($scope, storageService, firebaseSer
         var storageRef = firebase.storage().ref();
         storageRef.child('profile/' + fname).put(file, metadata).then(function (snapshot) {
 
-            debugger;
             var url = snapshot.metadata.downloadURLs[0];
 
             $("#loadingModal").show();
@@ -65,7 +62,6 @@ app.controller('imagesController', function ($scope, storageService, firebaseSer
             $scope.images.$save(imageRef).then(function (res) {
 
                 $("#loadingModal").hide();
-                console.log(res);
                 window.location.reload();
 
             });
@@ -73,7 +69,6 @@ app.controller('imagesController', function ($scope, storageService, firebaseSer
 
 
         }).catch(function (error) {
-            console.error('Upload failed:', error);
         });
 
 
@@ -120,7 +115,6 @@ app.controller('pagesController', function ($scope, storageService, firebaseServ
     }
 
     $scope.UpdateContent = function () {
-        debugger;
         var updated = CKEDITOR.instances.editor1.getData();
         var toUpdate = $scope.Imgaes.$getRecord($scope.itemSelected.$id);
         toUpdate.$value = updated;
@@ -128,7 +122,6 @@ app.controller('pagesController', function ($scope, storageService, firebaseServ
         $("#loadingModal").show();
 
         $scope.images.$save(toUpdate).then(function (res) {
-            console.log(res);
             $("#loadingModal").hide();
             window.location.reload();
         });
@@ -152,9 +145,6 @@ app.controller('staticController', function ($scope, storageService, firebaseSer
         angular.forEach(dataArray, function (value, key) {
             //$scope.Sections.push(value.$id);
 
-            debugger;
-           
-
             for (var p in value) {
                 if (p != "$id" && p != "$priority") {
                     var cat = {};
@@ -175,13 +165,11 @@ app.controller('staticController', function ($scope, storageService, firebaseSer
         $scope.itemSelected = $scope.categories[0];
 
         CKEDITOR.on("instanceReady", function (event) {
-            debugger;
             CKEDITOR.instances.editor1.setData($scope.itemSelected.val);
         });
 
         
 
-        console.log($scope.Sections);
 
     }).catch(function (error) {
         console.log("Error in loading details");
@@ -195,7 +183,6 @@ app.controller('staticController', function ($scope, storageService, firebaseSer
     }
 
     $scope.UpdateContent = function () {
-        debugger;
         var updated = CKEDITOR.instances.editor1.getData();
         var toUpdate = $scope.Imgaes.$getRecord($scope.itemSelected.name);
         toUpdate[$scope.itemSelected.key] = updated;
@@ -204,7 +191,6 @@ app.controller('staticController', function ($scope, storageService, firebaseSer
         $scope.images.$save(toUpdate).then(function (res) {
 
             $("#loadingModal").hide();
-            console.log(res);
             window.location.reload();
 
         });
@@ -222,7 +208,6 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
-        console.log(dataArray);
     }).catch(function (error) {
         console.log("Error in loading details");
     });
@@ -231,7 +216,6 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
     $scope.UpdateImage = function (image, index) {
         $scope.cntId = image.$id;
         //$("#addphoto").click();
-        debugger;
 
         $("#titleedit").val(image.DisplayName);
         $("#linkedit").val(image.HrefLink);
@@ -252,7 +236,6 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
         var storageRef = firebase.storage().ref();
         storageRef.child('profile/' + fname).put(file, metadata).then(function (snapshot) {
 
-            debugger;
             var url = snapshot.metadata.downloadURLs[0];
 
             $("#loadingModal").show();
@@ -265,9 +248,7 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
            
 
             $scope.images.$save(imageRef).then(function (ref) {
-                debugger;
                 var id = ref.key();
-                console.log("added record with id " + id);
                 $("#loadingModal").hide();
                 window.location.reload();
 
@@ -276,7 +257,6 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
 
 
         }).catch(function (error) {
-            console.error('Upload failed:', error);
         });
 
 
@@ -286,7 +266,6 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
     $scope.RemoveSponser = function (image) {
         $("#loadingModal").show();
         $scope.images.$remove(image).then(function (ref) {
-            debugger;
             var id = ref.key();
             $("#loadingModal").hide();
         });
@@ -307,7 +286,6 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
         var storageRef = firebase.storage().ref();
         storageRef.child('profile/' + fname).put(file, metadata).then(function (snapshot) {
 
-            debugger;
             var url = snapshot.metadata.downloadURLs[0];
 
             var toAdd = {
@@ -319,9 +297,7 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
             $("#modalid").hide();
 
             $scope.images.$add(toAdd).then(function (ref) {
-                debugger;
                 var id = ref.key();
-                console.log("added record with id " + id);
                 $("#loadingModal").hide();
 
                 window.location.reload();
@@ -331,7 +307,6 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
             
 
         }).catch(function (error) {
-            console.error('Upload failed:', error);
         });
 
 
@@ -340,22 +315,17 @@ app.controller('sponsersController', function ($scope, storageService, firebaseS
 
 app.controller('faqController', function ($scope, storageService, firebaseService, $firebaseArray) {
 
-    console.log("faqController");
-
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.images = $firebaseArray(ref.child('Content').child('FAQ'));
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
-        console.log(dataArray);
     }).catch(function (error) {
         console.log("Error in loading details");
     });
 
     $scope.Collopse = function (image) {
-
-        console.log(image);
 
         $("#link_" + image.$id).addClass("collapsed");
         $("#div_" + image.$id).addClass("in");
@@ -365,7 +335,6 @@ app.controller('faqController', function ($scope, storageService, firebaseServic
     $scope.EditQuestionModal = function (image) {
         $scope.cntId = image.$id;
         //$("#addphoto").click();
-        debugger;
 
         $("#titleedit").val(image.QuestionText);
         $("#linkedit").val(image.AnswerText);
@@ -382,7 +351,6 @@ app.controller('faqController', function ($scope, storageService, firebaseServic
         $scope.images.$save(imageRef).then(function (res) {
 
             $("#loadingModal").hide();
-            console.log(res);
             window.location.reload();
 
         });
@@ -393,7 +361,6 @@ app.controller('faqController', function ($scope, storageService, firebaseServic
     $scope.RemoveQuestion = function (image) {
         $("#loadingModal").show();
         $scope.images.$remove(image).then(function (ref) {
-            debugger;
             var id = ref.key();
             $("#loadingModal").hide();
 
@@ -410,10 +377,7 @@ app.controller('faqController', function ($scope, storageService, firebaseServic
         }
 
         $scope.images.$add(toAdd).then(function (ref) {
-            debugger;
             var id = ref.key();
-            console.log("added record with id " + id);
-
             $("#loadingModal").hide();
             window.location.reload();
 
@@ -429,7 +393,6 @@ app.controller('faqController', function ($scope, storageService, firebaseServic
 
 app.controller('editFaqController', function ($scope, $routeParams, storageService, firebaseService, $firebaseArray) {
 
-    console.log("editFaqController" + $routeParams.id);
 
     //$scope.$on("ckeditor.ready", function (event) {
     //    $scope.isReady = true;
@@ -457,7 +420,6 @@ app.controller('editFaqController', function ($scope, $routeParams, storageServi
             });
 
             
-            console.log(dataArray);
         }
     }).catch(function (error) {
         console.log("Error in loading details");
@@ -465,7 +427,6 @@ app.controller('editFaqController', function ($scope, $routeParams, storageServi
 
     $scope.Collopse = function (image) {
 
-        console.log(image);
 
         $("#link_" + image.$id).addClass("collapsed");
         $("#div_" + image.$id).addClass("in");
@@ -473,10 +434,8 @@ app.controller('editFaqController', function ($scope, $routeParams, storageServi
     }
 
     $scope.EditQuestionModal = function (image) {
-        debugger;
         $scope.cntId = image.$id;
         //$("#addphoto").click();
-        debugger;
 
         $("#titleedit").val(image.QuestionText);
         $("#linkedit").val(image.AnswerText);
@@ -500,7 +459,6 @@ app.controller('editFaqController', function ($scope, $routeParams, storageServi
             ////storageService.setObject("CS", rideRef);
             //swal("", "Your notes details has been edited success fully", "success");
             //console.log(res);
-            console.log(res);
             window.location.href = "#/faq"
 
         });
@@ -512,7 +470,6 @@ app.controller('editFaqController', function ($scope, $routeParams, storageServi
         $("#loadingModal").show();
         var question = $scope.Question;
         $scope.images.$remove(question).then(function (ref) {
-            debugger;
             var id = ref.key();
 
             $("#loadingModal").hide();
@@ -535,9 +492,7 @@ app.controller('editFaqController', function ($scope, $routeParams, storageServi
         }
 
         $scope.images.$add(toAdd).then(function (ref) {
-            debugger;
             var id = ref.key();
-            console.log("added record with id " + id);
             $("#loadingModal").hide();
             window.location.href = "#/faq"
 
@@ -564,7 +519,6 @@ app.controller('editFaqController', function ($scope, $routeParams, storageServi
 
 app.controller('newsController', function ($scope, storageService, firebaseService, $firebaseArray) {
 
-    console.log("faqController");
 
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
@@ -572,14 +526,12 @@ app.controller('newsController', function ($scope, storageService, firebaseServi
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
-        console.log(dataArray);
     }).catch(function (error) {
         console.log("Error in loading details");
     });
 
     $scope.Collopse = function (image) {
 
-        console.log(image);
 
         $("#link_" + image.$id).addClass("collapsed");
         $("#div_" + image.$id).addClass("in");
@@ -589,7 +541,6 @@ app.controller('newsController', function ($scope, storageService, firebaseServi
     $scope.EditQuestionModal = function (image) {
         $scope.cntId = image.$id;
         //$("#addphoto").click();
-        debugger;
 
         $("#titleedit").val(image.QuestionText);
         $("#linkedit").val(image.AnswerText);
@@ -611,7 +562,6 @@ app.controller('newsController', function ($scope, storageService, firebaseServi
             ////storageService.setObject("CS", rideRef);
             //swal("", "Your notes details has been edited success fully", "success");
             //console.log(res);
-            console.log(res);
             window.location.reload();
 
         });
@@ -622,7 +572,6 @@ app.controller('newsController', function ($scope, storageService, firebaseServi
     $scope.RemoveQuestion = function (image) {
 
         $scope.images.$remove(image).then(function (ref) {
-            debugger;
             var id = ref.key();
             if (stb.$id == id) {
                 console.log("Deleted success fully");
@@ -640,9 +589,7 @@ app.controller('newsController', function ($scope, storageService, firebaseServi
         }
 
         $scope.images.$add(toAdd).then(function (ref) {
-            debugger;
             var id = ref.key();
-            console.log("added record with id " + id);
 
 
             window.location.reload();
@@ -658,7 +605,6 @@ app.controller('newsController', function ($scope, storageService, firebaseServi
 
 app.controller('editNewsController', function ($scope, $routeParams, storageService, firebaseService, $firebaseArray) {
 
-    console.log("editNewsController" + $routeParams.id);
 
     $scope.editId = $routeParams.id;
     $scope.Question = {};
@@ -686,7 +632,6 @@ app.controller('editNewsController', function ($scope, $routeParams, storageServ
 
     $scope.Collopse = function (image) {
 
-        console.log(image);
 
         $("#link_" + image.$id).addClass("collapsed");
         $("#div_" + image.$id).addClass("in");
@@ -696,7 +641,6 @@ app.controller('editNewsController', function ($scope, $routeParams, storageServ
     $scope.EditQuestionModal = function (image) {
         $scope.cntId = image.$id;
         //$("#addphoto").click();
-        debugger;
 
         $("#titleedit").val(image.QuestionText);
         $("#linkedit").val(image.AnswerText);
@@ -720,7 +664,6 @@ app.controller('editNewsController', function ($scope, $routeParams, storageServ
             ////storageService.setObject("CS", rideRef);
             //swal("", "Your notes details has been edited success fully", "success");
             //console.log(res);
-            console.log(res);
             window.location.href = "#/news"
 
         });
@@ -732,7 +675,6 @@ app.controller('editNewsController', function ($scope, $routeParams, storageServ
         $("#loadingModal").show();
         var question = $scope.Question;
         $scope.images.$remove(question).then(function (ref) {
-            debugger;
             var id = ref.key();
             
             $("#loadingModal").hide();
@@ -755,9 +697,7 @@ app.controller('editNewsController', function ($scope, $routeParams, storageServ
         }
 
         $scope.images.$add(toAdd).then(function (ref) {
-            debugger;
             var id = ref.key();
-            console.log("added record with id " + id);
             $("#loadingModal").hide();
             window.location.href = "#/news"
 
@@ -778,7 +718,6 @@ app.controller('editNewsController', function ($scope, $routeParams, storageServ
 
 app.controller('editReportController', function ($scope, $routeParams, storageService, firebaseService, $firebaseArray, $http) {
 
-    console.log("editReportController" + $routeParams.id);
 
     //$scope.url = "http://localhost:5000/download.html?id=";
     $scope.url = "https://myequitrack.com/download.html?id=";
@@ -823,9 +762,7 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
             method: 'GET',
             url: url
         }).then(function successCallback(response) {
-            console.log(response);
         }, function errorCallback(response) {
-            console.log(response);
         });
 
 
@@ -865,7 +802,6 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
     $scope.organisation.$loaded().then(function (dataArray) {
         $scope.association = _.filter(dataArray, function (num) { return num.Role == "Organisation"; });
         $scope.SelectedOrganisation = $scope.association[0];
-        console.log(dataArray);
 
 
         $scope.images.$loaded().then(function (dataArray) {
@@ -913,18 +849,15 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
         });
 
     }).catch(function (error) {
-        console.log("Error in loading details" + error);
     });
 
     $scope.OnOrganisaionChange = function (FinalOrg) {
-        console.log(FinalOrg);
         $scope.FinalOrg = FinalOrg;
         //$scope.orgnumber= item.OrganisationNumber
     }
 
     $scope.Collopse = function (image) {
 
-        console.log(image);
 
         $("#link_" + image.$id).addClass("collapsed");
         $("#div_" + image.$id).addClass("in");
@@ -934,8 +867,6 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
     $scope.EditQuestionModal = function (image) {
         $scope.cntId = image.$id;
         //$("#addphoto").click();
-        debugger;
-
         $("#titleedit").val(image.QuestionText);
         $("#linkedit").val(image.AnswerText);
         $("#editmodal").modal('show');
@@ -972,7 +903,6 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
         $scope.images.$save(imageRef).then(function (res) {
 
             $("#reportModal").hide();
-            console.log(res);
 
             $scope.showSendContent = true;
             $scope.DownloadLink = $scope.url + $routeParams.id;
@@ -990,7 +920,6 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
         $("#loadingModal").show();
         var question = $scope.Question;
         $scope.images.$remove(question).then(function (ref) {
-            debugger;
             var id = ref.key();
 
             $("#loadingModal").hide();
@@ -1030,12 +959,10 @@ app.controller('editReportController', function ($scope, $routeParams, storageSe
         imageRef.IsEnergy = $scope.GetCheckBoxValue("energy");
        
         $scope.images.$add(imageRef).then(function (ref) {
-            debugger;
             var id = ref.key();
 
             $scope.DownloadLink = $scope.url + id;
 
-            console.log("added record with id " + id);
             $("#reportModal").hide();
             //window.location.href = "#/report"
 
@@ -1067,7 +994,6 @@ app.controller('reportController', function ($scope, storageService, firebaseSer
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
-        console.log(dataArray);
     }).catch(function (error) {
         console.log("Error in loading details");
     });
@@ -1077,7 +1003,6 @@ app.controller('reportController', function ($scope, storageService, firebaseSer
    
     $scope.Collopse = function (image) {
 
-        console.log(image);
 
         $("#link_" + image.$id).addClass("collapsed");
         $("#div_" + image.$id).addClass("in");
@@ -1087,7 +1012,6 @@ app.controller('reportController', function ($scope, storageService, firebaseSer
     $scope.EditQuestionModal = function (image) {
         $scope.cntId = image.$id;
         //$("#addphoto").click();
-        debugger;
 
         $("#titleedit").val(image.QuestionText);
         $("#linkedit").val(image.AnswerText);
@@ -1109,7 +1033,6 @@ app.controller('reportController', function ($scope, storageService, firebaseSer
             ////storageService.setObject("CS", rideRef);
             //swal("", "Your notes details has been edited success fully", "success");
             //console.log(res);
-            console.log(res);
             window.location.reload();
 
         });
@@ -1120,7 +1043,6 @@ app.controller('reportController', function ($scope, storageService, firebaseSer
     $scope.RemoveQuestion = function (image) {
 
         $scope.images.$remove(image).then(function (ref) {
-            debugger;
             var id = ref.key();
             if (stb.$id == id) {
                 console.log("Deleted success fully");
@@ -1138,11 +1060,7 @@ app.controller('reportController', function ($scope, storageService, firebaseSer
         }
 
         $scope.images.$add(toAdd).then(function (ref) {
-            debugger;
             var id = ref.key();
-            console.log("added record with id " + id);
-
-
             window.location.reload();
 
         });
