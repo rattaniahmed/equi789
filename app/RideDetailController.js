@@ -1,11 +1,11 @@
 ﻿app.controller('RideDetailController', function MyCtrl($scope,$rootScope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService, $http) {
 
-    console.log("RideDetailController");
+    // console.log("RideDetailController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
 
 
-    console.log($scope.stb);
+    // console.log($scope.stb);
     var ref = firebaseService.FIREBASEENDPOINT();
     $scope.rides = $firebaseArray(ref.child('rides'));
     $scope.horserepo = $firebaseArray(ref.child('horses'));
@@ -14,13 +14,13 @@
 
 
     $scope.test = function (id) {
-        console.log($scope.currentRide);
+        // console.log($scope.currentRide);
         $scope.rides.$remove($scope.currentRide).then(function (ref) {
             var id = ref.key();
 
             for (var i = 0; i <= $scope.stb.ride_ids.length; i++) {
                 if ($scope.stb.ride_ids[i] == id) {
-                    console.log("Deleted success fully");
+                    // console.log("Deleted success fully");
                 }
             }
 
@@ -32,7 +32,7 @@
 
           
             $scope.horserepo.$save($scope.stb).then(function (res) {
-                console.log(res);
+                // console.log(res);
                 //$scope.user.Details.profile = userRef.profile;
                 $scope.$apply(function () {
                     blockUI.stop();
@@ -43,7 +43,7 @@
             });
 
         }).catch(function (err) {
-            console.log(err);
+            // console.log(err);
         });
         swal("", "Your Ride has been removed success fully", "success");
         $location.path('ride-history.html');
@@ -82,7 +82,7 @@
     $scope.SeeMap = function (his) {
         storageService.setObject("RIFM", his.$id);
         $location.path('ridemap.html');
-        console.log(his.ride_ids);
+        // console.log(his.ride_ids);
     }
 
 
@@ -108,7 +108,7 @@
 
         $scope.stb = storageService.getObject("CS");
         try {
-            console.log($scope.rideId)
+            // console.log($scope.rideId)
             $scope.rideId = storageService.getObject("RIDEDETAILID");
         }
         catch (err) {
@@ -128,13 +128,13 @@
             $scope.freestyle_time_to_display = hhmmss(lastRide.freestyle_time);
             $scope.hotwalk_time_to_display = hhmmss(lastRide.hotwalk_time);
 
-            console.log("getting ride id -" + $scope.rideId);
+            // console.log("getting ride id -" + $scope.rideId);
             if (IsNull(lastRide.ground_condition))
                 $("#gndconditionaddride").val("Select");
             else
                 $("#gndconditionaddride").val(lastRide.ground_condition);
             $scope.lastRide = lastRide;
-            console.log($scope.lastRide);
+            // console.log($scope.lastRide);
 
             if ($scope.lastRide.ismanualride == "1") {
                 $scope.ShareObject = GetShareObjectByRide($scope.stb, $scope.lastRide);
@@ -142,7 +142,7 @@
             else {
                 $scope.coords = $firebaseArray(ref.child('coords'));
                 $scope.coords.$loaded().then(function (dataArray) {
-                    debugger;
+                    // console;
                     var coord = $scope.coords.$getRecord(id);
                     $scope.ShareObject = GetShareObjectByCoordinate($scope.stb, $scope.lastRide, coord);
                 });

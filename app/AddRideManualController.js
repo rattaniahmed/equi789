@@ -2,7 +2,7 @@
 
 
     $scope.init = function () {
-        console.log("adding ride manual controller");
+        // console.log("adding ride manual controller");
         $('#StartRide').datetimepicker();
         $('#EndRide').datetimepicker();
     }
@@ -10,7 +10,7 @@
 
 
 
-    console.log("AddRideManualController");
+    // console.log("AddRideManualController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
 
@@ -120,7 +120,7 @@
 
 
        else {
-         //  console.log($scope.addride)
+         //  // console.log($scope.addride)
 
            var startTime = new Date($scope.addride.start_time);
            var endTime = new Date($scope.addride.end_time);
@@ -147,8 +147,8 @@
                    $scope.addride.notes = "";
                    $scope.addride.ground_condition = document.getElementById("gndcondition").value;
 
-                   console.log("adding ride object");
-                   console.log($scope.addride);
+                   // console.log("adding ride object");
+                   // console.log($scope.addride);
 
                    storageService.setObject("IsADDRideMode", 1);
 

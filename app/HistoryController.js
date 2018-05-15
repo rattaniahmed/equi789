@@ -1,11 +1,11 @@
 ﻿app.controller('HistoryController', function MyCtrl($scope, $rootScope,$location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
 
-    console.log("HistoryController");
+    // console.log("HistoryController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
    
 
-    console.log($scope.stb);
+    // console.log($scope.stb);
     $scope.Logout = function () {
         storageService.setObject("CU", null);
         $location.path('/');
@@ -118,7 +118,7 @@
             $scope.historiesToDisplay.push(history);
         }
 
-        console.log($scope.historiesToDisplay)
+        // console.log($scope.historiesToDisplay)
 
     }
 
@@ -128,7 +128,7 @@
         $scope.Init();
     });
     $scope.$on('horseModified', function (event, args) {
-        console.log("get the horse add event in stable page"); // 'Data to send'
+        // console.log("get the horse add event in stable page"); // 'Data to send'
 
         var localHorse = storageService.getObject("CS");
         if (localHorse.$id == args.data.key && args.data.event == "child_changed") {

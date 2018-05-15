@@ -16,7 +16,7 @@
 
     }
 
-    console.log("EditRideManualController");
+    // console.log("EditRideManualController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
 
@@ -66,7 +66,7 @@
     $scope.addride = storageService.getObject("EditedRideObject")
    
 
-    console.log($scope.addride);
+    // console.log($scope.addride);
 
     
 
@@ -90,7 +90,7 @@
     
     $scope.SaveCoods = function () {
 
-        debugger;
+        // // console;
 
         var currentRide = storageService.getObject("EditedRideObject");
 

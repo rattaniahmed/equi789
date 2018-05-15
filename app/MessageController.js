@@ -14,7 +14,7 @@
      //| orderBy:i.ExpirationDate:reverse"
     $scope.markRead = function (msgId) {
 
-        console.log("adding read by");
+        // console.log("adding read by");
 
         firebase.database().ref('/Content/Messages/' + msgId).once('value', function (msgsnapshot) {
 
@@ -142,7 +142,7 @@
                             $scope.markRead($scope.ShowMessages[msgCounter].Id);
                         }
                         //$rootScope.$broadcast("messageReadComplete", {});
-                        //console.log($scope.ShowMessages);
+                        //// console.log($scope.ShowMessages);
                     }
                 })
             }

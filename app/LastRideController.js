@@ -1,6 +1,6 @@
 ﻿app.controller('LastRideController', function MyCtrl($scope,$rootScope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService, $http) {
 
-    console.log("LastRideController");
+    // console.log("LastRideController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
 
@@ -29,7 +29,7 @@
     $scope.Init=function()
     {
         $scope.stb = storageService.getObject("CS");
-        console.log($scope.stb);
+        // console.log($scope.stb);
 
         var ids = [];
         var vals = [];
@@ -52,7 +52,7 @@
 
         try {
             //$scope.rideId = $scope.stb.ride_ids[0];
-            console.log($scope.rideId)
+            // console.log($scope.rideId)
             storageService.setObject("RIFM", $scope.rideId);
         }
         catch (err) {}
@@ -74,7 +74,7 @@
 
 
                 $scope.lastRide = lastRide;
-                console.log($scope.lastRide);
+                // console.log($scope.lastRide);
 
                 if ($scope.lastRide.ismanualride == "1") {
 
@@ -84,7 +84,6 @@
                     var ref = firebaseService.FIREBASEENDPOINT();
                     $scope.coords = $firebaseArray(ref.child('coords'));
                     $scope.coords.$loaded().then(function (dataArray) {
-                        debugger;
                         var coord = $scope.coords.$getRecord(id);
                         $scope.ShareObject = GetShareObjectByCoordinate($scope.stb, $scope.lastRide, coord);
                     });

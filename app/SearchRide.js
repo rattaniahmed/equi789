@@ -31,7 +31,7 @@
             if (places.length == 0) {
                 return;
             }
-            console.log(markers);
+            // console.log(markers);
             // Clear out the old markers.
             markers.forEach(function (marker) {
                 marker.setMap(null);
@@ -42,7 +42,7 @@
             var bounds = new google.maps.LatLngBounds();
             places.forEach(function (place) {
                 if (!place.geometry) {
-                    console.log("Returned place contains no geometry");
+                    // console.log("Returned place contains no geometry");
                     return;
                 }
                 var icon = {

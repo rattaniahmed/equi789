@@ -253,7 +253,7 @@
                                             }
                                         }
                                         catch (errloop) {
-                                            console.log(errloop);
+                                            // // console.log(errloop);
                                         }
 
                                         var max = Math.max.apply(Math, vals);
@@ -343,15 +343,15 @@
                         }).catch(function (err) { });
 
 
-                    }).catch(function (error) { console.log("Error in loading details"); });
+                    }).catch(function (error) { // // console.log("Error in loading details"); });
 
 
                 }).catch(function (error) {
-                    console.log("Error in loading details" + error);
+                    // // console.log("Error in loading details" + error);
                 });
             }
         }).catch(function (error) {
-            console.log("Error in loading details");
+            // // console.log("Error in loading details");
         });
 
    

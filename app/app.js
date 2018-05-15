@@ -193,8 +193,8 @@ app.factory('sessionService', function (storageService, $location) {
 app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageService) { // instance-injector
 
     //firebase.database().ref('/users/41880a58-e099-422a-bc69-becbe974d3f0/').on('value', function (snapshot) {
-    //    console.log(snapshot);
-    //    console.log(snapshot.val())
+    //    // console.log(snapshot);
+    //    // console.log(snapshot.val())
     //})
 
     
@@ -266,7 +266,7 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
 
 
     }).catch(function (error) {
-        console.log("Error in loading details");
+        // console.log("Error in loading details");
     });
 
     function oldImplementation() {
@@ -290,9 +290,9 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
                 }
 
             });
-            //console.log($rootScope.DynamucContent);
+            //// console.log($rootScope.DynamucContent);
         }).catch(function (error) {
-            console.log("Error in loading details");
+            // console.log("Error in loading details");
         });
 
 
@@ -304,7 +304,7 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
                 $rootScope.DynamucImages[value.Key] = value.Url;
             });
         }).catch(function (error) {
-            console.log("Error in loading details");
+            // console.log("Error in loading details");
         });
 
 
@@ -317,7 +317,7 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
                 $rootScope.DynamucPages[value.$id] = $sce.trustAsHtml(toConvert);
             });
         }).catch(function (error) {
-            console.log("Error in loading details");
+            // console.log("Error in loading details");
         });
 
 
@@ -332,7 +332,7 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
                 $rootScope.newses.push(n);
             }
         }).catch(function (error) {
-            console.log("Error in loading details");
+            // console.log("Error in loading details");
         });
 
 
@@ -347,7 +347,7 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
                 $rootScope.faqs.push(f);
             }
         }).catch(function (error) {
-            console.log("Error in loading details");
+            // console.log("Error in loading details");
         });
     }
 
@@ -362,20 +362,20 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
 
     $rootScope.loadFireBaseData = function () {
         firebase.database().ref('/Content/Messages').on('value', function (snapshot) {
-           // console.log("Message load complete");
+           // // console.log("Message load complete");
 
             //firebase.database().ref('/Content/Messages').on('child_added', function (snapshot) {
-            //    console.log("new message added");
+            //    // console.log("new message added");
             //    $rootScope.$broadcast("messageLoad", {});
             //});
 
             //firebase.database().ref('/Content/Messages').on('child_changed', function (snapshot) {
-            //    console.log("new message child_changed");
+            //    // console.log("new message child_changed");
             //    $rootScope.$broadcast("messageLoad", {});
             //});
 
             //firebase.database().ref('/Content/Messages').on('child_removed', function (snapshot) {
-            //    console.log("new message child_removed");
+            //    // console.log("new message child_removed");
             //    $rootScope.$broadcast("messageLoad", {});
             //});
 
@@ -392,22 +392,22 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
             //    var f = dataArray[i];
             //    if (f && f.photo) {
             //        if (f.photo.length > 1000000) {
-            //            console.log(f.photo.length + " bytes and key is " + f.$id );
+            //            // console.log(f.photo.length + " bytes and key is " + f.$id );
             //            sizes.push(f.photo.length);
             //        }
             //        total = total + parseInt(f.photo.length);
             //    }
             //}
-            //console.log(" Maximum Size -"+ _.max(sizes)+ " bytes");
-            //console.log("Total size is -" + total+" bytes");
+            //// console.log(" Maximum Size -"+ _.max(sizes)+ " bytes");
+            //// console.log("Total size is -" + total+" bytes");
 
             $rootScope.$broadcast("horseLoaded", { data: event });
             $rootScope.appHorses.$watch(function (event) {
-               // console.log(event);
+               // // console.log(event);
                 $rootScope.$broadcast("horseModified", { data: event });
             });
         }).catch(function (error) {
-            console.log("Error in loading details");
+            // console.log("Error in loading details");
         });
 
 
@@ -415,17 +415,17 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
         $rootScope.appHorseRides.$loaded().then(function (dataArray) {
             $rootScope.$broadcast("ridesLoaded", { data: event });
             $rootScope.appHorseRides.$watch(function (event) {
-               // console.log(event);
+               // // console.log(event);
                 $rootScope.$broadcast("ridesModified", { data: event });
             });
         }).catch(function (error) {
-            console.log("Error in loading details");
+            // console.log("Error in loading details");
         });;
 
         $rootScope.appUsers = $firebaseArray(ref.child('users'));
         $rootScope.appUsers.$loaded().then(function (dataArray) {
             $rootScope.appUsers.$watch(function (event) {
-                //console.log(event);
+                //// console.log(event);
                 var userToLocal = storageService.getObject("CU");
                 if (event.key == userToLocal.Auth.uid) {
                     var userNew = $rootScope.appUsers.$getRecord(userToLocal.Auth.uid);
@@ -439,7 +439,7 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
                 }
             });
         }).catch(function (error) {
-            console.log("Error in loading details");
+            // console.log("Error in loading details");
         });
     }
 
@@ -544,7 +544,7 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
             }).then(function successCallback(response) {
                 
             }, function errorCallback(response) {
-                console.log(response);
+                // console.log(response);
             });
             
             $scope.first_name = "";
@@ -741,7 +741,7 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
                             //    $scope.markRead($scope.ShowMessages[msgCounter].Id);
                             //}
                             //$rootScope.$broadcast("messageReadComplete", {});
-                            //console.log($scope.ShowMessages);
+                            //// console.log($scope.ShowMessages);
                         }
                     })
                 }

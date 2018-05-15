@@ -2,7 +2,7 @@
 
     sessionService.CHECKSESSION();
     $scope.OpenAddRidePopup = function () {
-       // console.log("using this");
+       // // console.log("using this");
         $("#add_ride").modal();
         $('#StartRide').datetimepicker();
         $('#EndRide').datetimepicker();
@@ -41,7 +41,7 @@
 
                     var diff = today - d;
                     var days = parseInt(diff / 1000 / 60 / 60 / 24);
-                    //console.log(days);
+                    //// console.log(days);
 
                     var year = parseInt(days / 365);
 
@@ -122,7 +122,6 @@
             }
             
 
-            debugger;
             var horse = $scope.stb;
             var pic = $scope.stb.photo;
             if ($scope.stb.photo.indexOf("horsePlaceHolder") >= 0) {
@@ -167,9 +166,8 @@
                     var fname = Math.random().toString(36).substring(7) + ".jpg";// +file.name.substring(file.name.indexOf("."));
                     var storageRef = firebase.storage().ref();
                     storageRef.child('shares/' + fname).put(blob, metadata).then(function (snapshot) {
-                        debugger;
                         var url = snapshot.metadata.downloadURLs[0];
-                       // console.log(url)
+                       // // console.log(url)
 
                         pic = url;
 
@@ -185,11 +183,11 @@
                         $scope.ShareObject = obj;
 
                     }).catch(function (error) {
-                        console.error('Upload failed:', error);
+                        // console.error('Upload failed:', error);
                     });
                 }
                 catch (errNext) {
-                    console.log("image convertion issue");
+                    // console.log("image convertion issue");
                 }
             }
 
@@ -209,8 +207,8 @@
         $(".modal-backdrop").remove();
         $('body').removeClass('modal-open');
 
-       // console.log($scope.ShareObject);
-       // console.log($scope.user);
+       // // console.log($scope.ShareObject);
+       // // console.log($scope.user);
 
         if ($scope.IsRideExist) {
             return true;
@@ -277,7 +275,7 @@
                 }
                 $scope.markers.splice(indexToRemove, 1);
 
-                //console.log($scope.markers);
+                //// console.log($scope.markers);
 
                 marker.setMap(null);
 
@@ -336,7 +334,7 @@
 
     });
     $scope.$on('horseModified', function (event, args) {
-      //  console.log("get the horse add event in stable page"); // 'Data to send'
+      //  // console.log("get the horse add event in stable page"); // 'Data to send'
 
         var localHorse = storageService.getObject("CS");
         if (localHorse.$id == args.data.key && args.data.event == "child_changed") {

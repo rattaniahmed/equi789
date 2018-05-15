@@ -1,9 +1,9 @@
 ﻿app.controller('AddStableDetailsController', function MyCtrl($scope,$rootScope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
 
 
-    console.log($("#addphotonewname"));
+    // console.log($("#addphotonewname"));
 
-    console.log("AddStableDetailsController");
+    // console.log("AddStableDetailsController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
 
@@ -68,9 +68,9 @@
 
         //$scope.selectedOrg = $scope.Org[0];
 
-        console.log(dataArray);
+        // console.log(dataArray);
     }).catch(function (error) {
-        console.log("Error in loading details");
+        // console.log("Error in loading details");
     });
 
     $scope.AddNewOrganisation = function () {
@@ -91,8 +91,8 @@
 
 
     $scope.OnOrganisaionChange = function (FinalOrg) {
-        console.log(FinalOrg);
-        console.log(FinalOrg.SelectedOrganisation);
+        // console.log(FinalOrg);
+        // console.log(FinalOrg.SelectedOrganisation);
         //$scope.orgnumber= item.OrganisationNumber
     }
 
@@ -227,7 +227,7 @@
 
 
             }).catch(function (error) {
-                console.error('Upload failed:', error);
+                // console.error('Upload failed:', error);
             });
         }
         else {

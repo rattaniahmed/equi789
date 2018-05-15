@@ -1,7 +1,7 @@
 ﻿app.controller('AllHistoryController', function MyCtrl($scope,$rootScope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
 
 
-    console.log("AllHistoryController");
+    // console.log("AllHistoryController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
     $scope.stb = storageService.getObject("CS");
@@ -15,13 +15,13 @@
     $scope.SeeMap = function (his) {
         storageService.setObject("RIFM", his.$id);
         $location.path('ridemap.html');
-        console.log(his.ride_ids);
+        // console.log(his.ride_ids);
     }
 
     $scope.RideDetail = function (his) {
         storageService.setObject("RIDEDETAILID", his.$id);
         $location.path('ride-detail.html');
-        console.log(his.ride_ids);
+        // console.log(his.ride_ids);
     }
 
     var ref = firebaseService.FIREBASEENDPOINT();
@@ -29,8 +29,8 @@
 
     $scope.UpdateRide=function(obj)
     {
-        console.log(obj);
-        console.log("opening modal");
+        // console.log(obj);
+        // console.log("opening modal");
         storageService.setObject("EditedRideObject", obj);
         
         $("#add_ride").modal();
@@ -49,18 +49,18 @@
     $scope.test = function (id) {
       
         $rootScope.appHorseRides.$remove(id).then(function (ref) {
-            debugger;
+            // console;
             var id = ref.key();
 
             for (var i = 0; i <= $scope.stb.ride_ids.length; i++) {
                 if ($scope.stb.ride_ids[i] == id) {
-                    console.log("Deleted success fully");
+                    // console.log("Deleted success fully");
                 }
             }
 
 
 
-            //console.log("added record with id " + id);               
+            //// console.log("added record with id " + id);               
             //$location.path('my-stable.html');
 
             //$scope.user.Details.horse_ids[id] = {
@@ -82,7 +82,7 @@
 
             $rootScope.appHorses.$save(currenthorseRef).then(function (res) {
 
-                console.log(res);
+                // console.log(res);
 
                 //$scope.$apply(function () {
                 //    blockUI.stop();
@@ -94,7 +94,7 @@
             
                 
             }).catch(function (errs) {
-                console.log(errs);
+                // console.log(errs);
 
                 //$scope.$apply(function () {
                 //    blockUI.stop();
@@ -109,13 +109,13 @@
             });;
 
         }).catch(function (err) {
-            console.log(err);
+            // console.log(err);
         });
       
     }
 
     $rootScope.DeleteRide = function (id) {
-        debugger;
+        // console;
 
 
         swal({
@@ -141,7 +141,7 @@
         $scope.histories = [];
 
         for (var id in $scope.stb.ride_ids) {
-            debugger;
+            // console;
             var horseHistory = $rootScope.appHorseRides.$getRecord(id);
           
 
@@ -183,13 +183,13 @@
 
         //$scope.history.$set(currentRide).then(function (ref) {
         $rootScope.appHorseRides.$save(currentRide).then(function (ref) {
-            debugger;
+            // console;
             //var id = ref.key();
-            console.log("added record with id " + id);
+            // console.log("added record with id " + id);
 
             //swal("", "Your Ride has been added success fully", "success");
             //$location.path('my-stable.html');
-            debugger;
+            // console;
 
             if (IsNull($scope.currenthorse.ride_ids)) {
                 $scope.currenthorse['ride_ids'] = {};
@@ -216,7 +216,7 @@
 
                 window.location.reload();
 
-                console.log(res);
+                // console.log(res);
                 //$scope.user.Details.profile = userRef.profile;
                 $scope.$apply(function () {
                     blockUI.stop();
@@ -224,7 +224,7 @@
                 swal("", "Your Ride has been updated success fully", "success");
 
             }).catch(function (err) {
-                console.log(err);
+                // console.log(err);
                 $scope.$apply(function () {
                     blockUI.stop();
                 });
@@ -237,7 +237,7 @@
 
     $scope.UpdateRideToDataBase = function () {
 
-        debugger;
+        // console;
 
         $scope.addride.start_time = document.getElementById("StartRide").value;
         $scope.addride.end_time = document.getElementById("EndRide").value;
@@ -259,7 +259,7 @@
                 $scope.addride.ismanualride = 1;
 
 
-                console.log($scope.addride)
+                // console.log($scope.addride)
 
 
                 //storageService.setObject("IsADDRideMode", 1);
@@ -289,7 +289,7 @@
 
 
     $scope.$on('horseModified', function (event, args) {
-        console.log("get the horse add event in stable page"); // 'Data to send'
+        // console.log("get the horse add event in stable page"); // 'Data to send'
 
         var localHorse = storageService.getObject("CS");
         if (localHorse.$id == args.data.key && args.data.event == "child_changed") {

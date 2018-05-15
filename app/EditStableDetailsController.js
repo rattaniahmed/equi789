@@ -28,7 +28,7 @@
 
     }
 
-    console.log("EditStableDetailsController");
+    // console.log("EditStableDetailsController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
 
@@ -107,7 +107,7 @@
 
             }
 
-            console.log(dataArray);
+            // console.log(dataArray);
         }
     }
 
@@ -131,8 +131,8 @@
 
 
     $scope.OnOrganisaionChange = function (FinalOrg) {
-        console.log(FinalOrg);
-        console.log(FinalOrg.SelectedOrganisation);
+        // console.log(FinalOrg);
+        // console.log(FinalOrg.SelectedOrganisation);
         //$scope.orgnumber= item.OrganisationNumber
     }
    
@@ -153,7 +153,7 @@
         horseRef.medical = ReplaceNull($scope.stb.medical)
 
         var editid = horseRef.$id;
-        console.log(horseRef);
+        // console.log(horseRef);
 
         var horseRefToUpdate = angular.copy(horseRef);
         delete horseRefToUpdate.$$hashKey;
@@ -177,7 +177,7 @@
         horseRefnotes = ReplaceNull($scope.stb.notes);
 
         var editid = horseRef.$id;
-        console.log(horseRef);
+        // console.log(horseRef);
 
         var horseRefToUpdate = angular.copy(horseRef);
         delete horseRefToUpdate.$$hashKey;
@@ -258,7 +258,7 @@
         horseRef.notes = ReplaceNull($scope.stb.notes);
 
         var editid = horseRef.$id;
-        console.log(horseRef);
+        // console.log(horseRef);
         var horseRefToUpdate = angular.copy(horseRef);
         delete horseRefToUpdate.$$hashKey;
         delete horseRefToUpdate.$id;
@@ -284,7 +284,7 @@
                 swal("", "Your stable details has been added edied success fully", "success");
                 window.location.reload();
             }).catch(function (error) {
-                console.error('Upload failed:', error);
+                // console.error('Upload failed:', error);
             });
         }
         else {

@@ -69,7 +69,7 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
                     else {
                         var diff = today - d;
                         var days = parseInt(diff / 1000 / 60 / 60 / 24);
-                        console.log(days);
+                        // console.log(days);
 
                         var year = parseInt(days / 365);
 
@@ -132,7 +132,6 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
         if ($scope.user && $scope.user.Details && $scope.user.Details.horse_ids) {
 
 
-            debugger;
             //firebase.database().ref('/horses').orderByChild("id").equalTo($scope.user.Details.$id).once('value', function (snapshot) {
             //    debugger;
             //    var horse = snapshot.val();
@@ -148,7 +147,7 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
                 $scope.hosLength = horsKeys.length;
                 $scope.ZeroStable = false;
                 angular.forEach($scope.user.Details.horse_ids, function (value, key) {
-                    console.log(key);
+                    // console.log(key);
                     //var horse = $rootScope.appHorses.$getRecord(key);
 
                     firebase.database().ref('/horses/' + key).on('value', function (snapshot) {
@@ -198,7 +197,7 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
 
                         for (var rideIdToDelete in stb.ride_ids) {
                             firebase.database().ref('/rides/' + rideIdToDelete).remove(function (error) {
-                                console.log("ride id deleted");
+                                // console.log("ride id deleted");
                             });
                         }
 
@@ -210,7 +209,7 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
                 //window.location.reload();
             }
             catch (errrDelete) {
-                console.log(errrDelete);
+                // console.log(errrDelete);
             }
         });
     }
@@ -222,7 +221,7 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
   
 
     $scope.$on('userModified', function (event, data) {
-        console.log("get the horse add event in stable page"); // 'Data to send'
+        // console.log("get the horse add event in stable page"); // 'Data to send'
         $scope.Init();
     });
 

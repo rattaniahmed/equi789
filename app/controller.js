@@ -18,9 +18,9 @@
             method: 'GET',
             url: url
         }).then(function successCallback(response) {
-            console.log(response);
+            // console.log(response);
         }, function errorCallback(response) {
-            console.log(response);
+            // console.log(response);
         });
 
     }
@@ -47,7 +47,7 @@
     $scope.login2 = function () {
         firebase.auth().signInWithEmailAndPassword($scope.email, $scope.password).catch(function (error) {
            
-            console.log(error);
+            // console.log(error);
             var errorCode = error.code;
             var errorMessage = error.message;
            
@@ -210,7 +210,7 @@
                     });
 
 
-                    console.log("Successfully created user account with uid:", userData.uid);
+                    // console.log("Successfully created user account with uid:", userData.uid);
                 }
             });
         }
@@ -237,7 +237,7 @@ app.controller('SettingsController', function MyCtrl($scope, $location, $firebas
     $scope.UpdateMode = function (type) {
         if (type == 1) {
             if ($scope.aedit) {
-                console.log("in update code");
+                // console.log("in update code");
 
                 blockUI.start("Updating profile...");
 
@@ -278,7 +278,7 @@ app.controller('SettingsController', function MyCtrl($scope, $location, $firebas
 
                     }).catch(function (error) {
                       
-                        console.error('Upload failed:', error);
+                        // console.error('Upload failed:', error);
                        
 
                         $scope.$apply(function () {
@@ -345,11 +345,11 @@ app.controller('SettingsController', function MyCtrl($scope, $location, $firebas
         $scope.ImageUploaded = true;
     }
 
-    console.log($rootScope.appHorses);
+    // console.log($rootScope.appHorses);
 
     $scope.$on('horseRefEvent', function (event, data) {
-        console.log(event);
-        console.log(data);
+        // console.log(event);
+        // console.log(data);
     });
 });
 
@@ -365,7 +365,7 @@ app.controller('SponsersController', function ($scope, $location, $firebaseObjec
         $scope.Imgaes = dataArray;
       
     }).catch(function (error) {
-        console.log("Error in loading details");
+        // console.log("Error in loading details");
     });
 
 
@@ -396,7 +396,7 @@ app.controller('NewsController', function ($scope, $location, $firebaseObject, $
 
      
     }).catch(function (error) {
-        console.log("Error in loading details");
+        // console.log("Error in loading details");
     });
 
 
@@ -441,7 +441,7 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
 
                 storageService.setObject("RIDEDETAILID", args.calendarEvent.ride_id);
                 $location.path('ride-detail.html');
-                console.log(args.calendarEvent.ride_id);
+                // console.log(args.calendarEvent.ride_id);
 
 
             }
@@ -450,8 +450,8 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
 
 
     $scope.vm.timespanClicked = function (date, cell) {
-        console.log(date);
-        console.log(cell);
+        // console.log(date);
+        // console.log(cell);
 
         if ($scope.vm.calendarView === 'month') {
             if (($scope.vm.cellIsOpen && moment(date).startOf('day').isSame(moment($scope.vm.viewDate).startOf('day'))) || cell.events.length === 0 || !cell.inMonth) {
@@ -481,7 +481,7 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
                 }
             }
             catch (errloop) {
-                console.log(errloop);
+                // console.log(errloop);
             }
 
             
@@ -509,10 +509,10 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
                     
                     label: h.horse_name,
                     onClick: function (args) {
-                        console.log(args.calendarEvent.ride_id);
+                        // console.log(args.calendarEvent.ride_id);
                         storageService.setObject("RIDEDETAILID", args.calendarEvent.ride_id);
                         $location.path('ride-detail.html');
-                        console.log(args.calendarEvent.ride_id);
+                        // console.log(args.calendarEvent.ride_id);
 
                     }
                 }];
@@ -539,7 +539,7 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
 
 
     }).catch(function (error) {
-        console.log("Error in loading details");
+        // console.log("Error in loading details");
     });
 
 
@@ -725,11 +725,11 @@ app.controller('StaticContentController', function MyCtrl($scope, $location, $fi
     }
 
 $scope.Update= function(type){
-    console.log("updateing type :" + type);
+    // console.log("updateing type :" + type);
 }
 
 $scope.UpdateContent = function(){
-     console.log("updateing type :" + type);
+     // console.log("updateing type :" + type);
 }
 });
 

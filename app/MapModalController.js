@@ -1,6 +1,6 @@
 ﻿app.controller('MapModalController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, sessionService, blockUI) {
 
-    console.log("MapModalController");
+    // console.log("MapModalController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
 
@@ -50,7 +50,6 @@
     }
 
     $scope.AddRideTODAtabase = function (currentRide) {
-        debugger;
         blockUI.start("Adding horse Ride.....");
         var pushRef = firebase.database().ref('rides').push();
         pushRef.set(currentRide);

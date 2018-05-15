@@ -29,7 +29,7 @@
                     $scope.Start(i + 1);
 
                 }).catch(function (error) {
-                    console.error('Upload failed:', error);
+                    // console.error('Upload failed:', error);
                 });
             }
             else {
@@ -55,7 +55,7 @@
 
     }
 
-    debugger;
+   // debugger;
    // $scope.ChangeHorseImages();
 
     $scope.DeleteRide = function (id) {
@@ -64,7 +64,7 @@
         $scope.rides.$remove($scope.ride).then(function (ref) {
             var id = ref.key();
             if ($scope.ride.$id == id) {
-                console.log("Deleted success fully");
+                // console.log("Deleted success fully");
             }
         });
 
@@ -102,13 +102,13 @@
                             }
                         }
                         catch (e) {
-                            console.log(e);
+                            // console.log(e);
                         }
                     }
-                    console.log($scope.ridearray);
-                    console.log($scope.ridearray.length);
-                    console.log($scope.Allride);
-                    console.log($scope.Allride.length);
+                    // console.log($scope.ridearray);
+                    // console.log($scope.ridearray.length);
+                    // console.log($scope.Allride);
+                    // console.log($scope.Allride.length);
                     var finalArray = [];
                     for (var i = 0; i < $scope.Allride.length; i++) {
                         var rid = $scope.Allride[i];
@@ -116,7 +116,7 @@
                         try {
                             var date = $scope.Allride.$getRecord(rid.$id).start_time;
                         } catch (err) {
-                            console.log(rid);
+                            // console.log(rid);
                         }
                         finalArray.push({ HID: hid, RID: rid.$id, DATE: date});
                     }
@@ -185,7 +185,7 @@
     //                $scope.Start(i + 1);
 
     //            }).catch(function (error) {
-    //                console.error('Upload failed:', error);
+    //                // console.error('Upload failed:', error);
     //            });
     //        }
     //        else {
@@ -246,7 +246,7 @@
     //    //            $scope.Start(i + 1);
 
     //    //        }).catch(function (error) {
-    //    //            console.error('Upload failed:', error);
+    //    //            // console.error('Upload failed:', error);
     //    //        });
     //    //    }
     //    //    else {
@@ -273,7 +273,7 @@
     //            var start_cord = { lat: coord[0].lat, lng: coord[0].lng }
     //            var end_cord = { lat: coord[len - 1].lat, lng: coord[len - 1].lng }
     //            var coords = true;
-    //            console.log(rideId);
+    //            // console.log(rideId);
     //            firebase.database().ref('/rides/' + rideId + '/start_cord').set(start_cord);
     //            firebase.database().ref('/rides/' + rideId + '/end_cord').set(end_cord);
     //            firebase.database().ref('/rides/' + rideId + '/coords').set(coords);
@@ -299,7 +299,7 @@
     //            for (var rcounter = 0; rcounter < $scope.RideData.length; rcounter++) {
     //                var rideId = $scope.RideData[rcounter].$id;
     //                $scope.updateRide(rideId);
-    //                //console.log("UPdated ride - " + rideId);
+    //                //// console.log("UPdated ride - " + rideId);
     //            }
     //        });
 
@@ -340,14 +340,14 @@
 //                            }
 //                        }
 //                        catch (e) {
-//                            console.log(e);
+//                            // console.log(e);
 //                        }
 //                    }
 
-//                    console.log($scope.ridearray);
-//                    console.log($scope.ridearray.length);
-//                    console.log($scope.Allride);
-//                    console.log($scope.Allride.length);
+//                    // console.log($scope.ridearray);
+//                    // console.log($scope.ridearray.length);
+//                    // console.log($scope.Allride);
+//                    // console.log($scope.Allride.length);
 
 
 //                    var finalArray = [];
@@ -357,7 +357,7 @@
 //                        try {
 //                            var date = $scope.Allride.$getRecord(rid.$id).start_time;
 //                        } catch (err) {
-//                            console.log(rid);
+//                            // console.log(rid);
 //                        }
 //                        finalArray.push({ HID: hid, RID: rid.$id, DATE: date});
 //                    }

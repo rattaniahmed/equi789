@@ -1,6 +1,6 @@
 ﻿app.controller('RideMapController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService, $http) {
 
-    console.log("HistoryController");
+    // console.log("HistoryController");
     sessionService.CHECKSESSION();
     $scope.user = storageService.getObject("CU");
 
@@ -11,7 +11,7 @@
 
     try {
         //$scope.rideId = $scope.stb.ride_ids[0];
-        console.log($scope.rideId)
+        // console.log($scope.rideId)
     }
     catch (err) {
 
@@ -43,14 +43,13 @@
     var ref = firebaseService.FIREBASEENDPOINT();
     $scope.rides = $firebaseArray(ref.child('rides'));
     $scope.rides.$loaded().then(function (dataArray) {
-        console.log("hererrdfsdfdsfdsf");
+        // console.log("hererrdfsdfdsfdsf");
         // var id = "-KNYvexIXEDLpdaZPBi1";//$scope.stb.$id
         $scope.ride = $scope.rides.$getRecord($scope.rideId);
         $scope.graph1($scope.ride);
         $scope.graph2($scope.ride);
         $scope.graph3($scope.ride);
 
-        debugger;
         if ($scope.ride.ismanualride == "1") {
             $scope.loadingcord = false;
             DrawManualRideOnMapNew($scope.ride);
@@ -68,7 +67,7 @@
                 $scope.loadingcord = false;
                 var id = $scope.rideId;
                 DrawAutomatedRideOnMapNew($scope.coords.$getRecord(id));
-                console.log(coord);
+                // console.log(coord);
                 try {
                     $scope.$apply();
                 }
@@ -84,7 +83,7 @@
        
 
     }).catch(function (err) {
-        console.log(err);
+        // console.log(err);
     });
 
 
@@ -92,7 +91,7 @@
 
 
 
-    console.log($scope.stb);
+    // console.log($scope.stb);
 
     $scope.Logout = function () {
         storageService.setObject("CU", null);

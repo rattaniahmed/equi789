@@ -10,7 +10,7 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.user = storageService.getObject("CU");
-    console.log("DashboardController");
+    // console.log("DashboardController");
 
     $scope.Logout = function () {
         storageService.setObject("CU", null);
@@ -28,8 +28,7 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
             },
             responseType: 'blob'
         }).then(function (image) {
-            debugger;
-            console.log(image)
+            // console.log(image)
             var blob = new Blob([image.data], {
                 type: 'image/jpg'
             });
@@ -44,16 +43,14 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
             var fname = Math.random().toString(36).substring(7) + ".jpg";// +file.name.substring(file.name.indexOf("."));
             var storageRef = firebase.storage().ref();
             storageRef.child('shares/' + fname).put(blob, metadata).then(function (snapshot) {
-                debugger;
                 var url = snapshot.metadata.downloadURLs[0];
-                console.log(url)
+                // console.log(url)
             }).catch(function (error) {
-                console.error('Upload failed:', error);
+                // console.error('Upload failed:', error);
             });
 
 
         }, function (error) {
-            debugger;
             deferred.reject(error);
         });
 
@@ -77,8 +74,8 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
         $(".modal-backdrop").remove();
         $('body').removeClass('modal-open');
 
-        console.log($scope.ShareObject);
-        console.log($scope.user);
+        // console.log($scope.ShareObject);
+        // console.log($scope.user);
 
         if ($scope.RideExist) {
             return true;
@@ -97,7 +94,7 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
     //$scope.SocialShare = function () {
     //    if ($scope.RideExist) {
     //        FB.ui($scope.ShareObject, function (response) {
-    //            console.log(response);
+    //            // console.log(response);
     //        });
     //    }
     //    else {
@@ -120,8 +117,8 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
         var vals = [];
 
         angular.forEach($scope.user.Details.horse_ids, function (value, key) {
-            //console.log(value);
-            console.log(key);
+            //// console.log(value);
+            // console.log(key);
             var horse = $scope.horses.$getRecord(key);
             if (horse != null) {
                 try {
@@ -133,10 +130,10 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
                     }
                 }
                 catch (errloop) {
-                    console.log(errloop);
+                    // console.log(errloop);
                 }
 
-                console.log(horse);
+                // console.log(horse);
             }
         });
 
@@ -154,14 +151,13 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
         $scope.rides = $firebaseArray(ref.child('rides'));
         $scope.rides.$loaded().then(function (dataArray) {
             var ride = $scope.rides.$getRecord($scope.rideId);
-            console.log(ride)
+            // console.log(ride)
 
             if (ride != null) {
                 $scope.RideExist = true;
                 if (ride.ismanualride == "1") {
 
 
-                    debugger;
                     //$scope.socialshareurlstring = GetSharingUrl(ride, storageService.getNodeJSAppURL());
 
                     //firebase.database().ref('/horses/' + ride.horse_firebase_key + '/').on('value', function (snapshot) {
@@ -177,14 +173,13 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
                 else {
                     $scope.coords = $firebaseArray(ref.child('coords'));
                     $scope.coords.$loaded().then(function (dataArray) {
-                        debugger;
                         $scope.loadingcord = false;
                         var id = $scope.rideId;
                         var coord = $scope.coords.$getRecord(id);
                         DrawAutomatedRideOnMap(coord)
-                        console.log(coord);
+                        // console.log(coord);
                         //$scope.socialshareurlstring = GetSharingUrlByCord(ride, coord, storageService.getNodeJSAppURL());
-                        //console.log(horse);
+                        //// console.log(horse);
 
                         var horseobj = $scope.horses.$getRecord(ride.horse_firebase_key);
 
@@ -211,7 +206,7 @@ app.controller('DashboardController', function MyCtrl($http, $scope, $location, 
 
 
     }).catch(function (error) {
-        console.log("Error in loading details");
+        // console.log("Error in loading details");
     });
 
 

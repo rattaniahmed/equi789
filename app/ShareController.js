@@ -10,7 +10,7 @@
     $scope.ShareWithFb = function () {
         if ($scope.IsDataExist()) {
             FB.ui($scope.ShareObject, function (response) {
-                console.log(response);
+                // console.log(response);
                 //window.location.reload();
             });
         }
@@ -32,9 +32,9 @@
                 method: 'GET',
                 url: url
             }).then(function successCallback(response) {
-                console.log(response);
+                // console.log(response);
             }, function errorCallback(response) {
-                console.log(response);
+                // console.log(response);
             });
 
             swal("", "The PDF report has been sent to your email address", "success");
