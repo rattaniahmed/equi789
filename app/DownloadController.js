@@ -343,7 +343,8 @@
                         }).catch(function (err) { });
 
 
-                    }).catch(function (error) { // // console.log("Error in loading details"); });
+                    }).catch(function (error) { // // console.log("Error in loading details"); 
+                    });
 
 
                 }).catch(function (error) {
