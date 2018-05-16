@@ -401,15 +401,15 @@ if(a < b) return -1;
                         addedCounter++;
                     }
                     else {
-                        $scope.showhorse.push($scope.AllHorses[counter]);
-                        $scope.showhorse[addedCounter].OGNAME = Organisation.DisplayName;
-                        $scope.showhorse[addedCounter].TotalRides = 0;
-                        $scope.showhorse[addedCounter].TotalTime = 0;
-                        $scope.showhorse[addedCounter].TotalDistance = 0;
-                        $scope.showhorse[addedCounter].TopSpeed = 0;
-                        $scope.showhorse[addedCounter].TotalEnergy = 0;
-                        $scope.showhorse[addedCounter].TotalAverageHeartRate = 0;
-                        addedCounter++;
+                        //$scope.showhorse.push($scope.AllHorses[counter]);
+                        //$scope.showhorse[addedCounter].OGNAME = Organisation.DisplayName;
+                        //$scope.showhorse[addedCounter].TotalRides = 0;
+                        //$scope.showhorse[addedCounter].TotalTime = 0;
+                        //$scope.showhorse[addedCounter].TotalDistance = 0;
+                        //$scope.showhorse[addedCounter].TopSpeed = 0;
+                        //$scope.showhorse[addedCounter].TotalEnergy = 0;
+                        //$scope.showhorse[addedCounter].TotalAverageHeartRate = 0;
+                       // addedCounter++;
                     }
 
                 //}
