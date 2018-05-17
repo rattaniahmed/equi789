@@ -95,7 +95,10 @@ app.config(function ($routeProvider, $locationProvider, blockUIConfig) {
         templateUrl: 'view/test.tpl.html',
         controller: 'TestCtrl',
     });
-    
+    $routeProvider.when('/testCtrlformodifyride.html', {
+        templateUrl: 'view/testCtrlformodifyride.tpl.html',
+        controller: 'TestCtrlforride',
+    });
 
     $routeProvider.when('/ride-history.html', {
         templateUrl: 'view/ride-history.tpl.html',
@@ -191,13 +194,17 @@ app.factory('sessionService', function (storageService, $location) {
 });
 
 app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageService) { // instance-injector
-
     //firebase.database().ref('/users/41880a58-e099-422a-bc69-becbe974d3f0/').on('value', function (snapshot) {
     //    // console.log(snapshot);
     //    // console.log(snapshot.val())
     //})
 
-    
+    //console.log(new Date());
+    //firebase.database().ref('/rides').orderByChild("horse_firebase_key").equalTo("-LAtLCc8--HM0ODj5ocA").once("value", function(snapshot) {
+    //    console.log(new Date());    
+    //    console.log(snapshot.key);
+    //});
+
 
     var ref = firebaseService.FIREBASEENDPOINT();
 
