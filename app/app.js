@@ -194,24 +194,10 @@ app.factory('sessionService', function (storageService, $location) {
 });
 
 app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageService) { // instance-injector
-    //firebase.database().ref('/users/41880a58-e099-422a-bc69-becbe974d3f0/').on('value', function (snapshot) {
-    //    // console.log(snapshot);
-    //    // console.log(snapshot.val())
-    //})
-
-    //console.log(new Date());
-    //firebase.database().ref('/rides').orderByChild("horse_firebase_key").equalTo("-LAtLCc8--HM0ODj5ocA").once("value", function(snapshot) {
-    //    console.log(new Date());    
-    //    console.log(snapshot.key);
-    //});
-
-
     var ref = firebaseService.FIREBASEENDPOINT();
 
     $rootScope.content = $firebaseArray(ref.child('Content'));
     $rootScope.content.$loaded().then(function (dataArray) {
-
-
         $rootScope.DynamucContent = {};
         var StaticContent = $rootScope.content.$getRecord('Static');
         var homePage = StaticContent.HomePage;
@@ -269,94 +255,12 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
         }
 
 
-        
+
 
 
     }).catch(function (error) {
         // console.log("Error in loading details");
     });
-
-    function oldImplementation() {
-
-        $rootScope.homepage = $firebaseArray(ref.child('Content').child('Static').child('HomePage'));
-        $rootScope.homepage.$loaded().then(function (dataArray) {
-            $rootScope.DynamucContent = {};
-            angular.forEach(dataArray, function (value, key) {
-                //$scope.DynamucContent[value.Key] = value.Url;
-                var groupNode = $rootScope.homepage.$getRecord(value.$id);
-
-                for (var prop in groupNode) {
-                    if (prop != "$id" && prop != "$priority") {
-                        var toConvert = groupNode[prop].toString();
-                        if (prop == "ConatctUsEmail") {
-                            //alert("here");
-                            toConvert = "E-mail: -" + toConvert;
-                        }
-                        $rootScope.DynamucContent[prop] = $sce.trustAsHtml(toConvert);
-                    }
-                }
-
-            });
-            //// console.log($rootScope.DynamucContent);
-        }).catch(function (error) {
-            // console.log("Error in loading details");
-        });
-
-
-
-        $rootScope.images = $firebaseArray(ref.child('Content').child('Images'));
-        $rootScope.images.$loaded().then(function (dataArray) {
-            $rootScope.DynamucImages = {};
-            angular.forEach(dataArray, function (value, key) {
-                $rootScope.DynamucImages[value.Key] = value.Url;
-            });
-        }).catch(function (error) {
-            // console.log("Error in loading details");
-        });
-
-
-
-        $rootScope.pages = $firebaseArray(ref.child('Content').child('Pages'));
-        $rootScope.pages.$loaded().then(function (dataArray) {
-            $rootScope.DynamucPages = {};
-            angular.forEach(dataArray, function (value, key) {
-                var toConvert = value.$value.toString();
-                $rootScope.DynamucPages[value.$id] = $sce.trustAsHtml(toConvert);
-            });
-        }).catch(function (error) {
-            // console.log("Error in loading details");
-        });
-
-
-
-        $rootScope.news = $firebaseArray(ref.child('Content').child('News'));
-        $rootScope.news.$loaded().then(function (dataArray) {
-            $rootScope.newses = [];
-            for (var i = 0; i < dataArray.length; i++) {
-                var n = dataArray[i];
-                n.Content = $sce.trustAsHtml(n.Content.toString());
-                n.Title = $sce.trustAsHtml(n.Title.toString());
-                $rootScope.newses.push(n);
-            }
-        }).catch(function (error) {
-            // console.log("Error in loading details");
-        });
-
-
-
-        $rootScope.faq = $firebaseArray(ref.child('Content').child('FAQ'));
-        $rootScope.faq.$loaded().then(function (dataArray) {
-            $rootScope.faqs = [];
-            for (var i = 0; i < dataArray.length; i++) {
-                var f = dataArray[i];
-                f.AnswerText = $sce.trustAsHtml(f.AnswerText.toString());
-                f.QuestionText = $sce.trustAsHtml(f.QuestionText.toString());
-                $rootScope.faqs.push(f);
-            }
-        }).catch(function (error) {
-            // console.log("Error in loading details");
-        });
-    }
 
     $rootScope.Admins = null;
     $rootScope.admin = $firebaseArray(ref.child('admin'));
@@ -366,104 +270,58 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
 
     });
 
+    $rootScope.appHorses = {
+        
+        horseList: [],
+        $getRecord: function (id) {
+            var even = _.find(this.horseList, function (num) { return num.HID == id });
+            if (even) {
+                return even.HORSEOBJ;
+            } else {
+                return null;
+            }
+        }
+    }
+
+    $rootScope.appHorseRides = {
+        rideList: [],
+        $getRecord: function (id) {
+            var even = _.find(this.rideList, function (num) { return num.RID == id });
+            if (even) {
+                return even.RIDEOBJ;
+            } else {
+                return null;
+            }
+        }
+    }
 
     $rootScope.loadFireBaseData = function () {
         firebase.database().ref('/Content/Messages').on('value', function (snapshot) {
-           // // console.log("Message load complete");
-
-            //firebase.database().ref('/Content/Messages').on('child_added', function (snapshot) {
-            //    // console.log("new message added");
-            //    $rootScope.$broadcast("messageLoad", {});
-            //});
-
-            //firebase.database().ref('/Content/Messages').on('child_changed', function (snapshot) {
-            //    // console.log("new message child_changed");
-            //    $rootScope.$broadcast("messageLoad", {});
-            //});
-
-            //firebase.database().ref('/Content/Messages').on('child_removed', function (snapshot) {
-            //    // console.log("new message child_removed");
-            //    $rootScope.$broadcast("messageLoad", {});
-            //});
-
-
             $rootScope.$broadcast("messageLoad", {});
         });
-
-        $rootScope.appHorses = $firebaseArray(ref.child('horses'));
-        $rootScope.appHorses.$loaded().then(function (dataArray) {
-
-            //var sizes = [];
-            //var total = 0;
-            //for (var i = 0; i < dataArray.length; i++) {
-            //    var f = dataArray[i];
-            //    if (f && f.photo) {
-            //        if (f.photo.length > 1000000) {
-            //            // console.log(f.photo.length + " bytes and key is " + f.$id );
-            //            sizes.push(f.photo.length);
-            //        }
-            //        total = total + parseInt(f.photo.length);
-            //    }
-            //}
-            //// console.log(" Maximum Size -"+ _.max(sizes)+ " bytes");
-            //// console.log("Total size is -" + total+" bytes");
-
-            $rootScope.$broadcast("horseLoaded", { data: event });
-            $rootScope.appHorses.$watch(function (event) {
-               // // console.log(event);
-                $rootScope.$broadcast("horseModified", { data: event });
-            });
-        }).catch(function (error) {
-            // console.log("Error in loading details");
-        });
-
-
-        $rootScope.appHorseRides = $firebaseArray(ref.child('rides'));
-        $rootScope.appHorseRides.$loaded().then(function (dataArray) {
-            $rootScope.$broadcast("ridesLoaded", { data: event });
-            $rootScope.appHorseRides.$watch(function (event) {
-               // // console.log(event);
-                $rootScope.$broadcast("ridesModified", { data: event });
-            });
-        }).catch(function (error) {
-            // console.log("Error in loading details");
-        });;
-
-        $rootScope.appUsers = $firebaseArray(ref.child('users'));
-        $rootScope.appUsers.$loaded().then(function (dataArray) {
-            $rootScope.appUsers.$watch(function (event) {
-                //// console.log(event);
-                var userToLocal = storageService.getObject("CU");
-                if (event.key == userToLocal.Auth.uid) {
-                    var userNew = $rootScope.appUsers.$getRecord(userToLocal.Auth.uid);
-                    userNew.profile = CleanProfileUrl(userNew.profile);
-                    var obj = {
-                        Auth: userToLocal.Auth,
-                        Details: userNew
-                    };
-                    storageService.setObject("CU", obj);
-                    $rootScope.$broadcast("userModified", { data: event });
+        if (storageService.getObject("CU")) {
+            var user = storageService.getObject("CU");
+            firebase.database().ref('/horses').orderByChild("user_firebase_key").equalTo(user.Details.$id).once("value", function (snapshot) {
+                var allhorses = snapshot.val();
+                for (var i in allhorses) {
+                    $rootScope.appHorses.horseList.push({ HID: i,HORSEOBJ: allhorses[i] });
                 }
+                $rootScope.$broadcast("horseLoaded", { });
             });
-        }).catch(function (error) {
-            // console.log("Error in loading details");
-        });
+
+            firebase.database().ref('/rides').orderByChild("user_firebase_key").equalTo(user.Details.$id).once("value", function (snapshot) {
+                debugger;
+                var allrides = snapshot.val();
+                for (var i in allrides) {
+                    $rootScope.appHorseRides.rideList.push({ RID: i, RIDEOBJ: allrides[i] });
+                }
+                $rootScope.$broadcast("horseLoaded", {});
+            });
+        }
     }
 
 
     $rootScope.isUseListener = true;
-    //try{
-    //    var user = storageService.getObject("CU");
-    //    if (user) {
-    //        if(user.Details.email == "mjdmike@email.com")
-    //        {
-    //            $rootScope.isUseListener = true;
-    //        }
-    //    }
-    //} catch (err) {
-    //    $rootScope.isUseListener = false;
-    //}
-
     if ($rootScope.isUseListener) {
         $rootScope.loadFireBaseData();
     }
@@ -475,27 +333,26 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
     $scope.isLogged = 0;
 
     $scope.UpdateLoggedStatus = function () {
-       
+
         //remove
         if (!$rootScope.isUseListener) {
             if (storageService.getObject("CU"))
                 if ((storageService.getObject("CU").Details.email == "mjdmike@email.com")) {
                     $rootScope.isUseListener = true;
                 }
-            else {
-                storageService.setObject("CU", null);
-            }
+                else {
+                    storageService.setObject("CU", null);
+                }
         }
         var user = storageService.getObject("CU");
-        if(user == null)
+        if (user == null)
             $scope.isLogged = 0;
-        else
-        {
-         var isAdmin =  storageService.getObject("isAdmin");
-         if(isAdmin)
-            $scope.isLogged = 2;
+        else {
+            var isAdmin = storageService.getObject("isAdmin");
+            if (isAdmin)
+                $scope.isLogged = 2;
             else
-            $scope.isLogged = 1;
+                $scope.isLogged = 1;
         }
     }
 
@@ -524,7 +381,7 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
 
     $scope.ContactUs = function () {
 
-        
+
         if (!ValidateControl(['first_name', 'email', 'msg']))
             return;
         else {
@@ -540,20 +397,20 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
 
             var Subject = "New message on Conatct us screen on Equitrack.com";
 
-            var html = 'New contact message from the user " ' + ReplaceNull($scope.first_name) + ' '+ ReplaceNull($scope.last_name) + ' ( ' + ReplaceNull($scope.email) + ' ) "  and Message is - ' + ReplaceNull($scope.msg);
+            var html = 'New contact message from the user " ' + ReplaceNull($scope.first_name) + ' ' + ReplaceNull($scope.last_name) + ' ( ' + ReplaceNull($scope.email) + ' ) "  and Message is - ' + ReplaceNull($scope.msg);
 
-           
+
             var url = storageService.getNodeJSAppURL() + 'sendmailnew?TO=' + TO + '&Subject=' + Subject + '&HTML=' + html;
 
             $http({
                 method: 'GET',
                 url: url
             }).then(function successCallback(response) {
-                
+
             }, function errorCallback(response) {
                 // console.log(response);
             });
-            
+
             $scope.first_name = "";
             $scope.last_name = "";
             $scope.email = "";
@@ -563,7 +420,7 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
             swal({
                 title: "",
                 text: "Thanks for contacting us, We will get back to you as soon as possible.",
-                timer: 2000,   
+                timer: 2000,
                 showConfirmButton: false,
                 imageUrl: "bower_components/sweetalert/example/images/thumbs-up.jpg"
             });
@@ -590,9 +447,8 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
     }
 
     $scope.getUserMessagess = function () {
-
         var ShowMessages = [];
-        try{
+        try {
             if ($scope.user) {
                 var orgs = $scope.getUserOrganization();
                 for (var mcounter in $rootScope.appMessages) {
@@ -623,9 +479,8 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
     }
 
     $scope.IsUnreadMessageExist = function () {
-        
         var toReturn = false;
-        try {            
+        try {
             $scope.RefreshMessages = $scope.getUserMessagess();
             if ($scope.user) {
                 for (var i = 0; i < $scope.RefreshMessages.length; i++) {
@@ -649,12 +504,11 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
         return toReturn;
     }
 
-
     $scope.IsUnreadMessageExistNew = function (RefreshMessagesList) {
 
         var toReturn = false;
         try {
-           
+
             if ($scope.user) {
                 for (var i = 0; i < RefreshMessagesList.length; i++) {
                     if (RefreshMessagesList[i].ReadBy) {
@@ -677,10 +531,8 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
         return toReturn;
     }
 
-
     $scope.ShowMessages = [];
     $scope.RefreshMessages = function () {
-
         $scope.ShowMessages = [];
         for (var mcounter in $scope.AllMessages) {
             if (moment(dateFormat(new Date(), 'mm/dd/yyyy')).isSame(moment($scope.AllMessages[mcounter].ExpirationDate)) == true || (moment($scope.AllMessages[mcounter].ExpirationDate).isBefore(moment(dateFormat(new Date(), 'mm/dd/yyyy')))) == false) {
@@ -711,26 +563,22 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
         return $scope.ShowMessages;
     }
 
-
     $scope.init = function () {
         $scope.user = storageService.getObject("CU");
         $scope.UserOrg = [];
         if ($scope.user) {
             firebase.database().ref('/Content/Messages').once('value', function (msgsnapshot) {
                 $scope.AllMessages = msgsnapshot.val();
-                //$scope.RefreshMessages();
+                firebase.database().ref('/horses').orderByChild("user_firebase_key").equalTo($scope.user.Details.$id).once("value", function (snapshot) {
+                    console.log(new Date());
+                    console.log(snapshot.key);
 
-                var hosCounter = 0;
-                var hosLength = 0;
-                try {
-                    hosLength = Object.keys($scope.user.Details.horse_ids).length;
-                } catch (errrrr) {
-                    hosLength = 0;
-                }
+                    var allhorses = snapshot.val();
 
-                for (var i in $scope.user.Details.horse_ids) {
-                    firebase.database().ref('/horses/' + i).once('value', function (snapshot) {
-                        var horse = snapshot.val();
+                    //loop on all horses to find the organization
+                    //Need to check - Pankaj
+                    for (var prp in allhorses) {
+                        var horse = allhorses[prp];
                         if (horse && horse.associations) {
                             for (var i = 0; i < horse.associations.length; i++) {
                                 if (!_.contains($scope.UserOrg, horse.associations[i].filter)) {
@@ -738,20 +586,14 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
                                 }
                             }
                         }
-                        hosCounter++;
-                        if (hosCounter == hosLength) {
-                            $rootScope.IsUnreadMessageExistForUser = false;
-                            var msgList = $scope.RefreshMessages();
-                            var isExist = $scope.IsUnreadMessageExistNew(msgList);
-                            $rootScope.IsUnreadMessageExistForUser = isExist;
-                            //for (var msgCounter = 0; msgCounter < $scope.ShowMessages.length; msgCounter++) {
-                            //    $scope.markRead($scope.ShowMessages[msgCounter].Id);
-                            //}
-                            //$rootScope.$broadcast("messageReadComplete", {});
-                            //// console.log($scope.ShowMessages);
-                        }
-                    })
-                }
+                    }
+
+                    $rootScope.IsUnreadMessageExistForUser = false;
+                    var msgList = $scope.RefreshMessages();
+                    var isExist = $scope.IsUnreadMessageExistNew(msgList);
+                    $rootScope.IsUnreadMessageExistForUser = isExist;
+
+                });
             })
         }
     }
@@ -759,30 +601,11 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
 
     $rootScope.IsUnreadMessageExistForUser = false;
     $scope.$on('messageLoad', function (event, args) {
-        //$rootScope.IsUnreadMessageExistForUser = $scope.IsUnreadMessageExist();
-        //var showBedge = $scope.IsUnreadMessageExist();
-        //if (showBedge) {
-        //    $("#message").show();
-        //}
-        //else {
-        //    $("#message").hide();
-        //}
-
         $scope.init();
     });
 
     $scope.$on('messageReadComplete', function (event, args) {
-        //$("#message").hide();
-        //$scope.IsUnreadMessageExistForUser = false;
         $scope.init();
         $scope.$apply();
     });
-    
-
-   
-
-   
-
-
-
 });

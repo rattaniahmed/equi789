@@ -25,35 +25,6 @@
 
     }
 
-
-    //$scope.tempLogin = function () {
-
-    //    var uid = 'b8a5ed1c-8ff9-49b9-a229-49a2b98b7af0';
-    //    var authData = null;
-    //    var user = $scope.users.$getRecord(uid);
-    //    user.profile = CleanProfileUrl('');
-    //    var obj = {
-    //        Auth: authData,
-    //        Details: user
-    //    };
-    //    storageService.setObject("CU", obj);
-    //    $scope.$apply(function () {
-    //        $location.path('dashboard.html');
-    //    });
-
-
-    //}
-
-    $scope.login2 = function () {
-        firebase.auth().signInWithEmailAndPassword($scope.email, $scope.password).catch(function (error) {
-           
-            // console.log(error);
-            var errorCode = error.code;
-            var errorMessage = error.message;
-           
-        });
-    }
-
     $scope.login = function () {
         //if ($scope.email == "mjdmike@email.com") {
            // debugger;
@@ -75,7 +46,7 @@
                         swal({ title: "", text: "Invalid user name and password. Please try again", imageUrl: "bower_components/sweetalert/example/images/wrong.png" });
 
                     } else {
-
+                        //Pankaj
                         var user = $scope.users.$getRecord(authData.uid);
                         if (user) {
                             user.profile = CleanProfileUrl(user.profile);
@@ -196,6 +167,7 @@
                                 $location.path('dashboard.html');
                             });
                         } else {
+                            //Pankaj
                             var user1 = $scope.users.$getRecord(authData.uid);
                             var obj = {
                                 Auth: userData,
@@ -218,6 +190,8 @@
 
 });
 
+
+//Pankaj - Nned to check at last 
 app.controller('SettingsController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, $rootScope) {
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
@@ -353,24 +327,16 @@ app.controller('SettingsController', function MyCtrl($scope, $location, $firebas
     });
 });
 
+
 app.controller('SponsersController', function ($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService) {
-
-
-
-
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
     $scope.images = $firebaseArray(ref.child('Content').child('Sponsers'));
     $scope.Imgaes = [];
     $scope.images.$loaded().then(function (dataArray) {
         $scope.Imgaes = dataArray;
-      
     }).catch(function (error) {
         // console.log("Error in loading details");
     });
-
-
-
-
 });
 
 app.controller('FAQController', function ($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService) {
@@ -380,10 +346,7 @@ app.controller('FAQController', function ($scope, $location, $firebaseObject, $f
 
 app.controller('NewsController', function ($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI, sessionService, $sce) {
 
-
-    
     var id = $location.search().id;
-    
     var ref = firebaseService.FIREBASEENDPOINT(); 
     $scope.images = $firebaseArray(ref.child('Content').child('News'));
     $scope.Imgaes = [];
@@ -393,26 +356,17 @@ app.controller('NewsController', function ($scope, $location, $firebaseObject, $
 
         $scope.news.Content = $sce.trustAsHtml($scope.news.Content.toString());
         $scope.news.Title = $sce.trustAsHtml($scope.news.Title.toString());
-
-     
     }).catch(function (error) {
         // console.log("Error in loading details");
     });
-
-
-
-
 });
 
 app.controller('CalendarController', function ($scope, moment, calendarConfig, firebaseService, $firebaseArray, storageService, $location) {
-
-
     //events="vm.events"
     //view="vm.calendarView"
     //view-date="vm.viewDate"
     //day-view-split="10"
     $scope.user = storageService.getObject("CU");
-
     $scope.vm = this;
     $scope.vm.events = [];
     $scope.vm.calendarView = 'month';
@@ -593,6 +547,7 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
 
 });
 
+//Pankaj - Need to chcek at last 
 app.controller('NavController', function MyCtrl($scope, $location,$rootScope, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI) {
 
     var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
@@ -629,12 +584,7 @@ app.controller('NavController', function MyCtrl($scope, $location,$rootScope, $f
                         }
 
                     }
-                    // $scope.RefreshMessages();
-
                 }
-
-
-
             }
         }
         var ShowMessages = [];
@@ -701,36 +651,27 @@ app.controller('NavController', function MyCtrl($scope, $location,$rootScope, $f
     $scope.showBedge1 = 1;
     //showHide($scope.showBedge);
     $scope.$on('messageLoad', function (event, args) {
-       // $scope.showBedge = $scope.IsUnreadMessageExist();
         $scope.showBedge = angular.copy($scope.IsUnreadMessageExist());
         if ($scope.showBedge)
             $scope.showBedge1 = 0;
-       // $scope.showBedge = angular.copy($scope.IsUnreadMessageExist());
-        //showHide($scope.showBedge);
-        //$scope.$apply();
     });
-   
 });
-
 
 app.controller('StaticContentController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI) {
 
-    var ref = firebaseService.FIREBASEENDPOINT();  
-    
-  
+    var ref = firebaseService.FIREBASEENDPOINT();
 
     $scope.Logout = function () {
         storageService.setObject("CU", null);
         $location.path('/');
     }
+    $scope.Update = function (type) {
+        // console.log("updateing type :" + type);
+    }
 
-$scope.Update= function(type){
-    // console.log("updateing type :" + type);
-}
-
-$scope.UpdateContent = function(){
-     // console.log("updateing type :" + type);
-}
+    $scope.UpdateContent = function () {
+        // console.log("updateing type :" + type);
+    }
 });
 
 

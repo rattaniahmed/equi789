@@ -322,27 +322,24 @@
 
     }
 
-    $scope.initMap();
+    //$scope.initMap();
 
     $scope.Init();
 
-
-
-    $scope.$on('ridesLoaded', function (event, args) {
-
+    $scope.$on('horseLoaded', function (event, args) {
         $scope.Init();
-
     });
-    $scope.$on('horseModified', function (event, args) {
-      //  // console.log("get the horse add event in stable page"); // 'Data to send'
 
-        var localHorse = storageService.getObject("CS");
-        if (localHorse.$id == args.data.key && args.data.event == "child_changed") {
-            var horseNew = $rootScope.appHorses.$getRecord(localHorse.$id);
-            storageService.setObject("CS", horseNew);
-            $scope.Init();
-        }
-    });
+    //$scope.$on('horseModified', function (event, args) {
+    //  //  // console.log("get the horse add event in stable page"); // 'Data to send'
+
+    //    var localHorse = storageService.getObject("CS");
+    //    if (localHorse.$id == args.data.key && args.data.event == "child_changed") {
+    //        var horseNew = $rootScope.appHorses.$getRecord(localHorse.$id);
+    //        storageService.setObject("CS", horseNew);
+    //        $scope.Init();
+    //    }
+    //});
 
     //$scope.$on('ridesModified', function (event, args) {
     

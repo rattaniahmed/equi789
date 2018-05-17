@@ -8,50 +8,22 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
     $scope.loadingcord = true;
     $scope.ZeroStable = false;
     $scope.getridedetailsforstable = function (ride_ids) {
-        //  var totalTopSspeed = [];
-        //  var averageSpeed = 0.0;
         $scope.totalDistance = 0.0;
 
         for (var id in ride_ids) {
             var ride = $rootScope.appHorseRides.$getRecord(id);
-            //$scope.totalRidesDetails.push(ride);
             $scope.totalLength = _.size(ride_ids);
             if (ride != null) {
-
-                // $scope.IsRideExist = true;
-
-                //$scope.totalLength = $scope.totalLength + 1;
-
                 $scope.totalDistance = parseFloat($scope.totalDistance) + parseFloat(ride.total_distance);
                 $scope.totalDuration = parseInt($scope.totalDuration) + parseInt(ride.total_time);
-                // $scope.totalEnergy = parseFloat($scope.totalEnergy) + parseFloat(ride.energy);
-                // $scope.totalCalories = parseFloat($scope.totalCalories) + parseFloat(ride.calories);
-                //$scope.totalAverageSpeed = $scope.totalAverageSpeed + ride.average_speed;
-                //$scope.totalTopSspeed = $scope.totalTopSspeed + ride.top_speed;
-                //   averageSpeed = parseFloat(averageSpeed) + parseFloat(ride.average_speed);
-                // totalTopSspeed.push(parseFloat(ride.top_speed));
-
-
-
             }
         }
 
-        // var tempDuration = $scope.totalDuration;
 
         $scope.totalDistance = parseFloat(Math.round($scope.totalDistance * 100) / 100).toFixed(2);
-        ///  $scope.totalEnergy = parseFloat(Math.round($scope.totalEnergy * 100) / 100).toFixed(2);
-        //$scope.totalCalories = parseFloat(Math.round($scope.totalCalories * 100) / 100).toFixed(2);
-        //if (averageSpeed > 0) {
-        //    $scope.totalAverageSpeed = averageSpeed / $scope.totalLength;
-
-        //    $scope.totalAverageSpeed = parseFloat(Math.round($scope.totalAverageSpeed * 100) / 100).toFixed(2);
-        //}
+        
         $scope.totalDuration = ReplaceTime(hhmmss($scope.totalDuration));
-        //if (totalTopSspeed.length > 0) {
-        //    $scope.totalTopSspeed = Math.max.apply(Math, totalTopSspeed);
-
-        //    $scope.totalTopSspeed = parseFloat(Math.round($scope.totalTopSspeed * 100) / 100).toFixed(2);
-        //}
+        
         return { distance: $scope.totalDistance, time: $scope.totalDuration, ride: $scope.totalLength };
     }
   
@@ -113,9 +85,7 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
                 $scope.$apply();
             }
         }
-        if ($scope.hosCounter == $scope.hosLength) {
-            $scope.$apply();
-        }
+       
 
     }
     
@@ -132,15 +102,7 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
         if ($scope.user && $scope.user.Details && $scope.user.Details.horse_ids) {
 
 
-            //firebase.database().ref('/horses').orderByChild("id").equalTo($scope.user.Details.$id).once('value', function (snapshot) {
-            //    debugger;
-            //    var horse = snapshot.val();
-            //    if (horse) {
-            //        horse.$id = key;
-            //        $scope.addHorseToStable(horse);
-            //    }
-            //});
-
+            
 
             var horsKeys = Object.keys($scope.user.Details.horse_ids);
             if (horsKeys.length > 0) {
@@ -148,15 +110,14 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
                 $scope.ZeroStable = false;
                 angular.forEach($scope.user.Details.horse_ids, function (value, key) {
                     // console.log(key);
-                    //var horse = $rootScope.appHorses.$getRecord(key);
 
-                    firebase.database().ref('/horses/' + key).on('value', function (snapshot) {
-                        var horse = snapshot.val();
-                        if (horse) {
-                            horse.$id = key;
-                            $scope.addHorseToStable(horse);
-                        }
-                    });
+                    debugger;
+                    var horse = $rootScope.appHorses.$getRecord(key);
+                    if (horse) {
+                        horse.$id = key;
+                        $scope.addHorseToStable(horse);
+                    }
+                    
                     
 
                    

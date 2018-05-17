@@ -1,5 +1,4 @@
 ﻿app.controller('TestCtrlforride', function MyCtrl($scope, $location, $firebaseObject, firebaseService, $rootScope, $firebaseArray) {
-    debugger
     $scope.changeRide = function (index) {
         var timeout = 10;
         var maxloop = 1000;
@@ -105,7 +104,6 @@
                         }
                     }
                     console.log($scope.finalArray);
-                    debugger
                     if ($scope.finalArray.length > 1) {
                         $scope.changeHorse(0);
                     }
@@ -117,7 +115,7 @@
 
     $scope.changeHorse=function (index) {
         var timeout = 10;
-        var maxloop = 1;
+        var maxloop = 200;
         var maxride = $scope.finalArray.length < maxloop ? $scope.finalArray.length - 1 : maxloop;
 
         var horse = $scope.finalArray[index];
@@ -133,6 +131,92 @@
             }, timeout);
         }
     }
+
+    $scope.changeUserRide = function (index) {
+        var timeout = 10;
+        var maxloop = 500;
+        var maxride = $scope.finalArray.length < maxloop ? $scope.finalArray.length - 1 : maxloop;
+
+        var ride = $scope.finalArray[index];
+
+        if (ride.RID && ride.HID && ride.UID) {
+            timeout = 300;
+            firebase.database().ref('/rides/' + ride.RID + '/user_firebase_key').set(ride.UID);
+        }
+
+        if (index < maxride) {
+            setTimeout(function () {
+                $scope.changeUserRide(index + 1);
+            }, timeout);
+        }
+    }
+    
+
+    $scope.ManipualteUserRideMAp = function () {
+        var ref = firebaseService.FIREBASEENDPOINT();
+
+        $scope.appRides = $firebaseArray(ref.child('rides'));
+        $scope.appRides.$loaded().then(function (dataArray) {
+
+            $scope.ride_ids = [];
+            for (var i = 0; i < dataArray.length; i++) {
+                var ride = dataArray[i];
+                if (!ride.user_firebase_key && ride.horse_firebase_key) {
+                    $scope.ride_ids.push(ride.$id);
+                }
+            }
+
+            if ($scope.ride_ids.length > 1) {
+                $scope.appHorses = $firebaseArray(ref.child('horses'));
+                $scope.appHorses.$loaded().then(function (dataArray1) {
+
+                    $scope.finalArray = [];
+
+                    for (var i = 0; i < dataArray1.length; i++) {
+                        var horse = dataArray1[i];
+                        if (horse.ride_ids) {
+                            for (var j in horse.ride_ids) {
+                                var rid = j;
+                                if ($scope.ride_ids.indexOf(rid) >= 0) {
+                                    $scope.finalArray.push({ RID: rid, HID: horse.$id });
+                                }
+                            }
+                        }
+                    }
+
+                    console.log($scope.ride_ids.length);
+
+                    $scope.appUsers = $firebaseArray(ref.child('users'));
+                    $scope.appUsers.$loaded().then(function (dataArray1) {
+                        count = 0;
+                        for (var i = 0; i < dataArray1.length; i++) {
+                            var user = dataArray1[i];
+                            if (user.horse_ids) {
+                                for (var j in user.horse_ids) {
+                                    var hid = j;
+                                    //if ($scope.horse_ids.indexOf(hid) >= 0) {
+                                    //    $scope.finalArray.push({ HID: hid, UID: user.$id });
+                                    //}
+                                    for (var cnt = 0; cnt < $scope.finalArray.length; cnt++) {
+                                        if ($scope.finalArray[cnt].HID == hid) {
+                                            $scope.finalArray[cnt].UID = user.$id;
+                                            count++;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        console.log($scope.finalArray + " gdfg" + count);
+                        if ($scope.finalArray.length > 1) {
+                            $scope.changeUserRide(0);
+                        }
+
+                    });
+                });
+            }
+        });
+    }
+
 });
 
   
