@@ -281,6 +281,7 @@ firebase.database().ref('/speeds/' + rideObjecth.$id).once('value', function (sn
                     var horseobj =$rootScope.appHorses.$getRecord(ride.horse_firebase_key);
  //$scope.horses.$getRecord(ride.horse_firebase_key);
                     $scope.loadingcord = false;
+$scope.$apply();
                     DrawManualRideOnMap(ride);
                     $scope.ShareObject = GetShareObjectByRide(horseobj, ride);
                     //})
@@ -295,7 +296,7 @@ firebase.database().ref('/speeds/' + rideObjecth.$id).once('value', function (sn
                   //  $scope.coords = $firebaseArray(ref.child('coords'));
                    // $scope.coords.$loaded().then(function (dataArray) {
                         $scope.loadingcord = false;
-                        
+                        $scope.$apply();
                       //  var coord = $scope.coords.$getRecord(id);
                         DrawAutomatedRideOnMap(coord)
                         // console.log(coord);
