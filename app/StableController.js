@@ -184,6 +184,7 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
 
     $scope.$on('horseLoaded', function (event, args) {
         $scope.Init();
+        $scope.$apply();
     });
     
     //$scope.$on('ridesLoaded', function (event, args) {
