@@ -73,138 +73,7 @@
         }
     }
 
-
-   
-
-
-
-    //$scope.SocialShare = function () {
-    //    if ($scope.RideExist) {
-    //        FB.ui($scope.ShareObject, function (response) {
-    //            // console.log(response);
-    //        });
-    //    }
-    //    else {
-    //        alert("No ride details exist for sharing")
-    //    }
-    //}
-
-    //SaveImage("https://maps.googleapis.com/maps/api/staticmap?zoom=8&size=600x300&maptype=roadmap&markers=color:green%7Clabel:G%7C&markers=color:red%7Clabel:C%7C&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0&path=color:red|weight:3||");
-    //$.blockUI({
-    //    message: '<img src="images/loading.gif" />',
-    //});
-    $scope.init=function(){
-    $scope.loadingcord = true;
-
-   // var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
-   // $scope.horses = $firebaseArray(ref.child('horses'));
-    //$scope.horses.$loaded().then(function (dataArray) {
-
-        var ids = [];
-        var vals = [];
-
-        angular.forEach($scope.user.Details.horse_ids, function (value, key) {
-            //// console.log(value);
-            // console.log(key);
-            var horse = $rootScope.appHorses.$getRecord(key);
-            if (horse != null) {
-                try {
-                    for (var i in horse.ride_ids) {
-                        ids.push({
-                            Id: i, Val: horse.ride_ids[i]
-                        })
-                        vals.push(horse.ride_ids[i]);
-                    }
-                }
-                catch (errloop) {
-                    // console.log(errloop);
-                }
-
-                // console.log(horse);
-            }
-        });
-
-
-        var max = Math.max.apply(Math, vals);
-
-        for (var i = 0; i < ids.length; i++) {
-            var o = ids[i];
-            if (o.Val == max)
-                $scope.rideId = o.Id;// '-KP44cqcDIZo4G5-ziq4'
-        }
-
-
-
-    //    $scope.rides = $firebaseArray(ref.child('rides'));
-       // $scope.rides.$loaded().then(function (dataArray) {
-            var ride = $rootScope.appHorseRides.$getRecord($scope.rideId);
-            // console.log(ride)
-
-            if (ride != null) {
-                $scope.RideExist = true;
-                if (ride.ismanualride == "1") {
-
-
-                    //$scope.socialshareurlstring = GetSharingUrl(ride, storageService.getNodeJSAppURL());
-
-                    //firebase.database().ref('/horses/' + ride.horse_firebase_key + '/').on('value', function (snapshot) {
-                    var horseobj =$rootScope.appHorses.$getRecord(ride.horse_firebase_key);
- //$scope.horses.$getRecord(ride.horse_firebase_key);
-                    $scope.loadingcord = false;
-                    DrawManualRideOnMap(ride);
-                    $scope.ShareObject = GetShareObjectByRide(horseobj, ride);
-                    //})
-
-
-
-                }
-                else {
-                        var id = $scope.rideId;
-                    firebase.database().ref('/coords/' + id).once('value', function (snapshot) {
-                    var coord = snapshot.val();
-                  //  $scope.coords = $firebaseArray(ref.child('coords'));
-                   // $scope.coords.$loaded().then(function (dataArray) {
-                        $scope.loadingcord = false;
-                        
-                      //  var coord = $scope.coords.$getRecord(id);
-                        DrawAutomatedRideOnMap(coord)
-                        // console.log(coord);
-                        //$scope.socialshareurlstring = GetSharingUrlByCord(ride, coord, storageService.getNodeJSAppURL());
-                        //// console.log(horse);
-
-                        var horseobj = $rootScope.appHorses.$getRecord(ride.horse_firebase_key);
-                 //   $scope.horses.$getRecord(ride.horse_firebase_key);
-
-                        $scope.ShareObject = GetShareObjectByCoordinate(horseobj, ride, coord);
-
-                    });
-                }
-                $scope.graph1(ride);
-                $scope.graph2(ride);
-                $scope.graph3(ride);
-            }
-            else {
-                $scope.RideExist = false;
-                $scope.loadingcord = false;
-                DrawMap([]);
-            }
-
-           
-
-            $.unblockUI();
-       // }).catch(function (err) {
-       // });
-
-
-
-   // }).catch(function (error) {
-        // console.log("Error in loading details");
-//});
-
-
-}
-   $scope.init();
-     $scope.graph1 = function (rideObject) {
+ $scope.graph1 = function (rideObject) {
 firebase.database().ref('/heartrates/' + rideObject.$id).once('value', function (snapshot) {
             rideObject.heartrate = snapshot.val();
         var container = $("#graph_3");
@@ -335,6 +204,137 @@ firebase.database().ref('/speeds/' + rideObjecth.$id).once('value', function (sn
         });
 });
     }
+   
+
+
+
+    //$scope.SocialShare = function () {
+    //    if ($scope.RideExist) {
+    //        FB.ui($scope.ShareObject, function (response) {
+    //            // console.log(response);
+    //        });
+    //    }
+    //    else {
+    //        alert("No ride details exist for sharing")
+    //    }
+    //}
+
+    //SaveImage("https://maps.googleapis.com/maps/api/staticmap?zoom=8&size=600x300&maptype=roadmap&markers=color:green%7Clabel:G%7C&markers=color:red%7Clabel:C%7C&key=AIzaSyA2cpd_C0zOoAanqP0aWaKxxSuDDiRWPT0&path=color:red|weight:3||");
+    //$.blockUI({
+    //    message: '<img src="images/loading.gif" />',
+    //});
+    $scope.init=function(){
+    $scope.loadingcord = true;
+
+   // var ref = firebaseService.FIREBASEENDPOINT();   // new Firebase(firebaseService.USERSENDPOINT);
+   // $scope.horses = $firebaseArray(ref.child('horses'));
+    //$scope.horses.$loaded().then(function (dataArray) {
+
+        var ids = [];
+        var vals = [];
+
+        angular.forEach($scope.user.Details.horse_ids, function (value, key) {
+            //// console.log(value);
+            // console.log(key);
+            var horse = $rootScope.appHorses.$getRecord(key);
+            if (horse != null) {
+                try {
+                    for (var i in horse.ride_ids) {
+                        ids.push({
+                            Id: i, Val: horse.ride_ids[i]
+                        })
+                        vals.push(horse.ride_ids[i]);
+                    }
+                }
+                catch (errloop) {
+                    // console.log(errloop);
+                }
+
+                // console.log(horse);
+            }
+        });
+
+
+        var max = Math.max.apply(Math, vals);
+
+        for (var i = 0; i < ids.length; i++) {
+            var o = ids[i];
+            if (o.Val == max)
+                $scope.rideId = o.Id;// '-KP44cqcDIZo4G5-ziq4'
+        }
+
+
+
+    //    $scope.rides = $firebaseArray(ref.child('rides'));
+       // $scope.rides.$loaded().then(function (dataArray) {
+            var ride = $rootScope.appHorseRides.$getRecord($scope.rideId);
+            // console.log(ride)
+
+            if (ride != null) {
+                $scope.RideExist = true;
+                if (ride.ismanualride == "1") {
+
+
+                    //$scope.socialshareurlstring = GetSharingUrl(ride, storageService.getNodeJSAppURL());
+
+                    //firebase.database().ref('/horses/' + ride.horse_firebase_key + '/').on('value', function (snapshot) {
+                    var horseobj =$rootScope.appHorses.$getRecord(ride.horse_firebase_key);
+ //$scope.horses.$getRecord(ride.horse_firebase_key);
+                    $scope.loadingcord = false;
+                    DrawManualRideOnMap(ride);
+                    $scope.ShareObject = GetShareObjectByRide(horseobj, ride);
+                    //})
+
+
+
+                }
+                else {
+                        var id = $scope.rideId;
+                    firebase.database().ref('/coords/' + id).once('value', function (snapshot) {
+                    var coord = snapshot.val();
+                  //  $scope.coords = $firebaseArray(ref.child('coords'));
+                   // $scope.coords.$loaded().then(function (dataArray) {
+                        $scope.loadingcord = false;
+                        
+                      //  var coord = $scope.coords.$getRecord(id);
+                        DrawAutomatedRideOnMap(coord)
+                        // console.log(coord);
+                        //$scope.socialshareurlstring = GetSharingUrlByCord(ride, coord, storageService.getNodeJSAppURL());
+                        //// console.log(horse);
+
+                        var horseobj = $rootScope.appHorses.$getRecord(ride.horse_firebase_key);
+                 //   $scope.horses.$getRecord(ride.horse_firebase_key);
+
+                        $scope.ShareObject = GetShareObjectByCoordinate(horseobj, ride, coord);
+
+                    });
+                }
+                $scope.graph1(ride);
+                $scope.graph2(ride);
+                $scope.graph3(ride);
+            }
+            else {
+                $scope.RideExist = false;
+                $scope.loadingcord = false;
+                DrawMap([]);
+            }
+
+           
+
+            $.unblockUI();
+       // }).catch(function (err) {
+       // });
+
+
+
+   // }).catch(function (error) {
+        // console.log("Error in loading details");
+//});
+
+
+}
+   $scope.init();
+    
  $scope.$on('horseLoaded', function (event, args) {
 
         $scope.init();
