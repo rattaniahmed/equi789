@@ -361,17 +361,11 @@ app.controller('NewsController', function ($scope, $location, $firebaseObject, $
     });
 });
 
-app.controller('CalendarController', function ($scope, moment, calendarConfig, firebaseService, $firebaseArray, storageService, $location) {
-    //events="vm.events"
-    //view="vm.calendarView"
-    //view-date="vm.viewDate"
-    //day-view-split="10"
+app.controller('CalendarController', function ($scope, $rootScope, moment, calendarConfig, firebaseService, $firebaseArray, storageService, $location) {
     $scope.user = storageService.getObject("CU");
     $scope.vm = this;
     $scope.vm.events = [];
     $scope.vm.calendarView = 'month';
-    //$scope.vm.viewDate = '12/5/2016';
-    //$scope.vm.viewDate = moment().startOf('month').toDate();
     $scope.vm.viewDate = new Date();
     $scope.vm.isCellOpen = false;
     $scope.vm.viewChangeEnabled = true;
@@ -388,16 +382,10 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
 
     $scope.actions = [
         {
-            //label: '<i class=\'glyphicon glyphicon-zoom-out\'></i>',
             label: 'View Details',
             onClick: function (args) {
-             
-
                 storageService.setObject("RIDEDETAILID", args.calendarEvent.ride_id);
                 $location.path('ride-detail.html');
-                // console.log(args.calendarEvent.ride_id);
-
-
             }
         }
     ];
@@ -418,16 +406,17 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
         }
     }
 
-    var ref = firebaseService.FIREBASEENDPOINT();   
+   // var ref = firebaseService.FIREBASEENDPOINT();   
   
-    $scope.horses = $firebaseArray(ref.child('horses'));
-    $scope.horses.$loaded().then(function (dataArray) {
+  ///  $scope.horses = $firebaseArray(ref.child('horses'));
+   // $scope.horses.$loaded().then(function (dataArray) {
         var ids = [];
 
         angular.forEach($scope.user.Details.horse_ids, function (value, key) {
           
             
-            var horse = $scope.horses.$getRecord(key);
+           // var horse = $scope.horses.$getRecord(key);
+            var horse = $rootScope.appHorses.$getRecord(key);
 
             try {
                 for (var i in horse.ride_ids) {
@@ -442,8 +431,8 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
         });
 
 
-        $scope.history = $firebaseArray(ref.child('rides'));
-        $scope.history.$loaded().then(function (dataArray) {
+       // $scope.history = $firebaseArray(ref.child('rides'));
+       // $scope.history.$loaded().then(function (dataArray) {
            
 
             var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -452,100 +441,54 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
             for (var cnt = 0; cnt < ids.length; cnt++) // id in $scope.stb.ride_ids) {
             {
                 var id = ids[cnt];
-                var horseHistory = $scope.history.$getRecord(id);
+                var horseHistory = $rootScope.appHorseRides.$getRecord(id)
+                //$scope.history.$getRecord(id);
+                if (horseHistory) {
+                    var startDateTime = new Date(horseHistory.start_time);
+                    var endDateTime = new Date(horseHistory.end_time);
 
-                var startDateTime = new Date(horseHistory.start_time);
-                var endDateTime = new Date(horseHistory.end_time);
+                    var h = $rootScope.appHorses.$getRecord(horseHistory.horse_firebase_key)
+                    //  $scope.horses.$getRecord(horseHistory.horse_firebase_key);
+                    if (h) {
+                        $scope.actions = [{
 
-                var h = $scope.horses.$getRecord(horseHistory.horse_firebase_key);
-                if (h) {
-                    $scope.actions = [{
+                            label: h.horse_name,
+                            onClick: function (args) {
+                                // console.log(args.calendarEvent.ride_id);
+                                storageService.setObject("RIDEDETAILID", args.calendarEvent.ride_id);
+                                $location.path('ride-detail.html');
+                                // console.log(args.calendarEvent.ride_id);
 
-                        label: h.horse_name,
-                        onClick: function (args) {
-                            // console.log(args.calendarEvent.ride_id);
-                            storageService.setObject("RIDEDETAILID", args.calendarEvent.ride_id);
-                            $location.path('ride-detail.html');
-                            // console.log(args.calendarEvent.ride_id);
+                            }
+                        }];
+                    }
 
-                        }
-                    }];
+
+                    var eve = {
+
+                        title: '',
+                        color: $scope.colors[cnt % 3],
+                        startsAt: new Date(horseHistory.start_time),
+                        endsAt: new Date(horseHistory.end_time),
+                        actions: $scope.actions,
+                        ride_id: id
+                    }
                 }
-
-
-                var eve = {
-                    
-                    title: '',
-                    color: $scope.colors[cnt % 3],
-                    startsAt: new Date(horseHistory.start_time),
-                    endsAt: new Date(horseHistory.end_time),
-                    actions: $scope.actions,
-                    ride_id: id
-                }
-
                 $scope.vm.events.push(eve)
             }
-        }).catch(function (err) {
+    //    }).catch(
+    //        function (err) {
 
-        });
-
-
-
-
-
-    }).catch(function (error) {
-        // console.log("Error in loading details");
-    });
+    //  //  });
 
 
 
 
-    //, {
-    //    title: '<i class="glyphicon glyphicon-asterisk"></i> <span class="text-primary">Another event</span>, with a <i>html</i> title',
-    //    color: ,
-    //    startsAt: moment().subtract(1, 'day').toDate(),
-    //    endsAt: moment().add(5, 'days').toDate(),
-    //    draggable: true,
-    //    resizable: true,
-    //    actions: $scope.actions
-    //}
-    //];
 
-    //$scope.vm.isCellOpen = true;
-
-    //$scope.vm.addEvent = function () {
-    //    $scope.vm.events.push({
-    //        title: 'New event',
-    //        startsAt: moment().startOf('day').toDate(),
-    //        endsAt: moment().endOf('day').toDate(),
-    //        color: calendarConfig.colorTypes.important,
-    //        draggable: true,
-    //        resizable: true
-    //    });
-    //};
-
-    //$scope.vm.eventClicked = function (event) {
-    //    alert.show('Clicked', event);
-    //};
-
-    //$scope. vm.eventEdited = function (event) {
-    //    alert.show('Edited', event);
-    //};
-
-    //$scope.vm.eventDeleted = function (event) {
-    //    alert.show('Deleted', event);
-    //};
-
-    //$scope.vm.eventTimesChanged = function (event) {
-    //    alert.show('Dropped or resized', event);
-    //};
-
-    //$scope.vm.toggle = function ($event, field, event) {
-    //    $event.preventDefault();
-    //    $event.stopPropagation();
-    //    event[field] = !event[field];
-    //};
-
+    //        }).catch(
+    //        function (error) {
+    //    // console.log("Error in loading details");
+    //});
 });
 
 //Pankaj - Need to chcek at last 
