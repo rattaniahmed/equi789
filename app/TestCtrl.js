@@ -58,95 +58,95 @@
    // debugger;
    // $scope.ChangeHorseImages();
 
-    $scope.DeleteRide = function (id) {
+    //$scope.DeleteRide = function (id) {
 
-        $scope.ride = $scope.rides.$getRecord(id);
-        $scope.rides.$remove($scope.ride).then(function (ref) {
-            var id = ref.key();
-            if ($scope.ride.$id == id) {
-                // console.log("Deleted success fully");
-            }
-        });
+    //    $scope.ride = $scope.rides.$getRecord(id);
+    //    $scope.rides.$remove($scope.ride).then(function (ref) {
+    //        var id = ref.key();
+    //        if ($scope.ride.$id == id) {
+    //            // console.log("Deleted success fully");
+    //        }
+    //    });
 
-    }
-
-
-    $scope.DeleteNew = function () {
-        firebase.database().ref('/rides/-KbaYmT2MaC_5IMiQwdv').set(null);
-    }
+    //}
 
 
-    $scope.ChangeHorseImagesnew = function () {
-        var ref = firebaseService.FIREBASEENDPOINT();
-        $scope.rides = [];
-        $scope.ridearray = [];
-            $scope.horses = $firebaseArray(ref.child('horses'));
-            $scope.horses.$loaded().then(function (dataArray) {
-                $scope.Allhorse = dataArray;
-                $scope.rides = $firebaseArray(ref.child('rides'));
-                $scope.rides.$loaded().then(function (dataArray1) {
-                    $scope.Allride = dataArray1;
+    //$scope.DeleteNew = function () {
+    //    firebase.database().ref('/rides/-KbaYmT2MaC_5IMiQwdv').set(null);
+    //}
 
-                    for (var i = 0; i <= $scope.Allhorse.length; i++) {
-                        try {
-                            if ($scope.Allhorse[i] != undefined) {
-                                var ids = Object.keys($scope.Allhorse[i].ride_ids);
-                                if (ids.length > 0) {
-                                    for (var j = 0; j < ids.length; j++) {
-                                        $scope.ridearray.push({
-                                            RideId: ids[j],
-                                            HorseId: $scope.Allhorse[i].$id
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                        catch (e) {
-                            // console.log(e);
-                        }
-                    }
-                    // console.log($scope.ridearray);
-                    // console.log($scope.ridearray.length);
-                    // console.log($scope.Allride);
-                    // console.log($scope.Allride.length);
-                    var finalArray = [];
-                    for (var i = 0; i < $scope.Allride.length; i++) {
-                        var rid = $scope.Allride[i];
-                        var hid = $scope.getHorseId(rid, $scope.ridearray);
-                        try {
-                            var date = $scope.Allride.$getRecord(rid.$id).start_time;
-                        } catch (err) {
-                            // console.log(rid);
-                        }
-                        finalArray.push({ HID: hid, RID: rid.$id, DATE: date});
-                    }
 
-                    for (var counter = 0; counter < finalArray.length; counter++) {
-                        if (finalArray[counter].HID == "-1") {
-                            //$scope.DeleteRide("-Kk43pb4ZmECv1akbhWK");
-                            firebase.database().ref('/rides/' + finalArray[counter].RID).set(null);
-                        }
-                    }
+    //$scope.ChangeHorseImagesnew = function () {
+    //    var ref = firebaseService.FIREBASEENDPOINT();
+    //    $scope.rides = [];
+    //    $scope.ridearray = [];
+    //        $scope.horses = $firebaseArray(ref.child('horses'));
+    //        $scope.horses.$loaded().then(function (dataArray) {
+    //            $scope.Allhorse = dataArray;
+    //            $scope.rides = $firebaseArray(ref.child('rides'));
+    //            $scope.rides.$loaded().then(function (dataArray1) {
+    //                $scope.Allride = dataArray1;
+
+    //                for (var i = 0; i <= $scope.Allhorse.length; i++) {
+    //                    try {
+    //                        if ($scope.Allhorse[i] != undefined) {
+    //                            var ids = Object.keys($scope.Allhorse[i].ride_ids);
+    //                            if (ids.length > 0) {
+    //                                for (var j = 0; j < ids.length; j++) {
+    //                                    $scope.ridearray.push({
+    //                                        RideId: ids[j],
+    //                                        HorseId: $scope.Allhorse[i].$id
+    //                                    });
+    //                                }
+    //                            }
+    //                        }
+    //                    }
+    //                    catch (e) {
+    //                        // console.log(e);
+    //                    }
+    //                }
+    //                // console.log($scope.ridearray);
+    //                // console.log($scope.ridearray.length);
+    //                // console.log($scope.Allride);
+    //                // console.log($scope.Allride.length);
+    //                var finalArray = [];
+    //                for (var i = 0; i < $scope.Allride.length; i++) {
+    //                    var rid = $scope.Allride[i];
+    //                    var hid = $scope.getHorseId(rid, $scope.ridearray);
+    //                    try {
+    //                        var date = $scope.Allride.$getRecord(rid.$id).start_time;
+    //                    } catch (err) {
+    //                        // console.log(rid);
+    //                    }
+    //                    finalArray.push({ HID: hid, RID: rid.$id, DATE: date});
+    //                }
+
+    //                for (var counter = 0; counter < finalArray.length; counter++) {
+    //                    if (finalArray[counter].HID == "-1") {
+    //                        //$scope.DeleteRide("-Kk43pb4ZmECv1akbhWK");
+    //                        firebase.database().ref('/rides/' + finalArray[counter].RID).set(null);
+    //                    }
+    //                }
 
                     
-                   // $scope.DeleteRide("-KbaYmT2MaC_5IMiQwdv");
+    //               // $scope.DeleteRide("-KbaYmT2MaC_5IMiQwdv");
 
-                    //JSONToCSVConvertor(finalArray, "Final Report" + " " + new Date().toString('yyyyMMdd'), true);
-                });
-            });
-    }
+    //                //JSONToCSVConvertor(finalArray, "Final Report" + " " + new Date().toString('yyyyMMdd'), true);
+    //            });
+    //        });
+    //}
 
-    $scope.getHorseId = function (rid, ridearray) {
-        var boolean = -1;
-        for (var k = 0; k < ridearray.length; k++) {
-            if (ridearray[k].RideId == rid.$id) {
-                boolean = ridearray[k].HorseId;
-                break;
-            }
+    //$scope.getHorseId = function (rid, ridearray) {
+    //    var boolean = -1;
+    //    for (var k = 0; k < ridearray.length; k++) {
+    //        if (ridearray[k].RideId == rid.$id) {
+    //            boolean = ridearray[k].HorseId;
+    //            break;
+    //        }
 
-        }
-        return boolean;
-    }
+    //    }
+    //    return boolean;
+    //}
     
 
    
