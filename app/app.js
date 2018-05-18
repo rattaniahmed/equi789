@@ -259,16 +259,15 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
 
 
     }).catch(function (error) {
-        // console.log("Error in loading details");
     });
 
-    $rootScope.Admins = null;
-    $rootScope.admin = $firebaseArray(ref.child('admin'));
-    $rootScope.admin.$loaded().then(function (dataArray) {
+    //$rootScope.Admins = null;
+    //$rootScope.admin = $firebaseArray(ref.child('admin'));
+    //$rootScope.admin.$loaded().then(function (dataArray) {
 
-        $rootScope.Admins = dataArray;
+    //    $rootScope.Admins = dataArray;
 
-    });
+    //});
 
     $rootScope.appHorses = {
         
@@ -299,22 +298,28 @@ app.run(function ($rootScope, $sce, firebaseService, $firebaseArray, storageServ
         firebase.database().ref('/Content/Messages').on('value', function (snapshot) {
             $rootScope.$broadcast("messageLoad", {});
         });
-        if (storageService.getObject("CU")) {
-            var user = storageService.getObject("CU");
+        var user = storageService.getObject("CU");
+        if (user) {
+           
             firebase.database().ref('/horses').orderByChild("user_firebase_key").equalTo(user.Details.$id).once("value", function (snapshot) {
                 var allhorses = snapshot.val();
                 for (var i in allhorses) {
+                     allhorses[i].$id=i;
                     $rootScope.appHorses.horseList.push({ HID: i,HORSEOBJ: allhorses[i] });
                 }
+                $rootScope.horseLoaded = true;
+                if( $rootScope.horseLoaded && $rootScope.rideLoaded)
                 $rootScope.$broadcast("horseLoaded", { });
             });
 
             firebase.database().ref('/rides').orderByChild("user_firebase_key").equalTo(user.Details.$id).once("value", function (snapshot) {
-                debugger;
                 var allrides = snapshot.val();
                 for (var i in allrides) {
+                    allrides[i].$id=i;
                     $rootScope.appHorseRides.rideList.push({ RID: i, RIDEOBJ: allrides[i] });
                 }
+                 $rootScope.rideLoaded = true;
+                if( $rootScope.horseLoaded && $rootScope.rideLoaded)
                 $rootScope.$broadcast("horseLoaded", {});
             });
         }
@@ -408,7 +413,6 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
             }).then(function successCallback(response) {
 
             }, function errorCallback(response) {
-                // console.log(response);
             });
 
             $scope.first_name = "";
@@ -570,9 +574,6 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
             firebase.database().ref('/Content/Messages').once('value', function (msgsnapshot) {
                 $scope.AllMessages = msgsnapshot.val();
                 firebase.database().ref('/horses').orderByChild("user_firebase_key").equalTo($scope.user.Details.$id).once("value", function (snapshot) {
-                    console.log(new Date());
-                    console.log(snapshot.key);
-
                     var allhorses = snapshot.val();
 
                     //loop on all horses to find the organization
@@ -580,7 +581,7 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
                     for (var prp in allhorses) {
                         var horse = allhorses[prp];
                         if (horse && horse.associations) {
-                            for (var i = 0; i < horse.associations.length; i++) {
+                            for (var i in  horse.associations) {
                                 if (!_.contains($scope.UserOrg, horse.associations[i].filter)) {
                                     $scope.UserOrg.push(horse.associations[i].filter);
                                 }

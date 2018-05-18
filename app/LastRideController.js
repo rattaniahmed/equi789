@@ -81,10 +81,12 @@
                     $scope.ShareObject = GetShareObjectByRide($scope.stb, $scope.lastRide);
                 }
                 else {
-                    var ref = firebaseService.FIREBASEENDPOINT();
-                    $scope.coords = $firebaseArray(ref.child('coords'));
-                    $scope.coords.$loaded().then(function (dataArray) {
-                        var coord = $scope.coords.$getRecord(id);
+                    firebase.database().ref('/coords/' + id).once('value', function (snapshot) {
+                        var coord = snapshot.val();
+                   // var ref = firebaseService.FIREBASEENDPOINT();
+                    //$scope.coords = $firebaseArray(ref.child('coords'));
+                   // $scope.coords.$loaded().then(function (dataArray) {
+                       // var coord = $scope.coords.$getRecord(id);
                         $scope.ShareObject = GetShareObjectByCoordinate($scope.stb, $scope.lastRide, coord);
                     });
                 }
@@ -240,14 +242,15 @@
     //$scope.Start();
 
     $scope.Init();
-    $scope.$on('ridesModified', function (event, args) {
+    //$scope.$on('ridesModified', function (event, args) {
         
-            $scope.Init();
-    });
+    //        $scope.Init();
+    //});
 
-    $scope.$on('ridesLoaded', function (event, args) {
+    $scope.$on('horseLoaded', function (event, args) {
         
-            $scope.Init();
+        $scope.Init();
+        $scope.$apply();
       
     });
 

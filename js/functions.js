@@ -692,7 +692,7 @@ function GetShareObjectByRide(horse , ride) {
     return obj;
 }
 
-function GetShareObjectByCoordinate(horse, ride, cords) {
+function GetShareObjectByCoordinate(horse, ride, cords, baseUrl) {
 
     //var horseName =''
     //if (IsNull(horse.Name))

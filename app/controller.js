@@ -458,18 +458,19 @@ app.controller('CalendarController', function ($scope, moment, calendarConfig, f
                 var endDateTime = new Date(horseHistory.end_time);
 
                 var h = $scope.horses.$getRecord(horseHistory.horse_firebase_key);
+                if (h) {
+                    $scope.actions = [{
 
-                $scope.actions = [{
-                    
-                    label: h.horse_name,
-                    onClick: function (args) {
-                        // console.log(args.calendarEvent.ride_id);
-                        storageService.setObject("RIDEDETAILID", args.calendarEvent.ride_id);
-                        $location.path('ride-detail.html');
-                        // console.log(args.calendarEvent.ride_id);
+                        label: h.horse_name,
+                        onClick: function (args) {
+                            // console.log(args.calendarEvent.ride_id);
+                            storageService.setObject("RIDEDETAILID", args.calendarEvent.ride_id);
+                            $location.path('ride-detail.html');
+                            // console.log(args.calendarEvent.ride_id);
 
-                    }
-                }];
+                        }
+                    }];
+                }
 
 
                 var eve = {

@@ -41,7 +41,6 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
                     else {
                         var diff = today - d;
                         var days = parseInt(diff / 1000 / 60 / 60 / 24);
-                        // console.log(days);
 
                         var year = parseInt(days / 365);
 
@@ -109,9 +108,6 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
                 $scope.hosLength = horsKeys.length;
                 $scope.ZeroStable = false;
                 angular.forEach($scope.user.Details.horse_ids, function (value, key) {
-                    // console.log(key);
-
-                    debugger;
                     var horse = $rootScope.appHorses.$getRecord(key);
                     if (horse) {
                         horse.$id = key;
@@ -190,8 +186,8 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
         $scope.Init();
     });
     
-    $scope.$on('ridesLoaded', function (event, args) {
-        $scope.Init();
-    });
+    //$scope.$on('ridesLoaded', function (event, args) {
+    //    $scope.Init();
+    //});
    
 });

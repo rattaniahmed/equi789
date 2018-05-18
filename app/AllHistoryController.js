@@ -57,56 +57,16 @@
                     // console.log("Deleted success fully");
                 }
             }
-
-
-
-            //// console.log("added record with id " + id);               
-            //$location.path('my-stable.html');
-
-            //$scope.user.Details.horse_ids[id] = {
-            //    created_at: ""
-            //};
-
             delete $scope.stb.ride_ids[id];
-
-            //$scope.user.Details.horse_ids.push(id);
             storageService.setObject("CS", $scope.stb);
-
-
-            //userRef.horse_ids[id] = {
-            //    created_at: ""
-            //};
-
             var currenthorseRef = $rootScope.appHorses.$getRecord($scope.stb.$id);
             delete currenthorseRef.ride_ids[id];
 
             $rootScope.appHorses.$save(currenthorseRef).then(function (res) {
-
-                // console.log(res);
-
-                //$scope.$apply(function () {
-                //    blockUI.stop();
-                //});
-
                 swal("", "Your Ride has been removed success fully", "success");
-                //$location.path('ride-history.html');
-
-            
-                
             }).catch(function (errs) {
-                // console.log(errs);
-
-                //$scope.$apply(function () {
-                //    blockUI.stop();
-                //});
-
                 swal("", "Your Ride has been removed success fully", "success");
-                //$location.path('ride-history.html');
-
-
-                
-
-            });;
+            });
 
         }).catch(function (err) {
             // console.log(err);
@@ -115,9 +75,6 @@
     }
 
     $rootScope.DeleteRide = function (id) {
-        // console;
-
-
         swal({
             title: "Are you sure?", text: "This Ride will be deleted from the web and all devices, do you wish to continue!",
             type: "warning",
@@ -126,7 +83,6 @@
             confirmButtonText: "Yes, delete it!",
             closeOnConfirm: true
         }, function () {
-
             $scope.test(id);
         });
 
@@ -141,19 +97,11 @@
         $scope.histories = [];
 
         for (var id in $scope.stb.ride_ids) {
-            // console;
             var horseHistory = $rootScope.appHorseRides.$getRecord(id);
-          
-
             if (horseHistory != null) {
-                //var date = new Date(parseInt(time));
                 var date = new Date(horseHistory.start_time.replace('p.m.', 'PM'));
-
                 var month = monthNames[date.getMonth()];
                 var year = date.getFullYear();
-
-
-
                 if ($scope.historyCache.Month == month && $scope.historyCache.Year == year) {
                     horseHistory.ActualTime = date;
                     horseHistory.TimeToDisplay = date.format("mmmm d, yyyy h:MM:ss TT");
@@ -161,14 +109,11 @@
                     $scope.histories.push(horseHistory);
                 }
             }
-
         }
 
         $scope.histories = $scope.histories.sort(function (a, b) {
                       return b.ActualTime.getTime() - a.ActualTime.getTime()
         });
-
-
     }
 
     $scope.Init();
@@ -176,29 +121,12 @@
     $scope.AddRideTODAtabase = function (currentRide) {
 
         blockUI.start("Updating horse Ride.....");
-
-        //var ridenode = ref.child('rides').child(currentRide.$id);
-        //ridenode.$set()
-
-
-        //$scope.history.$set(currentRide).then(function (ref) {
         $rootScope.appHorseRides.$save(currentRide).then(function (ref) {
-            // console;
-            //var id = ref.key();
-            // console.log("added record with id " + id);
-
-            //swal("", "Your Ride has been added success fully", "success");
-            //$location.path('my-stable.html');
-            // console;
-
             if (IsNull($scope.currenthorse.ride_ids)) {
                 $scope.currenthorse['ride_ids'] = {};
             }
-
             var d = new Date();
             $scope.currenthorse.ride_ids[currentRide.$id] = d.getTime();
-
-            //$scope.user.Details.horse_ids.push(id);
             storageService.setObject("CS", $scope.currenthorse);
 
             var currenthorseRef = $scope.horserepo.$getRecord($scope.currenthorse.$id);
@@ -210,21 +138,13 @@
             currenthorseRef.ride_ids[currentRide.$id] = d.getTime();
 
             $scope.horserepo.$save(currenthorseRef).then(function (res) {
-
-
-                //$('#map').modal('show');
-
                 window.location.reload();
-
-                // console.log(res);
-                //$scope.user.Details.profile = userRef.profile;
                 $scope.$apply(function () {
                     blockUI.stop();
                 });
                 swal("", "Your Ride has been updated success fully", "success");
 
             }).catch(function (err) {
-                // console.log(err);
                 $scope.$apply(function () {
                     blockUI.stop();
                 });
@@ -236,9 +156,6 @@
 
 
     $scope.UpdateRideToDataBase = function () {
-
-        // console;
-
         $scope.addride.start_time = document.getElementById("StartRide").value;
         $scope.addride.end_time = document.getElementById("EndRide").value;
         $scope.addride.weather = document.getElementById("Weather").value;
@@ -257,48 +174,31 @@
                 $scope.addride.top_speed = speed;
                 $scope.addride.total_time = time;
                 $scope.addride.ismanualride = 1;
-
-
-                // console.log($scope.addride)
-
-
-                //storageService.setObject("IsADDRideMode", 1);
-
                 storageService.setObject("EditedRideObject", $scope.addride);
-
-                //$("#add_ride").hide();
-                //$("#editMapModal").show();
-
                 $scope.AddRideTODAtabase($scope.addride);
             }
             else {
-
                 alert("Start date and end date  Cannot be greater than today date")
-
             }
-
         }
         else {
             alert("Start date Cannot be greater than End date")
         }
-
-
-        //google.maps.event.trigger(map, 'resize', {});
-
     }
 
 
-    $scope.$on('horseModified', function (event, args) {
-        // console.log("get the horse add event in stable page"); // 'Data to send'
-
-        var localHorse = storageService.getObject("CS");
-        if (localHorse.$id == args.data.key && args.data.event == "child_changed") {
-            var horseNew = $rootScope.appHorses.$getRecord(localHorse.$id);
-            storageService.setObject("CS", horseNew);
-            $scope.Init();
-        }
+    //$scope.$on('horseModified', function (event, args) {
+    //    var localHorse = storageService.getObject("CS");
+    //    if (localHorse.$id == args.data.key && args.data.event == "child_changed") {
+    //        var horseNew = $rootScope.appHorses.$getRecord(localHorse.$id);
+    //        storageService.setObject("CS", horseNew);
+    //        $scope.Init();
+    //    }
+    //});
+    $scope.$on('horseLoaded', function (event, args) {
+        $scope.Init();
+        $scope.$apply();
     });
-
 
     //$scope.$on('ridesModified', function (event, args) {
     //    $scope.historyCache = storageService.getObject("CHIST");
@@ -312,11 +212,11 @@
       
     //});
 
-    $scope.$on('ridesLoaded', function (event, args) {
+    //$scope.$on('ridesLoaded', function (event, args) {
 
-        $scope.Init();
+    //    $scope.Init();
 
-    });
+    //});
 
 });
 
