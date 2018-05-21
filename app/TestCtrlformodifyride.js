@@ -62,9 +62,8 @@
                 
             }
 
-            console.log($scope.RidesArrayData.length);
 
-            if ($scope.RidesArrayData.length > 1)
+            if ($scope.RidesArrayData.length > 0)
                 $scope.changeRide(0);
 
         });
@@ -86,9 +85,8 @@
                 }
             }
 
-            console.log($scope.horse_ids.length);
 
-            if ($scope.horse_ids.length > 1) {
+            if ($scope.horse_ids.length > 0) {
                 $scope.appUsers = $firebaseArray(ref.child('users'));
                 $scope.appUsers.$loaded().then(function (dataArray1) {
 
@@ -103,8 +101,7 @@
                             }
                         }
                     }
-                    console.log($scope.finalArray);
-                    if ($scope.finalArray.length > 1) {
+                    if ($scope.finalArray.length > 0) {
                         $scope.changeHorse(0);
                     }
 
@@ -166,7 +163,7 @@
                 }
             }
 
-            if ($scope.ride_ids.length > 1) {
+            if ($scope.ride_ids.length > 0) {
                 $scope.appHorses = $firebaseArray(ref.child('horses'));
                 $scope.appHorses.$loaded().then(function (dataArray1) {
 
@@ -184,7 +181,6 @@
                         }
                     }
 
-                    console.log($scope.ride_ids.length);
 
                     $scope.appUsers = $firebaseArray(ref.child('users'));
                     $scope.appUsers.$loaded().then(function (dataArray1) {
@@ -206,8 +202,7 @@
                                 }
                             }
                         }
-                        console.log($scope.finalArray + " gdfg" + count);
-                        if ($scope.finalArray.length > 1) {
+                        if ($scope.finalArray.length > 0) {
                             $scope.changeUserRide(0);
                         }
 

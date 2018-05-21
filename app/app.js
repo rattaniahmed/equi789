@@ -339,7 +339,6 @@ app.controller('ViewController', function MyCtrl($scope, $location, $firebaseObj
 
     $scope.UpdateLoggedStatus = function () {
 
-        //remove
         if (!$rootScope.isUseListener) {
             if (storageService.getObject("CU"))
                 if ((storageService.getObject("CU").Details.email == "mjdmike@email.com")) {
