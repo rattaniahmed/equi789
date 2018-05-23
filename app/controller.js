@@ -32,7 +32,7 @@
                 return;
             else {
                 $rootScope.isUseListener = true;
-                $rootScope.loadFireBaseData();
+              //  $rootScope.loadFireBaseData();
                 blockUI.start("Validation in progress");
                 var ref = firebaseService.FIREBASEENDPOINT();
                 ref.authWithPassword({
@@ -57,6 +57,7 @@
                             };
 
                             storageService.setObject("CU", obj);
+                            $rootScope.loadFireBaseData();
                         }
 
                        
