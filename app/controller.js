@@ -413,11 +413,15 @@ app.controller('CalendarController', function ($scope, $rootScope, moment, calen
    // $scope.horses.$loaded().then(function (dataArray) {
         var ids = [];
 
-        angular.forEach($scope.user.Details.horse_ids, function (value, key) {
-          
-            
+      //  angular.forEach($scope.user.Details.horse_ids, function (value, key) {
+         debugger
+           for (var j = 0; j < $rootScope.appHorses.horseList.length; j++) {
+            try {
+                var horse = $rootScope.appHorses.horseList[j].HORSEOBJ;
+                //if (horse && horse.associations) { 
+ 
            // var horse = $scope.horses.$getRecord(key);
-            var horse = $rootScope.appHorses.$getRecord(key);
+           // var horse = $rootScope.appHorses.$getRecord(key);
 
             try {
                 for (var i in horse.ride_ids) {
@@ -427,9 +431,10 @@ app.controller('CalendarController', function ($scope, $rootScope, moment, calen
             catch (errloop) {
                 // console.log(errloop);
             }
-
+}catch(err){}
+}
             
-        });
+     //   });
 
 
        // $scope.history = $firebaseArray(ref.child('rides'));
@@ -490,6 +495,7 @@ app.controller('CalendarController', function ($scope, $rootScope, moment, calen
     //        function (error) {
     //    // console.log("Error in loading details");
     //});
+
 });
 
 //Pankaj - Need to chcek at last 
@@ -516,20 +522,30 @@ app.controller('NavController', function MyCtrl($scope, $location,$rootScope, $f
     }
     $scope.UserOrg = [];
     $scope.RefreshMessagess = function () {
+
         $scope.user = storageService.getObject("CU");
         if ($scope.user) {
-            for (var i in $scope.user.Details.horse_ids) {
-
-                var horse = $rootScope.appHorses.$getRecord(i);
-
+        for (var j = 0; j < $rootScope.appHorses.horseList.length; j++) {
+            try {
+                var horse = $rootScope.appHorses.horseList[j].HORSEOBJ;
                 if (horse && horse.associations) {
-                    for (var i = 0; i < horse.associations.length; i++) {
-                        if (!_.contains($scope.UserOrg, horse.associations[i].filter)) {
-                            $scope.UserOrg.push(horse.associations[i].filter);
+
+            //for (var i in $scope.user.Details.horse_ids) {
+
+            //    var horse = $rootScope.appHorses.$getRecord(i);
+
+            //    if (horse && horse.associations) {
+debugger
+                        for(var j in  horse.associations){
+                   // for (var i = 0; i < horse.associations.length; i++) {
+                        if (!_.contains($scope.UserOrg, horse.associations[j].filter)) {
+                            $scope.UserOrg.push(horse.associations[j].filter);
                         }
 
                     }
+
                 }
+               }catch(err){}
             }
         }
         var ShowMessages = [];
@@ -600,6 +616,11 @@ app.controller('NavController', function MyCtrl($scope, $location,$rootScope, $f
         if ($scope.showBedge)
             $scope.showBedge1 = 0;
     });
+ $scope.$on('horseLoaded', function (event, args) {
+       $scope.IsUnreadMessageExist();
+      //  $scope.$apply();
+    });
+ 
 });
 
 app.controller('StaticContentController', function MyCtrl($scope, $location, $firebaseObject, $firebaseArray, firebaseService, storageService, blockUI) {

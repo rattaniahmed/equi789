@@ -232,11 +232,14 @@ firebase.database().ref('/speeds/' + rideObjecth.$id).once('value', function (sn
 
         var ids = [];
         var vals = [];
-
-        angular.forEach($scope.user.Details.horse_ids, function (value, key) {
+debugger
+for (var j = 0; j < $rootScope.appHorses.horseList.length; j++) {
+            try {
+                var horse = $rootScope.appHorses.horseList[j].HORSEOBJ;
+        //angular.forEach($scope.user.Details.horse_ids, function (value, key) {
             //// console.log(value);
             // console.log(key);
-            var horse = $rootScope.appHorses.$getRecord(key);
+            //var horse = $rootScope.appHorses.$getRecord(key);
             if (horse != null) {
                 try {
                     for (var i in horse.ride_ids) {
@@ -252,7 +255,9 @@ firebase.database().ref('/speeds/' + rideObjecth.$id).once('value', function (sn
 
                 // console.log(horse);
             }
-        });
+}catch(err){}
+}
+     //   });
 
 
         var max = Math.max.apply(Math, vals);

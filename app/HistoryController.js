@@ -23,6 +23,7 @@
 
 
     $scope.Init = function () {
+        debugger
         $scope.stb = storageService.getObject("CS");
 
         //$scope.stb = $rootScope.appHorses.$getRecord($scope.stb.$id);
@@ -59,7 +60,8 @@
                         Year: year,
                         MonthYear: monthyear,
                         MonthInt: monthInt,
-                        DataArray: [horseHistory]
+                        DataArray: [horseHistory],
+                        sortrides: parseInt(date +' '+monthInt + ' ' + year)
                     });
                 }
                 else {
@@ -68,7 +70,11 @@
             }
 
         }
-
+        $scope.histories.sort(function (a, b) {
+            var dateA = new Date(a.sortrides), dateB = new Date(b.sortrides);
+            return dateA - dateB;
+        });
+        $scope.histories.reverse();
 
         $scope.historiesToDisplay = [];
         for (var l = 0 ; l < $scope.histories.length; l++) {

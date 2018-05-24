@@ -76,7 +76,7 @@
             return parseFloat(a.price) - parseFloat(b.price);
         });
 
-        $scope.$apply();
+       // $scope.$apply();
     }
 
    
@@ -124,13 +124,19 @@
                 hosLength = 0;
             }
 
-            for (var i in $scope.user.Details.horse_ids) {
-                firebase.database().ref('/horses/' + i).on('value', function (snapshot) {
-                    var horse = snapshot.val();
+			for (var j = 0; j < $rootScope.appHorses.horseList.length; j++) {
+            try {
+                var horse = $rootScope.appHorses.horseList[j].HORSEOBJ;
+				
+           // for (var i in $scope.user.Details.horse_ids) {
+               // firebase.database().ref('/horses/' + i).on('value', function (snapshot) {
+                  //  var horse = snapshot.val();
+debugger
                     if (horse && horse.associations) {
-                        for (var i = 0; i < horse.associations.length; i++) {
-                            if (!_.contains($scope.UserOrg, horse.associations[i].filter)) {
-                                $scope.UserOrg.push(horse.associations[i].filter);
+                            for(var j in  horse.associations){
+                        //for (var i = 0; i < horse.associations.length; i++) {
+                            if (!_.contains($scope.UserOrg, horse.associations[j].filter)) {
+                                $scope.UserOrg.push(horse.associations[j].filter);
                             }
                         }
                     }
@@ -144,8 +150,10 @@
                         //$rootScope.$broadcast("messageReadComplete", {});
                         //// console.log($scope.ShowMessages);
                     }
-                })
-            }
+			   }catch(err){}
+		   }
+              //  })
+          //  }
         })
     }
 

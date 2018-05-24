@@ -98,26 +98,27 @@ app.controller('StableController', function MyCtrl($scope, $rootScope,$location,
         $scope.loadingcord = false;
         $scope.stables = [];
         $scope.user = storageService.getObject("CU");
-        if ($scope.user && $scope.user.Details && $scope.user.Details.horse_ids) {
+        if ($scope.user && $scope.user.Details) {
 
 
             
 
-            var horsKeys = Object.keys($scope.user.Details.horse_ids);
-            if (horsKeys.length > 0) {
-                $scope.hosLength = horsKeys.length;
+          //  var horsKeys = Object.keys($scope.user.Details.horse_ids);
+            if ($rootScope.appHorses.horseList.length > 0) {
+                $scope.hosLength = $rootScope.appHorses.horseList.length;
                 $scope.ZeroStable = false;
-                angular.forEach($scope.user.Details.horse_ids, function (value, key) {
-                    var horse = $rootScope.appHorses.$getRecord(key);
+                //angular.forEach($scope.user.Details.horse_ids, function (value, key) {
+                for (var i = 0; i < $rootScope.appHorses.horseList.length; i++) {
+                    var horse = $rootScope.appHorses.horseList[i].HORSEOBJ;
                     if (horse) {
-                        horse.$id = key;
+                        //horse.$id = key;
                         $scope.addHorseToStable(horse);
                     }
-                    
+                } 
                     
 
                    
-                });
+               // });
             }
             else
                 $scope.ZeroStable = true;
