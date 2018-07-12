@@ -114,6 +114,9 @@
             },
            
             { name: 'Member Id', headerCellClass: 'blue', field: 'Orgnumber' },
+
+            { name: 'member_name', displayName: 'Member Name', enableFiltering: false, headerCellClass: 'blue', field: 'member_name' },
+
             { name: 'Horse', headerCellClass: 'blue', field: 'Horse' },
             { name: 'Registered Name', headerCellClass: 'blue', field: 'aqharegname' },
             { name: 'Registration Number', headerCellClass: 'blue', field: 'aqharegnum' },
@@ -380,7 +383,7 @@
 
             var match = false;
             // Object.keys(row.entity).
-            ['total_distance', 'total_time', 'Member', 'MembershipNumber', 'Horse','Orgmember','Orgnumber','aqharegname','aqharegnum'].forEach(function (field) {
+            ['total_distance', 'total_time', 'Member', 'member_name', 'MembershipNumber', 'Horse','Orgmember','Orgnumber','aqharegname','aqharegnum'].forEach(function (field) {
                 try {
                     if (row && row.entity) {
                         if (row.entity[field]) {
@@ -497,9 +500,13 @@
             if (member) {
                 rideDetails.Member = member.Detail.email;
                 rideDetails.MemberId = member.Detail.$id;
+
+                var str = member.Detail.first_name + " " + member.Detail.last_name;
+                rideDetails.member_name = str;
+
                 if (member.Detail['org_membership'] && member.Detail['org_membership'][Organisation.OrganisationNumber]) {
                     rideDetails.Orgmember = member.Detail['org_membership'][Organisation.OrganisationNumber].member_email
-                    rideDetails.Orgnumber = member.Detail['org_membership'][Organisation.OrganisationNumber].member_number
+                    rideDetails.Orgnumber = member.Detail['org_membership'][Organisation.OrganisationNumber].member_number   
                 }
             }
 
@@ -747,9 +754,9 @@
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
             var colArray = [];
             if (Organisation.OrganisationNumber == "AQHA-2017") {
-                colArray = ["Member", "Orgmember", "Orgnumber", "Horse", "aqharegname", "aqharegnum", "total_distance", "total_times", "start_time", "end_time", "average_heart_rate","average_speed"]
+                colArray = ["Member", "Orgmember", "Orgnumber", "member_name","Horse",  "aqharegname", "aqharegnum", "total_distance", "total_times", "start_time", "end_time", "average_heart_rate","average_speed"]
             } else {
-                colArray = ["Member", "Horse", "aqharegname", "aqharegnum", "total_distance", "total_times", "start_time", "end_time", "average_heart_rate", "average_speed"]
+                colArray = ["Member", "Horse", "aqharegname", "member_name", "aqharegnum",  "total_distance", "total_times", "start_time", "end_time", "average_heart_rate", "average_speed"]
             }
             var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {

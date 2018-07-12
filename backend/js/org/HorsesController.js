@@ -124,6 +124,8 @@ if(a < b) return -1;
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Orgmember}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Orgmember}}</a></div>'
             },
             { name: 'Member ID', displayName: 'Member ID', enableFiltering: false, field: 'Orgnumber', headerCellClass: 'blue' },
+            { name: 'member_name', displayName: 'Member Name', enableFiltering: false, headerCellClass: 'blue', field: 'member_name' },
+
             { name: 'horse_name', enableFiltering: false, headerCellClass: 'blue', field: 'horse_name'},
           
             { name: 'Registered Name', enableFiltering: false, field: 'aqharegname',headerCellClass: 'blue' },
@@ -255,7 +257,7 @@ if(a < b) return -1;
 
             var match = false;
             // Object.keys(row.entity).
-            ['horse_name', 'registration', 'Orgmember', 'Orgnumber', 'aqharegname', 'Member','aqharegnum', 'MembershipNumber'].forEach(function (field) {
+            ['member_name', 'horse_name', 'registration', 'Orgmember', 'Orgnumber', 'aqharegname', 'Member','aqharegnum', 'MembershipNumber'].forEach(function (field) {
                 try {
                     if (row && row.entity) {
                         if (row.entity[field]) {
@@ -372,7 +374,14 @@ if(a < b) return -1;
                     var member = _.find(maps, function (singlemap) { return singlemap.HorseId == $scope.AllHorses[counter].$id });
                     if (member) {
                         $scope.AllHorses[counter].Member = member.Detail.email;
-                        $scope.AllHorses[counter].MemberId = member.Detail.$id; 
+                        $scope.AllHorses[counter].MemberId = member.Detail.$id;
+
+                        member.Detail.first_name = member.Detail.first_name || '';
+                        member.Detail.last_name = member.Detail.last_name || '';
+
+                        var str = member.Detail.first_name +" "+ member.Detail.last_name;
+                        
+                        $scope.AllHorses[counter].member_name = str;
                         
                         if (member.Detail['org_membership'] && member.Detail['org_membership'][Organisation.OrganisationNumber]) {
                             $scope.AllHorses[counter].Orgmember = member.Detail['org_membership'][Organisation.OrganisationNumber].member_email
@@ -382,9 +391,6 @@ if(a < b) return -1;
                     var rideIds = []
                     if ($scope.AllHorses[counter].ride_ids)
                         rideIds = Object.keys($scope.AllHorses[counter].ride_ids);
-
-                    
-                  
 
                     var commulativeData = getCommulativeData(rideIds, $rootScope.backendHorseRides, $scope.date);
 
@@ -398,6 +404,7 @@ if(a < b) return -1;
                         $scope.showhorse[addedCounter].TopSpeed = commulativeData.top_speed;
                         $scope.showhorse[addedCounter].TotalEnergy = commulativeData.energy;
                         $scope.showhorse[addedCounter].TotalAverageHeartRate = commulativeData.totalAverageHeartRate;
+
                         addedCounter++;
                     }
                     else {
@@ -523,9 +530,9 @@ if(a < b) return -1;
         for (var i = 0; i < $scope.gridOptions.data.length; i++) {
             var colArray = [];
             if (Organisation.OrganisationNumber == "AQHA-2017") {
-                colArray = ["Member", "Orgmember", "Orgnumber", "horse_name", "aqharegname", "aqharegnum", "registration", "TotalRides", "TotalTime", "TotalDistance", "TotalAverageHeartRate"];
+                colArray = ["Member", "Orgmember", "Orgnumber", "member_name", "horse_name", "aqharegname", "aqharegnum", "registration", "TotalRides", "TotalTime", "TotalDistance", "TotalAverageHeartRate"];
             } else {
-                colArray = ["Member", "horse_name", "aqharegname", "aqharegnum", "registration", "TotalRides", "TotalTime", "TotalDistance", "TotalAverageHeartRate"];
+                colArray = ["Member", "horse_name", "aqharegname", "member_name", "aqharegnum", "registration", "TotalRides", "TotalTime", "TotalDistance", "TotalAverageHeartRate"];
             }
             var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {
