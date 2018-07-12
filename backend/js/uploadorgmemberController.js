@@ -415,6 +415,7 @@ $scope.showbrowsebtn=false;
                 //    fsdgfdgfdgfdg: "gfdgfdgfdgfd",
                 //    fkljsdfkljsdkfjklsdjlfsd: "ssdsdsadsad"
                 //};
+                finalUploads[i].email = finalUploads[i].email.toLowerCase();
                 refdb[finalUploads[i].member_id] = finalUploads[i];
                 firebase.database().ref('/members/' + $scope.user.OrganisationNumber + '/' + finalUploads[i].member_id).set(finalUploads[i]);
             }
