@@ -1075,6 +1075,7 @@ function replace_columnName(name) {
         { Source: "start_time", Destination: "Start Time" },
         { Source: "end_time", Destination: "End Time" },
         { Source: "display_name", Destination: "Display Name" },
+        { Source: "member_name", Destination: "Member Name" },
         { Source: "first_name", Destination: "First Name" },
         { Source: "last_name", Destination: "Last Name" },
         { Source: "TotalRides", Destination: "Total Rides" },

@@ -124,7 +124,8 @@ if(a < b) return -1;
                 cellTemplate: '<div style="cursor: row.cursor"><a href="mailto:{{row.entity.Orgmember}}?subject=Congratulations from {{row.entity.OGNAME}}"target="_blank">{{row.entity.Orgmember}}</a></div>'
             },
             { name: 'Member ID', displayName: 'Member ID', enableFiltering: false, field: 'Orgnumber', headerCellClass: 'blue' },
-            { name: 'member_name', displayName: 'Member Name', enableFiltering: false, headerCellClass: 'blue', field: 'member_name' },
+
+            { name: 'Member Name', displayName: 'Member Name', enableFiltering: false, headerCellClass: 'blue', field: 'member_name' },
 
             { name: 'horse_name', enableFiltering: false, headerCellClass: 'blue', field: 'horse_name'},
           
@@ -532,7 +533,7 @@ if(a < b) return -1;
             if (Organisation.OrganisationNumber == "AQHA-2017") {
                 colArray = ["Member", "Orgmember", "Orgnumber", "member_name", "horse_name", "aqharegname", "aqharegnum", "registration", "TotalRides", "TotalTime", "TotalDistance", "TotalAverageHeartRate"];
             } else {
-                colArray = ["Member", "horse_name", "aqharegname", "member_name", "aqharegnum", "registration", "TotalRides", "TotalTime", "TotalDistance", "TotalAverageHeartRate"];
+                colArray = ["Member", "horse_name", "member_name", "aqharegname", "aqharegnum", "registration", "TotalRides", "TotalTime", "TotalDistance", "TotalAverageHeartRate"];
             }
             var row = {};
             for (var counter = 0; counter < colArray.length; counter++) {
